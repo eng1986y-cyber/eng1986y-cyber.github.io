@@ -254,8 +254,13 @@ function loadAdmin(){
 
 function save(){
 
-  localStorage.setItem("siteOwner", ownerName.value.trim());
+  // 🔥 배너 저장 추가
+  localStorage.setItem("topBanner", JSON.stringify({
+    img: bannerImg.value.trim(),
+    link: bannerLink.value.trim()
+  }));
 
+  localStorage.setItem("siteOwner", ownerName.value.trim());
   localStorage.setItem('imageAds', JSON.stringify(imageAds));
   localStorage.setItem('textAds', JSON.stringify(textAds));
 
@@ -263,6 +268,34 @@ function save(){
 }
 
 ownerName.value = localStorage.getItem("siteOwner") || "";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+
+async function addAd(type, title, image, link){
+
+  const { error } = await supabaseClient
+    .from("ads")
+    .insert([
+      {
+        type: type,
+        title: title,
+        image_url: image,
+        link_url: link
+      }
+    ]);
+
+  if(error){
+    alert("에러 발생");
+    console.log(error);
+  }else{
+    alert("저장 완료");
+  }
+}
+
 </script>
 
 </body>
