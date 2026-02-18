@@ -163,24 +163,35 @@ hr { margin:30px 0; }
 
 // 🔐 로그인
 async function login(){
+
   const email = loginId.value;
   const password = loginPw.value;
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
 
   if(error){
     alert("로그인 실패");
+    console.log(error);
     return;
   }
+
+  console.log("로그인 성공:", data);
 
   loginBox.style.display="none";
   adminBox.style.display="block";
 
   loadData();
 }
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    console.log("세션 유지됨");
+  }
+});
 
 // 🔁 로그인 유지
 supabaseClient.auth.getSession().then(({ data })=>{
@@ -240,6 +251,18 @@ async function loadData(){
 
 // 💾 저장
 async function save(){
+
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
+
+  if(!session){
+    alert("로그인이 필요합니다");
+    return;
+  }
+
+  console.log("현재 세션:", session);
+
+  // ↓ 기존 저장 코드 계속
 
   // 광고 전체 삭제
   await supabaseClient.from("ads").delete().neq("id",0);
