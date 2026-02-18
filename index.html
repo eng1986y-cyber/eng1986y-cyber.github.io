@@ -1,124 +1,362 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YBINFO</title>
-
+<title>검색 플랫폼</title>
 <style>
-body{
-  margin:0;
-  font-family: HY그래픽M, sans-serif;
-  background:#f5f5f5;
+
+/* ===== 고급 Footer ===== */
+
+.site-footer {
+  margin-top:60px;
+  background:#111;
+  color:#ccc;
+  padding:40px 20px;
+}
+
+.footer-inner {
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.footer-logo {
+  font-size:20px;
+  font-weight:bold;
+  color:#fff;
+  margin-bottom:6px;
+}
+
+.footer-desc {
+  font-size:13px;
+  color:#888;
+}
+
+.footer-owner {
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.footer-contact {
+  font-size:12px;
+  color:#777;
+}
+
+/* 모바일 대응 */
+@media (max-width:768px){
+  .footer-inner {
+    flex-direction:column;
+    text-align:center;
+    gap:20px;
+  }
+}
+
+/* ===== SNS Footer ===== */
+
+.site-footer {
+  margin-top:60px;
+  background:#111;
+  color:#ccc;
+  padding:40px 20px;
+}
+
+.footer-inner {
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.footer-logo {
+  font-size:20px;
+  font-weight:bold;
+  color:#fff;
+  margin-bottom:6px;
+}
+
+.footer-desc {
+  font-size:13px;
+  color:#888;
+}
+
+.footer-owner {
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.footer-sns a {
+  color:#aaa;
+  margin-right:14px;
+  font-size:18px;
+  transition: all 0.2s ease;
+}
+
+.footer-sns a:hover {
+  color:#87CEEB;
+  transform: translateY(-3px);
+}
+
+/* 모바일 */
+@media (max-width:768px){
+  .footer-inner {
+    flex-direction:column;
+    text-align:center;
+    gap:20px;
+  }
+}
+
+.site-owner {
+  margin-top:40px;
+  padding:16px 0;
   text-align:center;
+  font-size:13px;
+  color:#777;
+  border-top:1px solid #e0e0e0;
+  font-family: Arial, sans-serif;
 }
 
-.search-box{
-  margin:40px 0;
+.site-owner span {
+  margin:0 6px;
+  color:#bbb;
 }
 
-.search-box input{
-  width:300px;
-  padding:10px;
-  font-size:16px;
+/* ===== 텍스트 광고 최종 스타일 ===== */
+
+/* 웹폰트 (HY그래픽M 없을 때 대체용) */
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.search-box button{
-  padding:10px 15px;
+.text-ad {
+  background:#fff;
+  border:1px solid #ccc;
+  padding:12px 8px;
+  text-align:center;
+
+  /* ✅ 밑줄 제거 */
+  text-decoration: none;
+
+  /* ✅ 폰트 설정 (HY그래픽M → 없으면 자동 대체) */
+  font-family: 'HY그래픽M', 'Pretendard', Arial, sans-serif;
   font-size:14px;
-  cursor:pointer;
+  color:#222;
+
+  /* 부드러운 인터랙션 */
+  transition: all 0.2s ease;
+  border-radius:8px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-#imageAds{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:15px;
-  width:90%;
-  max-width:1000px;
-  margin:20px auto;
+/* 마우스 올렸을 때 */
+.text-ad:hover {
+  background:#87CEEB;
+  color:#fff;
+  font-weight:bold;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
 
-.img-ad{
+/* 클릭 순간 */
+.text-ad:active {
+  transform: scale(0.97);
+}
+
+.top-banner {
   width:100%;
-  height:150px;
+  height:120px;
+  margin:20px 0 30px;
+  border-radius:14px;
   overflow:hidden;
-  border-radius:15px;
-  background:#ddd;
+  border:2px solid #87CEEB;
+  background:#eee;
 }
 
-.img-ad img{
+.top-banner img {
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-#textAds{
-  width:90%;
-  max-width:1000px;
-  margin:30px auto;
+body {
+  margin:0;
+  padding:20px;
+  font-family:Arial;
+  background:#f5f5f5;
+}
+
+.search-box {
+  text-align:center;
+  margin-bottom:30px;
+}
+
+/* 공통 높이 */
+.search-box input,
+.search-box button {
+  height:46px;
+  box-sizing:border-box;
+  border-radius:6px;
+  font-size:15px;
+}
+
+/* 검색 입력란 */
+.search-box input {
+  width:320px;
+  padding:0 12px;
+  border:2px solid #87CEEB;
+  outline:none;
+}
+
+/* 검색 버튼 */
+.search-box button {
+  width:160px;              /* 입력란의 반 */
+  margin-left:6px;
+  background:#87CEEB;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
+
+.search-box button:hover {
+  background:#6bbfe0;
+}
+
+/* 검색 결과 강조 */
+.highlight {
+  background:#87CEEB !important;
+  color:#fff;
+  font-weight:bold;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+  margin-bottom:40px;
+}
+
+.img-ad {
+  background:#ddd;
+  height:100px;
   display:flex;
-  flex-wrap:wrap;
-  gap:15px;
+  align-items:center;
   justify-content:center;
 }
 
-.text-ad{
-  padding:10px 15px;
-  background:white;
-  border-radius:10px;
-  text-decoration:none;
-  color:#333;
-  font-size:15px;
+.img-ad {
+  height:100px;
+  border-radius:12px;
+  overflow:hidden;
   border:1px solid #ddd;
 }
 
-.text-ad:hover{
-  background:#007bff;
-  color:white;
+.text-ad {
+  background:#fff;
+  border:1px solid #ccc;
+  padding:10px;
+  text-align:center;
+
+  text-decoration: none;      /* 밑줄 제거 */
+  color:#000;
+  font-family: 'HYGraphicM', Arial, sans-serif;
+  font-size:15px;
 }
 
-footer{
-  margin-top:50px;
-  padding:20px;
-  background:#222;
-  color:white;
-  font-size:14px;
+/* 살짝 흔들리는 애니메이션 */
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-3px); }
+  40%  { transform: translateX(3px); }
+  60%  { transform: translateX(-3px); }
+  80%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 16px; /* 모바일 여백 */
+  margin: 0 auto;
 }
 </style>
 </head>
-
 <body>
 
-<h1>YBINFO</h1>
+<div class="container">
 
-<div class="search-box">
-  <input type="text" placeholder="검색어 입력">
-  <button>검색</button>
-</div>
+    <div class="search-box">
+      <input id="searchInput" placeholder="검색어 입력">
+      <button onclick="search()">검색</button>
+    </div>
+<div class="top-banner" id="topBanner"></div>
+    <div class="grid" id="imageAds"></div>
+    <div class="grid" id="textAds"></div>
 
-<h2>이미지 광고</h2>
-<div id="imageAds"></div>
+  </div>
 
-<h2>텍스트 광고</h2>
-<div id="textAds"></div>
+<footer class="site-footer">
+  <div class="footer-inner">
 
-<footer>
-  사이트 소유자: YBINFO
+    <div class="footer-left">
+      <div class="footer-logo">EKinfo</div>
+      <div class="footer-desc">
+        광고 및 링크제공 플랫폼
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <div class="footer-owner">
+        © <span id="year"></span> 
+        <span id="ownerDisplay"></span>
+      </div>
+
+      <div class="footer-sns">
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://x.com/" target="_blank"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+  </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-async function loadAds(){
+const imageAds = JSON.parse(localStorage.getItem('imageAds')) || [];
+const textAds  = JSON.parse(localStorage.getItem('textAds'))  || [];
 
-  const { data, error } = await supabaseClient.from("ads")
-    .select('*')
-    .order('id', { ascending: true });
+function render(){
 
-  if(error){
-    console.error("광고 불러오기 오류:", error);
-    return;
-  }
+const banner = JSON.parse(localStorage.getItem('topBanner'));
+const bannerBox = document.getElementById('topBanner');
+
+bannerBox.innerHTML = "";
+
+if (banner && banner.img) {
+  const a = document.createElement("a");
+  a.href = banner.link || "#";
+  a.target = "_blank";
+
+  const img = document.createElement("img");
+  img.src = banner.img;
+
+  a.appendChild(img);
+  bannerBox.appendChild(a);
+}
 
   const imgBox = document.getElementById('imageAds');
   const txtBox = document.getElementById('textAds');
@@ -126,36 +364,79 @@ async function loadAds(){
   imgBox.innerHTML = "";
   txtBox.innerHTML = "";
 
-  data.forEach(ad => {
+  const imageAds = JSON.parse(localStorage.getItem('imageAds')) || [];
+  const textAds  = JSON.parse(localStorage.getItem('textAds'))  || [];
 
-    if(ad.type === "image"){
-      const wrap = document.createElement("div");
-      wrap.className = "img-ad";
+  // 이미지 광고
+  imageAds.forEach(ad => {
+    if (!ad.img) return;
 
-      wrap.innerHTML = `
-        <a href="${ad.link_url}" target="_blank">
-          <img src="${ad.image_url}">
-        </a>
-      `;
+    const wrap = document.createElement('div');
+    wrap.className = "img-ad";
 
-      imgBox.appendChild(wrap);
+    const a = document.createElement('a');
+    a.href = ad.link || "#";
+    a.target = "_blank";
+
+    const img = document.createElement('img');
+    img.src = ad.img;
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+
+    a.appendChild(img);
+    wrap.appendChild(a);
+    imgBox.appendChild(wrap);
+  });
+
+  // 텍스트 광고
+  textAds.forEach(ad => {
+    if (!ad.text) return;
+
+    const a = document.createElement('a');
+    a.href = ad.link || "#";
+    a.target = "_blank";
+    a.className = "text-ad";
+    a.innerText = ad.text;
+
+    txtBox.appendChild(a);
+  });
+}
+render();
+
+function search() {
+  const keyword = searchInput.value.trim().toLowerCase();
+
+  document.querySelectorAll('.img-ad, .text-ad').forEach(el => {
+    el.classList.remove('highlight', 'shake');
+
+    if (keyword && el.innerText.toLowerCase().includes(keyword)) {
+      el.classList.add('highlight', 'shake');
+
+      // 애니메이션 재실행을 위해 제거
+      setTimeout(() => el.classList.remove('shake'), 300);
     }
-
-    if(ad.type === "text"){
-      const a = document.createElement("a");
-      a.className = "text-ad";
-      a.href = ad.link_url;
-      a.target = "_blank";
-      a.innerText = ad.title;
-
-      txtBox.appendChild(a);
-    }
-
   });
 }
 
-loadAds();
-</script>
+/* 엔터키로 검색 */
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    search();
+  }
+});
 
+// 연도 자동
+document.getElementById("year").innerText =
+  new Date().getFullYear();
+
+document.getElementById("ownerDisplay").innerText =
+  localStorage.getItem("siteOwner") || "관리자";
+
+// 소유자 불러오기
+document.getElementById("ownerDisplay").innerText =
+  localStorage.getItem("siteOwner") || "관리자";
+
+</script>
 </body>
 </html>
