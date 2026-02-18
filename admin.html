@@ -156,118 +156,57 @@ hr { margin:30px 0; }
   <button onclick="changePassword()">비밀번호 변경</button>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
 <script>
-if(!localStorage.getItem("adminId")){
-  localStorage.setItem("adminId","admin");
-}
-if(!localStorage.getItem("adminPassword")){
-  localStorage.setItem("adminPassword","1234");
-}
 
-function login(){
-  const id = loginId.value;
-  const pw = loginPw.value;
+async function save(){
 
-  if(
-    id === localStorage.getItem("adminId") &&
-    pw === localStorage.getItem("adminPassword")
-  ){
-    loginBox.style.display="none";
-    adminBox.style.display="block";
-    loadAdmin();
-  }else{
-    alert("아이디 또는 비밀번호가 틀렸습니다");
+  await supabaseClient.from("ads").delete().neq("id",0);
+
+  const imageInputs = document.querySelectorAll("#imageAdmin input");
+  const textInputs  = document.querySelectorAll("#textAdmin input");
+
+  // 이미지 광고 저장
+  for(let i=0; i<imageInputs.length; i+=2){
+
+    const img = imageInputs[i].value.trim();
+    const link = imageInputs[i+1].value.trim();
+
+    if(img){
+      await supabaseClient.from("ads").insert([
+        {
+          type:"image",
+          title:"",
+          image_url:img,
+          link_url:link
+        }
+      ]);
+    }
   }
-}
 
-function changePassword(){
-    const oldP = oldPw.value;
-    const newP = newPw.value;
+  // 텍스트 광고 저장
+  for(let i=0; i<textInputs.length; i+=2){
 
-    if(oldP !== localStorage.getItem("adminPassword")){
-        alert("기존 비밀번호가 올바르지 않습니다");
-        return;
+    const text = textInputs[i].value.trim();
+    const link = textInputs[i+1].value.trim();
+
+    if(text){
+      await supabaseClient.from("ads").insert([
+        {
+          type:"text",
+          title:text,
+          image_url:"",
+          link_url:link
+        }
+      ]);
     }
-    if(newP.length < 4){
-        alert("새 비밀번호는 4자 이상이어야 합니다");
-        return;
-    }
-    localStorage.setItem("adminPassword", newP);
-    oldPw.value = newPw.value = "";
-    alert("비밀번호가 변경되었습니다");
+  }
+
+  alert("Supabase 저장 완료");
 }
 
-const banner = JSON.parse(localStorage.getItem("topBanner")) || {};
-bannerImg.value = banner.img || "";
-bannerLink.value = banner.link || "";
-
-function loadAdmin(){
-  window.imageAds =
-    JSON.parse(localStorage.getItem('imageAds')) ||
-    Array.from({length:30}, ()=>({ img:"", link:"" }));
-
-  window.textAds =
-    JSON.parse(localStorage.getItem('textAds')) ||
-    Array.from({length:30}, ()=>({ text:"", link:"" }));
-
-  imageAdmin.innerHTML = "";
-  textAdmin.innerHTML = "";
-
-  // 이미지 광고 관리
-  imageAds.forEach((ad,i)=>{
-    const wrap = document.createElement('div');
-
-    const img = document.createElement('input');
-    img.placeholder = "이미지 URL";
-    img.value = ad.img;
-    img.oninput = e => imageAds[i].img = e.target.value;
-
-    const link = document.createElement('input');
-    link.placeholder = "클릭 링크 URL";
-    link.value = ad.link;
-    link.oninput = e => imageAds[i].link = e.target.value;
-
-    wrap.appendChild(img);
-    wrap.appendChild(link);
-    imageAdmin.appendChild(wrap);
-  });
-
-  // 텍스트 광고 관리
-  textAds.forEach((ad,i)=>{
-    const wrap = document.createElement('div');
-
-    const text = document.createElement('input');
-    text.placeholder = "광고 텍스트";
-    text.value = ad.text;
-    text.oninput = e => textAds[i].text = e.target.value;
-
-    const link = document.createElement('input');
-    link.placeholder = "클릭 링크 URL";
-    link.value = ad.link;
-    link.oninput = e => textAds[i].link = e.target.value;
-
-    wrap.appendChild(text);
-    wrap.appendChild(link);
-    textAdmin.appendChild(wrap);
-  });
-}
-
-function save(){
-
-  // 🔥 배너 저장 추가
-  localStorage.setItem("topBanner", JSON.stringify({
-    img: bannerImg.value.trim(),
-    link: bannerLink.value.trim()
-  }));
-
-  localStorage.setItem("siteOwner", ownerName.value.trim());
-  localStorage.setItem('imageAds', JSON.stringify(imageAds));
-  localStorage.setItem('textAds', JSON.stringify(textAds));
-
-  alert("저장 완료");
-}
-
-ownerName.value = localStorage.getItem("siteOwner") || "";
 </script>
 
 </body>

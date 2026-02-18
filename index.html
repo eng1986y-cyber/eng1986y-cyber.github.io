@@ -334,109 +334,58 @@ body {
 
   </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
 
 <script>
-const imageAds = JSON.parse(localStorage.getItem('imageAds')) || [];
-const textAds  = JSON.parse(localStorage.getItem('textAds'))  || [];
+async function loadAds(){
 
-function render(){
+  const { data, error } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("id", { ascending: true });
 
-const banner = JSON.parse(localStorage.getItem('topBanner'));
-const bannerBox = document.getElementById('topBanner');
+  if(error){
+    console.error(error);
+    return;
+  }
 
-bannerBox.innerHTML = "";
-
-if (banner && banner.img) {
-  const a = document.createElement("a");
-  a.href = banner.link || "#";
-  a.target = "_blank";
-
-  const img = document.createElement("img");
-  img.src = banner.img;
-
-  a.appendChild(img);
-  bannerBox.appendChild(a);
-}
-
-  const imgBox = document.getElementById('imageAds');
-  const txtBox = document.getElementById('textAds');
+  const imgBox = document.getElementById("imageAds");
+  const txtBox = document.getElementById("textAds");
 
   imgBox.innerHTML = "";
   txtBox.innerHTML = "";
 
-  const imageAds = JSON.parse(localStorage.getItem('imageAds')) || [];
-  const textAds  = JSON.parse(localStorage.getItem('textAds'))  || [];
+  data.forEach(ad => {
 
-  // 이미지 광고
-  imageAds.forEach(ad => {
-    if (!ad.img) return;
+    if(ad.type === "image"){
+      const wrap = document.createElement("div");
+      wrap.className = "img-ad";
 
-    const wrap = document.createElement('div');
-    wrap.className = "img-ad";
+      wrap.innerHTML = `
+        <a href="${ad.link_url}" target="_blank">
+          <img src="${ad.image_url}" style="width:100%;height:100%;object-fit:cover;">
+        </a>
+      `;
 
-    const a = document.createElement('a');
-    a.href = ad.link || "#";
-    a.target = "_blank";
-
-    const img = document.createElement('img');
-    img.src = ad.img;
-    img.style.width = "100%";
-    img.style.height = "100%";
-    img.style.objectFit = "cover";
-
-    a.appendChild(img);
-    wrap.appendChild(a);
-    imgBox.appendChild(wrap);
-  });
-
-  // 텍스트 광고
-  textAds.forEach(ad => {
-    if (!ad.text) return;
-
-    const a = document.createElement('a');
-    a.href = ad.link || "#";
-    a.target = "_blank";
-    a.className = "text-ad";
-    a.innerText = ad.text;
-
-    txtBox.appendChild(a);
-  });
-}
-render();
-
-function search() {
-  const keyword = searchInput.value.trim().toLowerCase();
-
-  document.querySelectorAll('.img-ad, .text-ad').forEach(el => {
-    el.classList.remove('highlight', 'shake');
-
-    if (keyword && el.innerText.toLowerCase().includes(keyword)) {
-      el.classList.add('highlight', 'shake');
-
-      // 애니메이션 재실행을 위해 제거
-      setTimeout(() => el.classList.remove('shake'), 300);
+      imgBox.appendChild(wrap);
     }
+
+    if(ad.type === "text"){
+      const a = document.createElement("a");
+      a.className = "text-ad";
+      a.href = ad.link_url;
+      a.target = "_blank";
+      a.innerText = ad.title;
+
+      txtBox.appendChild(a);
+    }
+
   });
 }
 
-/* 엔터키로 검색 */
-searchInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    search();
-  }
-});
-
-// 연도 자동
-document.getElementById("year").innerText =
-  new Date().getFullYear();
-
-document.getElementById("ownerDisplay").innerText =
-  localStorage.getItem("siteOwner") || "관리자";
-
-// 소유자 불러오기
-document.getElementById("ownerDisplay").innerText =
-  localStorage.getItem("siteOwner") || "관리자";
-
+loadAds();
 </script>
+
 </body>
 </html>
