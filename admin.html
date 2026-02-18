@@ -244,25 +244,17 @@ async function loadData(){
 // 💾 저장
 async function save(){
 
-  // 광고 전체 삭제
-  await supabaseClient.from("ads").delete().neq("id",0);
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
 
-  // 이미지 광고 저장
-  const imgInputs=imageAdmin.querySelectorAll("input");
-  for(let i=0;i<imgInputs.length;i+=2){
-
-    const img=imgInputs[i].value.trim();
-    const link=imgInputs[i+1].value.trim();
-
-    if(img){
-      await supabaseClient.from("ads").insert([{
-        type:"image",
-        title:"",
-        image_url:img,
-        link_url:link
-      }]);
-    }
+  if(!session){
+    alert("로그인이 필요합니다");
+    return;
   }
+
+  console.log("현재 세션:", session);
+
+  // ↓ 기존 저장 코드 계속
 
   // 텍스트 광고 저장
   const txtInputs=textAdmin.querySelectorAll("input");
