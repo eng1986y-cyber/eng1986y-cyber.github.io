@@ -338,53 +338,78 @@ body {
 <script src="supabase.js"></script>
 
 <script>
-async function loadAds(){
 
-  const { data, error } = await supabaseClient
+async function loadSite(){
+
+  // 광고 불러오기
+  const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
-    .order("id", { ascending: true });
-
-  if(error){
-    console.error(error);
-    return;
-  }
+    .order("id", { ascending:true });
 
   const imgBox = document.getElementById("imageAds");
   const txtBox = document.getElementById("textAds");
 
-  imgBox.innerHTML = "";
-  txtBox.innerHTML = "";
+  imgBox.innerHTML="";
+  txtBox.innerHTML="";
 
-  data.forEach(ad => {
+  ads.forEach(ad=>{
 
-    if(ad.type === "image"){
-      const wrap = document.createElement("div");
-      wrap.className = "img-ad";
-
-      wrap.innerHTML = `
+    if(ad.type==="image"){
+      const wrap=document.createElement("div");
+      wrap.className="img-ad";
+      wrap.innerHTML=`
         <a href="${ad.link_url}" target="_blank">
           <img src="${ad.image_url}" style="width:100%;height:100%;object-fit:cover;">
-        </a>
-      `;
-
+        </a>`;
       imgBox.appendChild(wrap);
     }
 
-    if(ad.type === "text"){
-      const a = document.createElement("a");
-      a.className = "text-ad";
-      a.href = ad.link_url;
-      a.target = "_blank";
-      a.innerText = ad.title;
-
+    if(ad.type==="text"){
+      const a=document.createElement("a");
+      a.className="text-ad";
+      a.href=ad.link_url;
+      a.target="_blank";
+      a.innerText=ad.title;
       txtBox.appendChild(a);
     }
 
   });
+
+  // 사이트 설정 불러오기
+  const { data: settings } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
+
+  if(settings.length>0){
+
+    const s=settings[0];
+
+    // 배너
+    const bannerBox=document.getElementById("topBanner");
+    bannerBox.innerHTML="";
+
+    if(s.banner_img){
+      bannerBox.innerHTML=`
+        <a href="${s.banner_link}" target="_blank">
+          <img src="${s.banner_img}" style="width:100%;height:100%;object-fit:cover;">
+        </a>`;
+    }
+
+    // 소유자
+    document.getElementById("ownerDisplay").innerText=
+      s.owner_name || "관리자";
+  }
+
+  // 연도
+  document.getElementById("year").innerText=
+    new Date().getFullYear();
+
 }
 
-loadAds();
+loadSite();
+
 </script>
 
 </body>

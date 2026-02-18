@@ -163,46 +163,51 @@ hr { margin:30px 0; }
 
 async function save(){
 
+  // 기존 광고 전부 삭제
   await supabaseClient.from("ads").delete().neq("id",0);
 
-  const imageInputs = document.querySelectorAll("#imageAdmin input");
-  const textInputs  = document.querySelectorAll("#textAdmin input");
+  // 이미지 광고
+  const imageInputs=document.querySelectorAll("#imageAdmin input");
+  for(let i=0;i<imageInputs.length;i+=2){
 
-  // 이미지 광고 저장
-  for(let i=0; i<imageInputs.length; i+=2){
-
-    const img = imageInputs[i].value.trim();
-    const link = imageInputs[i+1].value.trim();
+    const img=imageInputs[i].value.trim();
+    const link=imageInputs[i+1].value.trim();
 
     if(img){
-      await supabaseClient.from("ads").insert([
-        {
-          type:"image",
-          title:"",
-          image_url:img,
-          link_url:link
-        }
-      ]);
+      await supabaseClient.from("ads").insert([{
+        type:"image",
+        title:"",
+        image_url:img,
+        link_url:link
+      }]);
     }
   }
 
-  // 텍스트 광고 저장
-  for(let i=0; i<textInputs.length; i+=2){
+  // 텍스트 광고
+  const textInputs=document.querySelectorAll("#textAdmin input");
+  for(let i=0;i<textInputs.length;i+=2){
 
-    const text = textInputs[i].value.trim();
-    const link = textInputs[i+1].value.trim();
+    const text=textInputs[i].value.trim();
+    const link=textInputs[i+1].value.trim();
 
     if(text){
-      await supabaseClient.from("ads").insert([
-        {
-          type:"text",
-          title:text,
-          image_url:"",
-          link_url:link
-        }
-      ]);
+      await supabaseClient.from("ads").insert([{
+        type:"text",
+        title:text,
+        image_url:"",
+        link_url:link
+      }]);
     }
   }
+
+  // 사이트 설정 저장
+  await supabaseClient.from("site_settings").delete().neq("id",0);
+
+  await supabaseClient.from("site_settings").insert([{
+    banner_img: bannerImg.value.trim(),
+    banner_link: bannerLink.value.trim(),
+    owner_name: ownerName.value.trim()
+  }]);
 
   alert("Supabase 저장 완료");
 }
