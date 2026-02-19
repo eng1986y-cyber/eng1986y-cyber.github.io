@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
 <style>
+
+.btn-row {
+  display:flex;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.mini-btn {
+  padding:4px 8px;
+  font-size:12px;
+  width:auto;
+  cursor:pointer;
+}
+
 body {
   font-family:Arial;
   padding:20px;
@@ -136,11 +150,21 @@ hr { margin:30px 0; }
 <hr>
 
 <h2>이미지 광고 관리</h2>
-<button type="button" onclick="addImageAd()">광고 추가 +</button>
+
+<div class="btn-row">
+  <button type="button" class="mini-btn" onclick="addImageAd()">광고 추가 +</button>
+  <button type="button" class="mini-btn" onclick="removeImageAd()">광고 삭제 −</button>
+</div>
+
 <div class="grid" id="imageAdmin"></div>
 
 <h2 style="margin-top:30px;">텍스트 광고 관리</h2>
-<button type="button" onclick="addTextAd()">광고 추가 +</button>
+
+<div class="btn-row">
+  <button type="button" class="mini-btn" onclick="addTextAd()">광고 추가 +</button>
+  <button type="button" class="mini-btn" onclick="removeTextAd()">광고 삭제 −</button>
+</div>
+
 <div class="grid" id="textAdmin"></div>
 
 <button class="save-btn" onclick="save()">저장</button>
@@ -292,26 +316,34 @@ async function save() {
 
 // 이미지 광고 입력칸 추가
 function addImageAd(img = "", link = "") {
-
   const div = document.createElement("div");
   div.innerHTML = `
     <input value="${img}" placeholder="이미지 URL">
     <input value="${link}" placeholder="클릭 링크">
   `;
-
   imageAdmin.appendChild(div);
+}
+
+function removeImageAd() {
+  if (imageAdmin.lastElementChild) {
+    imageAdmin.removeChild(imageAdmin.lastElementChild);
+  }
 }
 
 // 텍스트 광고 입력칸 추가
 function addTextAd(title = "", link = "") {
-
   const div = document.createElement("div");
   div.innerHTML = `
     <input value="${title}" placeholder="텍스트">
     <input value="${link}" placeholder="클릭 링크">
   `;
-
   textAdmin.appendChild(div);
+}
+
+function removeTextAd() {
+  if (textAdmin.lastElementChild) {
+    textAdmin.removeChild(textAdmin.lastElementChild);
+  }
 }
 
 </script>
