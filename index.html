@@ -449,18 +449,13 @@ async function loadSite(){
     document.getElementById("fbLink").href = s.facebook || "#";
     document.getElementById("twLink").href = s.twitter || "#";
 
-if (s.banner_img) {
-
-  if (s.banner_link && s.banner_link.trim() !== "") {
-    bannerBox.innerHTML = `
-      <a href="${s.banner_link}" target="_blank">
-        <img src="${s.banner_img}" style="width:100%;height:100%;object-fit:cover;">
-      </a>`;
-  } else {
-    bannerBox.innerHTML = `
-      <img src="${s.banner_img}" style="width:100%;height:100%;object-fit:cover;cursor:default;">`;
+    if (s.banner_img) {
+      bannerBox.innerHTML=`
+        <a href="${s.banner_link}" target="_blank">
+          <img src="${s.banner_img}" style="width:100%;height:100%;object-fit:cover;">
+        </a>`;
+    }
   }
-
 }
 
 loadSite();
