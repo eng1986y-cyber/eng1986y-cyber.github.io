@@ -135,11 +135,13 @@ hr { margin:30px 0; }
 <input id="bannerLink" placeholder="배너 클릭 링크">
 <hr>
 
-    <h2>이미지 광고 관리</h2>
-    <div class="grid" id="imageAdmin"></div>
+<h2>이미지 광고 관리</h2>
+<button type="button" onclick="addImageAd()">광고 추가 +</button>
+<div class="grid" id="imageAdmin"></div>
 
-    <h2 style="margin-top:30px;">텍스트 광고 관리</h2>
-    <div class="grid" id="textAdmin"></div>
+<h2 style="margin-top:30px;">텍스트 광고 관리</h2>
+<button type="button" onclick="addTextAd()">광고 추가 +</button>
+<div class="grid" id="textAdmin"></div>
 
 <button class="save-btn" onclick="save()">저장</button>
 
@@ -193,39 +195,33 @@ supabaseClient.auth.getSession().then(({ data }) => {
   }
 });
 
-
 async function loadData() {
+
+  imageAdmin.innerHTML = "";
+  textAdmin.innerHTML = "";
 
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
     .order("id", { ascending: true });
 
-  imageAdmin.innerHTML = "";
-  textAdmin.innerHTML = "";
+  if (ads && ads.length > 0) {
 
-  ads.forEach(ad => {
+    ads.forEach(ad => {
 
-    if (ad.type === "image") {
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <input value="${ad.image_url || ""}" placeholder="이미지 URL">
-        <input value="${ad.link_url || ""}" placeholder="클릭 링크">
-      `;
-      imageAdmin.appendChild(div);
-    }
+      if (ad.type === "image") {
+        addImageAd(ad.image_url || "", ad.link_url || "");
+      }
 
-    if (ad.type === "text") {
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <input value="${ad.title || ""}" placeholder="텍스트">
-        <input value="${ad.link_url || ""}" placeholder="클릭 링크">
-      `;
-      textAdmin.appendChild(div);
-    }
+      if (ad.type === "text") {
+        addTextAd(ad.title || "", ad.link_url || "");
+      }
 
-  });
+    });
 
+  }
+
+  // 사이트 설정
   const { data: settings } = await supabaseClient
     .from("site_settings")
     .select("*")
@@ -237,7 +233,6 @@ async function loadData() {
     ownerName.value = settings[0].owner_name || "";
   }
 }
-
 
 async function save() {
 
@@ -293,6 +288,30 @@ async function save() {
   }]);
 
   alert("저장 완료");
+}
+
+// 이미지 광고 입력칸 추가
+function addImageAd(img = "", link = "") {
+
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <input value="${img}" placeholder="이미지 URL">
+    <input value="${link}" placeholder="클릭 링크">
+  `;
+
+  imageAdmin.appendChild(div);
+}
+
+// 텍스트 광고 입력칸 추가
+function addTextAd(title = "", link = "") {
+
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <input value="${title}" placeholder="텍스트">
+    <input value="${link}" placeholder="클릭 링크">
+  `;
+
+  textAdmin.appendChild(div);
 }
 
 </script>
