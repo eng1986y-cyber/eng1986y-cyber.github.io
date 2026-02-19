@@ -453,6 +453,36 @@ async function loadSite(){
 
 loadSite();
 
+function search(){
+
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  if(!keyword) return;
+
+  const textAds = document.querySelectorAll(".text-ad");
+
+  let found = false;
+
+  textAds.forEach(ad=>{
+    ad.classList.remove("highlight","shake");
+
+    if(ad.innerText.toLowerCase().includes(keyword)){
+      ad.classList.add("highlight","shake");
+      found = true;
+    }
+  });
+
+  if(!found){
+    alert("검색 결과 없음");
+  }
+}
+
+document.getElementById("searchInput")
+  .addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+      search();
+    }
+});
+
 </script>
 
 </body>
