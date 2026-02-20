@@ -183,21 +183,6 @@ hr { margin:30px 0; }
 
 <button class="save-btn" onclick="save()">저장</button>
 
-for (let block of squareAdmin.children) {
-  const inputs = block.querySelectorAll("input");
-  const img = inputs[0].value.trim();
-  const link = inputs[1].value.trim();
-
-  if (img) {
-    await supabaseClient.from("ads").insert([{
-      type: "square",
-      title: "",
-      image_url: img,
-      link_url: link
-    }]);
-  }
-}
-
 <h3>사이트 소유자 설정</h3>
 
 <h3>SNS 링크 설정</h3>
@@ -257,12 +242,9 @@ supabaseClient.auth.getSession().then(({ data }) => {
 
 async function loadData() {
 
-if (ad.type === "square") {
-  addSquareAd(ad.image_url || "", ad.link_url || "");
-}
-
   imageAdmin.innerHTML = "";
   textAdmin.innerHTML = "";
+  squareAdmin.innerHTML = "";
 
   const { data: ads } = await supabaseClient
     .from("ads")
@@ -271,12 +253,19 @@ if (ad.type === "square") {
 
   if (ads) {
     ads.forEach(ad => {
+
       if (ad.type === "image") {
         addImageAd(ad.image_url || "", ad.link_url || "");
       }
+
       if (ad.type === "text") {
         addTextAd(ad.title || "", ad.link_url || "");
       }
+
+      if (ad.type === "square") {
+        addSquareAd(ad.image_url || "", ad.link_url || "");
+      }
+
     });
   }
 
