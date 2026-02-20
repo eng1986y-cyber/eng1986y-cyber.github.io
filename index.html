@@ -5,432 +5,146 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
 <title>검색 플랫폼</title>
+
 <style>
-
-/* 하단 정방형 광고 */
-.square-grid {
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-  margin-bottom: 40px;
-}
-
-.square-ad {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;   /* 🔥 정방형 */
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #ddd;
-}
-
-.square-ad img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ===== 배너 Hover 효과 ===== */
-
-.top-banner {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.top-banner img {
-  transition: transform 0.4s ease, filter 0.4s ease;
-}
-
-/* 마우스 올렸을 때 */
-.top-banner:hover img {
-  transform: scale(1.05);   /* 살짝 확대 */
-  filter: brightness(1.05); /* 살짝 밝게 */
-}
-
-/* 부드러운 그림자 */
-.top-banner:hover {
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-.owner-sns a,
-.owner-sns a:hover,
-.footer-sns a,
-.footer-sns a:hover {
-  text-decoration: none !important;
-}
-
-.owner-banner {
-  width:100%;
-  height:120px;
-  margin:30px 0;
-  border-radius:14px;
-
-  /* 🔥 그라데이션 */
-  background: linear-gradient(135deg, #f3f3f3, #e4e4e4);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 4px 15px rgba(0,0,0,0.08);
-}
-
-.owner-inner {
-  width:100%;
-  max-width:1200px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 25px;
-}
-
-.owner-left {
-  font-size:18px;
-  color:#333;
-}
-
-/* 🔥 동그란 SNS 버튼 */
-.owner-sns a {
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:#ffffff;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  margin-left:14px;
-  font-size:18px;
-  color:#555;
-  transition:all 0.3s ease;
-  box-shadow:0 3px 8px rgba(0,0,0,0.1);
-}
-
-.owner-sns a:hover {
-  background:#87CEEB;
-  color:#fff;
-  transform:translateY(-4px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.15);
-}
-
-/* ===== 고급 Footer ===== */
-
-.site-footer {
-  margin-top:60px;
-  background:#111;
-  color:#ccc;
-  padding:40px 20px;
-}
-
-.footer-inner {
-  max-width:1200px;
-  margin:0 auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.footer-logo {
-  font-size:20px;
-  font-weight:bold;
-  color:#fff;
-  margin-bottom:6px;
-}
-
-.footer-desc {
-  font-size:13px;
-  color:#888;
-}
-
-.footer-owner {
-  font-size:13px;
-  margin-bottom:6px;
-}
-
-.footer-contact {
-  font-size:12px;
-  color:#777;
-}
-
-/* 모바일 대응 */
-@media (max-width:768px){
-  .footer-inner {
-    flex-direction:column;
-    text-align:center;
-    gap:20px;
-  }
-}
-
-/* ===== SNS Footer ===== */
-
-.site-footer {
-  margin-top:60px;
-  background:#111;
-  color:#ccc;
-  padding:40px 20px;
-}
-
-.footer-inner {
-  max-width:1200px;
-  margin:0 auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.footer-logo {
-  font-size:20px;
-  font-weight:bold;
-  color:#fff;
-  margin-bottom:6px;
-}
-
-.footer-desc {
-  font-size:13px;
-  color:#888;
-}
-
-.footer-owner {
-  font-size:13px;
-  margin-bottom:12px;
-}
-
-.footer-sns a {
-  color:#aaa;
-  margin-right:14px;
-  font-size:18px;
-  transition: all 0.2s ease;
-}
-
-.footer-sns a:hover {
-  color:#87CEEB;
-  transform: translateY(-3px);
-}
-
-/* 모바일 */
-@media (max-width:768px){
-  .footer-inner {
-    flex-direction:column;
-    text-align:center;
-    gap:20px;
-  }
-}
-
-.site-owner {
-  margin-top:40px;
-  padding:11px 0;
-  text-align:center;
-  font-size:13px;
-  color:#777;
-  border-top:1px solid #e0e0e0;
-  font-family: Arial, sans-serif;
-}
-
-.site-owner span {
-  margin:0 6px;
-  color:#bbb;
-}
-
-/* ===== 텍스트 광고 최종 스타일 ===== */
-
-/* 웹폰트 (HY그래픽M 없을 때 대체용) */
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.text-ad {
-  background:#fff;
-  border:1px solid #ccc;
-  padding:12px 8px;
-  text-align:center;
-
-  /* ✅ 밑줄 제거 */
-  text-decoration: none;
-
-  /* ✅ 폰트 설정 (HY그래픽M → 없으면 자동 대체) */
-  font-family: 'HY그래픽M', 'Pretendard', Arial, sans-serif;
-  font-size:14px;
-  color:#222;
-
-  /* 부드러운 인터랙션 */
-  transition: all 0.2s ease;
-  border-radius:8px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* 마우스 올렸을 때 */
-.text-ad:hover {
-  background:#87CEEB;
-  color:#fff;
-  font-weight:bold;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-}
-
-/* 클릭 순간 */
-.text-ad:active {
-  transform: scale(0.97);
-}
-
-.top-banner {
-  width:100%;
-  height:120px;
-  margin:20px 0 30px;
-  border-radius:14px;
-  overflow:hidden;
-  border:2px solid #87CEEB;
-  background:#eee;
-}
-
-.top-banner img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-body {
+body{
   margin:0;
   padding:20px;
   font-family:Arial;
   background:#f5f5f5;
 }
 
-.search-box {
+.container{
+  max-width:1200px;
+  margin:0 auto;
+}
+
+/* 검색 */
+.search-box{
   text-align:center;
   margin-bottom:30px;
 }
 
-/* 공통 높이 */
-.search-box input,
-.search-box button {
-  height:46px;
-  box-sizing:border-box;
-  border-radius:6px;
-  font-size:15px;
-}
-
-/* 검색 입력란 */
-.search-box input {
+.search-box input{
   width:320px;
-  padding:0 12px;
+  height:46px;
   border:2px solid #87CEEB;
-  outline:none;
+  border-radius:6px;
+  padding:0 12px;
 }
 
-/* 검색 버튼 */
-.search-box button {
-  width:160px;              /* 입력란의 반 */
+.search-box button{
+  height:46px;
+  width:160px;
   margin-left:6px;
-  background:#87CEEB;
   border:none;
+  border-radius:6px;
+  background:#87CEEB;
   color:#fff;
   cursor:pointer;
 }
 
-.search-box button:hover {
+.search-box button:hover{
   background:#6bbfe0;
 }
 
-/* 검색 결과 강조 */
-.highlight {
-  background:#87CEEB !important;
-  color:#fff;
-  font-weight:bold;
+/* 배너 */
+.top-banner{
+  width:100%;
+  height:120px;
+  margin:20px 0 30px;
+  border-radius:14px;
+  overflow:hidden;
+  border:2px solid #87CEEB;
 }
 
-.grid {
+.top-banner img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.4s;
+}
+
+.top-banner:hover img{
+  transform:scale(1.05);
+}
+
+/* 그리드 */
+.grid{
   display:grid;
   grid-template-columns:repeat(6,1fr);
   gap:10px;
   margin-bottom:40px;
 }
 
-.img-ad {
-  background:#ddd;
-  height:100px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.img-ad {
+/* 일반 이미지 광고 */
+.img-ad{
   height:100px;
   border-radius:12px;
   overflow:hidden;
   border:1px solid #ddd;
 }
 
-.text-ad {
+.img-ad img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* 텍스트 광고 */
+.text-ad{
   background:#fff;
   border:1px solid #ccc;
-  padding:10px;
+  padding:12px;
   text-align:center;
-
-  text-decoration: none;      /* 밑줄 제거 */
-  color:#000;
-  font-family: 'HYGraphicM', Arial, sans-serif;
-  font-size:16px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#222;
+  transition:0.2s;
 }
 
-/* 살짝 흔들리는 애니메이션 */
-@keyframes shake {
-  0%   { transform: translateX(0); }
-  20%  { transform: translateX(-3px); }
-  40%  { transform: translateX(3px); }
-  60%  { transform: translateX(-3px); }
-  80%  { transform: translateX(3px); }
-  100% { transform: translateX(0); }
+.text-ad:hover{
+  background:#87CEEB;
+  color:#fff;
 }
 
-.shake {
-  animation: shake 0.3s ease-in-out;
+/* 정방형 광고 */
+.square-ad{
+  aspect-ratio:1/1;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #ddd;
 }
 
-.container {
-  max-width: 1200px;
-  padding: 0 16px; /* 모바일 여백 */
-  margin: 0 auto;
+.square-ad img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* 검색 강조 */
+.highlight{
+  background:#87CEEB !important;
+  color:#fff;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="search-box">
-      <input id="searchInput" placeholder="검색어 입력">
-      <button onclick="search()">검색</button>
-    </div>
+<div class="search-box">
+  <input id="searchInput" placeholder="검색어 입력">
+  <button onclick="search()">검색</button>
+</div>
+
 <div class="top-banner" id="topBanner"></div>
+
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
+<div class="grid" id="bottomImageAds"></div>
 
-<!-- ✅ 텍스트광고 아래 정방형 이미지 광고 -->
-<div class="grid square-grid" id="bottomImageAds"></div>
-
-  </div>
-
-<div class="owner-banner">
-  <div class="owner-inner">
-
-    <div class="owner-left">
-      <strong id="ownerDisplay"></strong>
-    </div>
-
-    <div class="owner-sns">
-      <a id="instaLink" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a id="ytLink" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a id="fbLink" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      <a id="twLink" target="_blank"><i class="fab fa-x-twitter"></i></a>
-    </div>
-
-  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -440,31 +154,30 @@ body {
 
 async function loadSite(){
 
-  const imgBox = document.getElementById("imageAds");
-  const txtBox = document.getElementById("textAds");
-  const bannerBox = document.getElementById("topBanner");
-  const bottomBox = document.getElementById("bottomImageAds");
+  const imgBox=document.getElementById("imageAds");
+  const txtBox=document.getElementById("textAds");
+  const bottomBox=document.getElementById("bottomImageAds");
+  const bannerBox=document.getElementById("topBanner");
 
   imgBox.innerHTML="";
   txtBox.innerHTML="";
-  bannerBox.innerHTML="";
   bottomBox.innerHTML="";
+  bannerBox.innerHTML="";
 
-  // 광고 불러오기
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
-    .order("id", { ascending:true });
+    .order("id",{ascending:true});
 
-  if (ads) {
+  if(ads){
     ads.forEach(ad=>{
 
       if(ad.type==="image"){
         const wrap=document.createElement("div");
         wrap.className="img-ad";
         wrap.innerHTML=`
-          <a href="${ad.link_url}" target="_blank">
-            <img src="${ad.image_url}" style="width:100%;height:100%;object-fit:cover;">
+          <a href="${ad.link_url || '#'}" target="_blank">
+            <img src="${ad.image_url}">
           </a>`;
         imgBox.appendChild(wrap);
       }
@@ -472,9 +185,9 @@ async function loadSite(){
       if(ad.type==="text"){
         const a=document.createElement("a");
         a.className="text-ad";
-        a.href=ad.link_url;
+        a.href=ad.link_url || "#";
         a.target="_blank";
-        a.innerText=ad.title;
+        a.innerText=ad.title || "텍스트광고";
         txtBox.appendChild(a);
       }
 
@@ -482,7 +195,7 @@ async function loadSite(){
         const wrap=document.createElement("div");
         wrap.className="square-ad";
         wrap.innerHTML=`
-          <a href="${ad.link_url}" target="_blank">
+          <a href="${ad.link_url || '#'}" target="_blank">
             <img src="${ad.image_url}">
           </a>`;
         bottomBox.appendChild(wrap);
@@ -491,53 +204,44 @@ async function loadSite(){
     });
   }
 
-  // 사이트 설정
   const { data: settings } = await supabaseClient
     .from("site_settings")
     .select("*")
     .limit(1);
 
-  if (settings && settings.length > 0) {
+  if(settings && settings.length>0){
 
-    const s = settings[0];
+    const s=settings[0];
 
-    document.getElementById("ownerDisplay").innerText =
-      s.owner_name || "관리자";
-
-    document.getElementById("instaLink").href = s.instagram || "#";
-    document.getElementById("ytLink").href = s.youtube || "#";
-    document.getElementById("fbLink").href = s.facebook || "#";
-    document.getElementById("twLink").href = s.twitter || "#";
-
-if (s.banner_img) {
-  if (s.banner_link) {
-    bannerBox.innerHTML = `
-      <a href="${s.banner_link}" target="_blank">
-        <img src="${s.banner_img}">
-      </a>`;
-  } else {
-    bannerBox.innerHTML = `
-      <img src="${s.banner_img}">`;
+    if(s.banner_img){
+      if(s.banner_link){
+        bannerBox.innerHTML=`
+          <a href="${s.banner_link}" target="_blank">
+            <img src="${s.banner_img}">
+          </a>`;
+      }else{
+        bannerBox.innerHTML=`
+          <img src="${s.banner_img}">`;
+      }
+    }
   }
 }
 
 loadSite();
 
+/* 검색 기능 */
 function search(){
-
-  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  const keyword=document.getElementById("searchInput").value.trim().toLowerCase();
   if(!keyword) return;
 
-  const textAds = document.querySelectorAll(".text-ad");
+  const ads=document.querySelectorAll(".text-ad");
+  let found=false;
 
-  let found = false;
-
-  textAds.forEach(ad=>{
-    ad.classList.remove("highlight","shake");
-
+  ads.forEach(ad=>{
+    ad.classList.remove("highlight");
     if(ad.innerText.toLowerCase().includes(keyword)){
-      ad.classList.add("highlight","shake");
-      found = true;
+      ad.classList.add("highlight");
+      found=true;
     }
   });
 
@@ -547,11 +251,9 @@ function search(){
 }
 
 document.getElementById("searchInput")
-  .addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-      search();
-    }
-});
+  .addEventListener("keypress",function(e){
+    if(e.key==="Enter") search();
+  });
 
 </script>
 
