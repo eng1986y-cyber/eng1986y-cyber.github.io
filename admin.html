@@ -361,6 +361,21 @@ function removeSquareAd() {
   }
 }
 
+function addImageAd(img = "", link = "") {
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <input value="${img}" placeholder="이미지 URL">
+    <input value="${link}" placeholder="클릭 링크">
+  `;
+  imageAdmin.appendChild(div);
+}
+
+function removeImageAd() {
+  if (imageAdmin.lastElementChild) {
+    imageAdmin.removeChild(imageAdmin.lastElementChild);
+  }
+}
+
 function addTextAd(title = "", link = "") {
   const div = document.createElement("div");
   div.innerHTML = `
