@@ -77,7 +77,7 @@ async function loadData(){
     .from("site_settings")
     .select("*")
     .eq("id",1)
-    .single();
+    .maybeSingle();
 
   if(error){
     console.error("불러오기 오류:",error);
