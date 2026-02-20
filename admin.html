@@ -5,26 +5,21 @@
 <title>관리자 페이지</title>
 
 <style>
-body{
-  font-family:Arial;
-  padding:30px;
-  background:#f5f5f5;
-}
-
+body{font-family:Arial;padding:30px;background:#f5f5f5;}
 h1{margin-bottom:20px;}
 h2{margin-top:40px;}
 
 input{
   width:100%;
   height:36px;
-  margin-bottom:6px;
+  margin-bottom:8px;
   padding:0 8px;
   box-sizing:border-box;
 }
 
 button{
-  height:36px;
-  padding:0 12px;
+  height:38px;
+  padding:0 15px;
   border:none;
   border-radius:6px;
   background:#87CEEB;
@@ -32,39 +27,15 @@ button{
   cursor:pointer;
 }
 
-button:hover{ background:#6bbfe0; }
+button:hover{background:#6bbfe0;}
 
-.section{ margin-bottom:30px; }
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.card{
-  background:#fff;
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  position:relative;
-  cursor:grab;
-}
-
-.delete-btn{
-  position:absolute;
-  top:6px;
-  right:6px;
-  background:#ff5c5c;
-  height:24px;
-  font-size:12px;
-}
+.section{margin-bottom:30px;}
 
 .save-btn{
-  width:220px;
+  width:240px;
   height:45px;
   font-size:16px;
-  margin:50px auto;
+  margin:40px auto;
   display:block;
 }
 </style>
@@ -74,14 +45,14 @@ button:hover{ background:#6bbfe0; }
 
 <h1>관리자 페이지</h1>
 
-<!-- ================= 배너 ================= -->
+<!-- ===== 배너 ===== -->
 <div class="section">
-<h2>상단 배너 관리</h2>
+<h2>상단 배너</h2>
 <input id="bannerImg" placeholder="배너 이미지 URL">
 <input id="bannerLink" placeholder="배너 클릭 링크">
 </div>
 
-<!-- ================= 소유자 & SNS ================= -->
+<!-- ===== 소유자 & SNS ===== -->
 <div class="section">
 <h2>소유자 & SNS 관리</h2>
 <input id="ownerName" placeholder="소유자 이름">
@@ -91,170 +62,44 @@ button:hover{ background:#6bbfe0; }
 <input id="twitter" placeholder="X(트위터) 링크">
 </div>
 
-<!-- ================= 이미지 광고 ================= -->
-<div class="section">
-<h2>상단 이미지 광고</h2>
-<button onclick="addImageAd()">추가 +</button>
-<div class="grid" id="imageAdmin"></div>
-</div>
-
-<!-- ================= 텍스트 광고 ================= -->
-<div class="section">
-<h2>텍스트 광고</h2>
-<button onclick="addTextAd()">추가 +</button>
-<div class="grid" id="textAdmin"></div>
-</div>
-
-<!-- ================= 정방형 광고 ================= -->
-<div class="section">
-<h2>하단 정방형 광고</h2>
-<button onclick="addSquareAd()">추가 +</button>
-<div class="grid" id="squareAdmin"></div>
-</div>
-
-<button class="save-btn" onclick="saveAll()">전체 저장</button>
+<button class="save-btn" onclick="saveSettings()">저장하기</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
 <script>
 
-const imageAdmin=document.getElementById("imageAdmin");
-const textAdmin=document.getElementById("textAdmin");
-const squareAdmin=document.getElementById("squareAdmin");
-
-let dragItem=null;
-
-/* ===== 공통 카드 생성 ===== */
-
-function createCard(innerHTML){
-  const div=document.createElement("div");
-  div.className="card";
-  div.draggable=true;
-  div.innerHTML=`
-    <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
-    ${innerHTML}
-  `;
-
-  div.addEventListener("dragstart",()=>dragItem=div);
-  div.addEventListener("dragover",e=>e.preventDefault());
-  div.addEventListener("drop",function(){
-    if(dragItem!==div){
-      div.parentNode.insertBefore(dragItem,div);
-    }
-  });
-
-  return div;
-}
-
-/* ===== 추가 함수 ===== */
-
-function addImageAd(img="",link=""){
-  imageAdmin.appendChild(
-    createCard(`
-      <input value="${img}" placeholder="이미지 URL">
-      <input value="${link}" placeholder="클릭 링크">
-    `)
-  );
-}
-
-function addTextAd(title="",link=""){
-  textAdmin.appendChild(
-    createCard(`
-      <input value="${title}" placeholder="광고 제목">
-      <input value="${link}" placeholder="클릭 링크">
-    `)
-  );
-}
-
-function addSquareAd(img="",link=""){
-  squareAdmin.appendChild(
-    createCard(`
-      <input value="${img}" placeholder="이미지 URL">
-      <input value="${link}" placeholder="클릭 링크">
-    `)
-  );
-}
-
 /* ===== 데이터 불러오기 ===== */
 
 async function loadData(){
 
-  const { data: ads } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
-
-  if(ads){
-    ads.forEach(ad=>{
-      if(ad.type==="image") addImageAd(ad.image_url,ad.link_url);
-      if(ad.type==="text") addTextAd(ad.title,ad.link_url);
-      if(ad.type==="square") addSquareAd(ad.image_url,ad.link_url);
-    });
-  }
-
-  const { data: settings } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from("site_settings")
     .select("*")
-    .limit(1);
+    .eq("id",1)
+    .single();
 
-  if(settings && settings.length>0){
-    const s=settings[0];
-    bannerImg.value=s.banner_img||"";
-    bannerLink.value=s.banner_link||"";
-    ownerName.value=s.owner_name||"";
-    instagram.value=s.instagram||"";
-    youtube.value=s.youtube||"";
-    facebook.value=s.facebook||"";
-    twitter.value=s.twitter||"";
+  if(error){
+    console.error("불러오기 오류:",error);
+    return;
+  }
+
+  if(data){
+    bannerImg.value=data.banner_img||"";
+    bannerLink.value=data.banner_link||"";
+    ownerName.value=data.owner_name||"";
+    instagram.value=data.instagram||"";
+    youtube.value=data.youtube||"";
+    facebook.value=data.facebook||"";
+    twitter.value=data.twitter||"";
   }
 }
 
 /* ===== 저장 ===== */
 
-async function saveAll(){
+async function saveSettings(){
 
-  /* 기존 광고 전체 삭제 */
-  await supabaseClient.from("ads").delete().neq("id",0);
-
-  /* 이미지 광고 */
-  for(const block of imageAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"image",
-        image_url:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
-  }
-
-  /* 텍스트 광고 */
-  for(const block of textAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"text",
-        title:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
-  }
-
-  /* 정방형 광고 */
-  for(const block of squareAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"square",
-        image_url:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
-  }
-
-  /* 사이트 설정 */
-  await supabaseClient.from("site_settings").upsert([{
+  const payload={
     id:1,
     banner_img:bannerImg.value.trim(),
     banner_link:bannerLink.value.trim(),
@@ -263,7 +108,28 @@ async function saveAll(){
     youtube:youtube.value.trim(),
     facebook:facebook.value.trim(),
     twitter:twitter.value.trim()
-  }]);
+  };
+
+  /* 먼저 update 시도 */
+  const { data, error } = await supabaseClient
+    .from("site_settings")
+    .update(payload)
+    .eq("id",1);
+
+  if(error){
+    console.error("update 실패:",error);
+
+    /* update 실패하면 insert */
+    const { error: insertError } = await supabaseClient
+      .from("site_settings")
+      .insert([payload]);
+
+    if(insertError){
+      console.error("insert 실패:",insertError);
+      alert("저장 실패 ❌ 콘솔 확인");
+      return;
+    }
+  }
 
   alert("저장 완료 ✅");
 }
