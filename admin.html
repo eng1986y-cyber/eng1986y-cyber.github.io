@@ -62,7 +62,7 @@ button:hover{background:#6bbfe0;}
 <input id="twitter" placeholder="X(트위터) 링크">
 </div>
 
-<button class="save-btn" onclick="saveSettings()">저장하기</button>
+<button class="save-btn" onclick="saveAll()">저장하기</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
@@ -116,11 +116,11 @@ async function saveAll(){
   try {
 
     // id=1 존재 확인
-    const { data: existing, error: selectError } = await supabaseClient
-      .from("site_settings")
-      .select("id")
-      .eq("id", 1)
-      .single();
+const { data: existing, error: selectError } = await supabaseClient
+  .from("site_settings")
+  .select("id")
+  .eq("id", 1)
+  .maybeSingle();
 
     if(selectError && selectError.code !== "PGRST116"){
       console.error("select 오류:", selectError);
