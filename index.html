@@ -120,6 +120,14 @@ body{
 
 /* ===== 소유자 영역 ===== */
 
+<div id="ownerSection" style="
+  margin-top:40px;
+  padding:20px;
+  background:linear-gradient(to bottom,#ffffff,#e8edf3);
+  border-radius:10px;
+  text-align:center;
+"></div>
+
 .owner-section{
   margin-top:50px;
   padding:25px;
@@ -298,6 +306,31 @@ document.getElementById("searchInput")
     search();
   }
 });
+
+async function loadOwner(){
+
+  const { data } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
+
+  if(data && data.length>0){
+
+    const s = data[0];
+
+    ownerSection.innerHTML = `
+      <h3>${s.owner_name || ""}</h3>
+      <div style="margin-top:10px;">
+        ${s.instagram ? `<a href="${s.instagram}" target="_blank">Instagram</a> | ` : ""}
+        ${s.youtube ? `<a href="${s.youtube}" target="_blank">YouTube</a> | ` : ""}
+        ${s.facebook ? `<a href="${s.facebook}" target="_blank">Facebook</a> | ` : ""}
+        ${s.twitter ? `<a href="${s.twitter}" target="_blank">X</a>` : ""}
+      </div>
+    `;
+  }
+}
+
+loadOwner();
 
 </script>
 
