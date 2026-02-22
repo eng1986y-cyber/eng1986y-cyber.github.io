@@ -141,7 +141,7 @@ body{
 
 .owner-name{
   font-family: 'Playfair Display', serif;
-  font-size:28px;
+  font-size:16px;
   font-weight:600;
   letter-spacing:2px;
   margin-bottom:14px;
@@ -160,17 +160,33 @@ body{
   border-radius:2px;
 }
 
+.owner-sns{
+  margin-top:10px;
+}
+
 .owner-sns a{
-  margin:0 10px;
-  font-size:20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  margin:0 8px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #87CEEB;
   color:#87CEEB;
+  font-size:20px;
   text-decoration:none;
-  transition:0.2s;
+  transition:all 0.3s ease;
 }
 
 .owner-sns a:hover{
-  color:#6bbfe0;
+  background:#87CEEB;
+  color:#fff;
+  transform:translateY(-4px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
 }
+
 </style>
 </head>
 
