@@ -4,6 +4,7 @@
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <title>검색 플랫폼</title>
 
 <style>
@@ -139,9 +140,24 @@ body{
 }
 
 .owner-name{
-  font-size:20px;
+  font-family: 'Playfair Display', serif;
+  font-size:28px;
   font-weight:600;
-  margin-bottom:12px;
+  letter-spacing:2px;
+  margin-bottom:14px;
+  color:#222;
+  position:relative;
+  display:inline-block;
+}
+
+.owner-name::after{
+  content:"";
+  display:block;
+  width:60%;
+  height:2px;
+  background:#87CEEB;
+  margin:8px auto 0;
+  border-radius:2px;
 }
 
 .owner-sns a{
