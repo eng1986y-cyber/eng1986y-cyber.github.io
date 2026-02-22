@@ -71,11 +71,12 @@ button:hover{ background:#6bbfe0; }
 }
 </style>
 </head>
+
 <body>
 
 <h1>관리자 페이지</h1>
 
-<!-- ================== 상단 배너 (맨 위) ================== -->
+<!-- ================== 상단 배너 ================== -->
 <div class="section">
 <h2>상단 배너 관리</h2>
 <input id="bannerImg" placeholder="배너 이미지 URL">
@@ -122,6 +123,14 @@ button:hover{ background:#6bbfe0; }
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
+
+const bannerImg=document.getElementById("bannerImg");
+const bannerLink=document.getElementById("bannerLink");
+
+const ownerNameInput=document.getElementById("ownerNameInput");
+const ownerInstagram=document.getElementById("ownerInstagram");
+const ownerYoutube=document.getElementById("ownerYoutube");
+const ownerBlog=document.getElementById("ownerBlog");
 
 let dragItem=null;
 
@@ -193,21 +202,22 @@ async function loadData(){
     });
   }
 
-const { data: settings } = await supabaseClient
-  .from("site_settings")
-  .select("*")
-  .limit(1);
+  const { data: settings } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
 
-if(settings && settings.length>0){
-  const s=settings[0];
+  if(settings && settings.length>0){
+    const s=settings[0];
 
-  bannerImg.value=s.banner_img||"";
-  bannerLink.value=s.banner_link||"";
+    bannerImg.value=s.banner_img||"";
+    bannerLink.value=s.banner_link||"";
 
-  ownerNameInput.value=s.owner_name||"";
-  ownerInstagram.value=s.owner_instagram||"";
-  ownerYoutube.value=s.owner_youtube||"";
-  ownerBlog.value=s.owner_blog||"";
+    ownerNameInput.value=s.owner_name||"";
+    ownerInstagram.value=s.owner_instagram||"";
+    ownerYoutube.value=s.owner_youtube||"";
+    ownerBlog.value=s.owner_blog||"";
+  }
 }
 
 /* ================= 저장 ================= */
@@ -249,17 +259,17 @@ async function saveAll(){
     }
   }
 
-await supabaseClient
-  .from("site_settings")
-  .upsert([{
-    id:1,
-    banner_img:bannerImg.value.trim(),
-    banner_link:bannerLink.value.trim(),
-    owner_name:ownerNameInput.value.trim(),
-    owner_instagram:ownerInstagram.value.trim(),
-    owner_youtube:ownerYoutube.value.trim(),
-    owner_blog:ownerBlog.value.trim()
-  }]);
+  await supabaseClient
+    .from("site_settings")
+    .upsert([{
+      id:1,
+      banner_img:bannerImg.value.trim(),
+      banner_link:bannerLink.value.trim(),
+      owner_name:ownerNameInput.value.trim(),
+      owner_instagram:ownerInstagram.value.trim(),
+      owner_youtube:ownerYoutube.value.trim(),
+      owner_blog:ownerBlog.value.trim()
+    }]);
 
   alert("저장 완료 ✅");
 }
