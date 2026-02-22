@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
@@ -33,6 +33,10 @@ body{
   border:2px solid #87CEEB;
   border-radius:6px;
   padding:0 12px;
+}
+
+.search-box input{
+  font-size:16px;
 }
 
 .search-box button{
@@ -191,24 +195,23 @@ body{
 /* ================= 모바일 전용 ================= */
 @media (max-width:768px){
 
-  body{
-    padding:15px;
+  .search-box{
+    display:flex;
+    flex-direction:column;
   }
 
-  .container{
-    max-width:100%;
-  }
-
-  /* 검색 */
-  .search-box input{
+  .search-box input,
+  .search-box button{
     width:100%;
-    margin-bottom:10px;
+    height:48px;
+    box-sizing:border-box;
   }
 
   .search-box button{
-    width:100%;
-    margin-left:0;
+    margin:8px 0 0 0;
   }
+
+}
 
   /* 배너 */
   .top-banner{
@@ -251,6 +254,44 @@ body{
     height:42px;
     font-size:18px;
     margin:0 6px;
+  }
+
+}
+
+/* ===== 모바일 플로팅 네비 ===== */
+.mobile-nav{
+  display:none;
+}
+
+@media (max-width:768px){
+
+  .mobile-nav{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:20px;
+    background:#fff;
+    padding:10px 20px;
+    border-radius:50px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    z-index:999;
+  }
+
+  .mobile-nav button{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:none;
+    background:#87CEEB;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+  }
+
+  .mobile-nav button:active{
+    transform:scale(0.95);
   }
 
 }
@@ -411,7 +452,25 @@ document.getElementById("searchInput")
     if(e.key==="Enter") search();
   });
 
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function focusSearch(){
+  document.getElementById("searchInput").focus();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 </script>
+
+<div class="mobile-nav">
+  <button onclick="scrollToTop()">
+    <i class="fas fa-home"></i>
+  </button>
+  <button onclick="focusSearch()">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
 
 </body>
 </html>
