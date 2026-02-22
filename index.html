@@ -5,7 +5,7 @@
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<title>검색 플랫폼</title>
+<title>정보 플랫폼</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
@@ -240,12 +240,12 @@ const bannerBox = document.getElementById("topBanner");
   if(settings && settings.length>0){
     const s=settings[0];
 
-    ownerDisplay.innerText=s.owner_name||"관리자";
+document.getElementById("ownerDisplay").innerText = s.owner_name || "관리자";
 
-    instaLink.href=s.instagram||"#";
-    ytLink.href=s.youtube||"#";
-    fbLink.href=s.facebook||"#";
-    twLink.href=s.twitter||"#";
+document.getElementById("instaLink").href = s.instagram || "#";
+document.getElementById("ytLink").href = s.youtube || "#";
+document.getElementById("fbLink").href = s.facebook || "#";
+document.getElementById("twLink").href = s.twitter || "#";
 
     if(s.banner_img){
       bannerBox.innerHTML = s.banner_link
