@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="icon" href="data:,">
 <meta charset="UTF-8">
+<link rel="icon" href="data:,">
 <title>관리자 페이지</title>
 
 <style>
@@ -19,22 +19,29 @@ input{
 }
 
 button{
-  height:38px;
-  padding:0 15px;
+  height:40px;
+  padding:0 20px;
   border:none;
   border-radius:6px;
   background:#87CEEB;
   color:#fff;
   cursor:pointer;
+  font-size:15px;
 }
 
 button:hover{background:#6bbfe0;}
 
-.section{margin-bottom:30px;}
+.section{
+  margin-bottom:35px;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
 
 .save-btn{
-  width:240px;
-  height:45px;
+  width:260px;
+  height:48px;
   font-size:16px;
   margin:40px auto;
   display:block;
@@ -46,16 +53,13 @@ button:hover{background:#6bbfe0;}
 
 <h1>관리자 페이지</h1>
 
-<!-- ===== 배너 ===== -->
 <div class="section">
 <h2>상단 배너</h2>
 <input id="bannerImg" placeholder="배너 이미지 URL">
 <input id="bannerLink" placeholder="배너 클릭 링크">
 </div>
 
-<!-- ===== 소유자 & SNS ===== -->
-
-<div class="section owner-admin">
+<div class="section">
 <h2>소유자 & SNS 관리</h2>
 <input id="ownerName" placeholder="소유자 이름">
 <input id="instagram" placeholder="Instagram 링크">
@@ -71,104 +75,76 @@ button:hover{background:#6bbfe0;}
 
 <script>
 
-/* ===== 데이터 불러오기 ===== */
+/* =========================
+   데이터 불러오기
+========================= */
 
 async function loadData(){
 
   const { data, error } = await supabaseClient
     .from("site_settings")
     .select("*")
-    .eq("id",1)
+    .limit(1)
     .maybeSingle();
 
   if(error){
-    console.error("불러오기 오류:",error);
+    console.error(error);
+    alert("불러오기 실패");
     return;
   }
 
   if(data){
-    bannerImg.value=data.banner_img||"";
-    bannerLink.value=data.banner_link||"";
-    ownerName.value=data.owner_name||"";
-    instagram.value=data.instagram||"";
-    youtube.value=data.youtube||"";
-    facebook.value=data.facebook||"";
-    twitter.value=data.twitter||"";
+    document.getElementById("bannerImg").value = data.banner_img || "";
+    document.getElementById("bannerLink").value = data.banner_link || "";
+    document.getElementById("ownerName").value = data.owner_name || "";
+    document.getElementById("instagram").value = data.instagram || "";
+    document.getElementById("youtube").value = data.youtube || "";
+    document.getElementById("facebook").value = data.facebook || "";
+    document.getElementById("twitter").value = data.twitter || "";
   }
 }
 
-/* ===== 저장 ===== */
+/* =========================
+   저장 (항상 1개만 유지)
+========================= */
 
 async function saveAll(){
 
-  /* =========================
-     1️⃣ 배너 + 소유자 + SNS 저장
-     ========================= */
-
   const payload = {
-    banner_img: bannerImg.value.trim(),
-    banner_link: bannerLink.value.trim(),
-    owner_name: ownerName.value.trim(),
-    instagram: instagram.value.trim(),
-    youtube: youtube.value.trim(),
-    facebook: facebook.value.trim(),
-    twitter: twitter.value.trim()
+    banner_img: document.getElementById("bannerImg").value.trim(),
+    banner_link: document.getElementById("bannerLink").value.trim(),
+    owner_name: document.getElementById("ownerName").value.trim(),
+    instagram: document.getElementById("instagram").value.trim(),
+    youtube: document.getElementById("youtube").value.trim(),
+    facebook: document.getElementById("facebook").value.trim(),
+    twitter: document.getElementById("twitter").value.trim()
   };
 
-  try {
+  try{
 
-    // id=1 존재 확인
-const { data: existing, error: selectError } = await supabaseClient
-  .from("site_settings")
-  .select("id")
-  .eq("id", 1)
-  .maybeSingle();
+    // 기존 데이터 삭제 (항상 1줄만 유지)
+    await supabaseClient
+      .from("site_settings")
+      .delete()
+      .neq("id",0);
 
-    if(selectError && selectError.code !== "PGRST116"){
-      console.error("select 오류:", selectError);
+    // 새로 1줄 생성
+    const { error } = await supabaseClient
+      .from("site_settings")
+      .insert([payload]);
+
+    if(error){
+      console.error(error);
+      alert("저장 실패");
+      return;
     }
 
-    if (existing) {
-      // 있으면 update
-      const { error: updateError } = await supabaseClient
-        .from("site_settings")
-        .update(payload)
-        .eq("id", 1);
+    alert("저장 완료 ✅");
 
-      if(updateError){
-        console.error("update 오류:", updateError);
-        alert("설정 저장 실패");
-        return;
-      }
-
-    } else {
-      // 없으면 insert
-      const { error: insertError } = await supabaseClient
-        .from("site_settings")
-        .insert([{ id:1, ...payload }]);
-
-      if(insertError){
-        console.error("insert 오류:", insertError);
-        alert("설정 저장 실패");
-        return;
-      }
-    }
-
-  } catch(e){
-    console.error("site_settings 저장 중 예외:", e);
-    alert("설정 저장 실패");
-    return;
+  }catch(e){
+    console.error(e);
+    alert("저장 실패");
   }
-
-
-  /* =========================
-     2️⃣ 기존 광고 저장 로직
-     ========================= */
-  // 🔥 이 아래 광고 저장 부분은
-  // 기존 코드 그대로 두세요
-  // (여기 수정하지 마세요)
-
-  alert("저장 완료 ✅");
 }
 
 loadData();
