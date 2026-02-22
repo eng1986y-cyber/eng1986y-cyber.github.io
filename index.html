@@ -259,19 +259,29 @@ loadSite();
 
 function search(){
 
-  const keyword = document.getElementById("searchInput").value.toLowerCase();
+  const keyword = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
 
   const textAds = document.querySelectorAll(".text-ad");
 
   textAds.forEach(ad=>{
+
     const text = ad.innerText.toLowerCase();
 
-    if(text.includes(keyword)){
-      ad.style.display = "block";
+    // 기본 스타일 초기화
+    ad.style.border = "1px solid #ccc";
+    ad.style.background = "#fff";
+    ad.style.color = "#222";
+
+    if(keyword && text.includes(keyword)){
       ad.style.border = "2px solid #87CEEB";
-    }else{
-      ad.style.display = "none";
+      ad.style.background = "#e6f7ff";
+      ad.style.color = "#000";
     }
+
   });
 
 }
