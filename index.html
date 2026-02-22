@@ -195,6 +195,10 @@ body{
 /* ================= 모바일 전용 ================= */
 @media (max-width:768px){
 
+  body{
+    padding:15px;
+  }
+
   .search-box{
     display:flex;
     flex-direction:column;
@@ -211,8 +215,6 @@ body{
     margin:8px 0 0 0;
   }
 
-}
-
   /* 배너 */
   .top-banner{
     height:90px;
@@ -228,18 +230,11 @@ body{
     height:90px;
   }
 
-  /* 텍스트 광고 */
   .text-ad{
     font-size:14px;
     padding:10px;
   }
 
-  /* 정방형 광고 */
-  .square-ad{
-    aspect-ratio:1/1;
-  }
-
-  /* 소유자 */
   .owner-box{
     margin-top:40px;
     padding:18px;
@@ -256,23 +251,13 @@ body{
     margin:0 6px;
   }
 
-}
-
-/* ===== 모바일 플로팅 네비 ===== */
-
-/* 기본값: PC에서는 완전 숨김 */
-.mobile-nav{
-  display:none !important;
-}
-
-/* 모바일에서만 표시 */
-@media (max-width:768px){
+  /* ===== 모바일 플로팅 네비 ===== */
   .mobile-nav{
     position:fixed;
     bottom:20px;
     left:50%;
     transform:translateX(-50%);
-    display:flex !important;
+    display:flex;
     gap:20px;
     background:#fff;
     padding:10px 20px;
@@ -280,7 +265,6 @@ body{
     box-shadow:0 8px 20px rgba(0,0,0,0.15);
     z-index:999;
   }
-}
 
   .mobile-nav button{
     width:50px;
@@ -297,6 +281,11 @@ body{
     transform:scale(0.95);
   }
 
+}
+
+/* PC에서는 완전 숨김 */
+.mobile-nav{
+  display:none;
 }
 
 </style>
