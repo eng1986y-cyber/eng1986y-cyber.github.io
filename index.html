@@ -98,6 +98,26 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
 }
 
 /* ================= 모바일 최적화 ================= */
+
+@media (max-width:768px){
+
+  .container{
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* 배너를 위로 */
+  .top-banner{
+    order:1;
+  }
+
+  /* 검색창을 그 아래 */
+  .search-box{
+    order:2;
+  }
+
+}
+
 @media (max-width:768px){
 
   body{
