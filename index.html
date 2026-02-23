@@ -96,6 +96,77 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   position:absolute;top:30px;right:40px;
   font-size:40px;color:#fff;cursor:pointer;
 }
+
+/* ================= 모바일 최적화 ================= */
+@media (max-width:768px){
+
+  body{
+    padding:15px;
+  }
+
+  .container{
+    max-width:100%;
+  }
+
+  /* 검색창 세로 정렬 */
+  .search-box{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .search-box input,
+  .search-box button{
+    width:100%;
+    height:48px;
+    box-sizing:border-box;
+  }
+
+  .search-box button{
+    margin-left:0;
+  }
+
+  /* 배너 줄이기 */
+  .top-banner{
+    height:90px;
+  }
+
+  /* 모든 그리드 2열로 */
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+  }
+
+  .img-ad{
+    height:90px;
+  }
+
+  .text-ad{
+    font-size:14px;
+    padding:10px;
+  }
+
+  .square-ad{
+    border-radius:10px;
+  }
+
+  /* 소유자 */
+  .owner-box{
+    margin-top:40px;
+    padding:18px;
+  }
+
+  .owner-name{
+    font-size:18px;
+  }
+
+  .owner-sns a{
+    font-size:20px;
+    margin:0 6px;
+  }
+
+}
+
 </style>
 </head>
 
