@@ -9,11 +9,35 @@
 body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
 .container{max-width:1200px;margin:0 auto;}
 
+.top-banner{
+  width:100%;
+  height:120px;
+  margin:20px 0 30px;
+  border-radius:14px;
+  overflow:hidden;
+  border:2px solid #87CEEB;
+}
+.top-banner img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
 .grid{
   display:grid;
   grid-template-columns:repeat(6,1fr);
   gap:10px;
   margin-bottom:40px;
+}
+
+.text-ad{
+  background:#fff;
+  border:1px solid #ccc;
+  padding:12px;
+  text-align:center;
+  border-radius:8px;
+  text-decoration:none;
+  color:#222;
 }
 
 .square-ad{
@@ -22,7 +46,6 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   overflow:hidden;
   border:1px solid #ddd;
 }
-
 .square-ad img{
   width:100%;
   height:100%;
@@ -40,7 +63,6 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   align-items:center;
   z-index:9999;
 }
-
 .popup img{
   max-width:90%;
   max-height:90%;
@@ -60,7 +82,13 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
 <body>
 
 <div class="container">
+
+<div class="top-banner" id="topBanner"></div>
+
+<div class="grid" id="textAds"></div>
+
 <div class="grid" id="bottomImageAds"></div>
+
 </div>
 
 <div id="imgPopup" class="popup" onclick="closePopup()">
@@ -84,9 +112,15 @@ function closePopup(){
 
 async function loadSite(){
 
+  const bannerBox=document.getElementById("topBanner");
+  const textBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
+
+  bannerBox.innerHTML="";
+  textBox.innerHTML="";
   bottomBox.innerHTML="";
 
+  /* 광고 불러오기 */
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
@@ -94,8 +128,17 @@ async function loadSite(){
 
   if(ads){
     ads.forEach(ad=>{
-      if(ad.type==="square"){
 
+      if(ad.type==="text"){
+        const a=document.createElement("a");
+        a.className="text-ad";
+        a.href=ad.link_url || "#";
+        a.target="_blank";
+        a.innerText=ad.title || "텍스트광고";
+        textBox.appendChild(a);
+      }
+
+      if(ad.type==="square"){
         const wrap=document.createElement("div");
         wrap.className="square-ad";
 
@@ -112,7 +155,29 @@ async function loadSite(){
 
         bottomBox.appendChild(wrap);
       }
+
     });
+  }
+
+  /* 배너 불러오기 */
+  const { data: settings } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
+
+  if(settings && settings.length>0){
+    const s=settings[0];
+
+    if(s.banner_img){
+      if(s.banner_link){
+        bannerBox.innerHTML=`
+          <a href="${s.banner_link}" target="_blank">
+            <img src="${s.banner_img}">
+          </a>`;
+      }else{
+        bannerBox.innerHTML=`<img src="${s.banner_img}">`;
+      }
+    }
   }
 }
 
