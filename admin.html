@@ -192,15 +192,6 @@ function addTextAd(title="",link=""){
   );
 }
 
-function addSquareAd(img="",link=""){
-  squareAdmin.appendChild(
-    createCard(`
-      <input value="${img}" placeholder="이미지 URL">
-      <input value="${link}" placeholder="클릭 링크">
-    `)
-  );
-}
-
 /* ================= 불러오기 ================= */
 
 async function loadData(){
@@ -260,17 +251,6 @@ for(const block of squareAdmin.children){
       await supabaseClient.from("ads").insert([{
         type:"text",
         title:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
-  }
-
-  for(const block of squareAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"square",
-        image_url:i[0].value.trim(),
         link_url:i[1].value.trim()
       }]);
     }
