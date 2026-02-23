@@ -1,3 +1,4 @@
+<!-- 🔥 index.html 최종 안정판 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,7 +12,6 @@
 body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
 .container{max-width:1200px;margin:0 auto;}
 
-/* 검색 */
 .search-box{text-align:center;margin-bottom:30px;}
 .search-box input{
   width:320px;height:46px;border:2px solid #87CEEB;
@@ -23,7 +23,6 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   background:#87CEEB;color:#fff;cursor:pointer;
 }
 
-/* 배너 */
 .top-banner{
   width:100%;height:120px;margin:20px 0 30px;
   border-radius:14px;overflow:hidden;
@@ -31,21 +30,18 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
 }
 .top-banner img{width:100%;height:100%;object-fit:cover;}
 
-/* 공통 그리드 */
 .grid{
   display:grid;
   grid-template-columns:repeat(6,1fr);
   gap:10px;margin-bottom:40px;
 }
 
-/* 상단 이미지 광고 */
 .img-ad{
   height:100px;border-radius:12px;
   overflow:hidden;border:1px solid #ddd;
 }
 .img-ad img{width:100%;height:100%;object-fit:cover;}
 
-/* 텍스트 광고 */
 .text-ad{
   background:#fff;border:1px solid #ccc;
   padding:12px;text-align:center;
@@ -55,7 +51,6 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   background:#87CEEB;color:#fff;
 }
 
-/* 정방형 광고 */
 .square-ad{
   aspect-ratio:1/1;border-radius:12px;
   overflow:hidden;border:1px solid #ddd;
@@ -65,7 +60,6 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   object-fit:cover;cursor:pointer;
 }
 
-/* 소유자 */
 .owner-box{
   margin-top:60px;padding:25px;
   background:#fff;border-radius:14px;
@@ -81,7 +75,6 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   color:#87CEEB;text-decoration:none;
 }
 
-/* 팝업 */
 .popup{
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,0.85);
@@ -97,103 +90,37 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
   font-size:40px;color:#fff;cursor:pointer;
 }
 
-/* ================= 모바일 최적화 ================= */
 @media (max-width:768px){
+  .container{display:flex;flex-direction:column;}
+  .top-banner{order:1;height:90px;}
+  .search-box{order:2;display:flex;flex-direction:column;gap:8px;}
+  #imageAds{order:3;}
+  #textAds{order:4;}
+  #bottomImageAds{order:5;}
+  .owner-box{order:6;}
 
-  body{
-    padding:15px;
+  .search-box input,.search-box button{
+    width:100%;height:48px;margin:0;
   }
 
-  .container{
-    display:flex;
-    flex-direction:column;
-    max-width:100%;
-  }
-
-  /* ===== 순서 완전 재정렬 ===== */
-  .top-banner{ order:1; }
-  .search-box{ order:2; }
-  #imageAds{ order:3; }
-  #textAds{ order:4; }
-  #bottomImageAds{ order:5; }
-  .owner-box{ order:6; }
-
-  /* 검색창 세로 정렬 */
-  .search-box{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-  }
-
-  .search-box input,
-  .search-box button{
-    width:100%;
-    height:48px;
-    box-sizing:border-box;
-  }
-
-  .search-box button{
-    margin-left:0;
-  }
-
-  /* 배너 */
-  .top-banner{
-    height:90px;
-    margin-top:0;
-  }
-
-  /* 그리드 2열 */
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
-  }
-
-  .img-ad{
-    height:90px;
-  }
-
-  .text-ad{
-    font-size:14px;
-    padding:10px;
-  }
-
-  .owner-box{
-    margin-top:40px;
-    padding:18px;
-  }
-
-  .owner-name{
-    font-size:18px;
-  }
-
+  .grid{grid-template-columns:repeat(2,1fr);}
 }
-
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<!-- 검색 -->
 <div class="search-box">
   <input id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
 </div>
 
-<!-- 배너 -->
 <div class="top-banner" id="topBanner"></div>
-
-<!-- 상단 이미지 광고 -->
 <div class="grid" id="imageAds"></div>
-
-<!-- 텍스트 광고 -->
 <div class="grid" id="textAds"></div>
-
-<!-- 정방형 광고 -->
 <div class="grid" id="bottomImageAds"></div>
 
-<!-- 소유자 -->
 <div class="owner-box">
   <div class="owner-name" id="ownerName"></div>
   <div class="owner-sns" id="ownerSNS"></div>
@@ -201,7 +128,6 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
 
 </div>
 
-<!-- 이미지 팝업 -->
 <div id="imgPopup" class="popup" onclick="closePopup()">
   <span class="close-btn">&times;</span>
   <img id="popupImage">
@@ -211,112 +137,79 @@ body{margin:0;padding:20px;font-family:Arial;background:#f5f5f5;}
 <script src="supabase.js"></script>
 
 <script>
-
 function openPopup(src){
   document.getElementById("popupImage").src=src;
   document.getElementById("imgPopup").style.display="flex";
 }
-
 function closePopup(){
   document.getElementById("imgPopup").style.display="none";
 }
 
 async function loadSite(){
+  const { data: ads } = await supabaseClient.from("ads").select("*").order("id");
 
-  const imgBox=document.getElementById("imageAds");
-  const txtBox=document.getElementById("textAds");
-  const bottomBox=document.getElementById("bottomImageAds");
-  const bannerBox=document.getElementById("topBanner");
+  imageAds.innerHTML="";
+  textAds.innerHTML="";
+  bottomImageAds.innerHTML="";
 
-  imgBox.innerHTML="";
-  txtBox.innerHTML="";
-  bottomBox.innerHTML="";
-  bannerBox.innerHTML="";
-
-  const { data: ads } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
-
-  if(ads){
-    ads.forEach(ad=>{
-
-      if(ad.type==="image"){
-        const wrap=document.createElement("div");
-        wrap.className="img-ad";
-        wrap.innerHTML=`
-          <a href="${ad.link_url || '#'}" target="_blank">
+  ads?.forEach(ad=>{
+    if(ad.type==="image"){
+      imageAds.innerHTML+=`
+        <div class="img-ad">
+          <a href="${ad.link_url||'#'}" target="_blank">
             <img src="${ad.image_url}">
-          </a>`;
-        imgBox.appendChild(wrap);
-      }
+          </a>
+        </div>`;
+    }
+    if(ad.type==="text"){
+      textAds.innerHTML+=`
+        <a class="text-ad" href="${ad.link_url||'#'}" target="_blank">
+          ${ad.title||"텍스트광고"}
+        </a>`;
+    }
+    if(ad.type==="square"){
+      bottomImageAds.innerHTML+=`
+        <div class="square-ad">
+          ${ad.link_url ?
+            `<a href="${ad.link_url}" target="_blank">
+               <img src="${ad.image_url}">
+             </a>`
+            :
+            `<img src="${ad.image_url}"
+                 onclick="openPopup('${ad.popup_url||ad.image_url}')">`
+          }
+        </div>`;
+    }
+  });
 
-      if(ad.type==="text"){
-        const a=document.createElement("a");
-        a.className="text-ad";
-        a.href=ad.link_url || "#";
-        a.target="_blank";
-        a.innerText=ad.title || "텍스트광고";
-        txtBox.appendChild(a);
-      }
+  const { data: settings } =
+    await supabaseClient.from("site_settings").select("*").limit(1);
 
-      if(ad.type==="square"){
-        const wrap=document.createElement("div");
-        wrap.className="square-ad";
-
-        if(ad.link_url){
-          wrap.innerHTML=`
-            <a href="${ad.link_url}" target="_blank">
-              <img src="${ad.image_url}">
-            </a>`;
-        }else{
-          wrap.innerHTML=`
-            <img src="${ad.image_url}"
-                 onclick="openPopup('${ad.popup_url || ad.image_url}')">`;
-        }
-
-        bottomBox.appendChild(wrap);
-      }
-
-    });
-  }
-
-  const { data: settings } = await supabaseClient
-    .from("site_settings")
-    .select("*")
-    .limit(1);
-
-  if(settings && settings.length>0){
+  if(settings?.length){
     const s=settings[0];
-
     if(s.banner_img){
-      if(s.banner_link){
-        bannerBox.innerHTML=`
-          <a href="${s.banner_link}" target="_blank">
-            <img src="${s.banner_img}">
-          </a>`;
-      }else{
-        bannerBox.innerHTML=`<img src="${s.banner_img}">`;
-      }
+      topBanner.innerHTML=s.banner_link ?
+        `<a href="${s.banner_link}" target="_blank">
+           <img src="${s.banner_img}">
+         </a>`
+        :
+        `<img src="${s.banner_img}">`;
     }
 
-    document.getElementById("ownerName").innerText=s.owner_name||"";
-
-    const sns=document.getElementById("ownerSNS");
-    sns.innerHTML="";
+    ownerName.innerText=s.owner_name||"";
+    ownerSNS.innerHTML="";
     if(s.owner_instagram)
-      sns.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+      ownerSNS.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
     if(s.owner_youtube)
-      sns.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+      ownerSNS.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
     if(s.owner_blog)
-      sns.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
+      ownerSNS.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
   }
 }
 
 function search(){
-  const keyword=document.getElementById("searchInput").value.trim().toLowerCase();
+  const keyword=searchInput.value.trim().toLowerCase();
   if(!keyword) return;
-
   let found=false;
   document.querySelectorAll(".text-ad").forEach(ad=>{
     ad.classList.remove("highlight");
@@ -325,17 +218,14 @@ function search(){
       found=true;
     }
   });
-
   if(!found) alert("검색 결과 없음");
 }
 
-document.getElementById("searchInput")
-  .addEventListener("keypress",e=>{
-    if(e.key==="Enter") search();
-  });
+searchInput.addEventListener("keypress",e=>{
+  if(e.key==="Enter") search();
+});
 
 loadSite();
-
 </script>
 </body>
 </html>
