@@ -6,43 +6,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-<title>정보공유 플랫폼</title>
+<title>검색 플랫폼</title>
 
 <style>
-
-/* 이미지 팝업 */
-.popup{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.85);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.popup img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:16px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.4);
-  animation:fadeIn 0.3s ease;
-}
-
-.close-btn{
-  position:absolute;
-  top:30px;
-  right:40px;
-  font-size:40px;
-  color:#fff;
-  cursor:pointer;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:scale(0.9);}
-  to{opacity:1; transform:scale(1);}
-}
-
 body{
   margin:0;
   padding:20px;
@@ -179,11 +145,11 @@ body{
 }
 
 .owner-name{
-  font-family: 'Bahnschrift Light', 'Bahnschrift', Arial, sans-serif;
-  font-size:11px;
-  font-weight:300;
+  font-family: 'Playfair Display', serif;
+  font-size:16px;
+  font-weight:600;
   letter-spacing:2px;
-  margin-bottom:11px;
+  margin-bottom:14px;
   color:#222;
   position:relative;
   display:inline-block;
@@ -352,17 +318,6 @@ body{
 
 <script>
 
-function openPopup(src){
-  const popup=document.getElementById("imgPopup");
-  const img=document.getElementById("popupImage");
-  img.src=src;
-  popup.style.display="flex";
-}
-
-function closePopup(){
-  document.getElementById("imgPopup").style.display="none";
-}
-
 async function loadSite(){
 
   const imgBox=document.getElementById("imageAds");
@@ -402,14 +357,15 @@ async function loadSite(){
         txtBox.appendChild(a);
       }
 
-if(ad.type==="square"){
-  const wrap=document.createElement("div");
-  wrap.className="square-ad";
-  wrap.innerHTML=`
-      <img src="${ad.image_url}" onclick="openPopup('${ad.image_url}')">
-  `;
-  bottomBox.appendChild(wrap);
-}
+      if(ad.type==="square"){
+        const wrap=document.createElement("div");
+        wrap.className="square-ad";
+        wrap.innerHTML=`
+          <a href="${ad.link_url || '#'}" target="_blank">
+            <img src="${ad.image_url}">
+          </a>`;
+        bottomBox.appendChild(wrap);
+      }
 
     });
   }
@@ -506,12 +462,6 @@ function focusSearch(){
   <button onclick="focusSearch()">
     <i class="fas fa-search"></i>
   </button>
-</div>
-
-<!-- 이미지 팝업 -->
-<div id="imgPopup" class="popup" onclick="closePopup()">
-  <span class="close-btn">&times;</span>
-  <img id="popupImage">
 </div>
 
 </body>
