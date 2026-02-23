@@ -173,11 +173,12 @@ function createCard(innerHTML){
 
 /* ================= 추가 ================= */
 
-function addImageAd(img="",link=""){
-  imageAdmin.appendChild(
+function addSquareAd(img="",link="",popup=""){
+  squareAdmin.appendChild(
     createCard(`
-      <input value="${img}" placeholder="이미지 URL">
-      <input value="${link}" placeholder="클릭 링크">
+      <input value="${img}" placeholder="정방형 이미지 URL">
+      <input value="${popup}" placeholder="팝업용 이미지 URL">
+      <input value="${link}" placeholder="클릭 링크 (비워두면 팝업)">
     `)
   );
 }
@@ -241,16 +242,17 @@ async function saveAll(){
 
   await supabaseClient.from("ads").delete().neq("id",0);
 
-  for(const block of imageAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"image",
-        image_url:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
+for(const block of squareAdmin.children){
+  const i=block.querySelectorAll("input");
+  if(i[0].value.trim()){
+    await supabaseClient.from("ads").insert([{
+      type:"square",
+      image_url:i[0].value.trim(),
+      popup_url:i[1].value.trim(),
+      link_url:i[2].value.trim()
+    }]);
   }
+}
 
   for(const block of textAdmin.children){
     const i=block.querySelectorAll("input");

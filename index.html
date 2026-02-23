@@ -383,15 +383,24 @@ async function loadSite(){
   if(ads){
     ads.forEach(ad=>{
 
-      if(ad.type==="image"){
-        const wrap=document.createElement("div");
-        wrap.className="img-ad";
-        wrap.innerHTML=`
-          <a href="${ad.link_url || '#'}" target="_blank">
-            <img src="${ad.image_url}">
-          </a>`;
-        imgBox.appendChild(wrap);
-      }
+if(ad.type==="square"){
+  const wrap=document.createElement("div");
+  wrap.className="square-ad";
+
+  if(ad.link_url){
+    wrap.innerHTML=`
+      <a href="${ad.link_url}" target="_blank">
+        <img src="${ad.image_url}">
+      </a>
+    `;
+  } else {
+    wrap.innerHTML=`
+      <img src="${ad.image_url}" onclick="openPopup('${ad.popup_url || ad.image_url}')">
+    `;
+  }
+
+  bottomBox.appendChild(wrap);
+}
 
       if(ad.type==="text"){
         const a=document.createElement("a");
