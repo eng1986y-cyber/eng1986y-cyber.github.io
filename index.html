@@ -324,6 +324,17 @@ color:#111;
 text-transform:uppercase;
 font-size:14px;
 
+.highlight{
+  outline:3px solid #87CEEB;
+  border-radius:12px;
+  animation:glow 0.6s ease;
+}
+
+@keyframes glow{
+  from{ box-shadow:0 0 0px rgba(135,206,235,0); }
+  to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
+}
+
 </style>
 </head>
 
@@ -376,7 +387,8 @@ async function loadSite(){
 
 if(ad.type==="image"){
   const wrap=document.createElement("div");
-  wrap.style.textAlign="center";
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
 
   wrap.innerHTML=`
     <div class="img-ad">
@@ -392,18 +404,20 @@ if(ad.type==="image"){
   imgBox.appendChild(wrap);
 }
 
-      if(ad.type==="text"){
-        const a=document.createElement("a");
-        a.className="text-ad";
-        a.href=ad.link_url || "#";
-        a.target="_blank";
-        a.innerText=ad.title || "텍스트광고";
-        txtBox.appendChild(a);
-      }
+if(ad.type==="text"){
+  const a=document.createElement("a");
+  a.className="text-ad ad-item";
+  a.href=ad.link_url || "#";
+  a.target="_blank";
+  a.innerText=ad.title || "텍스트광고";
+  a.setAttribute("data-title", (ad.title || "").toLowerCase());
+  txtBox.appendChild(a);
+}
 
 if(ad.type==="square"){
   const wrap=document.createElement("div");
-  wrap.style.textAlign="center";
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
 
   wrap.innerHTML=`
     <div class="square-ad">
@@ -472,17 +486,25 @@ if(ad.type==="square"){
 loadSite();
 
 function search(){
-  const keyword=document.getElementById("searchInput").value.trim().toLowerCase();
+
+  const keyword=document.getElementById("searchInput")
+    .value.trim().toLowerCase();
+
   if(!keyword) return;
 
-  const ads=document.querySelectorAll(".text-ad");
+  const ads=document.querySelectorAll(".ad-item");
   let found=false;
 
   ads.forEach(ad=>{
+
     ad.classList.remove("highlight");
-    if(ad.innerText.toLowerCase().includes(keyword)){
+
+    const title=ad.getAttribute("data-title");
+
+    if(title && title.includes(keyword)){
       ad.classList.add("highlight");
       found=true;
+      ad.scrollIntoView({behavior:"smooth", block:"center"});
     }
   });
 
