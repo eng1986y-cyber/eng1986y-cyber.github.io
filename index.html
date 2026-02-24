@@ -338,15 +338,18 @@ async function loadSite(){
   if(ads){
     ads.forEach(ad=>{
 
-      if(ad.type==="image"){
-        const wrap=document.createElement("div");
-        wrap.className="img-ad";
-        wrap.innerHTML=`
-          <a href="${ad.link_url || '#'}" target="_blank">
-            <img src="${ad.image_url}">
-          </a>`;
-        imgBox.appendChild(wrap);
-      }
+if(ad.type==="image"){
+  const wrap=document.createElement("div");
+  wrap.className="img-ad";
+  wrap.innerHTML=`
+    <a href="${ad.link_url || '#'}" target="_blank">
+      <img src="${ad.image_url}">
+      <div style="text-align:center; padding:6px; font-weight:600;">
+        ${ad.main_title || ""}
+      </div>
+    </a>`;
+  imgBox.appendChild(wrap);
+}
 
       if(ad.type==="text"){
         const a=document.createElement("a");
@@ -357,15 +360,18 @@ async function loadSite(){
         txtBox.appendChild(a);
       }
 
-      if(ad.type==="square"){
-        const wrap=document.createElement("div");
-        wrap.className="square-ad";
-        wrap.innerHTML=`
-          <a href="${ad.link_url || '#'}" target="_blank">
-            <img src="${ad.image_url}">
-          </a>`;
-        bottomBox.appendChild(wrap);
-      }
+if(ad.type==="square"){
+  const wrap=document.createElement("div");
+  wrap.className="square-ad";
+  wrap.innerHTML=`
+    <a href="${ad.link_url || '#'}" target="_blank">
+      <img src="${ad.image_url}">
+      <div style="text-align:center; padding:6px; font-weight:600;">
+        ${ad.main_title || ""}
+      </div>
+    </a>`;
+  bottomBox.appendChild(wrap);
+}
 
     });
   }

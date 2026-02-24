@@ -173,9 +173,10 @@ function createCard(innerHTML){
 
 /* ================= 추가 ================= */
 
-function addImageAd(img="",link=""){
+function addImageAd(main="", img="", link=""){
   imageAdmin.appendChild(
     createCard(`
+      <input value="${main}" placeholder="메인 명칭">
       <input value="${img}" placeholder="이미지 URL">
       <input value="${link}" placeholder="클릭 링크">
     `)
@@ -191,9 +192,10 @@ function addTextAd(title="",link=""){
   );
 }
 
-function addSquareAd(img="",link=""){
+function addSquareAd(main="", img="", link=""){
   squareAdmin.appendChild(
     createCard(`
+      <input value="${main}" placeholder="메인 명칭">
       <input value="${img}" placeholder="이미지 URL">
       <input value="${link}" placeholder="클릭 링크">
     `)
@@ -211,9 +213,11 @@ async function loadData(){
 
   if(ads){
     ads.forEach(ad=>{
-      if(ad.type==="image") addImageAd(ad.image_url,ad.link_url);
+      if(ad.type==="image") 
+  addImageAd(ad.main_title, ad.image_url, ad.link_url);
       if(ad.type==="text") addTextAd(ad.title,ad.link_url);
-      if(ad.type==="square") addSquareAd(ad.image_url,ad.link_url);
+      if(ad.type==="square") 
+  addSquareAd(ad.main_title, ad.image_url, ad.link_url);
     });
   }
 
@@ -241,16 +245,17 @@ async function saveAll(){
 
   await supabaseClient.from("ads").delete().neq("id",0);
 
-  for(const block of imageAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"image",
-        image_url:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
+for(const block of imageAdmin.children){
+  const i=block.querySelectorAll("input");
+  if(i[1].value.trim()){
+    await supabaseClient.from("ads").insert([{
+      type:"image",
+      main_title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[2].value.trim()
+    }]);
   }
+}
 
   for(const block of textAdmin.children){
     const i=block.querySelectorAll("input");
@@ -263,16 +268,17 @@ async function saveAll(){
     }
   }
 
-  for(const block of squareAdmin.children){
-    const i=block.querySelectorAll("input");
-    if(i[0].value.trim()){
-      await supabaseClient.from("ads").insert([{
-        type:"square",
-        image_url:i[0].value.trim(),
-        link_url:i[1].value.trim()
-      }]);
-    }
+for(const block of squareAdmin.children){
+  const i=block.querySelectorAll("input");
+  if(i[1].value.trim()){
+    await supabaseClient.from("ads").insert([{
+      type:"square",
+      main_title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[2].value.trim()
+    }]);
   }
+}
 
   await supabaseClient
     .from("site_settings")
