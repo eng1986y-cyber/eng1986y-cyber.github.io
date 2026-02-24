@@ -329,10 +329,9 @@ font-size:14px;
   to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
 }
 
-.ad-title.highlight{
+.ad-item.highlight{
   background:#f6f6f6;
-  padding:6px 12px;
-  border-radius:8px;
+  border-radius:12px;
   transition:all 0.3s ease;
 }
 
@@ -496,24 +495,19 @@ function search(){
   const ads=document.querySelectorAll(".ad-item");
   let found=false;
 
-ads.forEach(ad=>{
+  ads.forEach(ad=>{
 
-  const titleEl = ad.querySelector(".ad-title");
+    ad.classList.remove("highlight");
 
-  if(titleEl){
-    titleEl.classList.remove("highlight");
-  }
+    const title=ad.getAttribute("data-title");
 
-  const title=ad.getAttribute("data-title");
-
-  if(title && title.includes(keyword)){
-    if(titleEl){
-      titleEl.classList.add("highlight");
+    if(title && title.includes(keyword)){
+      ad.classList.add("highlight");
+      found=true;
+      ad.scrollIntoView({behavior:"smooth", block:"center"});
     }
-    found=true;
-    ad.scrollIntoView({behavior:"smooth", block:"center"});
-  }
-});
+
+  });
 
   if(!found){
     alert("검색 결과 없음");
