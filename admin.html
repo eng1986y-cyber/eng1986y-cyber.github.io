@@ -105,6 +105,10 @@ button:hover{ background:#6bbfe0; }
 <input id="ownerInstagram" placeholder="인스타그램 URL">
 <input id="ownerYoutube" placeholder="유튜브 URL">
 <input id="ownerBlog" placeholder="블로그 URL">
+<h2>사이트 설명 관리</h2>
+<textarea id="siteDescriptionInput"
+  placeholder="사이트 설명 입력"
+  style="width:100%; height:100px; margin-bottom:10px; padding:10px;"></textarea>
 </div>
 
 <!-- ================== 이미지 광고 ================== -->
@@ -206,6 +210,9 @@ function addSquareAd(main="", img="", link=""){
 
 async function loadData(){
 
+document.getElementById("siteDescriptionInput").value =
+  s.site_description || "";
+
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
@@ -284,6 +291,9 @@ for(const block of squareAdmin.children){
     .from("site_settings")
     .upsert([{
       id:1,
+site_description: document
+  .getElementById("siteDescriptionInput")
+  .value.trim(),
       banner_img:bannerImg.value.trim(),
       banner_link:bannerLink.value.trim(),
       owner_name:ownerNameInput.value.trim(),
