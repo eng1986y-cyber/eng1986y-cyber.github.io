@@ -210,9 +210,6 @@ function addSquareAd(main="", img="", link=""){
 
 async function loadData(){
 
-document.getElementById("siteDescriptionInput").value =
-  s.site_description || "";
-
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
@@ -220,11 +217,12 @@ document.getElementById("siteDescriptionInput").value =
 
   if(ads){
     ads.forEach(ad=>{
-      if(ad.type==="image") 
-  addImageAd(ad.main_title, ad.image_url, ad.link_url);
-      if(ad.type==="text") addTextAd(ad.title,ad.link_url);
-      if(ad.type==="square") 
-  addSquareAd(ad.main_title, ad.image_url, ad.link_url);
+      if(ad.type==="image")
+        addImageAd(ad.main_title, ad.image_url, ad.link_url);
+      if(ad.type==="text")
+        addTextAd(ad.title,ad.link_url);
+      if(ad.type==="square")
+        addSquareAd(ad.main_title, ad.image_url, ad.link_url);
     });
   }
 
@@ -234,6 +232,7 @@ document.getElementById("siteDescriptionInput").value =
     .limit(1);
 
   if(settings && settings.length>0){
+
     const s=settings[0];
 
     bannerImg.value=s.banner_img||"";
@@ -243,6 +242,10 @@ document.getElementById("siteDescriptionInput").value =
     ownerInstagram.value=s.owner_instagram||"";
     ownerYoutube.value=s.owner_youtube||"";
     ownerBlog.value=s.owner_blog||"";
+
+    // 🔥 여기로 이동
+    document.getElementById("siteDescriptionInput").value =
+      s.site_description || "";
   }
 }
 
