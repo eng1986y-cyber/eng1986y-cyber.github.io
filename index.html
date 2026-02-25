@@ -183,11 +183,16 @@ body{
 
 /* ================= 모바일 전용 ================= */
 @media (max-width:600px){
+   .grid{
+      grid-template-columns:repeat(2,1fr);
+   }
+}
 
-  .top-banner{
-    display:none !important;
-  }
-
+/* PC */
+@media (min-width:601px){
+   .grid{
+      grid-template-columns:repeat(6,1fr);
+   }
 }
 
 /* 모바일에서 SNS 중앙 정렬 */
