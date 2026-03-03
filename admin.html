@@ -317,6 +317,97 @@ init();  // 페이지 시작 시 호출
 
 async function saveAll() {
 
+  /* ================= 광고 전체 저장 ================= */
+
+  // 기존 광고 전부 삭제
+  const { error: deleteError } = await supabaseClient
+    .from("ads")
+    .delete()
+    .neq("id", 0);
+
+  if(deleteError){
+    alert("광고 삭제 실패");
+    console.log(deleteError);
+    saveBtn.disabled = false;
+    return;
+  }
+
+  let order = 1;
+
+  // ===== 이미지 광고 =====
+  for (const block of imageAdmin.children) {
+
+    const inputs = block.querySelectorAll("input");
+    const main = inputs[0].value.trim();
+    const img = inputs[1].value.trim();
+    const link = inputs[2].value.trim();
+
+    if (!img) continue;
+
+    await supabaseClient.from("ads").insert([{
+      type: "image",
+      main_title: main,
+      image_url: img,
+      link_url: link,
+      display_order: order++
+    }]);
+  }
+
+  // ===== 텍스트 광고 =====
+  for (const block of textAdmin.children) {
+
+    const inputs = block.querySelectorAll("input");
+    const title = inputs[0].value.trim();
+    const link = inputs[1].value.trim();
+
+    if (!title) continue;
+
+    await supabaseClient.from("ads").insert([{
+      type: "text",
+      title: title,
+      link_url: link,
+      display_order: order++
+    }]);
+  }
+
+  // ===== 정방형 광고 =====
+  for (const block of squareAdmin.children) {
+
+    const inputs = block.querySelectorAll("input");
+    const main = inputs[0].value.trim();
+    const img = inputs[1].value.trim();
+    const link = inputs[2].value.trim();
+
+    if (!img) continue;
+
+    await supabaseClient.from("ads").insert([{
+      type: "square",
+      main_title: main,
+      image_url: img,
+      link_url: link,
+      display_order: order++
+    }]);
+  }
+
+  /* ================= 사이트 설정 저장 ================= */
+
+  await supabaseClient
+    .from("site_settings")
+    .delete()
+    .neq("id", 0);
+
+  await supabaseClient
+    .from("site_settings")
+    .insert([{
+      banner_img: bannerImg.value.trim(),
+      banner_link: bannerLink.value.trim(),
+      owner_name: ownerNameInput.value.trim(),
+      owner_instagram: ownerInstagram.value.trim(),
+      owner_youtube: ownerYoutube.value.trim(),
+      owner_blog: ownerBlog.value.trim(),
+      site_description: document.getElementById("siteDescriptionInput").value.trim()
+    }]);
+
   const saveBtn = document.querySelector(".save-btn");
   saveBtn.disabled = true;
 
