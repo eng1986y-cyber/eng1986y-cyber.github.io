@@ -148,9 +148,11 @@ button:hover{ background:#6bbfe0; }
 
 const boardAdmin = document.getElementById("boardAdmin");
 
-function addPost(title="", content=""){
+function addPost(id="", title="", content=""){
   const div=document.createElement("div");
   div.className="card";
+  div.dataset.id = id;  // ⭐ 중요
+
   div.innerHTML=`
     <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
     <input value="${title}" placeholder="글 제목">
@@ -266,13 +268,15 @@ async function loadData(){
 
 // 게시판 불러오기
 async function loadPosts(){
+  boardAdmin.innerHTML = "";
+
   const { data: posts } = await supabaseClient
     .from("board_posts")
     .select("*")
     .order("id",{ ascending:false });
 
   if(posts){
-    posts.forEach(p => addPost(p.title, p.content));
+    posts.forEach(p => addPost(p.id, p.title, p.content));
   }
 }
 
@@ -329,26 +333,59 @@ async function saveAll() {
     }
   }
 
-// ================= 게시판 삭제 + 저장 =================
+// ================= 게시판 안전 저장 =================
 
-// 1️⃣ DB 전체 삭제
-await supabaseClient
+const { data: existingPosts } = await supabaseClient
   .from("board_posts")
-  .delete()
-  .not('id', 'is', null);
+  .select("*");
 
-// 2️⃣ 화면에 남아있는 카드만 다시 저장
+const existingIds = existingPosts.map(p => p.id);
+const currentIds = [];
+
 for (const block of boardAdmin.children) {
+
+  const id = block.dataset.id;
   const title = block.querySelector("input").value.trim();
   const content = block.querySelector("textarea").value.trim();
 
-  if (title !== "") {
+  if (title === "") continue;
+
+  // 기존 글 수정
+  if (id) {
+    currentIds.push(Number(id));
+
     await supabaseClient
+      .from("board_posts")
+      .update({
+        title: title,
+        content: content
+      })
+      .eq("id", id);
+  } 
+  // 새 글 추가
+  else {
+    const { data } = await supabaseClient
       .from("board_posts")
       .insert([{
         title: title,
         content: content
-      }]);
+      }])
+      .select();
+
+    if(data && data.length > 0){
+      block.dataset.id = data[0].id;
+      currentIds.push(data[0].id);
+    }
+  }
+}
+
+// 삭제된 글 제거
+for (const id of existingIds) {
+  if (!currentIds.includes(id)) {
+    await supabaseClient
+      .from("board_posts")
+      .delete()
+      .eq("id", id);
   }
 }
 
