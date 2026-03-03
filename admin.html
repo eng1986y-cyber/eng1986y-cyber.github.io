@@ -230,7 +230,6 @@ function addSquareAd(main="", img="", link=""){
 /* ================= 불러오기 ================= */
 
 async function loadData(){
-
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
@@ -238,12 +237,9 @@ async function loadData(){
 
   if(ads){
     ads.forEach(ad=>{
-      if(ad.type==="image")
-        addImageAd(ad.main_title, ad.image_url, ad.link_url);
-      if(ad.type==="text")
-        addTextAd(ad.title,ad.link_url);
-      if(ad.type==="square")
-        addSquareAd(ad.main_title, ad.image_url, ad.link_url);
+      if(ad.type==="image") addImageAd(ad.main_title, ad.image_url, ad.link_url);
+      if(ad.type==="text") addTextAd(ad.title, ad.link_url);
+      if(ad.type==="square") addSquareAd(ad.main_title, ad.image_url, ad.link_url);
     });
   }
 
@@ -253,22 +249,40 @@ async function loadData(){
     .limit(1);
 
   if(settings && settings.length>0){
-
     const s=settings[0];
+    bannerImg.value = s.banner_img || "";
+    bannerLink.value = s.banner_link || "";
 
-    bannerImg.value=s.banner_img||"";
-    bannerLink.value=s.banner_link||"";
+    ownerNameInput.value = s.owner_name || "";
+    ownerInstagram.value = s.owner_instagram || "";
+    ownerYoutube.value = s.owner_youtube || "";
+    ownerBlog.value = s.owner_blog || "";
 
-    ownerNameInput.value=s.owner_name||"";
-    ownerInstagram.value=s.owner_instagram||"";
-    ownerYoutube.value=s.owner_youtube||"";
-    ownerBlog.value=s.owner_blog||"";
-
-    // 🔥 여기로 이동
+    // 사이트 설명 위치
     document.getElementById("siteDescriptionInput").value =
       s.site_description || "";
   }
 }
+
+// 게시판 불러오기
+async function loadPosts(){
+  const { data: posts } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ ascending:false });
+
+  if(posts){
+    posts.forEach(p => addPost(p.title, p.content));
+  }
+}
+
+// 페이지 로딩
+async function init(){
+  await loadData();
+  await loadPosts();
+}
+
+init();  // 페이지 시작 시 호출
 
 /* ================= 저장 ================= */
 
@@ -342,21 +356,6 @@ site_description: document
 
   alert("저장 완료 ✅");
 }
-
-/* ===== 게시판 불러오기 ===== */
-
-const { data: posts } = await supabaseClient
-  .from("board_posts")
-  .select("*")
-  .order("id",{ascending:false});
-
-if(posts){
-  posts.forEach(p=>{
-    addPost(p.title, p.content);
-  });
-}
-
-loadData();
 
 </script>
 
