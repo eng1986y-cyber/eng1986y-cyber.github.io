@@ -361,29 +361,6 @@ body{
   }
 }
 
-.board-section{
-  margin-top:60px;
-}
-
-.board-item{
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  margin-bottom:15px;
-}
-
-.board-item h3{
-  margin:0 0 8px 0;
-  font-size:16px;
-}
-
-.board-item p{
-  margin:0;
-  font-size:14px;
-  color:#444;
-}
-
 </style>
 </head>
 
@@ -415,10 +392,6 @@ body{
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
-<div class="board-section">
-  <h2>광고 게시판</h2>
-  <div id="boardList"></div>
-</div>
 <div class="site-description" id="siteDescription"></div>
 <div class="owner-box">
   <div class="owner-name" id="ownerName"></div>
@@ -432,144 +405,179 @@ body{
 
 <script>
 
-document.addEventListener("DOMContentLoaded", async function(){
+async function loadSite(){
 
-  const imgBox = document.getElementById("imageAds");
-  const txtBox = document.getElementById("textAds");
-  const bottomBox = document.getElementById("bottomImageAds");
-  const bannerBox = document.getElementById("topBanner");
-  const boardBox = document.getElementById("boardList");
-  const ownerName = document.getElementById("ownerName");
-  const ownerSNS = document.getElementById("ownerSNS");
-  const siteDescription = document.getElementById("siteDescription");
+  const imgBox=document.getElementById("imageAds");
+  const txtBox=document.getElementById("textAds");
+  const bottomBox=document.getElementById("bottomImageAds");
+  const bannerBox=document.getElementById("topBanner");
 
-  /* ================= 광고 ================= */
-  async function loadAds() {
+  imgBox.innerHTML="";
+  txtBox.innerHTML="";
+  bottomBox.innerHTML="";
+  bannerBox.innerHTML="";
 
-    imgBox.innerHTML = "";
-    txtBox.innerHTML = "";
-    bottomBox.innerHTML = "";
+  const { data: ads } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("id",{ascending:true});
 
-    const { data: ads, error } = await supabaseClient
-      .from("ads")
-      .select("*")
-      .order("id", { ascending: true });
+  if(ads){
+    ads.forEach(ad=>{
 
-    if (error) {
-      console.error(error);
-      return;
-    }
+if(ad.type==="image"){
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
 
-    ads.forEach(ad => {
+  const link = ad.link_url 
+    ? `<a href="${ad.link_url}" target="_blank">
+         <img src="${ad.image_url}">
+       </a>`
+    : `<img src="${ad.image_url}">`;
 
-      if (ad.type === "image") {
-        const wrap = document.createElement("div");
-        wrap.className = "ad-item";
-        wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+  wrap.innerHTML=`
+    <div class="img-ad">
+      ${link}
+    </div>
+    <div class="ad-title">
+      ${ad.main_title || ""}
+    </div>
+  `;
 
-        wrap.innerHTML = `
-          <div class="img-ad">
-            ${ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`}
-          </div>
-          <div class="ad-title">${ad.main_title || ""}</div>
-        `;
+  imgBox.appendChild(wrap);
+}
 
-        imgBox.appendChild(wrap);
-      }
+if(ad.type==="text"){
+  const a=document.createElement("a");
+  a.className="text-ad ad-item";
+  a.href=ad.link_url || "#";
+  a.target="_blank";
+  a.innerText=ad.title || "텍스트광고";
+  a.setAttribute("data-title", (ad.title || "").toLowerCase());
+  txtBox.appendChild(a);
+}
 
-      if (ad.type === "text") {
-        const a = document.createElement("a");
-        a.className = "text-ad ad-item";
-        a.href = ad.link_url || "#";
-        a.target = "_blank";
-        a.innerText = ad.title || "텍스트광고";
-        a.setAttribute("data-title", (ad.title || "").toLowerCase());
-        txtBox.appendChild(a);
-      }
+if(ad.type==="square"){
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
 
-      if (ad.type === "square") {
-        const wrap = document.createElement("div");
-        wrap.className = "ad-item";
-        wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+  const link = ad.link_url 
+    ? `<a href="${ad.link_url}" target="_blank">
+         <img src="${ad.image_url}">
+       </a>`
+    : `<img src="${ad.image_url}">`;
 
-        wrap.innerHTML = `
-          <div class="square-ad">
-            ${ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`}
-          </div>
-          <div class="ad-title">${ad.main_title || ""}</div>
-        `;
+  wrap.innerHTML=`
+    <div class="square-ad">
+      ${link}
+    </div>
+    <div class="ad-title">
+      ${ad.main_title || ""}
+    </div>
+  `;
 
-        bottomBox.appendChild(wrap);
-      }
+  bottomBox.appendChild(wrap);
+}
 
     });
   }
 
-  /* ================= 게시판 ================= */
-  async function loadPosts() {
+  const { data: settings } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
 
-    boardBox.innerHTML = "";
+  if(settings && settings.length>0){
 
-    const { data: posts, error } = await supabaseClient
-      .from("board_posts")
-      .select("*")
-      .order("id", { ascending: false });
+    const s=settings[0];
 
-    if (error) {
-      console.error(error);
-      return;
+    /* 배너 */
+    if(s.banner_img){
+      if(s.banner_link){
+        bannerBox.innerHTML=`
+          <a href="${s.banner_link}" target="_blank">
+            <img src="${s.banner_img}">
+          </a>`;
+      }else{
+        bannerBox.innerHTML=`<img src="${s.banner_img}">`;
+      }
     }
 
-    posts.forEach(post => {
-      const div = document.createElement("div");
-      div.className = "board-item";
-      div.innerHTML = `
-        <h3>${post.title}</h3>
-        <p>${post.content}</p>
-      `;
-      boardBox.appendChild(div);
-    });
-  }
+    /* 소유자 */
+    document.getElementById("ownerName").innerText = s.owner_name || "";
+    document.getElementById("siteDescription").innerText =
+  s.site_description || "";
 
-  /* ================= 설정 ================= */
-  async function loadSettings() {
+    const snsBox=document.getElementById("ownerSNS");
+    snsBox.innerHTML="";
 
-    bannerBox.innerHTML = "";
-    ownerSNS.innerHTML = "";
-
-    const { data: settings, error } = await supabaseClient
-      .from("site_settings")
-      .select("*")
-      .limit(1);
-
-    if (error || !settings || settings.length === 0) return;
-
-    const s = settings[0];
-
-    if (s.banner_img) {
-      bannerBox.innerHTML = s.banner_link
-        ? `<a href="${s.banner_link}" target="_blank"><img src="${s.banner_img}"></a>`
-        : `<img src="${s.banner_img}">`;
+    if(s.owner_instagram){
+      snsBox.innerHTML+=`<a href="${s.owner_instagram}" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>`;
     }
 
-    siteDescription.innerText = s.site_description || "";
-    ownerName.innerText = s.owner_name || "";
+    if(s.owner_youtube){
+      snsBox.innerHTML+=`<a href="${s.owner_youtube}" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>`;
+    }
 
-    if (s.owner_instagram)
-      ownerSNS.innerHTML += `<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-
-    if (s.owner_youtube)
-      ownerSNS.innerHTML += `<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
-
-    if (s.owner_blog)
-      ownerSNS.innerHTML += `<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
+    if(s.owner_blog){
+      snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank">
+        <i class="fas fa-blog"></i>
+      </a>`;
+    }
   }
+}
 
-  await loadAds();
-  await loadPosts();
-  await loadSettings();
+loadSite();
 
-});
+function search(){
+
+  const keyword=document.getElementById("searchInput")
+    .value.trim().toLowerCase();
+
+  if(!keyword) return;
+
+  const ads=document.querySelectorAll(".ad-item");
+  let found=false;
+
+  ads.forEach(ad=>{
+
+    ad.classList.remove("highlight");
+
+    const title=ad.getAttribute("data-title");
+
+    if(title && title.includes(keyword)){
+      ad.classList.add("highlight");
+      found=true;
+      ad.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+  });
+
+  if(!found){
+    alert("검색 결과 없음");
+  }
+}
+
+document.getElementById("searchInput")
+  .addEventListener("keypress",function(e){
+    if(e.key==="Enter") search();
+  });
+
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function focusSearch(){
+  document.getElementById("searchInput").focus();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 </script>
 
 <div class="mobile-nav">
