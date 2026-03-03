@@ -329,24 +329,28 @@ async function saveAll() {
     }
   }
 
-  // ================= 게시판 삭제 + 저장 =================
-  await supabaseClient.from("board_posts").delete().not('id', 'is', null);
+// ================= 게시판 삭제 + 저장 =================
 
-  for (const block of boardAdmin.children) {
-    const title = block.querySelector("input").value.trim();
-    const content = block.querySelector("textarea").value.trim();
+// 1️⃣ DB 전체 삭제
+await supabaseClient
+  .from("board_posts")
+  .delete()
+  .not('id', 'is', null);
 
-    if (title) {
-      await supabaseClient.from("board_posts").insert([{
+// 2️⃣ 화면에 남아있는 카드만 다시 저장
+for (const block of boardAdmin.children) {
+  const title = block.querySelector("input").value.trim();
+  const content = block.querySelector("textarea").value.trim();
+
+  if (title !== "") {
+    await supabaseClient
+      .from("board_posts")
+      .insert([{
         title: title,
         content: content
       }]);
-    }
   }
-
-  // 저장 후 화면 갱신 (중복 방지)
-  boardAdmin.innerHTML = "";
-  await loadPosts(); // DB에서 최신 게시글 불러오기
+}
 
   // ================= 사이트 설정 =================
   await supabaseClient
