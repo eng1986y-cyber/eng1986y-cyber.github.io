@@ -132,12 +132,33 @@ button:hover{ background:#6bbfe0; }
 <div class="grid" id="squareAdmin"></div>
 </div>
 
+<!-- ================== 게시판 ================== -->
+<div class="section">
+<h2>텍스트 게시판 관리</h2>
+<button onclick="addPost()">글 추가 +</button>
+<div id="boardAdmin"></div>
+</div>
+
 <button class="save-btn" onclick="saveAll()">저장하기</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
 <script>
+
+const boardAdmin = document.getElementById("boardAdmin");
+
+function addPost(title="", content=""){
+  const div=document.createElement("div");
+  div.className="card";
+  div.innerHTML=`
+    <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
+    <input value="${title}" placeholder="글 제목">
+    <textarea placeholder="내용"
+      style="width:100%; height:80px; margin-top:6px;">${content}</textarea>
+  `;
+  boardAdmin.appendChild(div);
+}
 
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
@@ -208,6 +229,17 @@ function addSquareAd(main="", img="", link=""){
 
 /* ================= 불러오기 ================= */
 
+const { data: posts } = await supabaseClient
+  .from("board_posts")
+  .select("*")
+  .order("id",{ascending:false});
+
+if(posts){
+  posts.forEach(p=>{
+    addPost(p.title, p.content);
+  });
+}
+
 async function loadData(){
 
   const { data: ads } = await supabaseClient
@@ -263,6 +295,20 @@ for(const block of imageAdmin.children){
       main_title:i[0].value.trim(),
       image_url:i[1].value.trim(),
       link_url:i[2].value.trim()
+    }]);
+  }
+}
+
+await supabaseClient.from("board_posts").delete().neq("id",0);
+
+for(const block of boardAdmin.children){
+  const title=block.querySelector("input").value.trim();
+  const content=block.querySelector("textarea").value.trim();
+
+  if(title){
+    await supabaseClient.from("board_posts").insert([{
+      title:title,
+      content:content
     }]);
   }
 }

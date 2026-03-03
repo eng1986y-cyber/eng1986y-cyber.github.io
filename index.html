@@ -361,6 +361,29 @@ body{
   }
 }
 
+.board-section{
+  margin-top:60px;
+}
+
+.board-item{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-bottom:15px;
+}
+
+.board-item h3{
+  margin:0 0 8px 0;
+  font-size:16px;
+}
+
+.board-item p{
+  margin:0;
+  font-size:14px;
+  color:#444;
+}
+
 </style>
 </head>
 
@@ -392,6 +415,10 @@ body{
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
+<div class="board-section">
+  <h2>게시판</h2>
+  <div id="boardList"></div>
+</div>
 <div class="site-description" id="siteDescription"></div>
 <div class="owner-box">
   <div class="owner-name" id="ownerName"></div>
@@ -406,6 +433,26 @@ body{
 <script>
 
 async function loadSite(){
+
+const boardBox=document.getElementById("boardList");
+boardBox.innerHTML="";
+
+const { data: posts } = await supabaseClient
+  .from("board_posts")
+  .select("*")
+  .order("id",{ascending:false});
+
+if(posts){
+  posts.forEach(p=>{
+    const div=document.createElement("div");
+    div.className="board-item";
+    div.innerHTML=`
+      <h3>${p.title}</h3>
+      <p>${p.content}</p>
+    `;
+    boardBox.appendChild(div);
+  });
+}
 
   const imgBox=document.getElementById("imageAds");
   const txtBox=document.getElementById("textAds");
