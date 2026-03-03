@@ -432,171 +432,144 @@ body{
 
 <script>
 
-const imgBox = document.getElementById("imageAds");
-const txtBox = document.getElementById("textAds");
-const bottomBox = document.getElementById("bottomImageAds");
-const bannerBox = document.getElementById("topBanner");
-const boardBox = document.getElementById("boardList");
-const ownerName = document.getElementById("ownerName");
-const ownerSNS = document.getElementById("ownerSNS");
-const siteDescription = document.getElementById("siteDescription");
+document.addEventListener("DOMContentLoaded", async function(){
 
-/* ================= 광고 로딩 ================= */
-async function loadAds() {
+  const imgBox = document.getElementById("imageAds");
+  const txtBox = document.getElementById("textAds");
+  const bottomBox = document.getElementById("bottomImageAds");
+  const bannerBox = document.getElementById("topBanner");
+  const boardBox = document.getElementById("boardList");
+  const ownerName = document.getElementById("ownerName");
+  const ownerSNS = document.getElementById("ownerSNS");
+  const siteDescription = document.getElementById("siteDescription");
 
-  imgBox.innerHTML = "";
-  txtBox.innerHTML = "";
-  bottomBox.innerHTML = "";
+  /* ================= 광고 ================= */
+  async function loadAds() {
 
-  const { data: ads, error } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id", { ascending: true });
+    imgBox.innerHTML = "";
+    txtBox.innerHTML = "";
+    bottomBox.innerHTML = "";
 
-  if (error) {
-    console.error("광고 로딩 실패", error);
-    return;
+    const { data: ads, error } = await supabaseClient
+      .from("ads")
+      .select("*")
+      .order("id", { ascending: true });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    ads.forEach(ad => {
+
+      if (ad.type === "image") {
+        const wrap = document.createElement("div");
+        wrap.className = "ad-item";
+        wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+
+        wrap.innerHTML = `
+          <div class="img-ad">
+            ${ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`}
+          </div>
+          <div class="ad-title">${ad.main_title || ""}</div>
+        `;
+
+        imgBox.appendChild(wrap);
+      }
+
+      if (ad.type === "text") {
+        const a = document.createElement("a");
+        a.className = "text-ad ad-item";
+        a.href = ad.link_url || "#";
+        a.target = "_blank";
+        a.innerText = ad.title || "텍스트광고";
+        a.setAttribute("data-title", (ad.title || "").toLowerCase());
+        txtBox.appendChild(a);
+      }
+
+      if (ad.type === "square") {
+        const wrap = document.createElement("div");
+        wrap.className = "ad-item";
+        wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+
+        wrap.innerHTML = `
+          <div class="square-ad">
+            ${ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`}
+          </div>
+          <div class="ad-title">${ad.main_title || ""}</div>
+        `;
+
+        bottomBox.appendChild(wrap);
+      }
+
+    });
   }
 
-  ads.forEach(ad => {
+  /* ================= 게시판 ================= */
+  async function loadPosts() {
 
-    if (ad.type === "image") {
-      const wrap = document.createElement("div");
-      wrap.className = "ad-item";
-      wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+    boardBox.innerHTML = "";
 
-      wrap.innerHTML = `
-        <div class="img-ad">
-          ${ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`}
-        </div>
-        <div class="ad-title">${ad.main_title || ""}</div>
+    const { data: posts, error } = await supabaseClient
+      .from("board_posts")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    posts.forEach(post => {
+      const div = document.createElement("div");
+      div.className = "board-item";
+      div.innerHTML = `
+        <h3>${post.title}</h3>
+        <p>${post.content}</p>
       `;
+      boardBox.appendChild(div);
+    });
+  }
 
-      imgBox.appendChild(wrap);
+  /* ================= 설정 ================= */
+  async function loadSettings() {
+
+    bannerBox.innerHTML = "";
+    ownerSNS.innerHTML = "";
+
+    const { data: settings, error } = await supabaseClient
+      .from("site_settings")
+      .select("*")
+      .limit(1);
+
+    if (error || !settings || settings.length === 0) return;
+
+    const s = settings[0];
+
+    if (s.banner_img) {
+      bannerBox.innerHTML = s.banner_link
+        ? `<a href="${s.banner_link}" target="_blank"><img src="${s.banner_img}"></a>`
+        : `<img src="${s.banner_img}">`;
     }
 
-    if (ad.type === "text") {
-      const a = document.createElement("a");
-      a.className = "text-ad ad-item";
-      a.href = ad.link_url || "#";
-      a.target = "_blank";
-      a.innerText = ad.title || "텍스트광고";
-      a.setAttribute("data-title", (ad.title || "").toLowerCase());
-      txtBox.appendChild(a);
-    }
+    siteDescription.innerText = s.site_description || "";
+    ownerName.innerText = s.owner_name || "";
 
-    if (ad.type === "square") {
-      const wrap = document.createElement("div");
-      wrap.className = "ad-item";
-      wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+    if (s.owner_instagram)
+      ownerSNS.innerHTML += `<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
 
-      wrap.innerHTML = `
-        <div class="square-ad">
-          ${ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`}
-        </div>
-        <div class="ad-title">${ad.main_title || ""}</div>
-      `;
+    if (s.owner_youtube)
+      ownerSNS.innerHTML += `<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
 
-      bottomBox.appendChild(wrap);
-    }
-
-  });
-}
-
-
-/* ================= 게시판 로딩 ================= */
-async function loadPosts() {
-
-  boardBox.innerHTML = "";  // 🔥 중복 방지 핵심
-
-  const { data: posts, error } = await supabaseClient
-    .from("board_posts")
-    .select("*")
-    .order("id", { ascending: false });
-
-  if (error) {
-    console.error("게시판 로딩 실패", error);
-    return;
+    if (s.owner_blog)
+      ownerSNS.innerHTML += `<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
   }
 
-  posts.forEach(post => {
-    const div = document.createElement("div");
-    div.className = "board-item";
-    div.innerHTML = `
-      <h3>${post.title}</h3>
-      <p>${post.content}</p>
-    `;
-    boardBox.appendChild(div);
-  });
-}
-
-
-/* ================= 사이트 설정 ================= */
-async function loadSettings() {
-
-  bannerBox.innerHTML = "";
-  ownerSNS.innerHTML = "";
-
-  const { data: settings, error } = await supabaseClient
-    .from("site_settings")
-    .select("*")
-    .limit(1);
-
-  if (error) {
-    console.error("설정 로딩 실패", error);
-    return;
-  }
-
-  if (!settings || settings.length === 0) return;
-
-  const s = settings[0];
-
-  /* 배너 */
-  if (s.banner_img) {
-    bannerBox.innerHTML = s.banner_link
-      ? `<a href="${s.banner_link}" target="_blank"><img src="${s.banner_img}"></a>`
-      : `<img src="${s.banner_img}">`;
-  }
-
-  /* 사이트 설명 */
-  siteDescription.innerText = s.site_description || "";
-
-  /* 소유자 */
-  ownerName.innerText = s.owner_name || "";
-
-  if (s.owner_instagram) {
-    ownerSNS.innerHTML += `
-      <a href="${s.owner_instagram}" target="_blank">
-        <i class="fab fa-instagram"></i>
-      </a>`;
-  }
-
-  if (s.owner_youtube) {
-    ownerSNS.innerHTML += `
-      <a href="${s.owner_youtube}" target="_blank">
-        <i class="fab fa-youtube"></i>
-      </a>`;
-  }
-
-  if (s.owner_blog) {
-    ownerSNS.innerHTML += `
-      <a href="${s.owner_blog}" target="_blank">
-        <i class="fas fa-blog"></i>
-      </a>`;
-  }
-
-}
-
-
-/* ================= 전체 초기화 ================= */
-async function loadSite() {
   await loadAds();
   await loadPosts();
   await loadSettings();
-}
 
-loadSite();  // ✅ 단 한 번만 호출
-
+});
 </script>
 
 <div class="mobile-nav">
