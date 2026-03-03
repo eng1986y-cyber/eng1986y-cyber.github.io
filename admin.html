@@ -87,6 +87,31 @@ button:hover{ background:#6bbfe0; }
 
 <body>
 
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  if (!user) {
+    const email = prompt("관리자 이메일");
+    const password = prompt("비밀번호");
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      alert("로그인 실패");
+      location.href = "/";
+    } else {
+      location.reload();
+    }
+  }
+
+});
+</script>
+
 <div class="admin-container">
 
 <h1>관리자 페이지</h1>
