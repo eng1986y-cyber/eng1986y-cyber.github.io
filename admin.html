@@ -292,119 +292,83 @@ init();  // 페이지 시작 시 호출
 
 async function saveAll() {
 
-  // ================= 광고 삭제 =================
-  await supabaseClient.from("ads").delete().not('id', 'is', null);
+  const saveBtn = document.querySelector(".save-btn");
+  saveBtn.disabled = true;
 
-  // 이미지 광고 삽입
-  for (const block of imageAdmin.children) {
-    const i = block.querySelectorAll("input");
-    if (i[1].value.trim()) { // 이미지 URL 있는 경우만
-      await supabaseClient.from("ads").insert([{
-        type: "image",
-        main_title: i[0].value.trim(),
-        image_url: i[1].value.trim(),
-        link_url: i[2].value.trim()
-      }]);
+  // ===== 게시판 안전 저장 =====
+
+  const { data: existingPosts, error: fetchError } = await supabaseClient
+    .from("board_posts")
+    .select("*");
+
+  if(fetchError){
+    alert("게시판 불러오기 실패");
+    console.log(fetchError);
+    saveBtn.disabled = false;
+    return;
+  }
+
+  const existingIds = existingPosts.map(p => p.id);
+  const currentIds = [];
+
+  for (const block of boardAdmin.children) {
+
+    const id = block.dataset.id;
+    const title = block.querySelector("input").value.trim();
+    const content = block.querySelector("textarea").value.trim();
+
+    if (title === "") continue;
+
+    // ✅ 기존 글 수정
+    if (id) {
+
+      currentIds.push(Number(id));
+
+      const { error } = await supabaseClient
+        .from("board_posts")
+        .update({
+          title: title,
+          content: content
+        })
+        .eq("id", id);
+
+      if(error) console.log(error);
+
+    } else {
+      // ✅ 새 글 추가
+      const { data, error } = await supabaseClient
+        .from("board_posts")
+        .insert([{
+          title: title,
+          content: content
+        }])
+        .select();
+
+      if(error){
+        console.log(error);
+      } else {
+        block.dataset.id = data[0].id;
+        currentIds.push(data[0].id);
+      }
     }
   }
 
-  // 텍스트 광고 삽입
-  for (const block of textAdmin.children) {
-    const i = block.querySelectorAll("input");
-    if (i[0].value.trim()) { // 제목 있는 경우만
-      await supabaseClient.from("ads").insert([{
-        type: "text",
-        title: i[0].value.trim(),
-        link_url: i[1].value.trim()
-      }]);
+  // ✅ 삭제된 글 제거
+  for (const id of existingIds) {
+    if (!currentIds.includes(id)) {
+      const { error } = await supabaseClient
+        .from("board_posts")
+        .delete()
+        .eq("id", id);
+
+      if(error) console.log(error);
     }
   }
 
-  // 정방형 광고 삽입
-  for (const block of squareAdmin.children) {
-    const i = block.querySelectorAll("input");
-    if (i[1].value.trim()) { // 이미지 URL 있는 경우만
-      await supabaseClient.from("ads").insert([{
-        type: "square",
-        main_title: i[0].value.trim(),
-        image_url: i[1].value.trim(),
-        link_url: i[2].value.trim()
-      }]);
-    }
-  }
-
-// ================= 게시판 안전 저장 =================
-
-const { data: existingPosts } = await supabaseClient
-  .from("board_posts")
-  .select("*");
-
-const existingIds = existingPosts.map(p => p.id);
-const currentIds = [];
-
-for (const block of boardAdmin.children) {
-
-  const id = block.dataset.id;
-  const title = block.querySelector("input").value.trim();
-  const content = block.querySelector("textarea").value.trim();
-
-  if (title === "") continue;
-
-  // 기존 글 수정
-  if (id) {
-    currentIds.push(Number(id));
-
-    await supabaseClient
-      .from("board_posts")
-      .update({
-        title: title,
-        content: content
-      })
-      .eq("id", id);
-  } 
-  // 새 글 추가
-  else {
-    const { data } = await supabaseClient
-      .from("board_posts")
-      .insert([{
-        title: title,
-        content: content
-      }])
-      .select();
-
-    if(data && data.length > 0){
-      block.dataset.id = data[0].id;
-      currentIds.push(data[0].id);
-    }
-  }
-}
-
-// 삭제된 글 제거
-for (const id of existingIds) {
-  if (!currentIds.includes(id)) {
-    await supabaseClient
-      .from("board_posts")
-      .delete()
-      .eq("id", id);
-  }
-}
-
-  // ================= 사이트 설정 =================
-  await supabaseClient
-    .from("site_settings")
-    .upsert([{
-      id: 1,
-      site_description: document.getElementById("siteDescriptionInput").value.trim(),
-      banner_img: bannerImg.value.trim(),
-      banner_link: bannerLink.value.trim(),
-      owner_name: ownerNameInput.value.trim(),
-      owner_instagram: ownerInstagram.value.trim(),
-      owner_youtube: ownerYoutube.value.trim(),
-      owner_blog: ownerBlog.value.trim()
-    }]);
-
-  // ================= 완료 메시지 =================
   alert("저장 완료 ✅");
+
+  saveBtn.disabled = false;
+  location.reload();
 }
 
 </script>
