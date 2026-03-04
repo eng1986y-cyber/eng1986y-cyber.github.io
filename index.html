@@ -753,6 +753,17 @@ function closeModal(){
   document.getElementById("boardModal").style.display="none";
 }
 
+// 팝업 배경 클릭 시 닫기
+document.getElementById("boardModal")
+  .addEventListener("click", function(e){
+
+    // 배경을 클릭한 경우만 닫기
+    if(e.target === this){
+      closeModal();
+    }
+
+});
+
 </script>
 
 <div class="mobile-nav">
