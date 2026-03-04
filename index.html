@@ -12,6 +12,89 @@
 
 <style>
 
+/* ===== 게시판 그리드 ===== */
+.board-section{
+  margin-top:60px;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+
+/* 장방형 카드 */
+.board-card{
+  background:#fff;
+  border-radius:12px;
+  border:1px solid #ddd;
+  padding:15px;
+  cursor:pointer;
+  transition:0.2s;
+  height:120px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.board-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.1);
+}
+
+.board-card h3{
+  font-size:14px;
+  margin:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.board-preview{
+  font-size:12px;
+  color:#666;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
+/* ===== 팝업 ===== */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content{
+  background:#fff;
+  width:600px;
+  max-width:90%;
+  max-height:80%;
+  overflow:auto;
+  border-radius:14px;
+  padding:25px;
+  position:relative;
+}
+
+.modal-close{
+  position:absolute;
+  top:12px;
+  right:15px;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* 모바일 2열 */
+@media(max-width:768px){
+  .board-section{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
 .board-card.highlight{
   background:#E2C65C;
   color:#fff;
@@ -466,17 +549,22 @@ async function loadSite(){
     console.log("게시판 에러:", postError);
   }
 
-  if(posts){
-    posts.forEach(post=>{
-      const div=document.createElement("div");
-      div.className="board-card";
-      div.innerHTML=`
-        <h3>${post.title}</h3>
-        <div>${post.content}</div>
-      `;
-      boardSection.appendChild(div);
-    });
-  }
+if(posts){
+  posts.forEach(post=>{
+    const div=document.createElement("div");
+    div.className="board-card";
+    div.innerHTML=`
+      <h3>${post.title}</h3>
+      <div class="board-preview">${post.content}</div>
+    `;
+
+    div.onclick=()=>{
+      openModal(post.title, post.content);
+    };
+
+    boardSection.appendChild(div);
+  });
+}
 
   /* ================= 광고 ================= */
 
@@ -628,6 +716,16 @@ function search(){
   }
 }
 
+function openModal(title,content){
+  document.getElementById("modalTitle").innerText=title;
+  document.getElementById("modalContent").innerText=content;
+  document.getElementById("boardModal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("boardModal").style.display="none";
+}
+
 </script>
 
 <div class="mobile-nav">
@@ -637,6 +735,14 @@ function search(){
   <button onclick="focusSearch()">
     <i class="fas fa-search"></i>
   </button>
+</div>
+
+<div class="modal" id="boardModal">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <h2 id="modalTitle"></h2>
+    <div id="modalContent"></div>
+  </div>
 </div>
 
 </body>
