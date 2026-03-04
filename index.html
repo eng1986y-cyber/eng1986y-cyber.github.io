@@ -764,6 +764,12 @@ document.getElementById("boardModal")
 
 });
 
+function outsideClose(e){
+  if(e.target.classList.contains("modal")){
+    closeModal();
+  }
+}
+
 </script>
 
 <div class="mobile-nav">
@@ -775,12 +781,12 @@ document.getElementById("boardModal")
   </button>
 </div>
 
-<div class="modal" id="boardModal">
+<div class="modal" id="boardModal" onclick="outsideClose(event)">
   <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">✕</div>
-<h2 id="modalTitle"></h2>
-<div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
-<div id="modalContent"></div>
+    <h2 id="modalTitle"></h2>
+    <div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
+    <div id="modalContent"></div>
   </div>
 </div>
 
