@@ -551,16 +551,37 @@ async function loadSite(){
 
 if(posts){
   posts.forEach(post=>{
+
     const div=document.createElement("div");
     div.className="board-card";
+
+    const date=new Date(post.created_at)
+      .toLocaleDateString("ko-KR");
+
     div.innerHTML=`
       <h3>${post.title}</h3>
       <div class="board-preview">${post.content}</div>
+      <div style="font-size:11px;color:#999;margin-top:6px;">
+        ${date} · 조회 ${post.views||0}
+      </div>
     `;
 
-    div.onclick=()=>{
-      openModal(post.title, post.content);
-    };
+div.onclick=async ()=>{
+
+  const newViews=(post.views||0)+1;
+
+  await supabaseClient
+    .from("board_posts")
+    .update({ views:newViews })
+    .eq("id",post.id);
+
+  const date=new Date(post.created_at)
+    .toLocaleDateString("ko-KR");
+
+  openModal(post.title, post.content, date, newViews);
+
+  loadSite();
+};
 
     boardSection.appendChild(div);
   });
@@ -716,9 +737,11 @@ function search(){
   }
 }
 
-function openModal(title,content){
+function openModal(title,content,date,views){
   document.getElementById("modalTitle").innerText=title;
   document.getElementById("modalContent").innerText=content;
+  document.getElementById("modalMeta").innerText=
+    date + " · 조회 " + views;
   document.getElementById("boardModal").style.display="flex";
 }
 
@@ -740,8 +763,9 @@ function closeModal(){
 <div class="modal" id="boardModal">
   <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">✕</div>
-    <h2 id="modalTitle"></h2>
-    <div id="modalContent"></div>
+<h2 id="modalTitle"></h2>
+<div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
+<div id="modalContent"></div>
   </div>
 </div>
 
