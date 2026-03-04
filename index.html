@@ -133,6 +133,24 @@ body{
   object-fit:cover;
 }
 
+<div class="board-section" id="boardSection"></div>
+
+.board-section{
+  margin-top:60px;
+}
+
+.board-card{
+  background:#fff;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+.board-card h3{
+  margin:0 0 10px;
+}
+
 /* ===== 소유자 영역 ===== */
 .owner-box{
   margin-top:60px;
@@ -406,6 +424,25 @@ body{
 <script>
 
 async function loadSite(){
+
+const boardSection=document.getElementById("boardSection");
+
+const { data: posts } = await supabaseClient
+  .from("board_posts")
+  .select("*")
+  .order("id",{ascending:false});
+
+if(posts){
+  posts.forEach(post=>{
+    const div=document.createElement("div");
+    div.className="board-card";
+    div.innerHTML=`
+      <h3>${post.title}</h3>
+      <div>${post.content}</div>
+    `;
+    boardSection.appendChild(div);
+  });
+}
 
   const imgBox=document.getElementById("imageAds");
   const txtBox=document.getElementById("textAds");
