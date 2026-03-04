@@ -396,6 +396,17 @@ body{
   <button onclick="search()">검색</button>
 </div>
 
+function scrollToTop(){
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function focusSearch(){
+  document.getElementById("searchInput").focus();
+}
+
 <div class="top-banner" id="topBanner"></div>
 
 <!-- 📱 모바일 전용 애드센스 -->
@@ -565,6 +576,13 @@ async function loadSite(){
 }
 
 loadSite();
+
+document.getElementById("searchInput")
+  .addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+      search();
+    }
+  });
 
 function search(){
 
