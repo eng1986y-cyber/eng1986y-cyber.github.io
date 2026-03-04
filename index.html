@@ -558,13 +558,13 @@ if(posts){
     const date=new Date(post.created_at)
       .toLocaleDateString("ko-KR");
 
-    div.innerHTML=`
-      <h3>${post.title}</h3>
-      <div class="board-preview">${post.content}</div>
-      <div style="font-size:11px;color:#999;margin-top:6px;">
-        ${date} · 조회 ${post.views||0}
-      </div>
-    `;
+div.innerHTML=`
+  <h3>${post.title}</h3>
+  <div class="board-preview">${post.content}</div>
+  <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
+    ${date} · 조회 ${post.views||0}
+  </div>
+`;
 
 div.onclick=async ()=>{
 
@@ -580,7 +580,11 @@ div.onclick=async ()=>{
 
   openModal(post.title, post.content, date, newViews);
 
-  loadSite();
+  // 🔥 카드 안 조회수 숫자만 즉시 변경
+  div.querySelector(".view-count").innerText =
+    date + " · 조회 " + newViews;
+
+  post.views=newViews; // 다음 클릭 대비
 };
 
     boardSection.appendChild(div);
