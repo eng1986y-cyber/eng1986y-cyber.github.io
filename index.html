@@ -425,34 +425,43 @@ body{
 
 async function loadSite(){
 
-const boardSection=document.getElementById("boardSection");
-
-const { data: posts } = await supabaseClient
-  .from("board_posts")
-  .select("*")
-  .order("id",{ascending:false});
-
-if(posts){
-  posts.forEach(post=>{
-    const div=document.createElement("div");
-    div.className="board-card";
-    div.innerHTML=`
-      <h3>${post.title}</h3>
-      <div>${post.content}</div>
-    `;
-    boardSection.appendChild(div);
-  });
-}
-
+  const boardSection=document.getElementById("boardSection");
   const imgBox=document.getElementById("imageAds");
   const txtBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
   const bannerBox=document.getElementById("topBanner");
 
+  // 🔥 전체 초기화
+  boardSection.innerHTML="";
   imgBox.innerHTML="";
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
   bannerBox.innerHTML="";
+
+  /* ================= 게시판 ================= */
+
+  const { data: posts, error: postError } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ascending:false});
+
+  if(postError){
+    console.log("게시판 에러:", postError);
+  }
+
+  if(posts){
+    posts.forEach(post=>{
+      const div=document.createElement("div");
+      div.className="board-card";
+      div.innerHTML=`
+        <h3>${post.title}</h3>
+        <div>${post.content}</div>
+      `;
+      boardSection.appendChild(div);
+    });
+  }
+
+  /* ================= 광고 ================= */
 
   const { data: ads } = await supabaseClient
     .from("ads")
@@ -462,64 +471,58 @@ if(posts){
   if(ads){
     ads.forEach(ad=>{
 
-if(ad.type==="image"){
-  const wrap=document.createElement("div");
-  wrap.className="ad-item";
-  wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+      if(ad.type==="image"){
+        const wrap=document.createElement("div");
+        wrap.className="ad-item";
+        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
-  const link = ad.link_url 
-    ? `<a href="${ad.link_url}" target="_blank">
-         <img src="${ad.image_url}">
-       </a>`
-    : `<img src="${ad.image_url}">`;
+        const link = ad.link_url 
+          ? `<a href="${ad.link_url}" target="_blank">
+               <img src="${ad.image_url}">
+             </a>`
+          : `<img src="${ad.image_url}">`;
 
-  wrap.innerHTML=`
-    <div class="img-ad">
-      ${link}
-    </div>
-    <div class="ad-title">
-      ${ad.main_title || ""}
-    </div>
-  `;
+        wrap.innerHTML=`
+          <div class="img-ad">${link}</div>
+          <div class="ad-title">${ad.main_title||""}</div>
+        `;
 
-  imgBox.appendChild(wrap);
-}
+        imgBox.appendChild(wrap);
+      }
 
-if(ad.type==="text"){
-  const a=document.createElement("a");
-  a.className="text-ad ad-item";
-  a.href=ad.link_url || "#";
-  a.target="_blank";
-  a.innerText=ad.title || "텍스트광고";
-  a.setAttribute("data-title", (ad.title || "").toLowerCase());
-  txtBox.appendChild(a);
-}
+      if(ad.type==="text"){
+        const a=document.createElement("a");
+        a.className="text-ad ad-item";
+        a.href=ad.link_url||"#";
+        a.target="_blank";
+        a.innerText=ad.title||"텍스트광고";
+        a.setAttribute("data-title",(ad.title||"").toLowerCase());
+        txtBox.appendChild(a);
+      }
 
-if(ad.type==="square"){
-  const wrap=document.createElement("div");
-  wrap.className="ad-item";
-  wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
+      if(ad.type==="square"){
+        const wrap=document.createElement("div");
+        wrap.className="ad-item";
+        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
-  const link = ad.link_url 
-    ? `<a href="${ad.link_url}" target="_blank">
-         <img src="${ad.image_url}">
-       </a>`
-    : `<img src="${ad.image_url}">`;
+        const link = ad.link_url 
+          ? `<a href="${ad.link_url}" target="_blank">
+               <img src="${ad.image_url}">
+             </a>`
+          : `<img src="${ad.image_url}">`;
 
-  wrap.innerHTML=`
-    <div class="square-ad">
-      ${link}
-    </div>
-    <div class="ad-title">
-      ${ad.main_title || ""}
-    </div>
-  `;
+        wrap.innerHTML=`
+          <div class="square-ad">${link}</div>
+          <div class="ad-title">${ad.main_title||""}</div>
+        `;
 
-  bottomBox.appendChild(wrap);
-}
+        bottomBox.appendChild(wrap);
+      }
 
     });
   }
+
+  /* ================= 설정 ================= */
 
   const { data: settings } = await supabaseClient
     .from("site_settings")
@@ -530,89 +533,29 @@ if(ad.type==="square"){
 
     const s=settings[0];
 
-    /* 배너 */
     if(s.banner_img){
-      if(s.banner_link){
-        bannerBox.innerHTML=`
-          <a href="${s.banner_link}" target="_blank">
-            <img src="${s.banner_img}">
-          </a>`;
-      }else{
-        bannerBox.innerHTML=`<img src="${s.banner_img}">`;
-      }
+      bannerBox.innerHTML = s.banner_link
+        ? `<a href="${s.banner_link}" target="_blank">
+             <img src="${s.banner_img}">
+           </a>`
+        : `<img src="${s.banner_img}">`;
     }
 
-    /* 소유자 */
-    document.getElementById("ownerName").innerText = s.owner_name || "";
-    document.getElementById("siteDescription").innerText =
-  s.site_description || "";
+    document.getElementById("ownerName").innerText=s.owner_name||"";
+    document.getElementById("siteDescription").innerText=s.site_description||"";
 
     const snsBox=document.getElementById("ownerSNS");
     snsBox.innerHTML="";
 
-    if(s.owner_instagram){
-      snsBox.innerHTML+=`<a href="${s.owner_instagram}" target="_blank">
-        <i class="fab fa-instagram"></i>
-      </a>`;
-    }
+    if(s.owner_instagram)
+      snsBox.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
 
-    if(s.owner_youtube){
-      snsBox.innerHTML+=`<a href="${s.owner_youtube}" target="_blank">
-        <i class="fab fa-youtube"></i>
-      </a>`;
-    }
+    if(s.owner_youtube)
+      snsBox.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
 
-    if(s.owner_blog){
-      snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank">
-        <i class="fas fa-blog"></i>
-      </a>`;
-    }
+    if(s.owner_blog)
+      snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
   }
-}
-
-loadSite();
-
-function search(){
-
-  const keyword=document.getElementById("searchInput")
-    .value.trim().toLowerCase();
-
-  if(!keyword) return;
-
-  const ads=document.querySelectorAll(".ad-item");
-  let found=false;
-
-  ads.forEach(ad=>{
-
-    ad.classList.remove("highlight");
-
-    const title=ad.getAttribute("data-title");
-
-    if(title && title.includes(keyword)){
-      ad.classList.add("highlight");
-      found=true;
-      ad.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-
-  });
-
-  if(!found){
-    alert("검색 결과 없음");
-  }
-}
-
-document.getElementById("searchInput")
-  .addEventListener("keypress",function(e){
-    if(e.key==="Enter") search();
-  });
-
-function scrollToTop(){
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function focusSearch(){
-  document.getElementById("searchInput").focus();
-  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 </script>
