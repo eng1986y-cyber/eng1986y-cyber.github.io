@@ -133,8 +133,6 @@ body{
   object-fit:cover;
 }
 
-<div class="board-section" id="boardSection"></div>
-
 .board-section{
   margin-top:60px;
 }
@@ -410,6 +408,7 @@ body{
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
+<div class="board-section" id="boardSection"></div>
 <div class="site-description" id="siteDescription"></div>
 <div class="owner-box">
   <div class="owner-name" id="ownerName"></div>
@@ -557,6 +556,8 @@ async function loadSite(){
       snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
   }
 }
+
+loadSite();
 
 </script>
 
