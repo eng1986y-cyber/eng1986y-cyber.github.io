@@ -87,9 +87,51 @@ button:hover{ background:#6bbfe0; }
 
 <body>
 
+<div id="loginBox" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#f5f5f5;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+width:300px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+">
+
+<h2 style="text-align:center">관리자 로그인</h2>
+
+<input id="adminId" placeholder="아이디">
+
+<input id="adminPw" type="password" placeholder="비밀번호">
+
+<button onclick="loginAdmin()" style="width:100%;margin-top:10px;">
+로그인
+</button>
+
+</div>
+</div>
+
 <div class="admin-container">
 
 <h1>관리자 페이지</h1>
+
+<button onclick="logoutAdmin()" style="
+position:absolute;
+top:20px;
+right:20px;
+background:#ff6b6b;">
+로그아웃
+</button>
 
 <!-- ================== 상단 배너 ================== -->
 <div class="section">
@@ -152,6 +194,55 @@ button:hover{ background:#6bbfe0; }
 <script src="supabase.js"></script>
 
 <script>
+
+/* ================= 관리자 로그인 ================= */
+
+const ADMIN_ID="admin";
+const ADMIN_PW="1234";
+
+function loginAdmin(){
+
+const id=document.getElementById("adminId").value;
+const pw=document.getElementById("adminPw").value;
+
+if(id===ADMIN_ID && pw===ADMIN_PW){
+
+localStorage.setItem("adminLogin","true");
+
+document.getElementById("loginBox").style.display="none";
+
+}else{
+
+alert("아이디 또는 비밀번호 틀림");
+
+}
+
+}
+
+function logoutAdmin(){
+
+localStorage.removeItem("adminLogin");
+location.reload();
+
+}
+
+function checkLogin(){
+
+const login=localStorage.getItem("adminLogin");
+
+if(login==="true"){
+
+document.getElementById("loginBox").style.display="none";
+
+}else{
+
+document.getElementById("loginBox").style.display="flex";
+
+}
+
+}
+
+checkLogin();
 
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
