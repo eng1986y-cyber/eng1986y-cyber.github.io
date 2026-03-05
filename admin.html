@@ -141,6 +141,19 @@ border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 ">
 
+<h2 style="text-align:center">관리자 로그인</h2>
+
+<input id="adminId" placeholder="아이디">
+
+<input id="adminPw" type="password" placeholder="비밀번호">
+
+<button onclick="loginAdmin()" style="width:100%;margin-top:10px;">
+로그인
+</button>
+
+</div>
+</div>
+
 <div class="admin-container">
 
 <h1>관리자 페이지</h1>
@@ -270,6 +283,11 @@ checkAdmin();
 
 const ADMIN_ID="admin";
 const ADMIN_PW="1234";
+
+function loginAdmin(){
+
+const id=document.getElementById("adminId").value;
+const pw=document.getElementById("adminPw").value;
 
 if(id===ADMIN_ID && pw===ADMIN_PW){
 
