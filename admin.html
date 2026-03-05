@@ -279,55 +279,6 @@ location.reload();
 
 checkAdmin();
 
-/* ================= 관리자 로그인 ================= */
-
-const ADMIN_ID="admin";
-const ADMIN_PW="1234";
-
-function loginAdmin(){
-
-const id=document.getElementById("adminId").value;
-const pw=document.getElementById("adminPw").value;
-
-if(id===ADMIN_ID && pw===ADMIN_PW){
-
-localStorage.setItem("adminLogin","true");
-
-document.getElementById("loginBox").style.display="none";
-
-}else{
-
-alert("아이디 또는 비밀번호 틀림");
-
-}
-
-}
-
-function logoutAdmin(){
-
-localStorage.removeItem("adminLogin");
-location.reload();
-
-}
-
-function checkLogin(){
-
-const login=localStorage.getItem("adminLogin");
-
-if(login==="true"){
-
-document.getElementById("loginBox").style.display="none";
-
-}else{
-
-document.getElementById("loginBox").style.display="flex";
-
-}
-
-}
-
-checkLogin();
-
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
