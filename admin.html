@@ -5,7 +5,6 @@
 <title>관리자 페이지</title>
 
 <style>
-
 body{
   margin:0;
   padding:20px;
@@ -50,6 +49,7 @@ button:hover{ background:#6bbfe0; }
   padding:10px;
   border:1px solid #ddd;
   border-radius:8px;
+  cursor:grab;
   position:relative;
 }
 
@@ -87,108 +87,59 @@ button:hover{ background:#6bbfe0; }
 
 <body>
 
-<!-- 로그인 페이지 -->
-
-<div id="loginPage" style="
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#f5f5f5;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-">
-
-<div style="
-width:320px;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.1);
-">
-
-<h2 style="text-align:center;">관리자 로그인</h2>
-
-<input id="loginEmail" placeholder="이메일">
-<input id="loginPassword" type="password" placeholder="비밀번호">
-
-<button onclick="loginAdmin()" style="width:100%;margin-top:10px;">
-로그인
-</button>
-
-</div>
-</div>
-
 <div class="admin-container">
 
 <h1>관리자 페이지</h1>
 
-<button onclick="logoutAdmin()" style="
-position:absolute;
-top:20px;
-right:20px;
-background:#ff6b6b;">
-로그아웃
-</button>
-
-
-<!-- 상단 배너 -->
-
+<!-- ================== 상단 배너 ================== -->
 <div class="section">
 <h2>상단 배너 관리</h2>
 <input id="bannerImg" placeholder="배너 이미지 URL">
 <input id="bannerLink" placeholder="배너 클릭 링크">
 </div>
 
+<!-- ================== 소유자 정보 ================== -->
+<div class="section">
+<h2>소유자 정보 관리</h2>
+<input id="ownerNameInput" placeholder="소유자 이름">
+<input id="ownerInstagram" placeholder="인스타그램 URL">
+<input id="ownerYoutube" placeholder="유튜브 URL">
+<input id="ownerBlog" placeholder="블로그 URL">
+<h2>사이트 설명 관리</h2>
+<textarea id="siteDescriptionInput"
+  placeholder="사이트 설명 입력"
+  style="width:100%; height:100px; margin-bottom:10px; padding:10px;"></textarea>
+</div>
 
-<!-- 이미지 광고 -->
-
+<!-- ================== 이미지 광고 ================== -->
 <div class="section">
 <h2>상단 이미지 광고</h2>
-
 <button onclick="addImageAd()">추가 +</button>
-
 <div class="grid" id="imageAdmin"></div>
-
 </div>
 
-
-<!-- 텍스트 광고 -->
-
+<!-- ================== 텍스트 광고 ================== -->
 <div class="section">
-
 <h2>텍스트 광고</h2>
-
 <button onclick="addTextAd()">추가 +</button>
-
 <div class="grid" id="textAdmin"></div>
-
 </div>
 
-
-<!-- 정방형 광고 -->
-
+<!-- ================== 정방형 광고 ================== -->
 <div class="section">
-
 <h2>하단 정방형 광고</h2>
-
 <button onclick="addSquareAd()">추가 +</button>
-
 <div class="grid" id="squareAdmin"></div>
-
 </div>
 
+<!-- ================== 게시판 관리 ================== -->
 <div class="section">
 <h2>게시판 관리</h2>
 
 <input id="boardTitle" placeholder="글 제목">
-
 <textarea id="boardContent"
-style="width:100%;height:120px;margin-bottom:10px;padding:10px;"
-placeholder="글 내용"></textarea>
+  placeholder="글 내용"
+  style="width:100%; height:120px; margin-bottom:10px; padding:10px;"></textarea>
 
 <button onclick="addBoardPost()">글 추가</button>
 
@@ -197,75 +148,10 @@ placeholder="글 내용"></textarea>
 
 <button class="save-btn" onclick="saveAll()">저장하기</button>
 
-</div>
-
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
-
 <script>
-
-/* ================= 로그인 체크 ================= */
-
-async function checkAdmin(){
-
-const { data:{session} } =
-await supabaseClient.auth.getSession();
-
-if(!session){
-
-document.getElementById("loginPage").style.display="flex";
-
-}else{
-
-document.getElementById("loginPage").style.display="none";
-
-}
-
-}
-
-checkAdmin();
-
-
-/* ================= 로그인 ================= */
-
-async function loginAdmin(){
-
-const email=document.getElementById("loginEmail").value;
-const password=document.getElementById("loginPassword").value;
-
-const { error } =
-await supabaseClient.auth.signInWithPassword({
-email:email,
-password:password
-});
-
-if(error){
-
-alert("로그인 실패");
-
-}else{
-
-location.reload();
-
-}
-
-}
-
-
-/* ================= 로그아웃 ================= */
-
-async function logoutAdmin(){
-
-await supabaseClient.auth.signOut();
-
-location.reload();
-
-}
-
-
-/* ================= 광고 ================= */
 
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
@@ -274,123 +160,173 @@ const squareAdmin=document.getElementById("squareAdmin");
 const bannerImg=document.getElementById("bannerImg");
 const bannerLink=document.getElementById("bannerLink");
 
+const ownerNameInput=document.getElementById("ownerNameInput");
+const ownerInstagram=document.getElementById("ownerInstagram");
+const ownerYoutube=document.getElementById("ownerYoutube");
+const ownerBlog=document.getElementById("ownerBlog");
+
+let dragItem=null;
+
+/* ================= 공통 카드 생성 ================= */
 
 function createCard(innerHTML){
+  const div=document.createElement("div");
+  div.className="card";
+  div.draggable=true;
+  div.innerHTML=`
+    <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
+    ${innerHTML}
+  `;
 
-const div=document.createElement("div");
+  div.addEventListener("dragstart",()=>dragItem=div);
+  div.addEventListener("dragover",e=>e.preventDefault());
+  div.addEventListener("drop",function(){
+    if(dragItem!==div){
+      div.parentNode.insertBefore(dragItem,div);
+    }
+  });
 
-div.className="card";
-
-div.innerHTML=`
-<button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
-${innerHTML}
-`;
-
-return div;
-
+  return div;
 }
 
+/* ================= 추가 ================= */
 
-/* 이미지 광고 */
-
-function addImageAd(main="",img="",link=""){
-
-imageAdmin.appendChild(
-
-createCard(`
-
-<input value="${main}" placeholder="메인 명칭">
-
-<input value="${img}" placeholder="이미지 URL">
-
-<input value="${link}" placeholder="클릭 링크">
-
-`)
-
-);
-
+function addImageAd(main="", img="", link=""){
+  imageAdmin.appendChild(
+    createCard(`
+      <input value="${main}" placeholder="메인 명칭">
+      <input value="${img}" placeholder="이미지 URL">
+      <input value="${link}" placeholder="클릭 링크">
+    `)
+  );
 }
-
-
-/* 텍스트 광고 */
 
 function addTextAd(title="",link=""){
-
-textAdmin.appendChild(
-
-createCard(`
-
-<input value="${title}" placeholder="광고 제목">
-
-<input value="${link}" placeholder="클릭 링크">
-
-`)
-
-);
-
+  textAdmin.appendChild(
+    createCard(`
+      <input value="${title}" placeholder="광고 제목">
+      <input value="${link}" placeholder="클릭 링크">
+    `)
+  );
 }
 
-
-/* 정방형 광고 */
-
-function addSquareAd(main="",img="",link=""){
-
-squareAdmin.appendChild(
-
-createCard(`
-
-<input value="${main}" placeholder="메인 명칭">
-
-<input value="${img}" placeholder="이미지 URL">
-
-<input value="${link}" placeholder="클릭 링크">
-
-`)
-
-);
-
+function addSquareAd(main="", img="", link=""){
+  squareAdmin.appendChild(
+    createCard(`
+      <input value="${main}" placeholder="메인 명칭">
+      <input value="${img}" placeholder="이미지 URL">
+      <input value="${link}" placeholder="클릭 링크">
+    `)
+  );
 }
 
-
-/* ================= 데이터 불러오기 ================= */
+/* ================= 불러오기 ================= */
 
 async function loadData(){
 
-const { data: ads } = await supabaseClient
+  const { data: ads } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("id",{ascending:true});
 
-.from("ads")
+  if(ads){
+    ads.forEach(ad=>{
+      if(ad.type==="image")
+        addImageAd(ad.main_title, ad.image_url, ad.link_url);
+      if(ad.type==="text")
+        addTextAd(ad.title,ad.link_url);
+      if(ad.type==="square")
+        addSquareAd(ad.main_title, ad.image_url, ad.link_url);
+    });
+  }
 
-.select("*")
+  const { data: settings } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
 
-.order("id",{ascending:true});
+  if(settings && settings.length>0){
 
-if(ads){
+    const s=settings[0];
 
-ads.forEach(ad=>{
+    bannerImg.value=s.banner_img||"";
+    bannerLink.value=s.banner_link||"";
 
-if(ad.type==="image")
+    ownerNameInput.value=s.owner_name||"";
+    ownerInstagram.value=s.owner_instagram||"";
+    ownerYoutube.value=s.owner_youtube||"";
+    ownerBlog.value=s.owner_blog||"";
 
-addImageAd(ad.main_title,ad.image_url,ad.link_url);
-
-if(ad.type==="text")
-
-addTextAd(ad.title,ad.link_url);
-
-if(ad.type==="square")
-
-addSquareAd(ad.main_title,ad.image_url,ad.link_url);
-
-});
-
+    // 🔥 여기로 이동
+    document.getElementById("siteDescriptionInput").value =
+      s.site_description || "";
+  }
 }
 
+/* ================= 저장 ================= */
+
+async function saveAll(){
+
+  await supabaseClient.from("ads").delete().neq("id",0);
+
+for(const block of imageAdmin.children){
+  const i=block.querySelectorAll("input");
+  if(i[1].value.trim()){
+    await supabaseClient.from("ads").insert([{
+      type:"image",
+      main_title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[2].value.trim()
+    }]);
+  }
+}
+
+  for(const block of textAdmin.children){
+    const i=block.querySelectorAll("input");
+    if(i[0].value.trim()){
+      await supabaseClient.from("ads").insert([{
+        type:"text",
+        title:i[0].value.trim(),
+        link_url:i[1].value.trim()
+      }]);
+    }
+  }
+
+for(const block of squareAdmin.children){
+  const i=block.querySelectorAll("input");
+  if(i[1].value.trim()){
+    await supabaseClient.from("ads").insert([{
+      type:"square",
+      main_title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[2].value.trim()
+    }]);
+  }
+}
+
+  await supabaseClient
+    .from("site_settings")
+    .upsert([{
+      id:1,
+site_description: document
+  .getElementById("siteDescriptionInput")
+  .value.trim(),
+      banner_img:bannerImg.value.trim(),
+      banner_link:bannerLink.value.trim(),
+      owner_name:ownerNameInput.value.trim(),
+      owner_instagram:ownerInstagram.value.trim(),
+      owner_youtube:ownerYoutube.value.trim(),
+      owner_blog:ownerBlog.value.trim()
+    }]);
+
+  alert("저장 완료 ✅");
 }
 
 loadData();
 
-/* ================= 게시판 ================= */
-
 const boardAdminList = document.getElementById("boardAdminList");
+
+/* ================= 게시판 불러오기 ================= */
 
 async function loadBoard(){
 
@@ -409,7 +345,7 @@ async function loadBoard(){
         <button class="delete-btn"
           onclick="deleteBoardPost(${post.id})">삭제</button>
         <strong>${post.title}</strong>
-        <div style="margin-top:8px;font-size:14px;">
+        <div style="margin-top:8px; font-size:14px;">
           ${post.content}
         </div>
       `;
@@ -417,6 +353,8 @@ async function loadBoard(){
     });
   }
 }
+
+/* ================= 글 추가 ================= */
 
 async function addBoardPost(){
 
@@ -439,8 +377,9 @@ async function addBoardPost(){
   loadBoard();
 }
 
-async function deleteBoardPost(id){
+/* ================= 글 삭제 ================= */
 
+async function deleteBoardPost(id){
   await supabaseClient
     .from("board_posts")
     .delete()
@@ -450,90 +389,6 @@ async function deleteBoardPost(id){
 }
 
 loadBoard();
-
-
-/* ================= 저장 ================= */
-
-async function saveAll(){
-
-await supabaseClient.from("ads").delete().neq("id",0);
-
-
-/* 이미지 */
-
-for(const block of imageAdmin.children){
-
-const i=block.querySelectorAll("input");
-
-if(i[1].value.trim()){
-
-await supabaseClient.from("ads").insert([{
-
-type:"image",
-
-main_title:i[0].value.trim(),
-
-image_url:i[1].value.trim(),
-
-link_url:i[2].value.trim()
-
-}]);
-
-}
-
-}
-
-
-/* 텍스트 */
-
-for(const block of textAdmin.children){
-
-const i=block.querySelectorAll("input");
-
-if(i[0].value.trim()){
-
-await supabaseClient.from("ads").insert([{
-
-type:"text",
-
-title:i[0].value.trim(),
-
-link_url:i[1].value.trim()
-
-}]);
-
-}
-
-}
-
-
-/* 정방형 */
-
-for(const block of squareAdmin.children){
-
-const i=block.querySelectorAll("input");
-
-if(i[1].value.trim()){
-
-await supabaseClient.from("ads").insert([{
-
-type:"square",
-
-main_title:i[0].value.trim(),
-
-image_url:i[1].value.trim(),
-
-link_url:i[2].value.trim()
-
-}]);
-
-}
-
-}
-
-alert("저장 완료");
-
-}
 
 </script>
 
