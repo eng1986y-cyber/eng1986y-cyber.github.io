@@ -103,6 +103,9 @@ button:hover{ background:#6bbfe0; }
   justify-content:center;
   align-items:center;
   z-index:9999;
+}
+
+body.login-open{
   overflow:hidden;
 }
 
@@ -112,28 +115,6 @@ button:hover{ background:#6bbfe0; }
 <body>
 
 <div id="loginPage">
-
-<div style="
-width:320px;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.1);
-">
-
-<h2 style="text-align:center;">관리자 로그인</h2>
-
-<input id="loginEmail" placeholder="이메일">
-<input id="loginPassword" type="password" placeholder="비밀번호">
-
-<button onclick="loginAdmin()" style="width:100%;margin-top:10px;">
-로그인
-</button>
-
-</div>
-</div>
-
-<div class="admin-container">
 
 <div style="
 width:320px;
@@ -246,12 +227,12 @@ await supabaseClient.auth.getSession();
 if(!session){
 
 document.getElementById("loginPage").style.display="flex";
+document.body.classList.add("login-open");
 
 }else{
 
 document.getElementById("loginPage").style.display="none";
-
-}
+document.body.classList.remove("login-open");
 
 }
 
