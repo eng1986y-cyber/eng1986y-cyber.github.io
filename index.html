@@ -12,6 +12,20 @@
 
 <style>
 
+#pagination button{
+  margin:4px;
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  background:#eee;
+  cursor:pointer;
+}
+
+#pagination button:hover{
+  background:#87CEEB;
+  color:#fff;
+}
+
 html{
   scrollbar-gutter: stable;
 }
@@ -539,7 +553,11 @@ async function loadPagination(){
 
 btn.onclick=()=>{
   currentPage=i;
-  loadSite();
+  loadBoard();
+
+  document.getElementById("boardSection").scrollIntoView({
+    behavior:"smooth"
+  });
 };
 
     pagination.appendChild(btn);
@@ -574,66 +592,6 @@ async function loadSite(){
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
   bannerBox.innerHTML="";
-
-  /* ================= 게시판 ================= */
-
-const start = (currentPage - 1) * pageSize;
-const end = start + pageSize - 1;
-
-const { data: posts, error: postError } = await supabaseClient
-  .from("board_posts")
-
-.select("*")
-.order("id",{ascending:false})
-.range(start,end);
-
-if(postError){
-  console.log("게시판 에러:", postError);
-}
-
-if(posts){
-  posts.forEach(post=>{
-
-    const div=document.createElement("div");
-    div.className="board-card";
-
-    const date=new Date(post.created_at)
-      .toLocaleDateString("ko-KR");
-
-div.innerHTML=`
-  <h3>${post.title}</h3>
-  <div class="board-preview">${post.content}</div>
-  <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
-    ${date} · 조회 ${post.views||0}
-  </div>
-`;
-
-div.onclick=async ()=>{
-
-  const newViews=(post.views||0)+1;
-
-  await supabaseClient
-    .from("board_posts")
-    .update({ views:newViews })
-    .eq("id",post.id);
-
-  const date=new Date(post.created_at)
-    .toLocaleDateString("ko-KR");
-
-  openModal(post.title, post.content, date, newViews);
-
-  // 🔥 카드 안 조회수 숫자만 즉시 변경
-  div.querySelector(".view-count").innerText =
-    date + " · 조회 " + newViews;
-
-  post.views=newViews; // 다음 클릭 대비
-};
-
-    boardSection.appendChild(div);
-  });
-}
-
-loadPagination();
 
   /* ================= 광고 ================= */
 
@@ -732,7 +690,62 @@ loadPagination();
   }
 }
 
-loadSite();
+loadBoard();
+
+async function loadBoard(){
+
+  const boardSection=document.getElementById("boardSection");
+  boardSection.innerHTML="";
+
+  const start=(currentPage-1)*pageSize;
+  const end=start+pageSize-1;
+
+  const { data: posts } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ascending:false})
+    .range(start,end);
+
+  if(posts){
+    posts.forEach(post=>{
+
+      const div=document.createElement("div");
+      div.className="board-card";
+
+      const date=new Date(post.created_at)
+        .toLocaleDateString("ko-KR");
+
+      div.innerHTML=`
+        <h3>${post.title}</h3>
+        <div class="board-preview">${post.content}</div>
+        <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
+          ${date} · 조회 ${post.views||0}
+        </div>
+      `;
+
+      div.onclick=async ()=>{
+
+        const newViews=(post.views||0)+1;
+
+        await supabaseClient
+          .from("board_posts")
+          .update({ views:newViews })
+          .eq("id",post.id);
+
+        openModal(post.title,post.content,date,newViews);
+
+        div.querySelector(".view-count").innerText =
+          date+" · 조회 "+newViews;
+
+        post.views=newViews;
+      };
+
+      boardSection.appendChild(div);
+    });
+  }
+
+  loadPagination();
+}
 
 document.getElementById("searchInput")
   .addEventListener("keydown",function(e){
