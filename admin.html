@@ -92,13 +92,6 @@ button:hover{ background:#6bbfe0; }
   }
 }
 
-</style>
-</head>
-
-<body>
-
-<div id="loginPage" style="
-
 #loginPage{
   position:fixed;
   top:0;
@@ -112,6 +105,35 @@ button:hover{ background:#6bbfe0; }
   z-index:9999;
   overflow:hidden;
 }
+
+</style>
+</head>
+
+<body>
+
+<div id="loginPage">
+
+<div style="
+width:320px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+">
+
+<h2 style="text-align:center;">관리자 로그인</h2>
+
+<input id="loginEmail" placeholder="이메일">
+<input id="loginPassword" type="password" placeholder="비밀번호">
+
+<button onclick="loginAdmin()" style="width:100%;margin-top:10px;">
+로그인
+</button>
+
+</div>
+</div>
+
+<div class="admin-container">
 
 <div style="
 width:320px;
