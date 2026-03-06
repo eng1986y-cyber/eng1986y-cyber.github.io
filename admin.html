@@ -91,6 +91,12 @@ button:hover{ background:#6bbfe0; }
   }
 }
 
+.top-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
 </style>
 
 </head>
@@ -142,6 +148,8 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 </button>
 </div>
 
+<div class="top-grid">
+
 <!-- ================== 상단 배너 ================== -->
 <div class="section">
 <h2>상단 배너 관리</h2>
@@ -156,6 +164,12 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 <input id="ownerInstagram" placeholder="인스타그램 URL">
 <input id="ownerYoutube" placeholder="유튜브 URL">
 <input id="ownerBlog" placeholder="블로그 URL">
+</div>
+
+</div>
+
+<!-- ================== 사이트 설명 ================== -->
+<div class="section">
 <h2>사이트 설명 관리</h2>
 <textarea id="siteDescriptionInput"
   placeholder="사이트 설명 입력"
