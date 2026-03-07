@@ -35,10 +35,12 @@ html{
 .board-section {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  row-gap: 10px;    /* 위아래 간격만 */
-  column-gap: 6px;  /* 좌우 간격 그대로 */
+  row-gap: 12px;
+  column-gap: 6px;
   margin-top: 20px;
   margin-bottom: 15px;
+  max-height: 720px;     /* 게시판 고정 높이 */
+  overflow-y: auto;       /* 게시판 안에서만 스크롤 */
 }
 
 /* 장방형 카드 */
@@ -552,13 +554,10 @@ async function loadPagination(){
     if(i===currentPage)
       btn.style.background="#87CEEB";
 
-btn.onclick=()=>{
-  currentPage=i;
-  loadBoard();
-
-  document.getElementById("boardSection").scrollIntoView({
-    behavior:"smooth"
-  });
+btn.onclick = () => {
+  currentPage = i;
+  loadBoard();  // 게시판만 다시 로드
+  // 전체 스크롤 제거
 };
 
     pagination.appendChild(btn);
