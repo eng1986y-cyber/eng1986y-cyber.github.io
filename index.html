@@ -546,19 +546,26 @@ async function loadPagination(){
   pagination.innerHTML="";
 
   for(let i = 1; i <= totalPages; i++){
+
+async function loadPagination() {
+  const { count } = await supabaseClient
+    .from("board_posts")
+    .select("*", { count: "exact", head: true });
+
+  const totalPages = Math.ceil(count / pageSize);
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement("button");
-    btn.type = "button"; // ← 중요! 버튼 기본 동작(폼 제출) 방지
+    btn.type = "button"; // 버튼 타입 지정
     btn.innerText = i;
 
-    if(i === currentPage){
-      btn.style.background = "#87CEEB";
-      btn.style.color = "#fff";
-    }
+    if (i === currentPage) btn.style.background = "#87CEEB";
 
     btn.onclick = () => {
       currentPage = i;
       loadBoard(); // 게시판만 새로 로드
-      boardSection.scrollTop = 0; // 선택적으로 게시판 상단으로 스크롤
     };
 
     pagination.appendChild(btn);
