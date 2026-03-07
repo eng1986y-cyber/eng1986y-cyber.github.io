@@ -542,30 +542,27 @@ async function loadPagination(){
     .select("*",{count:"exact", head:true});
 
   const totalPages = Math.ceil(count / pageSize);
-
   const pagination = document.getElementById("pagination");
   pagination.innerHTML="";
 
-const btn = document.createElement("button");
-btn.type = "button"; // ← 여기 추가
-btn.innerText = i;
+  for(let i = 1; i <= totalPages; i++){
+    const btn = document.createElement("button");
+    btn.type = "button"; // ← 중요! 버튼 기본 동작(폼 제출) 방지
+    btn.innerText = i;
 
-if(i === currentPage)
-    btn.style.background = "#87CEEB";
+    if(i === currentPage){
+      btn.style.background = "#87CEEB";
+      btn.style.color = "#fff";
+    }
 
-btn.onclick = () => {
-    currentPage = i;
-    loadBoard(); // 게시판만 새로 로드
-};
+    btn.onclick = () => {
+      currentPage = i;
+      loadBoard(); // 게시판만 새로 로드
+      boardSection.scrollTop = 0; // 선택적으로 게시판 상단으로 스크롤
+    };
 
-let currentPage = 1;
-const pageSize = 18;
-
-function scrollToTop(){
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+    pagination.appendChild(btn);
+  }
 }
 
 function focusSearch(){
