@@ -243,10 +243,6 @@ body{
   object-fit:cover;
 }
 
-.board-section{
-  margin-top:60px;
-}
-
 .board-card{
   background:#fff;
   padding:20px;
@@ -533,6 +529,8 @@ body{
 
 <script>
 
+let boardLoading = false;
+
 async function loadPagination(){
 
   const { count } = await supabaseClient
@@ -696,8 +694,14 @@ loadBoard();
 
 async function loadBoard(){
 
+  if(boardLoading) return;
+  boardLoading = true;
+
   const boardSection=document.getElementById("boardSection");
   boardSection.innerHTML="";
+
+  boardLoading = false;
+}
 
   const start=(currentPage-1)*pageSize;
   const end=start+pageSize-1;
@@ -757,6 +761,8 @@ document.getElementById("searchInput")
   });
 
 function search(){
+
+  window.scrollTo({top:0});
 
   const keyword=document.getElementById("searchInput")
     .value.trim().toLowerCase();
