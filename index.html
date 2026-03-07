@@ -1,753 +1,123 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5530864523798922"
-     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정보공유 플랫폼</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-<title>정보공유 플랫폼</title>
 
 <style>
+body{ margin:0; padding:20px; font-family:Arial; background:#f5f5f5; overflow-y:scroll; }
+.container{ max-width:1200px; margin:0 auto; }
 
-#pagination button{
-  margin:4px;
-  padding:6px 12px;
-  border:none;
-  border-radius:6px;
-  background:#eee;
-  cursor:pointer;
-}
-
-#pagination button:hover{
-  background:#87CEEB;
-  color:#fff;
-}
-
-html{
-  scrollbar-gutter: stable;
-}
-
-/* ===== 게시판 그리드 ===== */
-
-.board-section {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  row-gap: 12px;
-  column-gap: 6px;
-  margin-top: 20px;
-  margin-bottom: 15px;
-  max-height: 720px;     /* 게시판 고정 높이 */
-  overflow-y: auto;       /* 게시판 안에서만 스크롤 */
-}
-
-/* 장방형 카드 */
-.board-card{
-  background:#fff;
-  border-radius:12px;
-  border:1px solid #ddd;
-  padding:15px;
-  cursor:pointer;
-  transition:0.2s;
-  height:120px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
-.board-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 6px 14px rgba(0,0,0,0.1);
-}
-
-.board-card h3{
-  font-size:14px;
-  margin:0;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.board-preview{
-  font-size:12px;
-  color:#666;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-}
-
-/* ===== 팝업 ===== */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.modal-content{
-  background:#fff;
-  width:600px;
-  max-width:90%;
-  max-height:80%;
-  overflow:auto;
-  border-radius:14px;
-  padding:25px;
-  position:relative;
-}
-
-.modal-close{
-  position:absolute;
-  top:12px;
-  right:15px;
-  font-size:20px;
-  cursor:pointer;
-}
-
-/* 모바일 2열 */
-@media(max-width:768px){
-  .board-section{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-.board-card.highlight{
-  background:#E2C65C;
-  color:#fff;
-  border-color:#C9A227;
-}
-
-body{
-  margin:0;
-  padding:20px;
-  font-family:Arial;
-  background:#f5f5f5;
-  overflow-y:scroll;
-}
-
-.container{
-  max-width:1200px;
-  margin:0 auto;
-}
+#pagination button{ margin:4px; padding:6px 12px; border:none; border-radius:6px; background:#eee; cursor:pointer; }
+#pagination button:hover{ background:#87CEEB; color:#fff; }
 
 /* 검색 */
-.search-box{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-  margin-bottom:30px;
-}
-
-.search-box input{
-  width:320px;
-  height:46px;
-  border:2px solid #87CEEB;
-  border-radius:6px;
-  padding:0 12px;
-}
-
-.search-box input{
-  font-size:16px;
-}
-
-.search-box button{
-  height:46px;
-  width:160px;
-  margin-left:6px;
-  border:none;
-  border-radius:6px;
-  background:#87CEEB;
-  color:#fff;
-  cursor:pointer;
-}
-
-.search-box button:hover{
-  background:#6bbfe0;
-}
+.search-box{ display:flex; justify-content:center; align-items:center; gap:6px; margin-bottom:30px; }
+.search-box input{ width:320px; height:46px; border:2px solid #87CEEB; border-radius:6px; padding:0 12px; font-size:16px; }
+.search-box button{ height:46px; width:160px; margin-left:6px; border:none; border-radius:6px; background:#87CEEB; color:#fff; cursor:pointer; }
+.search-box button:hover{ background:#6bbfe0; }
 
 /* 배너 */
-.top-banner{
-  width:100%;
-  height:120px;
-  margin:20px 0 30px;
-  border-radius:14px;
-  overflow:hidden;
-  border:2px solid #87CEEB;
+.top-banner{ width:100%; height:120px; margin:20px 0 30px; border-radius:14px; overflow:hidden; border:2px solid #87CEEB; }
+.top-banner img{ width:100%; height:100%; object-fit:cover; transition:0.4s; }
+
+/* 광고 그리드 */
+.grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-bottom:40px; }
+.img-ad, .square-ad{ border-radius:12px; overflow:hidden; border:1px solid #ddd; height:100px; }
+.img-ad img, .square-ad img{ width:100%; height:100%; object-fit:cover; }
+.text-ad{ background:#fff; border:1px solid #ccc; padding:12px; text-align:center; border-radius:8px; text-decoration:none; color:#222; transition:0.2s; }
+.text-ad:hover{ background:#87CEEB; color:#fff; }
+.ad-title{ margin-top:10px; font-size:15px; font-weight:500; text-align:center; color:#222; text-decoration:none; }
+
+/* 게시판 */
+.board-section{ display:grid; grid-template-columns:repeat(6,1fr); row-gap:12px; column-gap:6px; max-height:720px; overflow-y:auto; margin-bottom:15px; }
+.board-card{ background:#fff; border-radius:12px; border:1px solid #ddd; padding:15px; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; height:120px; overflow:hidden; transition:0.2s; }
+.board-card:hover{ transform:translateY(-4px); box-shadow:0 6px 14px rgba(0,0,0,0.1); }
+.board-card h3{ font-size:14px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.board-preview{ font-size:12px; color:#666; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+.board-card.highlight{ background:#E2C65C; color:#fff; border-color:#C9A227; }
+
+/* 소유자 영역 */
+.owner-box{ margin-top:60px; padding:25px; border-radius:11px; text-align:center; position:relative; }
+.owner-name{ font-family: 'Bahnschrift Light', serif; font-size:11px; font-weight:600; letter-spacing:2px; margin-bottom:11px; color:#222; display:inline-block; }
+.owner-sns{ position:absolute; right:15px; bottom:15px; display:flex; gap:8px; }
+.owner-sns a{ display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:50%; background:#fff; border:2px solid #87CEEB; color:#87CEEB; font-size:20px; text-decoration:none; transition:all 0.3s ease; }
+.owner-sns a:hover{ background:#87CEEB; color:#fff; transform:translateY(-4px); box-shadow:0 8px 18px rgba(0,0,0,0.15); }
+
+/* 모달 */
+.modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999; }
+.modal-content{ background:#fff; width:600px; max-width:90%; max-height:80%; overflow:auto; border-radius:14px; padding:25px; position:relative; }
+.modal-close{ position:absolute; top:12px; right:15px; font-size:20px; cursor:pointer; }
+
+/* 모바일 */
+@media(max-width:768px){
+  .board-section{ grid-template-columns:repeat(2,1fr); }
+  .grid{ grid-template-columns:repeat(2,1fr); gap:8px; }
+  .img-ad{ height:90px; }
+  .text-ad{ font-size:14px; padding:10px; }
+  body{ padding:15px; }
+  .top-banner{ height:90px; }
+  .search-box{ flex-direction:column; }
+  .search-box input, .search-box button{ width:100%; height:48px; box-sizing:border-box; }
+  .search-box button{ margin:8px 0 0 0; }
+  .owner-box{ margin-top:40px; padding:18px; }
+  .owner-name{ font-size:11px; }
+  .owner-sns{ position:static !important; justify-content:center; margin-top:15px; }
+  .owner-sns a{ width:30px; height:30px; font-size:16px; margin:0 6px; }
+  .mobile-nav{ position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:20px; background:#fff; padding:10px 20px; border-radius:50px; box-shadow:0 8px 20px rgba(0,0,0,0.15); z-index:999; }
+  .mobile-nav button{ width:50px; height:50px; border-radius:50%; border:none; background:#87CEEB; color:#fff; font-size:20px; cursor:pointer; }
+  .mobile-nav button:active{ transform:scale(0.95); }
 }
-
-.top-banner img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:0.4s;
-}
-
-.top-banner img{
-  transition:transform 0.4s ease;
-}
-
-/* 그리드 */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:10px;
-  margin-bottom:40px;
-}
-
-/* 일반 이미지 광고 */
-.img-ad{
-  height:100px;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #ddd;
-}
-
-.img-ad img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* 텍스트 광고 */
-.text-ad{
-  background:#fff;
-  border:1px solid #ccc;
-  padding:12px;
-  text-align:center;
-  border-radius:8px;
-  text-decoration:none;
-  color:#222;
-  transition:0.2s;
-}
-
-.text-ad:hover{
-  background:#87CEEB;
-  color:#fff;
-}
-
-/* 정방형 광고 */
-.square-ad{
-  aspect-ratio:1/1;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #ddd;
-}
-
-.square-ad img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.board-card{
-  background:#fff;
-  padding:20px;
-  margin-bottom:15px;
-  border-radius:10px;
-  border:1px solid #ddd;
-}
-
-.board-card h3{
-  margin:0 0 10px;
-}
-
-/* ===== 소유자 영역 ===== */
-.owner-box{
-  margin-top:60px;
-  padding:25px;
-  border-radius:11px;
-  text-align:center;
-  position:relative;
-}
-
-.owner-name{
-  font-family: 'Bahnschrift Light', serif;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:2px;
-  margin-bottom:11px;
-  color:#222;
-  position:relative;
-  display:inline-block;
-}
-
-.owner-sns{
-  position:absolute;
-  right:15px;
-  bottom:15px;
-  display:flex;
-  gap:8px;
-}
-
-.owner-sns a{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#fff;
-  border:2px solid #87CEEB;
-  color:#87CEEB;
-  font-size:20px;
-  text-decoration:none;
-  transition:all 0.3s ease;
-}
-
-.owner-sns a:hover{
-  background:#87CEEB;
-  color:#fff;
-  transform:translateY(-4px);
-  box-shadow:0 8px 18px rgba(0,0,0,0.15);
-}
-
-/* ================= 모바일 전용 ================= */
-@media (max-width:768px){
-
-/* 모바일에서 SNS 중앙 정렬 */
-.owner-sns{
-  position:static !important;
-  margin-top:15px;
-  display:flex;
-  justify-content:center;
-}
-
-  body{
-    padding:15px;
-  }
-
-  .search-box{
-    display:flex;
-    flex-direction:column;
-  }
-
-  .search-box input,
-  .search-box button{
-    width:100%;
-    height:48px;
-    box-sizing:border-box;
-  }
-
-  .search-box button{
-    margin:8px 0 0 0;
-  }
-
-  /* 배너 */
-  .top-banner{
-    height:90px;
-  }
-
-  /* 그리드 → 2열 */
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
-  }
-
-  .img-ad{
-    height:90px;
-  }
-
-  .text-ad{
-    font-size:14px;
-    padding:10px;
-  }
-
-  .owner-box{
-    margin-top:40px;
-    padding:18px;
-    position:relative;
-  }
-
-  .owner-name{
-    font-size:11px;
-  }
-
-  .owner-sns a{
-    width:30px;
-    height:30px;
-    font-size:16px;
-    margin:0 6px;
-  }
-
-  /* ===== 모바일 플로팅 네비 ===== */
-  .mobile-nav{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:20px;
-    background:#fff;
-    padding:10px 20px;
-    border-radius:50px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-    z-index:999;
-  }
-
-  .mobile-nav button{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    border:none;
-    background:#87CEEB;
-    color:#fff;
-    font-size:20px;
-    cursor:pointer;
-  }
-
-  .mobile-nav button:active{
-    transform:scale(0.95);
-  }
-
-}
-
-/* PC에서는 완전 숨김 */
-.mobile-nav{
-  display:none;
-}
-
-.ad-title{
-  margin-top:10px;
-  font-family:'HYGraphicM', Arial, sans-serif;
-  font-size:15px;
-  font-weight:500;
-  text-align:center;
-  letter-spacing:1px;
-  color:#222;
-}
-
-@keyframes glow{
-  from{ box-shadow:0 0 0px rgba(135,206,235,0); }
-  to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
-}
-
-.ad-title{
-  text-decoration:none;
-}
-
-.img-ad a,
-.square-ad a{
-  text-decoration:none;
-}
-
-.img-ad a,
-.square-ad a,
-.ad-title{
-  text-decoration:none !important;
-}
-
-.ad-item.highlight{
-  background:transparent !important;
-}
-
-/* 이미지 광고 검색 결과 */
-.ad-item.highlight .ad-title{
-  background:#E2C65C !important;
-  border-radius:8px;
-  padding:6px 0;
-}
-
-/* 텍스트 광고 검색 결과 */
-.text-ad.highlight{
-  background:#E2C65C !important;   /* 겨자색 */
-  color:#fff !important;
-  border-color:#C9A227 !important;
-}
-
-.site-description{
-  margin-top:60px;
-  padding:30px;
-  background:#ffffff;
-  border-radius:12px;
-  border:1px solid #ddd;
-  text-align:center;
-  font-size:15px;
-  color:#444;
-  line-height:1.7;
-}
-
-/* 기본은 숨김 (PC에서는 안보임) */
-.mobile-adsense{
-  display:none;
-  margin:20px 0;
-}
-
-/* 모바일에서만 노출 */
-@media (max-width:768px){
-  .mobile-adsense{
-    display:block;
-  }
-}
-
+.mobile-nav{ display:none; }
 </style>
 </head>
 
 <body>
-
 <div class="container">
+  <div class="search-box">
+    <input id="searchInput" placeholder="검색어 입력">
+    <button onclick="search()">검색</button>
+  </div>
 
-<div class="search-box">
-  <input id="searchInput" placeholder="검색어 입력">
-  <button onclick="search()">검색</button>
+  <div class="top-banner" id="topBanner"></div>
+
+  <div class="mobile-adsense">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5530864523798922"
+         data-ad-slot="5037510429"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="grid" id="imageAds"></div>
+  <div class="grid" id="textAds"></div>
+  <div class="grid" id="bottomImageAds"></div>
+
+  <div class="board-section" id="boardSection"></div>
+  <div id="pagination" style="margin-top:20px;text-align:center;"></div>
+
+  <div class="site-description" id="siteDescription"></div>
+
+  <div class="owner-box">
+    <div class="owner-name" id="ownerName"></div>
+    <div class="owner-sns" id="ownerSNS"></div>
+  </div>
 </div>
 
-<div class="top-banner" id="topBanner"></div>
-
-<!-- 📱 모바일 전용 애드센스 -->
-
-<div class="mobile-adsense">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-5530864523798922"
-       data-ad-slot="5037510429"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</div>
-
-<div class="grid" id="imageAds"></div>
-<div class="grid" id="textAds"></div>
-<div class="grid" id="bottomImageAds"></div>
-<div class="board-section" id="boardSection"></div>
-<div id="pagination" style="margin-top:20px;text-align:center;"></div>
-<div class="site-description" id="siteDescription"></div>
-<div class="owner-box">
-  <div class="owner-name" id="ownerName"></div>
-  <div class="owner-sns" id="ownerSNS"></div>
-</div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
-
-<script>
-
-function scrollToTop(){
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function outsideClose(e){
-  if(e.target.classList.contains("modal")){
-    closeModal();
-  }
-}
-
-let boardLoading = false;
-let currentPage = 1;
-const pageSize = 18;
-
-async function loadPagination() {
-  const { count } = await supabaseClient
-    .from("board_posts")
-    .select("*", { count: "exact", head: true });
-
-  const totalPages = Math.ceil(count / pageSize);
-  const pagination = document.getElementById("pagination");
-  pagination.innerHTML = "";
-
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.innerText = i;
-
-    if (i === currentPage) btn.style.background = "#87CEEB";
-
-    btn.onclick = () => {
-      currentPage = i;
-      loadBoard();
-    };
-
-    pagination.appendChild(btn);
-  }
-}
-
-function focusSearch() {
-  document.getElementById("searchInput").focus();
-}
-
-async function loadSite() {
-  const boardSection = document.getElementById("boardSection");
-  const imgBox = document.getElementById("imageAds");
-  const txtBox = document.getElementById("textAds");
-  const bottomBox = document.getElementById("bottomImageAds");
-  const bannerBox = document.getElementById("topBanner");
-
-  imgBox.innerHTML = "";
-  txtBox.innerHTML = "";
-  bottomBox.innerHTML = "";
-  bannerBox.innerHTML = "";
-
-  const { data: ads } = await supabaseClient.from("ads").select("*").order("id", { ascending: true });
-
-  if (ads) {
-    ads.forEach(ad => {
-      if (ad.type === "image" || ad.type === "square") {
-        const wrap = document.createElement("div");
-        wrap.className = "ad-item";
-        wrap.setAttribute("data-title", (ad.main_title || "").toLowerCase());
-        const link = ad.link_url
-          ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>`
-          : `<img src="${ad.image_url}">`;
-        wrap.innerHTML = ad.type === "image"
-          ? `<div class="img-ad">${link}</div><div class="ad-title">${ad.main_title || ""}</div>`
-          : `<div class="square-ad">${link}</div><div class="ad-title">${ad.main_title || ""}</div>`;
-        (ad.type === "image" ? imgBox : bottomBox).appendChild(wrap);
-      }
-      if (ad.type === "text") {
-        const a = document.createElement("a");
-        a.className = "text-ad ad-item";
-        a.href = ad.link_url || "#";
-        a.target = "_blank";
-        a.innerText = ad.title || "텍스트광고";
-        a.setAttribute("data-title", (ad.title || "").toLowerCase());
-        txtBox.appendChild(a);
-      }
-    });
-  }
-
-  const { data: settings } = await supabaseClient.from("site_settings").select("*").limit(1);
-
-  if (settings && settings.length > 0) {
-    const s = settings[0];
-    if (s.banner_img) {
-      bannerBox.innerHTML = s.banner_link
-        ? `<a href="${s.banner_link}" target="_blank"><img src="${s.banner_img}"></a>`
-        : `<img src="${s.banner_img}">`;
-    }
-    document.getElementById("ownerName").innerText = s.owner_name || "";
-    document.getElementById("siteDescription").innerText = s.site_description || "";
-
-    const snsBox = document.getElementById("ownerSNS");
-    snsBox.innerHTML = "";
-    if (s.owner_instagram) snsBox.innerHTML += `<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
-    if (s.owner_youtube) snsBox.innerHTML += `<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
-    if (s.owner_blog) snsBox.innerHTML += `<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
-  }
-}
-
-async function loadBoard() {
-  if (boardLoading) return;
-  boardLoading = true;
-
-  const boardSection = document.getElementById("boardSection");
-  boardSection.innerHTML = "";
-
-  const start = (currentPage - 1) * pageSize;
-  const end = start + pageSize - 1;
-
-  const { data: posts } = await supabaseClient
-    .from("board_posts")
-    .select("*")
-    .order("id", { ascending: false })
-    .range(start, end);
-
-  if (posts) {
-    posts.forEach(post => {
-      const div = document.createElement("div");
-      div.className = "board-card";
-
-      const date = new Date(post.created_at).toLocaleDateString("ko-KR");
-
-      div.innerHTML = `
-        <h3>${post.title}</h3>
-        <div class="board-preview">${post.content}</div>
-        <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
-          ${date} · 조회 ${post.views || 0}
-        </div>
-      `;
-
-      div.onclick = async () => {
-        const newViews = (post.views || 0) + 1;
-        await supabaseClient.from("board_posts").update({ views: newViews }).eq("id", post.id);
-        openModal(post.title, post.content, date, newViews);
-        div.querySelector(".view-count").innerText = `${date} · 조회 ${newViews}`;
-        post.views = newViews;
-      };
-
-      boardSection.appendChild(div);
-    });
-  }
-
-  loadPagination();
-  boardLoading = false;
-}
-
-document.getElementById("searchInput").addEventListener("keydown", e => {
-  if (e.key === "Enter") search();
-});
-
-function search() {
-  window.scrollTo({ top: 0 });
-  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
-  if (!keyword) return;
-
-  let found = false;
-  const ads = document.querySelectorAll(".ad-item");
-  ads.forEach(ad => {
-    ad.classList.remove("highlight");
-    const title = ad.getAttribute("data-title");
-    if (title && title.includes(keyword)) {
-      ad.classList.add("highlight");
-      found = true;
-      ad.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  });
-
-  const boards = document.querySelectorAll(".board-card");
-  boards.forEach(board => {
-    board.classList.remove("highlight");
-    const text = board.innerText.toLowerCase();
-    if (text.includes(keyword)) {
-      board.classList.add("highlight");
-      found = true;
-      board.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  });
-
-  if (!found) alert("검색 결과 없음");
-}
-
-function openModal(title, content, date, views) {
-  document.getElementById("modalTitle").innerText = title;
-  document.getElementById("modalContent").innerText = content;
-  document.getElementById("modalMeta").innerText = `${date} · 조회 ${views}`;
-  document.getElementById("boardModal").style.display = "flex";
-}
-
-function closeModal() {
-  document.getElementById("boardModal").style.display = "none";
-}
-
-document.getElementById("boardModal").addEventListener("click", e => {
-  if (e.target === e.currentTarget) closeModal();
-});
-
-// 초기 로드
-loadSite();
-loadBoard();
-</script>
-
+<!-- 모바일 네비 -->
 <div class="mobile-nav">
-  <button onclick="scrollToTop()">
-    <i class="fas fa-home"></i>
-  </button>
-  <button onclick="focusSearch()">
-    <i class="fas fa-search"></i>
-  </button>
+  <button onclick="scrollToTop()"><i class="fas fa-home"></i></button>
+  <button onclick="focusSearch()"><i class="fas fa-search"></i></button>
 </div>
 
-<div class="modal" id="boardModal" onclick="outsideClose(event)">
+<!-- 모달 -->
+<div class="modal" id="boardModal">
   <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <h2 id="modalTitle"></h2>
@@ -755,6 +125,118 @@ loadBoard();
     <div id="modalContent"></div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+let boardLoading=false, currentPage=1, pageSize=18;
+
+async function loadPagination(){
+  const { count } = await supabaseClient.from("board_posts").select("*",{ count:"exact", head:true });
+  const totalPages=Math.ceil(count/pageSize);
+  const pagination=document.getElementById("pagination");
+  pagination.innerHTML="";
+  for(let i=1;i<=totalPages;i++){
+    const btn=document.createElement("button");
+    btn.type="button"; btn.innerText=i;
+    if(i===currentPage) btn.style.background="#87CEEB";
+    btn.onclick=()=>{ currentPage=i; loadBoard(); };
+    pagination.appendChild(btn);
+  }
+}
+
+function focusSearch(){ document.getElementById("searchInput").focus(); }
+function scrollToTop(){ window.scrollTo({ top:0, behavior:"smooth" }); }
+function closeModal(){ document.getElementById("boardModal").style.display="none"; }
+
+function outsideClose(e){ if(e.target.classList.contains("modal")) closeModal(); }
+document.getElementById("boardModal").addEventListener("click", outsideClose);
+
+async function loadSite(){
+  const boardSection=document.getElementById("boardSection");
+  const imgBox=document.getElementById("imageAds");
+  const txtBox=document.getElementById("textAds");
+  const bottomBox=document.getElementById("bottomImageAds");
+  const bannerBox=document.getElementById("topBanner");
+
+  imgBox.innerHTML=""; txtBox.innerHTML=""; bottomBox.innerHTML=""; bannerBox.innerHTML="";
+
+  const { data: ads } = await supabaseClient.from("ads").select("*").order("id",{ascending:true});
+  if(ads){ ads.forEach(ad=>{
+    if(ad.type==="image"||ad.type==="square"){
+      const wrap=document.createElement("div"); wrap.className="ad-item"; wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
+      const link=ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`;
+      wrap.innerHTML=ad.type==="image" ? `<div class="img-ad">${link}</div><div class="ad-title">${ad.main_title||""}</div>` : `<div class="square-ad">${link}</div><div class="ad-title">${ad.main_title||""}</div>`;
+      (ad.type==="image"?imgBox:bottomBox).appendChild(wrap);
+    }
+    if(ad.type==="text"){
+      const a=document.createElement("a"); a.className="text-ad ad-item"; a.href=ad.link_url||"#"; a.target="_blank"; a.innerText=ad.title||"텍스트광고"; a.setAttribute("data-title",(ad.title||"").toLowerCase()); txtBox.appendChild(a);
+    }
+  }); }
+
+  const { data: settings } = await supabaseClient.from("site_settings").select("*").limit(1);
+  if(settings && settings.length>0){
+    const s=settings[0];
+    if(s.banner_img) bannerBox.innerHTML=s.banner_link ? `<a href="${s.banner_link}" target="_blank"><img src="${s.banner_img}"></a>`:`<img src="${s.banner_img}">`;
+    document.getElementById("ownerName").innerText=s.owner_name||"";
+    document.getElementById("siteDescription").innerText=s.site_description||"";
+    const snsBox=document.getElementById("ownerSNS"); snsBox.innerHTML="";
+    if(s.owner_instagram) snsBox.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+    if(s.owner_youtube) snsBox.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+    if(s.owner_blog) snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
+  }
+}
+
+async function loadBoard(){
+  if(boardLoading) return;
+  boardLoading=true;
+  const boardSection=document.getElementById("boardSection");
+  boardSection.innerHTML="";
+  const start=(currentPage-1)*pageSize, end=start+pageSize-1;
+  const { data: posts } = await supabaseClient.from("board_posts").select("*").order("id",{ascending:false}).range(start,end);
+  if(posts){ posts.forEach(post=>{
+    const div=document.createElement("div"); div.className="board-card";
+    const date=new Date(post.created_at).toLocaleDateString("ko-KR");
+    div.innerHTML=`<h3>${post.title}</h3><div class="board-preview">${post.content}</div><div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">${date} · 조회 ${post.views||0}</div>`;
+    div.onclick=async ()=>{
+      const newViews=(post.views||0)+1;
+      await supabaseClient.from("board_posts").update({views:newViews}).eq("id",post.id);
+      openModal(post.title,post.content,date,newViews);
+      div.querySelector(".view-count").innerText=`${date} · 조회 ${newViews}`;
+      post.views=newViews;
+    };
+    boardSection.appendChild(div);
+  }); }
+  loadPagination();
+  boardLoading=false;
+}
+
+document.getElementById("searchInput").addEventListener("keydown", e=>{ if(e.key==="Enter") search(); });
+
+function search(){
+  window.scrollTo({ top:0 });
+  const keyword=document.getElementById("searchInput").value.trim().toLowerCase();
+  if(!keyword) return;
+  let found=false;
+  const ads=document.querySelectorAll(".ad-item");
+  ads.forEach(ad=>{ ad.classList.remove("highlight"); if(ad.getAttribute("data-title")?.includes(keyword)){ ad.classList.add("highlight"); ad.scrollIntoView({behavior:"smooth",block:"center"}); found=true; } });
+  const boards=document.querySelectorAll(".board-card");
+  boards.forEach(board=>{ board.classList.remove("highlight"); if(board.innerText.toLowerCase().includes(keyword)){ board.classList.add("highlight"); board.scrollIntoView({behavior:"smooth",block:"center"}); found=true; } });
+  if(!found) alert("검색 결과 없음");
+}
+
+function openModal(title, content, date, views){
+  document.getElementById("modalTitle").innerText=title;
+  document.getElementById("modalContent").innerText=content;
+  document.getElementById("modalMeta").innerText=`${date} · 조회 ${views}`;
+  document.getElementById("boardModal").style.display="flex";
+}
+
+// 초기 로드
+loadSite();
+loadBoard();
+</script>
 
 </body>
 </html>
