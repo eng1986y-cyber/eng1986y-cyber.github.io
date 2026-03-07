@@ -546,23 +546,17 @@ async function loadPagination(){
   const pagination = document.getElementById("pagination");
   pagination.innerHTML="";
 
-  for(let i=1;i<=totalPages;i++){
+const btn = document.createElement("button");
+btn.type = "button"; // ← 여기 추가
+btn.innerText = i;
 
-    const btn=document.createElement("button");
-    btn.innerText=i;
-
-    if(i===currentPage)
-      btn.style.background="#87CEEB";
+if(i === currentPage)
+    btn.style.background = "#87CEEB";
 
 btn.onclick = () => {
-  currentPage = i;
-  loadBoard();  // 게시판만 다시 로드
-  // 전체 스크롤 제거
+    currentPage = i;
+    loadBoard(); // 게시판만 새로 로드
 };
-
-    pagination.appendChild(btn);
-  }
-}
 
 let currentPage = 1;
 const pageSize = 18;
