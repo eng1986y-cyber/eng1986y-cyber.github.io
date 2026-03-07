@@ -700,11 +700,6 @@ async function loadBoard(){
   const boardSection=document.getElementById("boardSection");
   boardSection.innerHTML="";
 
-  loadPagination();
-
-  boardLoading = false;
-}
-
   const start=(currentPage-1)*pageSize;
   const end=start+pageSize-1;
 
@@ -751,6 +746,10 @@ async function loadBoard(){
       boardSection.appendChild(div);
     });
   }
+
+loadPagination();
+boardLoading = false;
+}
 
   loadPagination();
 }
