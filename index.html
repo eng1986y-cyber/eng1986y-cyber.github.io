@@ -221,17 +221,30 @@ function search() {
 
   let found = false;
 
-  // 광고 검색
-  const ads = document.querySelectorAll(".ad-item");
-  ads.forEach(ad => ad.classList.remove("highlight"));
-  for (const ad of ads) {
-    const title = (ad.getAttribute("data-title") || "").toLowerCase();
-    if (title.includes(keyword)) {
-      ad.classList.add("highlight");
-      if (!found) ad.scrollIntoView({ behavior: "smooth", block: "center" });
-      found = true;
-    }
-  }
+// 광고 로드 예시
+if(ad.type === "image" || ad.type === "square"){
+  const wrap = document.createElement("div");
+  wrap.className = "ad-item";
+  wrap.setAttribute("data-title", (ad.main_title||"").toLowerCase()); // 검색용
+  const link = ad.link_url ? `<a href="${ad.link_url}" target="_blank"><img src="${ad.image_url}"></a>` : `<img src="${ad.image_url}">`;
+  wrap.innerHTML = ad.type === "image"
+    ? `<div class="img-ad">${link}</div><div class="ad-title">${ad.main_title||""}</div>`
+    : `<div class="square-ad">${link}</div><div class="ad-title">${ad.main_title||""}</div>`;
+  
+  // highlight 적용 편하게 wrap 전체에 class 추가
+  (ad.type === "image" ? imgBox : bottomBox).appendChild(wrap);
+}
+
+// 텍스트광고
+if(ad.type === "text"){
+  const a = document.createElement("a");
+  a.className = "text-ad ad-item";
+  a.href = ad.link_url || "#";
+  a.target = "_blank";
+  a.innerText = ad.title || "텍스트광고";
+  a.setAttribute("data-title", (ad.title||"").toLowerCase()); // 검색용
+  txtBox.appendChild(a);
+}
 
   // 게시판 검색
   const boards = document.querySelectorAll(".board-card");
