@@ -700,6 +700,55 @@ async function loadBoard(){
   const boardSection=document.getElementById("boardSection");
   boardSection.innerHTML="";
 
+  const start=(currentPage-1)*pageSize;
+  const end=start+pageSize-1;
+
+  const { data: posts } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ascending:false})
+    .range(start,end);
+
+  if(posts){
+    posts.forEach(post=>{
+
+      const div=document.createElement("div");
+      div.className="board-card";
+
+      const date=new Date(post.created_at)
+        .toLocaleDateString("ko-KR");
+
+      div.innerHTML=`
+        <h3>${post.title}</h3>
+        <div class="board-preview">${post.content}</div>
+        <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
+          ${date} · 조회 ${post.views||0}
+        </div>
+      `;
+
+      div.onclick=async ()=>{
+
+        const newViews=(post.views||0)+1;
+
+        await supabaseClient
+          .from("board_posts")
+          .update({ views:newViews })
+          .eq("id",post.id);
+
+        openModal(post.title,post.content,date,newViews);
+
+        div.querySelector(".view-count").innerText =
+          date+" · 조회 "+newViews;
+
+        post.views=newViews;
+      };
+
+      boardSection.appendChild(div);
+    });
+  }
+
+  loadPagination();
+
   boardLoading = false;
 }
 
