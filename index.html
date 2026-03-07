@@ -31,13 +31,14 @@ html{
 }
 
 /* ===== 게시판 그리드 ===== */
-.board-section{
-  margin-top:20px;
-  margin-bottom:5px;
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:6px;
-  min-height:720px;
+
+.board-section {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  row-gap: 10px;    /* 위아래 간격만 */
+  column-gap: 6px;  /* 좌우 간격 그대로 */
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 /* 장방형 카드 */
