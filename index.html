@@ -214,16 +214,38 @@ async function loadBoard(){
 
 document.getElementById("searchInput").addEventListener("keydown", e=>{ if(e.key==="Enter") search(); });
 
-function search(){
-  window.scrollTo({ top:0 });
-  const keyword=document.getElementById("searchInput").value.trim().toLowerCase();
-  if(!keyword) return;
-  let found=false;
-  const ads=document.querySelectorAll(".ad-item");
-  ads.forEach(ad=>{ ad.classList.remove("highlight"); if(ad.getAttribute("data-title")?.includes(keyword)){ ad.classList.add("highlight"); ad.scrollIntoView({behavior:"smooth",block:"center"}); found=true; } });
-  const boards=document.querySelectorAll(".board-card");
-  boards.forEach(board=>{ board.classList.remove("highlight"); if(board.innerText.toLowerCase().includes(keyword)){ board.classList.add("highlight"); board.scrollIntoView({behavior:"smooth",block:"center"}); found=true; } });
-  if(!found) alert("검색 결과 없음");
+function search() {
+  window.scrollTo({ top: 0 });
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  if (!keyword) return;
+
+  let found = false;
+
+  // 광고 검색
+  const ads = document.querySelectorAll(".ad-item");
+  ads.forEach(ad => ad.classList.remove("highlight"));
+  for (const ad of ads) {
+    const title = (ad.getAttribute("data-title") || "").toLowerCase();
+    if (title.includes(keyword)) {
+      ad.classList.add("highlight");
+      if (!found) ad.scrollIntoView({ behavior: "smooth", block: "center" });
+      found = true;
+    }
+  }
+
+  // 게시판 검색
+  const boards = document.querySelectorAll(".board-card");
+  boards.forEach(board => board.classList.remove("highlight"));
+  for (const board of boards) {
+    const text = (board.innerText || "").toLowerCase();
+    if (text.includes(keyword)) {
+      board.classList.add("highlight");
+      if (!found) board.scrollIntoView({ behavior: "smooth", block: "center" });
+      found = true;
+    }
+  }
+
+  if (!found) alert("검색 결과 없음");
 }
 
 function openModal(title, content, date, views){
