@@ -532,6 +532,17 @@ body{
 <script src="supabase.js"></script>
 
 <script>
+
+function scrollToTop(){
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function outsideClose(e){
+  if(e.target.classList.contains("modal")){
+    closeModal();
+  }
+}
+
 let boardLoading = false;
 let currentPage = 1;
 const pageSize = 18;
