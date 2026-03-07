@@ -43,8 +43,9 @@ html{
 @media(max-width:768px){
   .board-section {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 150px; /* 모바일 카드 높이 */
-    height: calc(150px * 3 + 8px * 2);
+    grid-auto-rows: 150px;  /* 모바일 카드 높이 */
+    gap: 12px 12px;         /* 모바일 row-gap, column-gap */
+    /* height 제거 */
   }
 }
 
