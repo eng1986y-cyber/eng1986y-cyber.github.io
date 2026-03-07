@@ -12,14 +12,6 @@
 
 <style>
 
-@media(max-width:768px){
-  .board-section{
-    grid-template-columns:repeat(2,1fr);
-    grid-auto-rows:120px;
-    height:372px; /* 120*3 + gap*2 = 372px */
-  }
-}
-
 #pagination button{
   margin:4px;
   padding:6px 12px;
@@ -45,8 +37,8 @@ html{
   display:grid;
   grid-template-columns:repeat(6,1fr);
   gap:12px;
-  grid-auto-rows:120px; 
-  height:396px; /* 120*3 + gap*2 = 396px */
+  grid-auto-rows: 120px;                 /* 카드 높이 고정 */
+  height: calc(120px * 3 + 12px * 2);    /* 3행 높이 + gap 2개 합산 */
 }
 
 /* 장방형 카드 */
@@ -121,6 +113,9 @@ html{
 @media(max-width:768px){
   .board-section{
     grid-template-columns:repeat(2,1fr);
+
+    grid-auto-rows: 120px;
+    height: calc(120px * 3 + 8px * 2);  /* 모바일 gap은 8px */
   }
 }
 
