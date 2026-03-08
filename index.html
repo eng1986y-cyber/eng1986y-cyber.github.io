@@ -792,6 +792,44 @@ document.getElementById("searchInput")
 
 function search(){
 
+function boardSearch(){
+
+  const keyword=document
+    .getElementById("boardSearchInput")
+    .value
+    .trim()
+    .toLowerCase();
+
+  if(!keyword) return;
+
+  let found=false;
+
+  const boards=document.querySelectorAll(".board-card");
+
+  boards.forEach(board=>{
+
+    board.classList.remove("highlight");
+
+    const text=board.innerText.toLowerCase();
+
+    if(text.includes(keyword)){
+      board.classList.add("highlight");
+      found=true;
+
+      board.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+    }
+
+  });
+
+  if(!found){
+    alert("게시판 검색 결과 없음");
+  }
+
+}
+
   const keyword=document.getElementById("searchInput")
     .value.trim().toLowerCase();
 
