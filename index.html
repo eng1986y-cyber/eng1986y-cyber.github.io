@@ -598,6 +598,12 @@ btn.onclick=()=>{
 let currentPage = 1;
 let pageSize = window.innerWidth <= 768 ? 4 : 18;
 
+function updatePageSize(){
+  pageSize = window.innerWidth <= 768 ? 4 : 18;
+}
+
+window.addEventListener("resize",updatePageSize);
+
 function scrollToTop(){
   window.scrollTo({
     top:0,
@@ -775,10 +781,6 @@ async function loadBoard(){
       boardSection.appendChild(div);
     });
   }
-
-function updatePageSize(){
-  pageSize = window.innerWidth <= 768 ? 4 : 18;
-}
 
 updatePageSize();
 
