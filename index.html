@@ -566,10 +566,6 @@ btn.onclick=(e)=>{
 }
 
 let currentPage = 1;
-window.addEventListener("resize", ()=>{
-  updatePageSize();
-  loadBoard();
-});
 
 function updatePageSize(){
   pageSize = window.innerWidth <= 768 ? 4 : 18;
@@ -706,7 +702,8 @@ loadBoard();
 
 async function loadBoard(){
 
-  const scrollY = window.scrollY;
+  const boardTop = document.getElementById("boardSection").offsetTop;
+  const scrollOffset = window.scrollY - boardTop;
 
   const boardSection=document.getElementById("boardSection");
   boardSection.innerHTML="";
@@ -758,7 +755,7 @@ async function loadBoard(){
     });
   }
 
-  window.scrollTo(0, scrollY);
+  window.scrollTo(0, boardTop + scrollOffset);
 
   loadPagination();
 }
