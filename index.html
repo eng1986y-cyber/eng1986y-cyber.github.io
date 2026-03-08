@@ -901,6 +901,13 @@ function outsideClose(e){
   }
 }
 
+document.getElementById("boardSearchInput")
+  .addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+      boardSearch();
+    }
+});
+
 </script>
 
 <div class="mobile-nav">
