@@ -908,6 +908,11 @@ document.getElementById("boardSearchInput")
     }
 });
 
+posts.filter(p =>
+  p.title.includes(keyword) ||
+  p.content.includes(keyword)
+)
+
 </script>
 
 <div class="mobile-nav">
