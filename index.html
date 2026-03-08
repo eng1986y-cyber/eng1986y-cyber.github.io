@@ -704,6 +704,8 @@ loadBoard();
 
 async function loadBoard(){
 
+  const scrollY = window.scrollY;
+
   const boardSection=document.getElementById("boardSection");
   boardSection.innerHTML="";
 
@@ -753,6 +755,8 @@ async function loadBoard(){
       boardSection.appendChild(div);
     });
   }
+
+  window.scrollTo(0, scrollY);
 
   loadPagination();
 }
