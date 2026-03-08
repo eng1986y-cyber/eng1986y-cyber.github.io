@@ -553,6 +553,9 @@ async function loadPagination(){
     if(i===currentPage)
       btn.style.background="#87CEEB";
 
+if(i===currentPage)
+  btn.classList.add("active");
+
 btn.onclick=()=>{
   currentPage=i;
   loadBoard();
