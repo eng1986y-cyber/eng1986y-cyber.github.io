@@ -702,6 +702,8 @@ loadBoard();
 
 async function loadBoard(){
 
+  boardSection.style.opacity="0";
+
   const boardTop = document.getElementById("boardSection").offsetTop;
   const scrollOffset = window.scrollY - boardTop;
 
@@ -755,7 +757,7 @@ async function loadBoard(){
     });
   }
 
-  window.scrollTo(0, boardTop + scrollOffset);
+boardSection.scrollIntoView({block:"start"});
 
   loadPagination();
 }
