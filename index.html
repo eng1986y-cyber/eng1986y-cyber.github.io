@@ -12,6 +12,12 @@
 
 <style>
 
+#pagination,
+.owner-box,
+.site-description{
+  position: static !important;
+}
+
 #pagination button{
   margin:4px;
   padding:6px 12px;
@@ -256,6 +262,7 @@ body{
 
 .board-section{
   margin-top:60px;
+  margin-bottom:40px;
 }
 
 .board-card{
@@ -420,9 +427,11 @@ body{
 
 }
 
-/* PC에서는 완전 숨김 */
-.mobile-nav{
-  display:none;
+/* PC에서만 숨김 */
+@media (min-width:769px){
+  .mobile-nav{
+    display:none;
+  }
 }
 
 .ad-title{
