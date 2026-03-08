@@ -771,9 +771,9 @@ async function search(){
     .select("*")
     .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
     .order("id",{ascending:false})
-    .limit(pageSize);
+    .limit(6);
 
-  const boardSection = document.getElementById("boardSection");
+  const boardSection=document.getElementById("boardSection");
   boardSection.innerHTML="";
 
   if(posts && posts.length>0){
