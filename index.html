@@ -578,10 +578,7 @@ function updatePageSize(){
 }
 
 updatePageSize();
-
-window.addEventListener("resize", ()=>{
-  updatePageSize();
-});
+window.addEventListener("resize", updatePageSize);
 
 function scrollToTop(){
   window.scrollTo({
