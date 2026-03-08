@@ -578,9 +578,10 @@ function updatePageSize(){
 }
 
 updatePageSize();
-window.addEventListener("resize", updatePageSize);
 
-/* 여기까지 */
+window.addEventListener("resize", ()=>{
+  updatePageSize();
+});
 
 function scrollToTop(){
   window.scrollTo({
