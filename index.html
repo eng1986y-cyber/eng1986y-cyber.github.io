@@ -547,10 +547,6 @@ async function loadPagination(){
 btn.onclick=()=>{
   currentPage=i;
   loadBoard();
-
-  document.getElementById("boardSection").scrollIntoView({
-    behavior:"smooth"
-  });
 };
 
     pagination.appendChild(btn);
