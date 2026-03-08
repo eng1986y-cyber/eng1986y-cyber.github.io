@@ -756,48 +756,52 @@ document.getElementById("searchInput")
     }
   });
 
-function search(){
+async function search(){
 
-  const keyword=document.getElementById("searchInput")
-    .value.trim().toLowerCase();
+  const keyword = document
+    .getElementById("searchInput")
+    .value.trim();
 
   if(!keyword) return;
 
-  let found=false;
+  currentPage = 1;
 
-  /* ===== 광고 검색 ===== */
-  const ads=document.querySelectorAll(".ad-item");
+  const { data: posts } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
+    .order("id",{ascending:false})
+    .limit(pageSize);
 
-  ads.forEach(ad=>{
-    ad.classList.remove("highlight");
+  const boardSection = document.getElementById("boardSection");
+  boardSection.innerHTML="";
 
-    const title=ad.getAttribute("data-title");
+  if(posts && posts.length>0){
 
-    if(title && title.includes(keyword)){
-      ad.classList.add("highlight");
-      found=true;
-      ad.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-  });
+    posts.forEach(post=>{
 
-  /* ===== 게시판 검색 ===== */
-  const boards=document.querySelectorAll(".board-card");
+      const div=document.createElement("div");
+      div.className="board-card";
 
-  boards.forEach(board=>{
-    board.classList.remove("highlight");
+      const date=new Date(post.created_at)
+        .toLocaleDateString("ko-KR");
 
-    const text=board.innerText.toLowerCase();
+      div.innerHTML=`
+        <h3>${post.title}</h3>
+        <div class="board-preview">${post.content}</div>
+        <div class="view-count">
+          ${date} · 조회 ${post.views||0}
+        </div>
+      `;
 
-    if(text.includes(keyword)){
-      board.classList.add("highlight");
-      found=true;
-      board.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-  });
+      boardSection.appendChild(div);
 
-  if(!found){
-    alert("검색 결과 없음");
+    });
+
+  }else{
+    boardSection.innerHTML="<p>검색 결과 없음</p>";
   }
+
 }
 
 function openModal(title,content,date,views){
