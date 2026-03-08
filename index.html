@@ -756,52 +756,48 @@ document.getElementById("searchInput")
     }
   });
 
-async function search(){
+function search(){
 
-  const keyword = document
-    .getElementById("searchInput")
-    .value.trim();
+  const keyword=document.getElementById("searchInput")
+    .value.trim().toLowerCase();
 
   if(!keyword) return;
 
-  currentPage = 1;
+  let found=false;
 
-  const { data: posts } = await supabaseClient
-    .from("board_posts")
-    .select("*")
-    .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
-    .order("id",{ascending:false})
-    .limit(6);
+  /* ===== 광고 검색 ===== */
+  const ads=document.querySelectorAll(".ad-item");
 
-  const boardSection=document.getElementById("boardSection");
-  boardSection.innerHTML="";
+  ads.forEach(ad=>{
+    ad.classList.remove("highlight");
 
-  if(posts && posts.length>0){
+    const title=ad.getAttribute("data-title");
 
-    posts.forEach(post=>{
+    if(title && title.includes(keyword)){
+      ad.classList.add("highlight");
+      found=true;
+      ad.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
 
-      const div=document.createElement("div");
-      div.className="board-card";
+  /* ===== 게시판 검색 ===== */
+  const boards=document.querySelectorAll(".board-card");
 
-      const date=new Date(post.created_at)
-        .toLocaleDateString("ko-KR");
+  boards.forEach(board=>{
+    board.classList.remove("highlight");
 
-      div.innerHTML=`
-        <h3>${post.title}</h3>
-        <div class="board-preview">${post.content}</div>
-        <div class="view-count">
-          ${date} · 조회 ${post.views||0}
-        </div>
-      `;
+    const text=board.innerText.toLowerCase();
 
-      boardSection.appendChild(div);
+    if(text.includes(keyword)){
+      board.classList.add("highlight");
+      found=true;
+      board.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
 
-    });
-
-  }else{
-    boardSection.innerHTML="<p>검색 결과 없음</p>";
+  if(!found){
+    alert("검색 결과 없음");
   }
-
 }
 
 function openModal(title,content,date,views){
