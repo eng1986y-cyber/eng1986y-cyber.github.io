@@ -567,36 +567,56 @@ body{
 
 <script>
 
-async function loadPagination(){
+let currentPage = 1;
+let pageSize = 6;
+let pageGroup = 1;   // 1~10 / 11~20 그룹
+let pageGroupSize = 10;
 
-  const { count } = await supabaseClient
-    .from("board_posts")
-    .select("*",{count:"exact", head:true});
-
-  const totalPages = Math.ceil(count / pageSize);
+function renderPagination(totalPages){
 
   const pagination = document.getElementById("pagination");
   pagination.innerHTML="";
 
-  for(let i=1;i<=totalPages;i++){
+  const startPage = (pageGroup-1) * pageGroupSize + 1;
+  const endPage = Math.min(startPage + pageGroupSize -1, totalPages);
+
+  // 이전 그룹 버튼
+  if(pageGroup > 1){
+    const prev=document.createElement("button");
+    prev.innerText="<<";
+    prev.onclick=function(){
+      pageGroup--;
+      renderPagination(totalPages);
+    };
+    pagination.appendChild(prev);
+  }
+
+  // 페이지 번호
+  for(let i=startPage;i<=endPage;i++){
 
     const btn=document.createElement("button");
+
     btn.innerText=i;
 
-    if(i===currentPage)
-      btn.style.background="#87CEEB";
-
-btn.onclick=()=>{
-  currentPage=i;
-  loadBoard();
-
-  document.getElementById("boardSection").scrollIntoView({
-    behavior:"smooth"
-  });
-};
+    btn.onclick=function(){
+      currentPage=i;
+      renderPage(i);
+    };
 
     pagination.appendChild(btn);
   }
+
+  // 다음 그룹 버튼
+  if(endPage < totalPages){
+    const next=document.createElement("button");
+    next.innerText=">>";
+    next.onclick=function(){
+      pageGroup++;
+      renderPagination(totalPages);
+    };
+    pagination.appendChild(next);
+  }
+
 }
 
 let currentPage = 1;
