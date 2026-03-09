@@ -825,9 +825,9 @@ document.getElementById("searchInput")
     }
   });
 
-function boardSearch(){
+async function boardSearch(){
 
-  const keyword=document
+  const keyword = document
     .getElementById("boardSearchInput")
     .value
     .trim()
@@ -835,27 +835,53 @@ function boardSearch(){
 
   if(!keyword) return;
 
-  let found=false;
+  const { data: posts, count } = await supabaseClient
+    .from("board_posts")
+    .select("*",{count:"exact"})
+    .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
+    .limit(1);
 
-  const boards=document.querySelectorAll(".board-card");
+  if(!posts || posts.length === 0){
+    alert("검색 결과 없음");
+    return;
+  }
 
-  boards.forEach(board=>{
+  const post = posts[0];
 
-    board.classList.remove("highlight");
+  /* ===== 게시글 순서 찾기 ===== */
 
-    const text=board.innerText.toLowerCase();
+  const { count: position } = await supabaseClient
+    .from("board_posts")
+    .select("*",{count:"exact", head:true})
+    .gt("id", post.id);
 
-    if(text.includes(keyword)){
-      board.classList.add("highlight");
-      found=true;
+  const index = position;
 
-      board.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-      });
-    }
+  const targetPage = Math.floor(index / pageSize) + 1;
 
-  });
+  currentPage = targetPage;
+
+  await loadBoard();
+
+  setTimeout(()=>{
+
+    const boards=document.querySelectorAll(".board-card");
+
+    boards.forEach(board=>{
+      board.classList.remove("highlight");
+
+      if(board.innerText.toLowerCase().includes(keyword)){
+        board.classList.add("highlight");
+        board.scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+      }
+    });
+
+  },300);
+
+}
 
   if(!found){
     alert("게시판 검색 결과 없음");
