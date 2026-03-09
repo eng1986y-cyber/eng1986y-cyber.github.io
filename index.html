@@ -583,7 +583,25 @@ async function loadPagination(){
   const pagination = document.getElementById("pagination");
   pagination.innerHTML="";
 
-  for(let i=1;i<=totalPages;i++){
+  const startPage = (pageGroup - 1) * pageGroupSize + 1;
+  const endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
+
+  /* 이전 그룹 */
+  if(pageGroup > 1){
+
+    const prev=document.createElement("button");
+    prev.innerText="<<";
+
+    prev.onclick=()=>{
+      pageGroup--;
+      loadPagination();
+    };
+
+    pagination.appendChild(prev);
+  }
+
+  /* 페이지 번호 */
+  for(let i=startPage;i<=endPage;i++){
 
     const btn=document.createElement("button");
     btn.innerText=i;
@@ -591,21 +609,33 @@ async function loadPagination(){
     if(i===currentPage)
       btn.style.background="#87CEEB";
 
-btn.onclick=()=>{
-  currentPage=i;
-  loadBoard();
+    btn.onclick=()=>{
+      currentPage=i;
+      loadBoard();
 
-  document.getElementById("boardSection").scrollIntoView({
-    behavior:"smooth"
-  });
-};
+      document.getElementById("boardSection").scrollIntoView({
+        behavior:"smooth"
+      });
+    };
 
     pagination.appendChild(btn);
   }
-}
 
-let currentPage = 1;
-const pageSize = 6;
+  /* 다음 그룹 */
+  if(endPage < totalPages){
+
+    const next=document.createElement("button");
+    next.innerText=">>";
+
+    next.onclick=()=>{
+      pageGroup++;
+      loadPagination();
+    };
+
+    pagination.appendChild(next);
+  }
+
+}
 
 function scrollToTop(){
   window.scrollTo({
