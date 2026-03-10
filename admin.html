@@ -525,8 +525,8 @@ async function uploadImage(input){
   const file = input.files[0];
   if(!file) return;
 
-  const safeName = file.name.replaceAll(" ","_");
-  const fileName = Date.now()+"_"+safeName;
+const safeName = file.name.replace(/\s+/g,"_");
+const fileName = Date.now()+"_"+safeName;
 
   const { data, error } = await supabaseClient
     .storage
@@ -595,25 +595,26 @@ async function deleteAd(btn){
     imageUrl = inputs[1].value;
   }
 
-  if(imageUrl){
+  if(!imageUrl){
+    card.remove();
+    await saveAll();
+    return;
+  }
 
-    const fileName = decodeURIComponent(imageUrl.split("/").pop());
+  const fileName = decodeURIComponent(imageUrl.split("/").pop());
 
-    console.log("삭제 파일:", fileName);
+  console.log("삭제 시도:", fileName);
 
-    const { data, error } = await supabaseClient
-      .storage
-      .from("yb365")
-      .remove([fileName]);
+  const { data, error } = await supabaseClient
+    .storage
+    .from("yb365")
+    .remove([fileName]);
 
-    if(error){
-      console.log("삭제 에러:", error);
-      alert("삭제 실패");
-      return;
-    }
+  console.log("삭제 결과:", data, error);
 
-    console.log("삭제 성공", data);
-
+  if(error){
+    alert("삭제 실패 콘솔 확인");
+    return;
   }
 
   card.remove();
