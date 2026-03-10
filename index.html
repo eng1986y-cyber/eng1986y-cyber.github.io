@@ -500,7 +500,7 @@ body{
   border:1px solid #ccc;
   border-radius:6px;
   padding:0 8px;
-  font-size:13px;
+  font-size:16px;   /* 13px → 16px */
 }
 
 .board-search button{
@@ -512,6 +512,14 @@ body{
   color:#fff;
   cursor:pointer;
   font-size:13px;
+}
+
+@media (max-width:768px){
+
+  input, textarea, select{
+    font-size:16px;
+  }
+
 }
 
 </style>
