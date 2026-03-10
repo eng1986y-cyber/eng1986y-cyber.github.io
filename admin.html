@@ -15,7 +15,6 @@
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
-  height:420px;
 }
 
 html,body{
@@ -97,7 +96,7 @@ button:hover{ background:#6bbfe0; }
 .save-btn{
   width:200px;
   display:block;
-  margin:40px auto;
+  margin:60px auto;
   height:45px;
   font-size:16px;
 }
@@ -126,6 +125,21 @@ button:hover{ background:#6bbfe0; }
   border-radius:8px;
   padding:15px;
   height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.board-content{
+  flex:1;
+  overflow:auto;
+}
+
+.board-box{
+  background:white;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:15px;
+  min-height:350px;
   display:flex;
   flex-direction:column;
 }
