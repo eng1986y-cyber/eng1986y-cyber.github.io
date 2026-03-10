@@ -39,6 +39,17 @@ html{
   min-height:420px;
 }
 
+.board-section{
+  margin-top:60px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  min-height:420px;
+
+  max-height:600px;
+  overflow-y:auto;
+}
+
 /* 장방형 카드 */
 .board-card{
   background:#fff;
@@ -111,6 +122,14 @@ html{
 @media(max-width:768px){
   .board-section{
     grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:768px){
+  .board-section{
+    grid-template-columns:repeat(2,1fr);
+    max-height:500px;
+    overflow-y:auto;
   }
 }
 
@@ -626,11 +645,6 @@ async function loadPagination(){
     btn.onclick=()=>{
       currentPage=i;
       loadBoard();
-
-      document.getElementById("boardSection").scrollIntoView({
-        behavior:"smooth"
-      });
-    };
 
     pagination.appendChild(btn);
   }
