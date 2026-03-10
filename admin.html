@@ -154,6 +154,10 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 <div class="section">
 <h2>상단 배너 관리</h2>
 <input id="bannerImg" placeholder="배너 이미지 URL">
+
+<input type="file" accept="image/*"
+  onchange="uploadBannerImage(this)">
+
 <input id="bannerLink" placeholder="배너 클릭 링크">
 </div>
 
@@ -516,12 +520,12 @@ async function adminLogout(){
 
 }
 
-async function uploadImage(input){
+async function uploadBannerImage(input){
 
   const file = input.files[0];
   if(!file) return;
 
-  const fileName = Date.now()+"_"+file.name;
+  const fileName = "banner_"+Date.now()+".jpg";
 
   const { data, error } = await supabaseClient
     .storage
@@ -529,7 +533,7 @@ async function uploadImage(input){
     .upload(fileName, file);
 
   if(error){
-    alert("업로드 실패");
+    alert("배너 업로드 실패");
     return;
   }
 
@@ -540,11 +544,9 @@ async function uploadImage(input){
 
   const imageUrl = urlData.publicUrl;
 
-  // 바로 위 URL input에 넣기
-  const urlInput = input.parentElement.querySelectorAll("input")[1];
-  urlInput.value = imageUrl;
+  document.getElementById("bannerImg").value = imageUrl;
 
-  alert("업로드 완료 ✅");
+  alert("배너 업로드 완료 ✅");
 }
 
 </script>
