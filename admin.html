@@ -535,7 +535,7 @@ async function uploadImage(input){
 
   const { data: urlData } = supabaseClient
     .storage
-    .from("ads")
+    .from("yb365")
     .getPublicUrl(fileName);
 
   const imageUrl = urlData.publicUrl;
