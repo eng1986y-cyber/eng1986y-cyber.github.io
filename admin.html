@@ -588,16 +588,17 @@ async function deleteAd(btn){
   const card = btn.parentElement;
   const inputs = card.querySelectorAll("input");
 
-  let url = "";
+  let imageUrl = "";
 
   if(inputs.length >= 2){
-    url = inputs[1].value;
+    imageUrl = inputs[1].value;
   }
 
-  if(url.includes("storage")){
-    const fileName = url.split("/").pop();
+  if(imageUrl.includes("storage")){
+    const fileName = imageUrl.split("/").pop();
 
-    await supabaseClient.storage
+    await supabaseClient
+      .storage
       .from("yb365")
       .remove([fileName]);
   }
