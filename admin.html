@@ -520,12 +520,12 @@ async function adminLogout(){
 
 }
 
-async function uploadBannerImage(input){
+async function uploadImage(input){
 
   const file = input.files[0];
   if(!file) return;
 
-  const fileName = "banner_"+Date.now()+".jpg";
+  const fileName = Date.now()+"_"+file.name;
 
   const { data, error } = await supabaseClient
     .storage
@@ -533,7 +533,7 @@ async function uploadBannerImage(input){
     .upload(fileName, file);
 
   if(error){
-    alert("배너 업로드 실패");
+    alert("업로드 실패");
     return;
   }
 
@@ -544,9 +544,11 @@ async function uploadBannerImage(input){
 
   const imageUrl = urlData.publicUrl;
 
-  document.getElementById("bannerImg").value = imageUrl;
+  // 이미지 URL input에 자동 입력
+  const urlInput = input.parentElement.querySelectorAll("input")[1];
+  urlInput.value = imageUrl;
 
-  alert("배너 업로드 완료 ✅");
+  alert("업로드 완료 ✅");
 }
 
 </script>
