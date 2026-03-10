@@ -6,6 +6,10 @@
 
 <style>
 
+.admin-buttons button{
+  width:100px;
+}
+
 #boardAdminList{
   max-height:400px;
   overflow:auto;
@@ -250,12 +254,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 
 <h1>관리자 페이지</h1>
 
-<div style="text-align:right; margin-bottom:20px;">
-<button onclick="adminLogout()" style="background:#ff5c5c;">
-로그아웃
-</button>
-</div>
-
 <div class="top-grid">
 
 <!-- ================== 상단 배너 ================== -->
@@ -352,6 +350,10 @@ style="margin-top:10px;text-align:center;"></div>
 <div class="admin-buttons">
 
 <button class="save-btn" onclick="saveAll()">저장하기</button>
+
+<button onclick="adminLogout()" style="background:#ff5c5c;">
+로그아웃
+</button>
 
 <button class="top-btn" onclick="scrollToTop()">🔝</button>
 
