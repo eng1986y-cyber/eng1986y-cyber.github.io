@@ -184,6 +184,21 @@ button:hover{ background:#6bbfe0; }
   color:white;
 }
 
+.admin-buttons{
+  position:fixed;
+  right:30px;
+  bottom:30px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:999;
+}
+
+.top-btn{
+  height:40px;
+  background:#555;
+}
+
 </style>
 
 </head>
@@ -328,7 +343,13 @@ style="margin-top:10px;text-align:center;"></div>
 
 </div>
 
+<div class="admin-buttons">
+
 <button class="save-btn" onclick="saveAll()">저장하기</button>
+
+<button class="top-btn" onclick="scrollToTop()">↑ 맨위</button>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
@@ -849,6 +870,15 @@ function editBoardPost(id,title,content){
   editingPostId = id;
 
   document.querySelector("#boardTitle").scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+function scrollToTop(){
+
+  window.scrollTo({
+    top:0,
     behavior:"smooth"
   });
 
