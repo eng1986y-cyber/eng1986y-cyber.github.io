@@ -544,11 +544,39 @@ async function uploadImage(input){
 
   const imageUrl = urlData.publicUrl;
 
-  // 이미지 URL input에 자동 입력
   const urlInput = input.parentElement.querySelectorAll("input")[1];
   urlInput.value = imageUrl;
 
   alert("업로드 완료 ✅");
+}
+
+async function uploadBannerImage(input){
+
+  const file = input.files[0];
+  if(!file) return;
+
+  const fileName = "banner_"+Date.now()+"_"+file.name;
+
+  const { data, error } = await supabaseClient
+    .storage
+    .from("yb365")
+    .upload(fileName, file);
+
+  if(error){
+    alert("배너 업로드 실패");
+    return;
+  }
+
+  const { data: urlData } = supabaseClient
+    .storage
+    .from("yb365")
+    .getPublicUrl(fileName);
+
+  const imageUrl = urlData.publicUrl;
+
+  document.getElementById("bannerImg").value = imageUrl;
+
+  alert("배너 업로드 완료 ✅");
 }
 
 </script>
