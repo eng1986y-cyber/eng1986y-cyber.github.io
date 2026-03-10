@@ -202,17 +202,21 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 </div>
 
 <!-- ================== 게시판 관리 ================== -->
+
 <div class="section">
-<h2>게시판 관리</h2>
+  <h2>게시판 관리</h2>
 
-<input id="boardTitle" placeholder="글 제목">
-<textarea id="boardContent"
-  placeholder="글 내용"
-  style="width:98.3%; height:120px; margin-bottom:10px; padding:10px;"></textarea>
+  <input id="boardTitle" placeholder="글 제목">
+  <textarea id="boardContent"
+    placeholder="글 내용"
+    style="width:98.3%; height:120px; margin-bottom:10px; padding:10px;"></textarea>
 
-<button onclick="addBoardPost()">글 추가</button>
+  <button onclick="addBoardPost()">글 추가</button>
 
-<div id="boardAdminList" style="margin-top:20px;"></div>
+  <div id="boardAdminList" style="margin-top:20px;"></div>
+
+  <!-- 페이징 컨트롤 추가 -->
+  <div id="boardPagination" style="margin-top:10px; text-align:center;"></div>
 </div>
 
 <button class="save-btn" onclick="saveAll()">저장하기</button>
