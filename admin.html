@@ -594,14 +594,16 @@ async function deleteAd(btn){
     imageUrl = inputs[1].value;
   }
 
-  if(imageUrl.includes("storage")){
-    const fileName = imageUrl.split("/").pop();
+if(imageUrl){
 
-    await supabaseClient
-      .storage
-      .from("yb365")
-      .remove([fileName]);
-  }
+  const fileName = imageUrl.split("/").pop();
+
+  await supabaseClient
+    .storage
+    .from("yb365")
+    .remove([fileName]);
+
+}
 
   card.remove();
 }
