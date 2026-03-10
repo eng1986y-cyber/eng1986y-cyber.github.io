@@ -598,15 +598,24 @@ async function deleteAd(btn){
 
     const fileName = imageUrl.split("/").pop();
 
-    await supabaseClient
+    console.log("삭제 파일:", fileName);
+
+    const { data, error } = await supabaseClient
       .storage
       .from("yb365")
       .remove([fileName]);
 
+    if(error){
+      console.log("삭제 에러:", error);
+      alert("삭제 실패");
+      return;
+    }
+
+    console.log("삭제 성공", data);
+
   }
 
   card.remove();
-
   await saveAll();
 }
 
