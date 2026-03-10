@@ -25,7 +25,7 @@
   font-size:20px;
   cursor:pointer;
   z-index:999;
-  display:none;
+  display:block;
 }
 
 #topBtn:hover{
@@ -1022,18 +1022,6 @@ function scrollToTop(){
     behavior:"smooth"
   });
 }
-
-window.addEventListener("scroll",function(){
-
-  const btn=document.getElementById("topBtn");
-
-  if(window.scrollY>200){
-    btn.style.display="block";
-  }else{
-    btn.style.display="none";
-  }
-
-});
 
 </script>
 
