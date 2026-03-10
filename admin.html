@@ -353,7 +353,9 @@ style="margin-top:10px;text-align:center;"></div>
 
 <button class="save-btn" onclick="saveAll()">저장하기</button>
 
-<button class="top-btn" onclick="scrollToTop()">↑ 맨위</button>
+<button class="top-btn" onclick="scrollToTop()">🔝</button>
+
+<button class="top-btn" onclick="scrollToBottom()">🔻</button>
 
 </div>
 
@@ -886,6 +888,15 @@ function scrollToTop(){
 
   window.scrollTo({
     top:0,
+    behavior:"smooth"
+  });
+
+}
+
+function scrollToBottom(){
+
+  window.scrollTo({
+    top:document.body.scrollHeight,
     behavior:"smooth"
   });
 
