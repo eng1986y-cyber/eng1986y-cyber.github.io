@@ -597,27 +597,17 @@ async function deleteAd(btn){
 
   if(imageUrl){
 
-    try{
+    const filePath = imageUrl.split("/yb365/")[1];
 
-      // bucket 이후 경로 추출
-      const filePath = imageUrl.split("/yb365/")[1];
+    const { error } = await supabaseClient
+      .storage
+      .from("yb365")
+      .remove([filePath]);
 
-      console.log("삭제 경로:", filePath);
-
-      const { data, error } = await supabaseClient
-        .storage
-        .from("yb365")
-        .remove([filePath]);
-
-      if(error){
-        console.error("삭제 실패:", error);
-        alert("Storage 삭제 실패 (콘솔 확인)");
-      }else{
-        console.log("삭제 성공:", data);
-      }
-
-    }catch(e){
-      console.error("경로 파싱 실패:", e);
+    if(error){
+      console.log("삭제 에러:", error);
+      alert("삭제 실패 콘솔 확인");
+      return;
     }
 
   }
