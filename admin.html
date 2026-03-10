@@ -209,6 +209,19 @@ button:hover{ background:#6bbfe0; }
   background:#555;
 }
 
+.admin-main{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.admin-scroll{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin-top:15px;
+}
+
 </style>
 
 </head>
@@ -349,15 +362,23 @@ style="margin-top:10px;text-align:center;"></div>
 
 <div class="admin-buttons">
 
+<div class="admin-main">
+
 <button class="save-btn" onclick="saveAll()">저장하기</button>
 
 <button onclick="adminLogout()" style="background:#ff5c5c;">
 로그아웃
 </button>
 
+</div>
+
+<div class="admin-scroll">
+
 <button class="top-btn" onclick="scrollToTop()">🔝</button>
 
 <button class="top-btn" onclick="scrollToBottom()">🔻</button>
+
+</div>
 
 </div>
 
