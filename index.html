@@ -646,6 +646,11 @@ async function loadPagination(){
       currentPage=i;
       loadBoard();
 
+      document.getElementById("boardSection").scrollIntoView({
+        behavior:"smooth"
+      });
+    };
+
     pagination.appendChild(btn);
   }
 
