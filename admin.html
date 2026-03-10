@@ -149,6 +149,15 @@ button:hover{ background:#6bbfe0; }
   overflow:auto;
 }
 
+.edit-btn{
+  position:absolute;
+  top:6px;
+  right:60px;
+  height:24px;
+  font-size:12px;
+  background:#4CAF50;
+}
+
 </style>
 
 </head>
@@ -562,8 +571,13 @@ function renderBoard(){
     div.className="card";
 
     div.innerHTML=`
-      <button class="delete-btn"
-      onclick="deleteBoardPost(${post.id})">삭제</button>
+<button class="delete-btn"
+onclick="deleteBoardPost(${post.id})">삭제</button>
+
+<button style="position:absolute;top:6px;right:60px;height:24px;font-size:12px;background:#4CAF50;"
+onclick="editBoardPost(${post.id}, \`${post.title}\`, \`${post.content}\`)">
+수정
+</button>
 
       <strong>${post.title}</strong>
 
@@ -646,15 +660,31 @@ async function addBoardPost(){
   const title=document.getElementById("boardTitle").value.trim();
   const content=document.getElementById("boardContent").value.trim();
 
-  if(!title||!content){
+  if(!title || !content){
     alert("제목과 내용을 입력하세요");
     return;
   }
 
-  await supabaseClient.from("board_posts").insert([{
-    title:title,
-    content:content
-  }]);
+  if(editingPostId){
+
+    await supabaseClient
+      .from("board_posts")
+      .update({
+        title:title,
+        content:content
+      })
+      .eq("id",editingPostId);
+
+    editingPostId=null;
+
+  }else{
+
+    await supabaseClient.from("board_posts").insert([{
+      title:title,
+      content:content
+    }]);
+
+  }
 
   document.getElementById("boardTitle").value="";
   document.getElementById("boardContent").value="";
@@ -783,6 +813,19 @@ async function deleteAd(btn){
 
   card.remove();
   await saveAll();
+}
+
+function editBoardPost(id,title,content){
+
+  document.getElementById("boardTitle").value = title;
+  document.getElementById("boardContent").value = content;
+
+  editingPostId = id;
+
+  document.querySelector("#boardTitle").scrollIntoView({
+    behavior:"smooth"
+  });
+
 }
 
 </script>
