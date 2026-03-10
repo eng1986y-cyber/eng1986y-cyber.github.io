@@ -284,7 +284,12 @@ function addImageAd(main="", img="", link=""){
   imageAdmin.appendChild(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
+
       <input value="${img}" placeholder="이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
       <input value="${link}" placeholder="클릭 링크">
     `)
   );
@@ -303,7 +308,12 @@ function addSquareAd(main="", img="", link=""){
   squareAdmin.appendChild(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
+
       <input value="${img}" placeholder="이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
       <input value="${link}" placeholder="클릭 링크">
     `)
   );
@@ -504,6 +514,37 @@ async function adminLogout(){
 
   document.body.classList.add("login-mode");
 
+}
+
+async function uploadImage(input){
+
+  const file = input.files[0];
+  if(!file) return;
+
+  const fileName = Date.now()+"_"+file.name;
+
+  const { data, error } = await supabaseClient
+    .storage
+    .from("ads")
+    .upload(fileName, file);
+
+  if(error){
+    alert("업로드 실패");
+    return;
+  }
+
+  const { data: urlData } = supabaseClient
+    .storage
+    .from("ads")
+    .getPublicUrl(fileName);
+
+  const imageUrl = urlData.publicUrl;
+
+  // 바로 위 URL input에 넣기
+  const urlInput = input.parentElement.querySelectorAll("input")[1];
+  urlInput.value = imageUrl;
+
+  alert("업로드 완료 ✅");
 }
 
 </script>
