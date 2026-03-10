@@ -525,7 +525,7 @@ async function uploadImage(input){
 
   const { data, error } = await supabaseClient
     .storage
-    .from("yb365")
+    .from("YB365")
     .upload(fileName, file);
 
   if(error){
@@ -535,7 +535,7 @@ async function uploadImage(input){
 
   const { data: urlData } = supabaseClient
     .storage
-    .from("yb365")
+    .from("YB365")
     .getPublicUrl(fileName);
 
   const imageUrl = urlData.publicUrl;
