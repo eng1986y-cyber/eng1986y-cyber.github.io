@@ -592,29 +592,40 @@ async function deleteAd(btn){
   let imageUrl = "";
 
   if(inputs.length >= 2){
-    imageUrl = inputs[1].value;
+    imageUrl = inputs[1].value.trim();
   }
 
-  if(!imageUrl){
-    card.remove();
-    await saveAll();
-    return;
-  }
+  if(imageUrl){
 
-  const fileName = decodeURIComponent(imageUrl.split("/").pop());
+    try{
 
-  console.log("삭제 시도:", fileName);
+      // Supabase public URL → storage 경로 변환
+      const url = new URL(imageUrl);
+      const pathParts = url.pathname.split("/");
 
-  const { data, error } = await supabaseClient
-    .storage
-    .from("yb365")
-    .remove([fileName]);
+      const bucketIndex = pathParts.indexOf("yb365");
 
-  console.log("삭제 결과:", data, error);
+      if(bucketIndex !== -1){
+        const filePath = pathParts.slice(bucketIndex + 1).join("/");
 
-  if(error){
-    alert("삭제 실패 콘솔 확인");
-    return;
+        console.log("삭제 경로:", filePath);
+
+        const { error } = await supabaseClient
+          .storage
+          .from("yb365")
+          .remove([filePath]);
+
+        if(error){
+          console.error("Storage 삭제 실패:", error);
+        }else{
+          console.log("Storage 삭제 성공");
+        }
+      }
+
+    }catch(e){
+      console.error("URL 파싱 실패:", e);
+    }
+
   }
 
   card.remove();
