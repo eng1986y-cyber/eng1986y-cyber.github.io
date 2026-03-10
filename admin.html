@@ -445,28 +445,22 @@ loadData();
 
 const boardAdminList = document.getElementById("boardAdminList");
 
-// -------------------- 게시판 페이징 변수 --------------------
-let currentPage = 1;
-const pageSize = 10;
+/* ================= 게시판 불러오기 ================= */
 
-// -------------------- 게시판 불러오기 (페이징 적용) --------------------
+async function loadBoard(){
 
-async function loadBoard(page = 1){
-  boardAdminList.innerHTML = "";
-  currentPage = page;
+  boardAdminList.innerHTML="";
 
-  // Supabase에서 페이지 단위로 불러오기
-  const { data, count } = await supabaseClient
+  const { data } = await supabaseClient
     .from("board_posts")
-    .select("*", { count: "exact" })  // 전체 글 개수
-    .order("id",{ ascending:false })
-    .range((page-1)*pageSize, page*pageSize - 1); // 범위 지정
+    .select("*")
+    .order("id",{ascending:false});
 
   if(data){
     data.forEach(post=>{
-      const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
+      const div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`
         <button class="delete-btn"
           onclick="deleteBoardPost(${post.id})">삭제</button>
         <strong>${post.title}</strong>
@@ -476,70 +470,15 @@ async function loadBoard(page = 1){
       `;
       boardAdminList.appendChild(div);
     });
-
-    // -------------------- 페이지 네비게이션 --------------------
-    const totalPages = Math.ceil(count / pageSize);
-    if(totalPages > 1){
-      const nav = document.createElement("div");
-      nav.style.marginTop = "10px";
-      nav.style.textAlign = "center";
-
-      // 이전 버튼
-      if(currentPage > 1){
-        const prevBtn = document.createElement("button");
-        prevBtn.textContent = "< 이전";
-        prevBtn.onclick = () => loadBoard(currentPage - 1);
-        nav.appendChild(prevBtn);
-      }
-
-      // 페이지 숫자 버튼 (원하는 경우 생략 가능)
-      for(let i=1; i<=totalPages; i++){
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        btn.style.margin = "0 5px";
-        btn.onclick = () => loadBoard(i);
-        if(i === page) btn.disabled = true;
-        nav.appendChild(btn);
-      }
-
-      // 다음 버튼
-      if(currentPage < totalPages){
-        const nextBtn = document.createElement("button");
-        nextBtn.textContent = "다음 >";
-        nextBtn.onclick = () => loadBoard(currentPage + 1);
-        nav.appendChild(nextBtn);
-      }
-
-      boardAdminList.appendChild(nav);
-    }
-  }
-}
-
-    // -------------------- 페이지 네비게이션 버튼 --------------------
-    const totalPages = Math.ceil(count / pageSize);
-    if(totalPages > 1){
-      const nav = document.createElement("div");
-      nav.style.marginTop = "10px";
-      nav.style.textAlign = "center";
-
-      for(let i=1; i<=totalPages; i++){
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        btn.style.margin = "0 5px";
-        btn.onclick = () => loadBoard(i);
-        if(i === page) btn.disabled = true;
-        nav.appendChild(btn);
-      }
-      boardAdminList.appendChild(nav);
-    }
   }
 }
 
 /* ================= 글 추가 ================= */
 
 async function addBoardPost(){
-  const title = document.getElementById("boardTitle").value.trim();
-  const content = document.getElementById("boardContent").value.trim();
+
+  const title=document.getElementById("boardTitle").value.trim();
+  const content=document.getElementById("boardContent").value.trim();
 
   if(!title || !content){
     alert("제목과 내용을 입력하세요");
@@ -547,15 +486,14 @@ async function addBoardPost(){
   }
 
   await supabaseClient.from("board_posts").insert([{
-    title: title,
-    content: content
+    title:title,
+    content:content
   }]);
 
-  document.getElementById("boardTitle").value = "";
-  document.getElementById("boardContent").value = "";
+  document.getElementById("boardTitle").value="";
+  document.getElementById("boardContent").value="";
 
-  // 새로운 글을 바로 첫 페이지에 보여주기
-  loadBoard(1);
+  loadBoard();
 }
 
 /* ================= 글 삭제 ================= */
