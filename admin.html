@@ -582,6 +582,7 @@ const boardPagination = document.getElementById("boardPagination");
 
 let boardData = [];
 let currentPage = 1;
+let editingPostId = null;
 
 const rowsPerPage = 5;
 const maxPageButtons = 10;
@@ -795,6 +796,7 @@ const fileName = Date.now()+"_"+safeName;
   urlInput.value = imageUrl;
 
 await saveAll();
+}
 
   alert("업로드 완료 ✅");
 }
