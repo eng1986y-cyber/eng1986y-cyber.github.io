@@ -525,7 +525,8 @@ async function uploadImage(input){
   const file = input.files[0];
   if(!file) return;
 
-  const fileName = Date.now()+"_"+file.name;
+  const safeName = file.name.replaceAll(" ","_");
+  const fileName = Date.now()+"_"+safeName;
 
   const { data, error } = await supabaseClient
     .storage
