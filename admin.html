@@ -267,7 +267,7 @@ function createCard(innerHTML){
   div.className="card";
   div.draggable=true;
   div.innerHTML=`
-    <button class="delete-btn" onclick="this.parentElement.remove()">삭제</button>
+    <button class="delete-btn" onclick="deleteAd(this)">삭제</button>
     ${innerHTML}
   `;
 
