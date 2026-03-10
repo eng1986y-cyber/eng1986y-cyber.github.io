@@ -596,7 +596,7 @@ async function deleteAd(btn){
 
   if(imageUrl){
 
-    const fileName = imageUrl.split("/").pop();
+    const fileName = decodeURIComponent(imageUrl.split("/").pop());
 
     console.log("삭제 파일:", fileName);
 
