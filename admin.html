@@ -547,6 +547,8 @@ async function uploadImage(input){
   const urlInput = input.parentElement.querySelectorAll("input")[1];
   urlInput.value = imageUrl;
 
+await saveAll();
+
   alert("업로드 완료 ✅");
 }
 
@@ -575,6 +577,8 @@ async function uploadBannerImage(input){
   const imageUrl = urlData.publicUrl;
 
   document.getElementById("bannerImg").value = imageUrl;
+
+await saveAll();
 
   alert("배너 업로드 완료 ✅");
 }
