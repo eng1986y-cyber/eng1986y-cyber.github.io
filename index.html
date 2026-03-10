@@ -12,6 +12,26 @@
 
 <style>
 
+#topBtn{
+  position:fixed;
+  right:25px;
+  bottom:40px;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  border:none;
+  background:#555;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+  z-index:999;
+  display:none;
+}
+
+#topBtn:hover{
+  background:#333;
+}
+
 #pagination button{
   margin:4px;
   padding:6px 12px;
@@ -996,6 +1016,25 @@ document.getElementById("boardSearchInput")
     }
 });
 
+function scrollToTop(){
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+window.addEventListener("scroll",function(){
+
+  const btn=document.getElementById("topBtn");
+
+  if(window.scrollY>200){
+    btn.style.display="block";
+  }else{
+    btn.style.display="none";
+  }
+
+});
+
 </script>
 
 <div class="mobile-nav">
@@ -1015,6 +1054,8 @@ document.getElementById("boardSearchInput")
     <div id="modalContent"></div>
   </div>
 </div>
+
+<button id="topBtn" onclick="scrollToTop()">↑</button>
 
 </body>
 </html>
