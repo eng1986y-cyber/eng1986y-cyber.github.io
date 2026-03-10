@@ -599,31 +599,25 @@ async function deleteAd(btn){
 
     try{
 
-      // Supabase public URL → storage 경로 변환
-      const url = new URL(imageUrl);
-      const pathParts = url.pathname.split("/");
+      // bucket 이후 경로 추출
+      const filePath = imageUrl.split("/yb365/")[1];
 
-      const bucketIndex = pathParts.indexOf("yb365");
+      console.log("삭제 경로:", filePath);
 
-      if(bucketIndex !== -1){
-        const filePath = pathParts.slice(bucketIndex + 1).join("/");
+      const { data, error } = await supabaseClient
+        .storage
+        .from("yb365")
+        .remove([filePath]);
 
-        console.log("삭제 경로:", filePath);
-
-        const { error } = await supabaseClient
-          .storage
-          .from("yb365")
-          .remove([filePath]);
-
-        if(error){
-          console.error("Storage 삭제 실패:", error);
-        }else{
-          console.log("Storage 삭제 성공");
-        }
+      if(error){
+        console.error("삭제 실패:", error);
+        alert("Storage 삭제 실패 (콘솔 확인)");
+      }else{
+        console.log("삭제 성공:", data);
       }
 
     }catch(e){
-      console.error("URL 파싱 실패:", e);
+      console.error("경로 파싱 실패:", e);
     }
 
   }
