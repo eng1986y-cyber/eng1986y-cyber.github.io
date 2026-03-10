@@ -583,6 +583,28 @@ await saveAll();
   alert("배너 업로드 완료 ✅");
 }
 
+async function deleteAd(btn){
+
+  const card = btn.parentElement;
+  const inputs = card.querySelectorAll("input");
+
+  let url = "";
+
+  if(inputs.length >= 2){
+    url = inputs[1].value;
+  }
+
+  if(url.includes("storage")){
+    const fileName = url.split("/").pop();
+
+    await supabaseClient.storage
+      .from("yb365")
+      .remove([fileName]);
+  }
+
+  card.remove();
+}
+
 </script>
 
 </body>
