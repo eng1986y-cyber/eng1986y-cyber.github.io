@@ -112,13 +112,6 @@ html{
 }
 
 /* ===== 게시판 그리드 ===== */
-.board-section{
-  margin-top:60px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  min-height:520px;
-}
 
 .board-section{
   margin-top:60px;
@@ -126,7 +119,6 @@ html{
   grid-template-columns:repeat(3,1fr);
   gap:12px;
   min-height:520px;
-
   max-height:600px;
   overflow-y:auto;
 }
@@ -1153,7 +1145,7 @@ function scrollToTop(){
 
 <button id="topBtn" onclick="scrollToTop()">🔝</button>
 
-<div class="modal" id="imageModal" onclick="closeImageModal(event)">
+<div class="modal" id="imageModal" onclick="closeImageModal()">
   <div class="modal-content image-modal-box">
 
     <div class="modal-close" onclick="closeImageModal()">✕</div>
@@ -1163,6 +1155,7 @@ function scrollToTop(){
   </div>
 </div>
 
+<div class="modal" id="videoModal" onclick="closeVideoModal()">
   <div class="modal-content video-modal-box">
 
     <div class="modal-close" onclick="closeVideoModal()">✕</div>
