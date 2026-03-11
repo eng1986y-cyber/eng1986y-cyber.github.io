@@ -684,6 +684,20 @@ body{
 
 <script>
 
+function openImageModal(url){
+
+  document.getElementById("modalAdImage").src = url;
+  document.getElementById("imageModal").style.display="flex";
+
+}
+
+function closeImageModal(){
+
+  document.getElementById("imageModal").style.display="none";
+  document.getElementById("modalAdImage").src="";
+
+}
+
 function openVideoModal(url){
 
   let videoId="";
@@ -691,7 +705,6 @@ function openVideoModal(url){
   if(url.includes("youtube.com/watch")){
     videoId = url.split("v=")[1].split("&")[0];
   }
-
   else if(url.includes("youtu.be")){
     videoId = url.split("/").pop();
   }
