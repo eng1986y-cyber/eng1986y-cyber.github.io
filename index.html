@@ -703,7 +703,8 @@ function openVideoModal(url){
   let videoId="";
 
   if(url.includes("youtube.com/watch")){
-    videoId = url.split("v=")[1].split("&")[0];
+    const params = new URL(url).searchParams;
+    videoId = params.get("v");
   }
   else if(url.includes("youtu.be")){
     videoId = url.split("/").pop();
@@ -1162,7 +1163,6 @@ function scrollToTop(){
   </div>
 </div>
 
-<div class="modal" id="videoModal" onclick="closeVideoModal(event)">
   <div class="modal-content video-modal-box">
 
     <div class="modal-close" onclick="closeVideoModal()">✕</div>
