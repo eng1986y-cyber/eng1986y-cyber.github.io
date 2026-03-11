@@ -686,40 +686,27 @@ body{
 
 function openVideoModal(url){
 
-  let embed=url;
+  let videoId="";
 
-  if(url.includes("youtube.com") || url.includes("youtu.be")){
-    
-    const id = url.split("v=")[1] || url.split("/").pop();
-    embed = "https://www.youtube.com/embed/" + id;
+  if(url.includes("youtube.com/watch?v=")){
+    videoId = url.split("v=")[1].split("&")[0];
   }
+
+  if(url.includes("youtu.be/")){
+    videoId = url.split("youtu.be/")[1];
+  }
+
+  const embed = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
 
   document.getElementById("modalVideo").src = embed;
   document.getElementById("videoModal").style.display = "flex";
-}
-
-function closeVideoModal(e){
-
-  document.getElementById("videoModal").style.display = "none";
-  document.getElementById("modalVideo").src = "";
 
 }
 
-function openImageModal(src){
-  document.getElementById("modalAdImage").src = src;
-  document.getElementById("imageModal").style.display = "flex";
-}
+function closeVideoModal(){
 
-function closeImageModal(e){
-
-  if(!e){
-    document.getElementById("imageModal").style.display = "none";
-    return;
-  }
-
-  if(e.target.id === "imageModal"){
-    document.getElementById("imageModal").style.display = "none";
-  }
+  document.getElementById("videoModal").style.display="none";
+  document.getElementById("modalVideo").src="";
 
 }
 
