@@ -686,16 +686,21 @@ body{
 
 function openVideoModal(url){
 
-  let embed=url;
+  let videoId="";
 
-  if(url.includes("youtube.com") || url.includes("youtu.be")){
-    
-    const id = url.split("v=")[1] || url.split("/").pop();
-    embed = "https://www.youtube.com/embed/" + id + "?autoplay=1";
+  if(url.includes("youtube.com/watch")){
+    videoId = url.split("v=")[1].split("&")[0];
   }
 
+  else if(url.includes("youtu.be")){
+    videoId = url.split("/").pop();
+  }
+
+  const embed = "https://www.youtube.com/embed/"+videoId+"?autoplay=1";
+
   document.getElementById("modalVideo").src = embed;
-  document.getElementById("videoModal").style.display = "flex";
+  document.getElementById("videoModal").style.display="flex";
+
 }
 
 function closeVideoModal(){
