@@ -18,6 +18,26 @@
 
 <style>
 
+.video-modal-box{
+  position:relative;
+  max-width:900px;
+}
+
+.video-container{
+  position:relative;
+  padding-bottom:56.25%;
+  height:0;
+}
+
+.video-container iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border-radius:10px;
+}
+
 .image-modal-box{
   position:relative;
   max-width:800px;
@@ -92,13 +112,6 @@ html{
 }
 
 /* ===== 게시판 그리드 ===== */
-.board-section{
-  margin-top:60px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  min-height:520px;
-}
 
 .board-section{
   margin-top:60px;
@@ -106,7 +119,6 @@ html{
   grid-template-columns:repeat(3,1fr);
   gap:12px;
   min-height:520px;
-
   max-height:600px;
   overflow-y:auto;
 }
@@ -664,21 +676,43 @@ body{
 
 <script>
 
-function openImageModal(src){
-  document.getElementById("modalAdImage").src = src;
-  document.getElementById("imageModal").style.display = "flex";
+function openImageModal(url){
+
+  document.getElementById("modalAdImage").src = url;
+  document.getElementById("imageModal").style.display="flex";
+
 }
 
-function closeImageModal(e){
+function closeImageModal(){
 
-  if(!e){
-    document.getElementById("imageModal").style.display = "none";
-    return;
+  document.getElementById("imageModal").style.display="none";
+  document.getElementById("modalAdImage").src="";
+
+}
+
+function openVideoModal(url){
+
+  let videoId="";
+
+  if(url.includes("youtube.com/watch")){
+    const params = new URL(url).searchParams;
+    videoId = params.get("v");
+  }
+  else if(url.includes("youtu.be")){
+    videoId = url.split("/").pop();
   }
 
-  if(e.target.id === "imageModal"){
-    document.getElementById("imageModal").style.display = "none";
-  }
+  const embed = "https://www.youtube.com/embed/"+videoId+"?autoplay=1";
+
+  document.getElementById("modalVideo").src = embed;
+  document.getElementById("videoModal").style.display="flex";
+
+}
+
+function closeVideoModal(){
+
+  document.getElementById("videoModal").style.display = "none";
+  document.getElementById("modalVideo").src = "";
 
 }
 
@@ -828,6 +862,8 @@ const link = ad.link_url
   ? `<a href="${ad.link_url}" target="_blank">
        <img src="${ad.image_url}">
      </a>`
+  : ad.video_url
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
   : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
         wrap.innerHTML=`
@@ -1109,12 +1145,26 @@ function scrollToTop(){
 
 <button id="topBtn" onclick="scrollToTop()">🔝</button>
 
-<div class="modal" id="imageModal" onclick="closeImageModal(event)">
+<div class="modal" id="imageModal" onclick="closeImageModal()">
   <div class="modal-content image-modal-box">
 
     <div class="modal-close" onclick="closeImageModal()">✕</div>
 
     <img id="modalAdImage">
+
+  </div>
+</div>
+
+<div class="modal" id="videoModal" onclick="closeVideoModal()">
+  <div class="modal-content video-modal-box">
+
+    <div class="modal-close" onclick="closeVideoModal()">✕</div>
+
+    <div class="video-container">
+      <iframe id="modalVideo"
+        frameborder="0"
+        allowfullscreen></iframe>
+    </div>
 
   </div>
 </div>
