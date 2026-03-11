@@ -686,32 +686,6 @@ body{
 
 function openVideoModal(url){
 
-  let videoId="";
-
-  if(url.includes("youtube.com/watch?v=")){
-    videoId = url.split("v=")[1].split("&")[0];
-  }
-
-  if(url.includes("youtu.be/")){
-    videoId = url.split("youtu.be/")[1];
-  }
-
-  const embed = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-
-  document.getElementById("modalVideo").src = embed;
-  document.getElementById("videoModal").style.display = "flex";
-
-}
-
-function closeVideoModal(){
-
-  document.getElementById("videoModal").style.display="none";
-  document.getElementById("modalVideo").src="";
-
-}
-
-function openVideoModal(url){
-
   let embed=url;
 
   if(url.includes("youtube.com") || url.includes("youtu.be")){
@@ -1197,22 +1171,6 @@ function scrollToTop(){
       <iframe id="modalVideo"
         frameborder="0"
         allowfullscreen></iframe>
-    </div>
-
-  </div>
-</div>
-
-<div class="modal" id="videoModal" onclick="closeVideoModal(event)">
-  <div class="modal-content video-modal-box">
-
-    <div class="modal-close" onclick="closeVideoModal()">✕</div>
-
-    <div class="video-container">
-      <iframe id="modalVideo"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
     </div>
 
   </div>
