@@ -812,16 +812,29 @@ async function loadSite(){
     const snsBox=document.getElementById("ownerSNS");
     snsBox.innerHTML="";
 
-    if(s.owner_instagram)
-      snsBox.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+const snsBox=document.getElementById("ownerSNS");
+snsBox.innerHTML="";
 
-    if(s.owner_youtube)
-      snsBox.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+// 중국 SNS 링크
+if(s.owner_douyin)
+  snsBox.innerHTML+=`<a href="${s.owner_douyin}" target="_blank">
+                        <img src="/icons/douyin.svg" alt="抖音" />
+                      </a>`;
 
-    if(s.owner_blog)
-      snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
-  }
-}
+if(s.owner_wechat)
+  snsBox.innerHTML+=`<a href="${s.owner_wechat}" target="_blank">
+                        <img src="/icons/wechat.svg" alt="微信" />
+                      </a>`;
+
+if(s.owner_xiaohongshu)
+  snsBox.innerHTML+=`<a href="${s.owner_xiaohongshu}" target="_blank">
+                        <img src="/icons/xiaohongshu.svg" alt="小红书" />
+                      </a>`;
+
+if(s.owner_qq)
+  snsBox.innerHTML+=`<a href="${s.owner_qq}" target="_blank">
+                        <img src="/icons/qq.svg" alt="腾讯QQ" />
+                      </a>`;
 
 loadSite();
 loadBoard();
