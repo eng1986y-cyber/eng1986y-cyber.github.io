@@ -498,6 +498,10 @@ function addSquareAd(main="", img="", link="", video=""){
 
 async function loadData(){
 
+  imageAdmin.innerHTML="";
+  textAdmin.innerHTML="";
+  squareAdmin.innerHTML="";
+
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
@@ -879,7 +883,7 @@ async function deleteAd(btn){
 
   if(imageUrl){
 
-    const filePath = imageUrl.split("/yb365/")[1];
+    const filePath = imageUrl.split("/").pop();
 
     const { error } = await supabaseClient
       .storage
