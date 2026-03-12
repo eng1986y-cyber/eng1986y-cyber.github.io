@@ -502,10 +502,10 @@ async function loadData(){
   textAdmin.innerHTML="";
   squareAdmin.innerHTML="";
 
-  const { data: ads } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
+const { data: ads } = await supabaseClient
+  .from("ads")
+  .select("*")
+  .order("sort",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{
