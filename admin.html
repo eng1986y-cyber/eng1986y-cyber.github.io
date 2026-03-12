@@ -505,7 +505,7 @@ async function loadData(){
   const { data: ads } = await supabaseClient
     .from("ads")
     .select("*")
-    .order("sort",{ascending:true});
+    .order("id",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{
@@ -545,7 +545,7 @@ async function loadData(){
 
 async function saveAll(){
 
-  await supabaseClient.from("ads").delete().neq("id",0);
+  await supabaseClient.from("ads").delete().gt("id",0);
 
 for(const [index, block] of [...imageAdmin.children].entries()){
 
