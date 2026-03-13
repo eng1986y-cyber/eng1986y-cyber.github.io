@@ -545,10 +545,9 @@ const { data: ads } = await supabaseClient
 
 async function saveAll(){
 
-  await supabaseClient
-.from("ads")
-.delete()
-.eq("type","image");
+await supabaseClient.from("ads").delete().eq("type","image");
+await supabaseClient.from("ads").delete().eq("type","text");
+await supabaseClient.from("ads").delete().eq("type","square");
 
 for(const [index, block] of [...imageAdmin.children].entries()){
 
@@ -887,7 +886,7 @@ async function uploadBannerImage(input){
   const file = input.files[0];
   if(!file) return;
 
-  const fileName = "banner_"+Date.now()+"_"+file.name;
+  const fileName = "banner_"+crypto.randomUUID()+"_"+file.name;
 
   const { data, error } = await supabaseClient
     .storage
@@ -952,8 +951,6 @@ function editBoardPost(id){
   document.getElementById("boardContent").value = post.content;
 
   editingPostId = id;
-
-}
 
   document.querySelector("#boardTitle").scrollIntoView({
     behavior:"smooth"
