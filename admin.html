@@ -470,20 +470,15 @@ function addTextAd(title="",link=""){
   );
 }
 
-function addSquareAd(main="", img="", link="", video=""){
+function addSquareAd(main="", img="", link="", video="", id=null){
   squareAdmin.appendChild(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
-
       <input value="${img}" placeholder="이미지 URL">
-
-      <input type="file" accept="image/*"
-        onchange="uploadImage(this)">
-
+      <input type="file" accept="image/*" onchange="uploadImage(this)">
       <input value="${link}" placeholder="클릭 링크">
-
       <input value="${video}" placeholder="동영상 링크 (유튜브)">
-    `)
+    `, id)
   );
 }
 
@@ -507,7 +502,7 @@ const { data: ads } = await supabaseClient
       if(ad.type==="text")
         addTextAd(ad.title,ad.link_url);
       if(ad.type==="square")
-        addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
+      addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url, ad.id);
     });
   }
 
@@ -804,6 +799,18 @@ async function addBoardPost(){
 /* 글 삭제 */
 
 async function deleteBoardPost(id){
+
+  if(!confirm("정말 삭제하시겠습니까?")){
+    return;
+  }
+
+  await supabaseClient
+  .from("board_posts")
+  .delete()
+  .eq("id",id);
+
+  loadBoardData();
+}
 
   await supabaseClient
   .from("board_posts")
