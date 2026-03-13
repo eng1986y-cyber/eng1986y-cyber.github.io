@@ -169,10 +169,10 @@ button:hover{ background:#6bbfe0; }
 }
 
 .admin-buttons{
+
   position:fixed;
 
-  left:50%;
-  margin-left:720px;
+  right:20px;
 
   top:50%;
   transform:translateY(-50%);
@@ -442,7 +442,7 @@ function createCard(innerHTML){
   div.addEventListener("dragover",e=>e.preventDefault());
   div.addEventListener("drop",function(){
     if(dragItem!==div){
-      div.parentNode.insertBefore(dragItem,div);
+      div.parentNode.insertBefore(dragItem,div.nextSibling);
     }
   });
 
@@ -631,9 +631,25 @@ async function checkLogin(){
 
 }
 
-checkLogin();
+async function init(){
 
-loadData();
+  const { data } = await supabaseClient.auth.getSession();
+
+  if(data.session){
+
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("adminPage").style.display="block";
+
+    document.body.classList.remove("login-mode");
+
+    loadData();
+    loadBoardData();
+
+  }
+
+}
+
+init();
 
 const boardAdminList = document.getElementById("boardAdminList");
 const boardPagination = document.getElementById("boardPagination");
@@ -662,6 +678,15 @@ async function loadBoardData(){
 
 /* 게시판 출력 */
 
+function escapeHTML(str){
+
+  return str
+   .replace(/&/g,"&amp;")
+   .replace(/</g,"&lt;")
+   .replace(/>/g,"&gt;");
+
+}
+
 function renderBoard(){
 
   boardAdminList.innerHTML="";
@@ -680,16 +705,16 @@ function renderBoard(){
 <button class="delete-btn"
 onclick="deleteBoardPost(${post.id})">삭제</button>
 
-<button style="position:absolute;top:6px;right:60px;height:24px;font-size:12px;background:#4CAF50;"
-onclick="editBoardPost(${post.id}, \`${post.title}\`, \`${post.content}\`)">
+<button class="edit-btn"
+onclick="editBoardPost(${post.id})">
 수정
 </button>
 
-      <strong>${post.title}</strong>
+<strong>${escapeHTML(post.title)}</strong>
 
-      <div style="margin-top:8px;font-size:14px;">
-      ${post.content}
-      </div>
+<div style="margin-top:8px;font-size:14px;">
+${escapeHTML(post.content)}
+</div>
     `;
 
     boardAdminList.appendChild(div);
@@ -812,8 +837,6 @@ async function deleteBoardPost(id){
 
 }
 
-loadBoardData();
-
 async function adminLogout(){
 
   await supabaseClient.auth.signOut();
@@ -831,7 +854,7 @@ async function uploadImage(input){
   if(!file) return;
 
 const safeName = file.name.replace(/\s+/g,"_");
-const fileName = Date.now()+"_"+safeName;
+const fileName = crypto.randomUUID()+"_"+safeName;
 
   const { data, error } = await supabaseClient
     .storage
@@ -916,12 +939,18 @@ async function deleteAd(btn){
   card.remove();
 }
 
-function editBoardPost(id,title,content){
+function editBoardPost(id){
 
-  document.getElementById("boardTitle").value = title;
-  document.getElementById("boardContent").value = content;
+  const post = boardData.find(p => p.id === id);
+
+  if(!post) return;
+
+  document.getElementById("boardTitle").value = post.title;
+  document.getElementById("boardContent").value = post.content;
 
   editingPostId = id;
+
+}
 
   document.querySelector("#boardTitle").scrollIntoView({
     behavior:"smooth"
