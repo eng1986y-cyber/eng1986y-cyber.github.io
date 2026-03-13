@@ -461,7 +461,7 @@ function addImageAd(main="", img="", link="", video="", id=null){
   );
 }
 
-function addTextAd(title="",link=""){
+function addTextAd(title="",link="",id=null){
   textAdmin.appendChild(
     createCard(`
       <input value="${title}" placeholder="광고 제목">
@@ -499,8 +499,8 @@ const { data: ads } = await supabaseClient
     ads.forEach(ad=>{
       if(ad.type==="image")
       addImageAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url, ad.id);
-      if(ad.type==="text")
-        addTextAd(ad.title,ad.link_url);
+if(ad.type==="text")
+  addTextAd(ad.title,ad.link_url, ad.id);
       if(ad.type==="square")
       addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url, ad.id);
     });
@@ -810,15 +810,6 @@ async function deleteBoardPost(id){
   .eq("id",id);
 
   loadBoardData();
-}
-
-  await supabaseClient
-  .from("board_posts")
-  .delete()
-  .eq("id",id);
-
-  loadBoardData();
-
 }
 
 loadBoardData();
