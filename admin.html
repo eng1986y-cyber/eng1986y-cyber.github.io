@@ -391,8 +391,6 @@ style="margin-top:10px;text-align:center;"></div>
 
 document.body.classList.add("login-mode");
 
-document.body.classList.add("login-mode");
-
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
@@ -429,6 +427,8 @@ document.body.classList.remove("login-mode");
 
 loadData();
 loadBoardData();
+
+}
 
 /* ================= 공통 카드 생성 ================= */
 
@@ -706,7 +706,7 @@ onclick="editBoardPost(${post.id})">
 <strong>${escapeHTML(post.title)}</strong>
 
 <div style="margin-top:8px;font-size:14px;">
-${escapeHTML(post.content)}
+${escapeHTML(post.content).replace(/\n/g,"<br>")}
 </div>
     `;
 
@@ -814,6 +814,8 @@ async function addBoardPost(){
   document.getElementById("boardContent").value="";
 
   loadBoardData();
+
+document.querySelector("button[onclick='addBoardPost()']").textContent="글 추가";
 
 }
 
