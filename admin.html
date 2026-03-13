@@ -391,6 +391,22 @@ style="margin-top:10px;text-align:center;"></div>
 
 document.body.classList.add("login-mode");
 
+document.body.classList.add("login-mode");
+
+const imageAdmin=document.getElementById("imageAdmin");
+const textAdmin=document.getElementById("textAdmin");
+const squareAdmin=document.getElementById("squareAdmin");
+
+const bannerImg=document.getElementById("bannerImg");
+const bannerLink=document.getElementById("bannerLink");
+
+const ownerNameInput=document.getElementById("ownerNameInput");
+const ownerInstagram=document.getElementById("ownerInstagram");
+const ownerYoutube=document.getElementById("ownerYoutube");
+const ownerBlog=document.getElementById("ownerBlog");
+
+let dragItem=null;
+
 async function adminLogin(){
 
   const email = document.getElementById("loginEmail").value;
@@ -413,20 +429,6 @@ document.body.classList.remove("login-mode");
 
 loadData();
 loadBoardData();
-
-const imageAdmin=document.getElementById("imageAdmin");
-const textAdmin=document.getElementById("textAdmin");
-const squareAdmin=document.getElementById("squareAdmin");
-
-const bannerImg=document.getElementById("bannerImg");
-const bannerLink=document.getElementById("bannerLink");
-
-const ownerNameInput=document.getElementById("ownerNameInput");
-const ownerInstagram=document.getElementById("ownerInstagram");
-const ownerYoutube=document.getElementById("ownerYoutube");
-const ownerBlog=document.getElementById("ownerBlog");
-
-let dragItem=null;
 
 /* ================= 공통 카드 생성 ================= */
 
@@ -668,6 +670,8 @@ async function loadBoardData(){
 /* 게시판 출력 */
 
 function escapeHTML(str){
+
+  if(!str) return "";
 
   return str
    .replace(/&/g,"&amp;")
@@ -944,6 +948,8 @@ function editBoardPost(id){
   document.querySelector("#boardTitle").scrollIntoView({
     behavior:"smooth"
   });
+
+document.querySelector("button[onclick='addBoardPost()']").textContent="수정 저장";
 
 }
 
