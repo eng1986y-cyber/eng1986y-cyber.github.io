@@ -406,12 +406,13 @@ async function adminLogin(){
     return;
   }
 
-  document.getElementById("loginPage").style.display="none";
-  document.getElementById("adminPage").style.display="block";
+document.getElementById("loginPage").style.display="none";
+document.getElementById("adminPage").style.display="block";
 
-  document.body.classList.remove("login-mode");
+document.body.classList.remove("login-mode");
 
-}
+loadData();
+loadBoardData();
 
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
@@ -617,20 +618,6 @@ site_description: document
     }]);
 
   alert("저장 완료 ✅");
-}
-
-async function checkLogin(){
-
-  const { data } = await supabaseClient.auth.getSession();
-
-  if(data.session){
-
-    document.getElementById("loginPage").style.display="none";
-    document.getElementById("adminPage").style.display="block";
-    document.body.classList.remove("login-mode");
-
-  }
-
 }
 
 async function init(){
@@ -923,7 +910,9 @@ async function deleteAd(btn){
 
   if(imageUrl){
 
-    const filePath = imageUrl.split("/").pop();
+    const filePath = decodeURIComponent(
+  imageUrl.split("/storage/v1/object/public/yb365/")[1]
+);
 
     const { error } = await supabaseClient
       .storage
