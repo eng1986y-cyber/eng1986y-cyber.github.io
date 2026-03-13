@@ -544,16 +544,34 @@ async function saveAll(){
     return;
   }
 
-  await supabaseClient.from("ads").delete().gt("id",0);
+for(const [index, block] of [...imageAdmin.children].entries()){
 
-  for(const [index, block] of [...imageAdmin.children].entries()){
+  const i=block.querySelectorAll("input");
+
+  if(i[1].value.trim()){
+
+    await supabaseClient.from("ads").upsert([{
+      id:block.dataset.id || undefined,
+      type:"image",
+      main_title:i[0].value.trim(),
+      image_url:i[1].value.trim(),
+      link_url:i[3].value.trim(),
+      video_url:i[4].value.trim(),
+      sort:index
+    }]);
+
+  }
+
+}
+
+for(const [index, block] of [...textAdmin.children].entries()){
 
   const i=block.querySelectorAll("input");
 
   if(i[0].value.trim()){
 
     await supabaseClient.from("ads").upsert([{
-  id:block.dataset.id || undefined,
+      id:block.dataset.id || undefined,
       type:"text",
       title:i[0].value.trim(),
       link_url:i[1].value.trim(),
@@ -561,6 +579,7 @@ async function saveAll(){
     }]);
 
   }
+
 }
 
 for(const [index, block] of [...squareAdmin.children].entries()){
@@ -869,6 +888,10 @@ async function uploadBannerImage(input){
 }
 
 async function deleteAd(btn){
+
+  if(!confirm("정말 삭제하시겠습니까?")){
+    return;
+  }
 
   const card = btn.parentElement;
 
