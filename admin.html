@@ -545,7 +545,10 @@ const { data: ads } = await supabaseClient
 
 async function saveAll(){
 
-  await supabaseClient.from("ads").delete().gt("id",0);
+  await supabaseClient
+.from("ads")
+.delete()
+.eq("type","image");
 
 for(const [index, block] of [...imageAdmin.children].entries()){
 
