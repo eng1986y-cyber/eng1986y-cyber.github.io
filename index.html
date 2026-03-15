@@ -985,6 +985,35 @@ const link = ad.link_url
 loadSite();
 loadBoard();
 
+recordVisit();
+
+async function recordVisit(){
+
+  const today = new Date().toISOString().slice(0,10);
+
+  const { data } = await supabaseClient
+    .from("site_visits")
+    .select("*")
+    .eq("date",today)
+    .limit(1);
+
+  if(data && data.length > 0){
+
+    await supabaseClient
+      .from("site_visits")
+      .update({ count:data[0].count + 1 })
+      .eq("id",data[0].id);
+
+  }else{
+
+    await supabaseClient
+      .from("site_visits")
+      .insert([{ date:today, count:1 }]);
+
+  }
+
+}
+
 async function loadBoard(){
 
   const boardSection=document.getElementById("boardSection");

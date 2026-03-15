@@ -244,6 +244,11 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 
 <h1>관리자 페이지</h1>
 
+<div class="section">
+<h2>방문자 통계</h2>
+<div id="visitStats"></div>
+</div>
+
 <div class="top-grid">
 
 <!-- ================== 상단 배너 ================== -->
@@ -965,6 +970,25 @@ function scrollToBottom(){
   window.scrollTo({
     top:document.body.scrollHeight,
     behavior:"smooth"
+  });
+
+}
+
+async function loadVisitStats(){
+
+  const { data } = await supabaseClient
+    .from("site_visits")
+    .select("*")
+    .order("date",{ascending:false})
+    .limit(30);
+
+  const box = document.getElementById("visitStats");
+  box.innerHTML="";
+
+  data.forEach(v=>{
+    const div=document.createElement("div");
+    div.innerText = v.date + " : " + v.count + "명";
+    box.appendChild(div);
   });
 
 }
