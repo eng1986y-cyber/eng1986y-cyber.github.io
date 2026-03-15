@@ -107,6 +107,10 @@
   color:#fff;
 }
 
+html{
+  scrollbar-gutter: stable;
+}
+
 /* ===== 게시판 그리드 ===== */
 
 .board-section{
@@ -114,7 +118,9 @@
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
-  min-height:550px;
+  min-height:520px;
+  max-height:600px;
+  overflow-y:auto;
 }
 
 /* 장방형 카드 */
@@ -122,10 +128,10 @@
   background:#fff;
   border-radius:12px;
   border:2px solid #ddd;
-  padding:12px;
+  padding:15px;
   cursor:pointer;
   transition:0.2s;
-  height:80px;      /* 150 → 95 */
+  height:150px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
@@ -159,7 +165,7 @@
   overflow:hidden;
   text-overflow:ellipsis;
   display:-webkit-box;
-  -webkit-line-clamp:1;
+  -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
 }
 
@@ -669,8 +675,6 @@ body{
 
 <script>
 
-
-
 function openImageModal(url){
 
   document.getElementById("modalAdImage").src = url;
@@ -781,7 +785,7 @@ document.getElementById("videoModal").style.display="none";
 
 let currentPage = 1;
 
-let pageSize = window.innerWidth <= 768 ? 4 : 15;
+let pageSize = window.innerWidth <= 768 ? 4 : 6;
 
 let pageGroup = 1;
 let pageGroupSize = 5;
@@ -823,13 +827,14 @@ async function loadPagination(){
     if(i===currentPage)
       btn.style.background="#87CEEB";
 
-btn.onclick=()=>{
-  currentPage=i;
-  loadBoard();
+    btn.onclick=()=>{
+      currentPage=i;
+      loadBoard();
 
-  document.getElementById("boardSection")
-    .scrollIntoView({behavior:"smooth"});
-};
+      document.getElementById("boardSection").scrollIntoView({
+        behavior:"smooth"
+      });
+    };
 
     pagination.appendChild(btn);
   }
@@ -983,7 +988,6 @@ loadBoard();
 async function loadBoard(){
 
   const boardSection=document.getElementById("boardSection");
-
   boardSection.innerHTML="";
 
   const start=(currentPage-1)*pageSize;
