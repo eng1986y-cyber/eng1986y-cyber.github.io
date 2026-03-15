@@ -825,10 +825,13 @@ async function loadPagination(){
     if(i===currentPage)
       btn.style.background="#87CEEB";
 
-    btn.onclick=()=>{
-      currentPage=i;
-      loadBoard();
-    };
+btn.onclick=()=>{
+  currentPage=i;
+  loadBoard();
+
+  document.getElementById("boardSection")
+    .scrollIntoView({behavior:"smooth"});
+};
 
     pagination.appendChild(btn);
   }
