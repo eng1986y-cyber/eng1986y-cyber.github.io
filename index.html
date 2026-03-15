@@ -107,10 +107,6 @@
   color:#fff;
 }
 
-html{
-  scrollbar-gutter: auto;
-}
-
 /* ===== 게시판 그리드 ===== */
 
 .board-section{
@@ -673,6 +669,8 @@ body{
 
 <script>
 
+
+
 function openImageModal(url){
 
   document.getElementById("modalAdImage").src = url;
@@ -1189,14 +1187,6 @@ function scrollToTop(){
     behavior:"smooth"
   });
 }
-
-if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
-}
-
-window.addEventListener("load", function(){
-  window.scrollTo(0,0);
-});
 
 </script>
 
