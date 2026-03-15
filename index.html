@@ -991,6 +991,13 @@ async function recordVisit(){
 
   const today = new Date().toLocaleDateString("sv-SE");
 
+  const visited = localStorage.getItem("visit_date");
+
+  // 이미 오늘 방문했으면 종료
+  if(visited === today){
+    return;
+  }
+
   const { data } = await supabaseClient
     .from("site_visits")
     .select("*")
@@ -1011,6 +1018,9 @@ async function recordVisit(){
       .insert([{ date:today, count:1 }]);
 
   }
+
+  // 오늘 방문 기록 저장
+  localStorage.setItem("visit_date", today);
 
 }
 
