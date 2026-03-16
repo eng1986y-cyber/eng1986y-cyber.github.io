@@ -18,6 +18,33 @@
 
 <style>
 
+.board-category{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.board-category button{
+  border:1px solid #ddd;
+  background:white;
+  padding:6px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.board-category button:hover{
+  background:#87CEEB;
+  color:white;
+}
+
+.board-category button.active{
+  background:#87CEEB;
+  color:white;
+  border-color:#87CEEB;
+}
+
 .video-modal-box{
   position:relative;
   max-width:960px;
@@ -648,6 +675,14 @@ body{
   <button onclick="boardSearch()">검색</button>
 </div>
 
+<div class="board-category" id="boardCategoryBar">
+  <button onclick="filterCategory('전체')" class="active">전체</button>
+  <button onclick="filterCategory('공지')">공지</button>
+  <button onclick="filterCategory('뉴스')">뉴스</button>
+  <button onclick="filterCategory('이벤트')">이벤트</button>
+  <button onclick="filterCategory('일반')">일반</button>
+</div>
+
 <div class="board-section" id="boardSection"></div>
 <div id="pagination" style="margin-top:20px;text-align:center;"></div>
 <div class="site-description" id="siteDescription"></div>
@@ -674,6 +709,22 @@ body{
 <script src="supabase.js"></script>
 
 <script>
+
+let currentCategory = "전체";
+
+function filterCategory(cat){
+
+  currentCategory = cat;
+  currentPage = 1;
+
+  document
+    .querySelectorAll(".board-category button")
+    .forEach(btn=>btn.classList.remove("active"));
+
+  event.target.classList.add("active");
+
+  loadBoard();
+}
 
 function openImageModal(url){
 
@@ -1032,11 +1083,16 @@ async function loadBoard(){
   const start=(currentPage-1)*pageSize;
   const end=start+pageSize-1;
 
-  const { data: posts } = await supabaseClient
-    .from("board_posts")
-    .select("*")
-    .order("id",{ascending:false})
-    .range(start,end);
+let query = supabaseClient
+  .from("board_posts")
+  .select("*")
+  .order("id",{ascending:false});
+
+if(currentCategory !== "전체"){
+  query = query.eq("category", currentCategory);
+}
+
+const { data: posts } = await query.range(start,end);
 
   if(posts){
     posts.forEach(post=>{
@@ -1048,7 +1104,7 @@ async function loadBoard(){
         .toLocaleDateString("ko-KR");
 
       div.innerHTML=`
-        <h3>${post.title}</h3>
+        <h3>[${post.category||"일반"}] ${post.title}</h3>
         <div class="board-preview">${post.content}</div>
         <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
           ${date} · 조회 ${post.views||0}
