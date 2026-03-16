@@ -365,6 +365,13 @@ font-weight:bold;
 <!-- 왼쪽 : 글 작성 -->
 <div class="board-box">
 
+<select id="boardCategory" style="height:36px;margin-bottom:6px;width:100%;">
+<option value="공지">공지</option>
+<option value="뉴스">뉴스</option>
+<option value="이벤트">이벤트</option>
+<option value="일반">일반</option>
+</select>
+
 <input id="boardTitle" placeholder="글 제목">
 
 <textarea id="boardContent"
@@ -737,6 +744,10 @@ onclick="editBoardPost(${post.id})">
 수정
 </button>
 
+<div style="font-size:12px;color:#888;margin-bottom:4px;">
+[${escapeHTML(post.category || "일반")}]
+</div>
+
 <strong>${escapeHTML(post.title)}</strong>
 
 <div style="margin-top:8px;font-size:14px;">
@@ -817,6 +828,7 @@ async function addBoardPost(){
 
   const title=document.getElementById("boardTitle").value.trim();
   const content=document.getElementById("boardContent").value.trim();
+  const category=document.getElementById("boardCategory").value;
 
   if(!title || !content){
     alert("제목과 내용을 입력하세요");
@@ -828,19 +840,21 @@ async function addBoardPost(){
     await supabaseClient
       .from("board_posts")
       .update({
-        title:title,
-        content:content
-      })
+  category:category,
+  title:title,
+  content:content
+})
       .eq("id",editingPostId);
 
     editingPostId=null;
 
   }else{
 
-    await supabaseClient.from("board_posts").insert([{
-      title:title,
-      content:content
-    }]);
+await supabaseClient.from("board_posts").insert([{
+  category:category,
+  title:title,
+  content:content
+}]);
 
   }
 
@@ -978,6 +992,7 @@ function editBoardPost(id){
 
   document.getElementById("boardTitle").value = post.title;
   document.getElementById("boardContent").value = post.content;
+  document.getElementById("boardCategory").value = post.category || "일반";
 
   editingPostId = id;
 
