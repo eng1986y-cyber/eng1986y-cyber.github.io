@@ -6,6 +6,29 @@
 
 <style>
 
+.ad-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.ad-title{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.add-btn{
+  height:32px;
+  padding:0 14px;
+  background:#4CAF50;
+  border-radius:6px;
+}
+
+.add-btn:hover{
+  background:#3da444;
+}
+
 .admin-buttons button{
   width:100px;
 }
@@ -296,9 +319,9 @@ font-weight:bold;
 
 <div class="section">
 
-<div style="display:flex;align-items:center;gap:10px;">
-<h2>상단 이미지 광고</h2>
-<button onclick="addImageAd()">추가 +</button>
+<div class="ad-header">
+<div class="ad-title">상단 이미지 광고</div>
+<button class="add-btn" onclick="addImageAd()">+ 추가</button>
 </div>
 
 <div class="grid" id="imageAdmin"></div>
@@ -309,9 +332,9 @@ font-weight:bold;
 
 <div class="section">
 
-<div style="display:flex;align-items:center;gap:10px;">
-<h2>텍스트 광고</h2>
-<button onclick="addTextAd()">추가 +</button>
+<div class="ad-header">
+<div class="ad-title">텍스트 광고</div>
+<button class="add-btn" onclick="addTextAd()">+ 추가</button>
 </div>
 
 <div class="grid" id="textAdmin"></div>
@@ -322,9 +345,9 @@ font-weight:bold;
 
 <div class="section">
 
-<div style="display:flex;align-items:center;gap:10px;">
-<h2>하단 정방형 광고</h2>
-<button onclick="addSquareAd()">추가 +</button>
+<div class="ad-header">
+<div class="ad-title">하단 정방형 광고</div>
+<button class="add-btn" onclick="addSquareAd()">+ 추가</button>
 </div>
 
 <div class="grid" id="squareAdmin"></div>
