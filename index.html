@@ -684,6 +684,18 @@ body{
   padding:8px;
 }
 
+.board-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.board-category{
+  display:flex;
+  gap:8px;
+}
+
 </style>
 </head>
 
@@ -710,8 +722,6 @@ body{
          onkeydown="if(event.key==='Enter'){boardSearch()}">
   <button onclick="boardSearch()">검색</button>
 </div>
-
-<button onclick="openWritePost()" class="write-btn">글쓰기</button>
 
 <div id="writeModal" class="write-modal" style="display:none;">
 
@@ -741,6 +751,8 @@ body{
 
 </div>
 
+<div class="board-top">
+
 <div class="board-category" id="boardCategoryBar">
   <button onclick="filterCategory('전체')" class="active">전체</button>
   <button onclick="filterCategory('연길')">연길</button>
@@ -751,6 +763,9 @@ body{
   <button onclick="filterCategory('도문')">도문</button>
   <button onclick="filterCategory('두도')">두도</button>
   <button onclick="filterCategory('안도')">안도</button>
+</div>
+
+<button onclick="openWritePost()" class="write-btn">글쓰기</button>
 </div>
 
 <div class="board-section" id="boardSection"></div>
