@@ -790,14 +790,14 @@ body{
 
 <div class="board-category" id="boardCategoryBar">
   <button onclick="filterCategory('전체')" class="active">전체</button>
-  <button onclick="filterCategory('연길')">연길</button>
-  <button onclick="filterCategory('훈춘')">훈춘</button>
-  <button onclick="filterCategory('화룡')">화룡</button>
-  <button onclick="filterCategory('룡정')">룡정</button>
-  <button onclick="filterCategory('왕청')">왕청</button>
-  <button onclick="filterCategory('도문')">도문</button>
-  <button onclick="filterCategory('두도')">두도</button>
-  <button onclick="filterCategory('안도')">안도</button>
+  <button onclick="filterCategory('연길', this)">연길</button>
+  <button onclick="filterCategory('훈춘', this)">훈춘</button>
+  <button onclick="filterCategory('화룡', this)">화룡</button>
+  <button onclick="filterCategory('룡정', this)">룡정</button>
+  <button onclick="filterCategory('왕청', this)">왕청</button>
+  <button onclick="filterCategory('도문', this)">도문</button>
+  <button onclick="filterCategory('두도', this)">두도</button>
+  <button onclick="filterCategory('안도', this)">안도</button>
 </div>
 
 <button onclick="openWritePost()" class="write-btn">글쓰기</button>
@@ -1228,11 +1228,6 @@ const { data: posts } = await query.range(start,end);
       const date=new Date(post.created_at)
         .toLocaleDateString("ko-KR");
 
-      div.innerHTML = `
-  <h3>[${post.category||"일반"}] ${escapeHTML(post.title)}</h3>
-  <div class="board-preview">${escapeHTML(post.content)}</div>
-`;
-
 function escapeHTML(str){
   return str
     .replace(/&/g,"&amp;")
@@ -1240,19 +1235,19 @@ function escapeHTML(str){
     .replace(/>/g,"&gt;");
 }
 
-        <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
-          ${date} · 조회 ${post.views||0}
-        </div>
-      `;
+div.innerHTML = `
+  <h3>[${post.category||"일반"}] ${escapeHTML(post.title)}</h3>
+  <div class="board-preview">${escapeHTML(post.content)}</div>
+  <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
+    ${date} · 조회 ${post.views||0}
+  </div>
+`;
 
       div.onclick=async ()=>{
 
-        const newViews=(post.views||0)+1;
-
-        await supabaseClient
-          .from("board_posts")
-          .update({ views:newViews })
-          .eq("id",post.id);
+await supabaseClient.rpc('increment_views', {
+  post_id: post.id
+});
 
         openModal(post.title,post.content,date,newViews);
 
