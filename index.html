@@ -842,6 +842,7 @@ let currentCategory = "전체";
 function filterCategory(cat, el){
   currentCategory = cat;
   currentPage = 1;
+  pageGroup = 1;
 
   document
     .querySelectorAll(".board-category button")
@@ -1243,19 +1244,21 @@ div.innerHTML = `
   </div>
 `;
 
-      div.onclick=async ()=>{
+div.onclick=async ()=>{
 
-await supabaseClient.rpc('increment_views', {
-  post_id: post.id
-});
+  await supabaseClient.rpc('increment_views', {
+    post_id: post.id
+  });
 
-        openModal(post.title,post.content,date,newViews);
+  const newViews = (post.views || 0) + 1;   // 🔥 이 줄 추가
 
-        div.querySelector(".view-count").innerText =
-          date+" · 조회 "+newViews;
+  openModal(post.title, post.content, date, newViews);
 
-        post.views=newViews;
-      };
+  div.querySelector(".view-count").innerText =
+    date + " · 조회 " + newViews;
+
+  post.views = newViews;
+};
 
       boardSection.appendChild(div);
     });
