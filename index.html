@@ -816,7 +816,11 @@ body{
        data-ad-format="auto"
        data-full-width-responsive="true"></ins>
   <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
+
+if(window.adsbygoogle){
+  (adsbygoogle = window.adsbygoogle || []).push({});
+}
+
   </script>
 </div>
 
@@ -1302,7 +1306,7 @@ async function boardSearch(){
 const { count: position } = await supabaseClient
   .from("board_posts")
   .select("*",{count:"exact", head:true})
-  .lt("id", post.id);
+  .order("id", { ascending: false })
 
   const index = position;
 
@@ -1349,7 +1353,7 @@ function search(){
 
     const title=ad.getAttribute("data-title");
 
-    if(title && title.includes(keyword)){
+    title.replace(/\s/g,"").includes(keyword.replace(/\s/g,"")){
       ad.classList.add("highlight");
       found=true;
       ad.scrollIntoView({behavior:"smooth", block:"center"});
