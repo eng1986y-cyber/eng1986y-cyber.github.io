@@ -706,6 +706,27 @@ body{
   color:#fff;
 }
 
+@media (max-width:768px){
+
+  .board-top{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .write-btn{
+    position:static;      /* absolute 제거 */
+    width:100%;
+  }
+
+  .board-category{
+    justify-content:flex-start;
+    flex-wrap:wrap;       /* 줄바꿈 */
+  }
+
+}
+
 </style>
 </head>
 
