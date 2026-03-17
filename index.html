@@ -685,21 +685,20 @@ body{
 }
 
 .board-top{
+  display:flex;
+  align-items:center;        /* ← 핵심 */
+  justify-content:center;    /* 카테고리 중앙 */
   position:relative;
-  margin-bottom:15px;
 }
 
 .board-category{
   display:flex;
-  justify-content:center;
   gap:8px;
 }
 
 .write-btn{
   position:absolute;
   right:0;
-  top:50%;
-  transform:translateY(-50%);
 }
 
 .board-category button.active{
