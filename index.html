@@ -759,31 +759,41 @@ body{
 </div>
 
 <div id="writeModal" class="write-modal" style="display:none;">
-
   <div class="write-box">
 
-    <h3>게시글 작성</h3>
+    <div class="write-header">
+      <h2>✍️ 게시글 작성</h2>
+      <span onclick="closeWritePost()" class="close-btn">✕</span>
+    </div>
 
-    <select id="userPostCategory">
-      <option value="연길">연길</option>
-      <option value="훈춘">훈춘</option>
-      <option value="화룡">화룡</option>
-      <option value="룡정">룡정</option>
-      <option value="왕청">왕청</option>
-      <option value="도문">도문</option>
-      <option value="두도">두도</option>
-      <option value="안도">안도</option>
-    </select>
+    <div class="write-body">
 
-    <input id="userPostTitle" placeholder="제목">
+      <label>카테고리</label>
+      <select id="userPostCategory">
+        <option value="연길">연길</option>
+        <option value="훈춘">훈춘</option>
+        <option value="화룡">화룡</option>
+        <option value="룡정">룡정</option>
+        <option value="왕청">왕청</option>
+        <option value="도문">도문</option>
+        <option value="두도">두도</option>
+        <option value="안도">안도</option>
+      </select>
 
-    <textarea id="userPostContent" placeholder="내용"></textarea>
+      <label>제목</label>
+      <input id="userPostTitle" placeholder="제목을 입력하세요">
 
-    <button onclick="submitPost()">등록</button>
-    <button onclick="closeWritePost()">취소</button>
+      <label>내용</label>
+      <textarea id="userPostContent" placeholder="내용을 입력하세요"></textarea>
+
+    </div>
+
+    <div class="write-footer">
+      <button class="cancel-btn" onclick="closeWritePost()">취소</button>
+      <button class="submit-btn" onclick="submitPost()">등록하기</button>
+    </div>
 
   </div>
-
 </div>
 
 <div class="board-top">
