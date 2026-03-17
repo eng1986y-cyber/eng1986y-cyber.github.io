@@ -1349,7 +1349,7 @@ function search(){
 
     const title=ad.getAttribute("data-title");
 
-    title.replace(/\s/g,"").includes(keyword.replace(/\s/g,"")){
+    if(title && title.includes(keyword)){
       ad.classList.add("highlight");
       found=true;
       ad.scrollIntoView({behavior:"smooth", block:"center"});
