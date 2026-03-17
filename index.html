@@ -795,12 +795,15 @@ body{
 .write-body textarea,
 .write-body select{
   width:100%;
-  padding:10px;
+  padding:12px;
   margin-bottom:14px;
+
   border-radius:8px;
   border:1px solid #ddd;
+
   font-size:14px;
-  transition:0.2s;
+
+  box-sizing:border-box;   /* ✅ 핵심 */
 }
 
 /* 포커스 효과 */
