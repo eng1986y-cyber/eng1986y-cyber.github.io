@@ -731,6 +731,131 @@ body{
 
 }
 
+/* 배경 */
+.write-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+/* 박스 */
+.write-box{
+  width:420px;
+  max-width:90%;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.2);
+  overflow:hidden;
+  animation:fadeUp 0.25s ease;
+}
+
+/* 애니메이션 */
+@keyframes fadeUp{
+  from{transform:translateY(20px); opacity:0;}
+  to{transform:translateY(0); opacity:1;}
+}
+
+/* 헤더 */
+.write-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px;
+  border-bottom:1px solid #eee;
+}
+
+.write-header h2{
+  font-size:18px;
+  margin:0;
+}
+
+.close-btn{
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* 바디 */
+.write-body{
+  padding:20px;
+}
+
+.write-body label{
+  display:block;
+  font-size:13px;
+  margin-bottom:6px;
+  color:#555;
+}
+
+/* 입력 공통 */
+.write-body input,
+.write-body textarea,
+.write-body select{
+  width:100%;
+  padding:10px;
+  margin-bottom:14px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:14px;
+  transition:0.2s;
+}
+
+/* 포커스 효과 */
+.write-body input:focus,
+.write-body textarea:focus,
+.write-body select:focus{
+  border-color:#87CEEB;
+  box-shadow:0 0 0 3px rgba(135,206,235,0.2);
+  outline:none;
+}
+
+/* textarea 크기 */
+.write-body textarea{
+  height:120px;
+  resize:none;
+}
+
+/* 푸터 */
+.write-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:15px 20px;
+  border-top:1px solid #eee;
+}
+
+/* 버튼 */
+.cancel-btn{
+  background:#eee;
+  border:none;
+  padding:8px 16px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.submit-btn{
+  background:#87CEEB;
+  color:#fff;
+  border:none;
+  padding:8px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:500;
+}
+
+/* 버튼 hover */
+.submit-btn:hover{
+  background:#6bbfe0;
+  transform:translateY(-1px);
+}
+
+.cancel-btn:hover{
+  background:#ddd;
+}
+
 </style>
 </head>
 
