@@ -844,11 +844,11 @@ function filterCategory(cat, el){
   currentPage = 1;
   pageGroup = 1;
 
-window.addEventListener("DOMContentLoaded", ()=>{
   document
-    .querySelector(".board-category button")
-    ?.classList.add("active");
-});
+    .querySelectorAll(".board-category button")
+    .forEach(btn=>btn.classList.remove("active"));
+
+  el.classList.add("active");
 
   loadBoard();
 }
