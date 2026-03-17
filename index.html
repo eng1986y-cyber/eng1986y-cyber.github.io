@@ -1211,7 +1211,7 @@ async function recordVisit(){
 async function loadBoard(){
 
   const boardSection=document.getElementById("boardSection");
-  boardSection.innerHTML="로딩중...";
+  boardSection.innerHTML="";
 
   const start=(currentPage-1)*pageSize;
   const end=start+pageSize-1;
