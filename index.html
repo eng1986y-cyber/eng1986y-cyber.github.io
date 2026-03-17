@@ -844,11 +844,11 @@ function filterCategory(cat, el){
   currentPage = 1;
   pageGroup = 1;
 
+window.addEventListener("DOMContentLoaded", ()=>{
   document
-    .querySelectorAll(".board-category button")
-    .forEach(btn=>btn.classList.remove("active"));
-
-  el.classList.add("active");
+    .querySelector(".board-category button")
+    ?.classList.add("active");
+});
 
   loadBoard();
 }
@@ -1211,7 +1211,7 @@ async function recordVisit(){
 async function loadBoard(){
 
   const boardSection=document.getElementById("boardSection");
-  boardSection.innerHTML="";
+  boardSection.innerHTML="로딩중...";
 
   const start=(currentPage-1)*pageSize;
   const end=start+pageSize-1;
