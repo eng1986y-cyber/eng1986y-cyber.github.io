@@ -832,8 +832,7 @@ body{
 
 let currentCategory = "전체";
 
-function filterCategory(cat){
-
+function filterCategory(cat, el){
   currentCategory = cat;
   currentPage = 1;
 
@@ -841,7 +840,7 @@ function filterCategory(cat){
     .querySelectorAll(".board-category button")
     .forEach(btn=>btn.classList.remove("active"));
 
-  event.target.classList.add("active");
+  el.classList.add("active");
 
   loadBoard();
 }
@@ -963,9 +962,15 @@ let pageGroupSize = 5;
 
 async function loadPagination(){
 
-  const { count } = await supabaseClient
-    .from("board_posts")
-    .select("*",{count:"exact", head:true});
+let query = supabaseClient
+  .from("board_posts")
+  .select("*",{count:"exact", head:true});
+
+if(currentCategory !== "전체"){
+  query = query.eq("category", currentCategory);
+}
+
+const { count } = await query;
 
   const totalPages = Math.ceil(count / pageSize);
 
@@ -1223,9 +1228,18 @@ const { data: posts } = await query.range(start,end);
       const date=new Date(post.created_at)
         .toLocaleDateString("ko-KR");
 
-      div.innerHTML=`
-        <h3>[${post.category||"일반"}] ${post.title}</h3>
-        <div class="board-preview">${post.content}</div>
+      div.innerHTML = `
+  <h3>[${post.category||"일반"}] ${escapeHTML(post.title)}</h3>
+  <div class="board-preview">${escapeHTML(post.content)}</div>
+`;
+
+function escapeHTML(str){
+  return str
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+}
+
         <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
           ${date} · 조회 ${post.views||0}
         </div>
@@ -1287,10 +1301,10 @@ async function boardSearch(){
 
   /* ===== 게시글 순서 찾기 ===== */
 
-  const { count: position } = await supabaseClient
-    .from("board_posts")
-    .select("*",{count:"exact", head:true})
-    .gt("id", post.id);
+const { count: position } = await supabaseClient
+  .from("board_posts")
+  .select("*",{count:"exact", head:true})
+  .lt("id", post.id);
 
   const index = position;
 
