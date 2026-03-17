@@ -832,7 +832,8 @@ body{
 
 let currentCategory = "전체";
 
-function filterCategory(cat, el){
+function filterCategory(cat){
+
   currentCategory = cat;
   currentPage = 1;
 
@@ -840,7 +841,7 @@ function filterCategory(cat, el){
     .querySelectorAll(".board-category button")
     .forEach(btn=>btn.classList.remove("active"));
 
-  el.classList.add("active");
+  event.target.classList.add("active");
 
   loadBoard();
 }
