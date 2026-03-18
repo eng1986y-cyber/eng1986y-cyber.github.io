@@ -229,6 +229,20 @@ button:hover{ background:#6bbfe0; }
   margin-bottom:40px;
 }
 
+#visitStats{
+  display:flex;
+  flex-wrap:wrap;
+}
+
+#visitStats div::after{
+  content:"|";
+  margin:0 10px;
+}
+
+#visitStats div:last-child::after{
+  content:"";
+}
+
 </style>
 
 </head>
