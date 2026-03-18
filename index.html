@@ -1334,15 +1334,34 @@ function convertToEmbed(url){
     const snsBox=document.getElementById("ownerSNS");
     snsBox.innerHTML="";
 
-    if(s.owner_instagram)
-      snsBox.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+// 초기화
+snsBox.innerHTML = "";
 
-    if(s.owner_youtube)
-      snsBox.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+// 인스타
+if(s.owner_instagram){
+  const a = document.createElement("a");
+  a.href = safeUrl(s.owner_instagram);
+  a.target = "_blank";
+  a.innerHTML = `<i class="fab fa-instagram"></i>`;
+  snsBox.appendChild(a);
+}
 
-    if(s.owner_blog)
-      snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
-  }
+// 유튜브
+if(s.owner_youtube){
+  const a = document.createElement("a");
+  a.href = safeUrl(s.owner_youtube);
+  a.target = "_blank";
+  a.innerHTML = `<i class="fab fa-youtube"></i>`;
+  snsBox.appendChild(a);
+}
+
+// 블로그
+if(s.owner_blog){
+  const a = document.createElement("a");
+  a.href = safeUrl(s.owner_blog);
+  a.target = "_blank";
+  a.innerHTML = `<i class="fas fa-blog"></i>`;
+  snsBox.appendChild(a);
 }
 
 loadSite();
