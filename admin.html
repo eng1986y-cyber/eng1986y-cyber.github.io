@@ -750,10 +750,6 @@ onclick="editBoardPost(${post.id})">
 </div>
 
 <strong>${escapeHTML(post.title)}</strong>
-
-<div style="margin-top:8px;font-size:14px;">
-${escapeHTML(post.content).replace(/\n/g,"<br>")}
-</div>
     `;
 
     boardAdminList.appendChild(div);
