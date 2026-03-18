@@ -1259,8 +1259,43 @@ const link = ad.link_url
         bottomBox.appendChild(wrap);
       }
 
+if(ad.type==="video"){
+
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+
+  wrap.innerHTML=`
+    <div class="square-ad">
+      <iframe 
+        width="100%" 
+        height="200"
+        src="${convertToEmbed(ad.video_url)}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    </div>
+      <div class="ad-title">${ad.main_title||""}</div>
+  `;
+
+  bottomBox.appendChild(wrap);
+}
+
     });
   }
+
+function convertToEmbed(url){
+  if(!url) return "";
+
+  if(url.includes("youtube.com/watch?v=")){
+    return url.replace("watch?v=","embed/");
+  }
+
+  if(url.includes("youtu.be/")){
+    return url.replace("youtu.be/","youtube.com/embed/");
+  }
+
+  return url;
+}
 
   /* ================= 설정 ================= */
 
