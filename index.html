@@ -1122,14 +1122,18 @@ document.getElementById("videoModal").style.display="none";
 }
 
 let currentPage = 1;
+let pageSize = window.innerWidth <= 768 ? 4 : 6;
+let pageGroup = 1;
+let pageGroupSize = 5;
 
 window.addEventListener("resize", () => {
   pageSize = window.innerWidth <= 768 ? 4 : 6;
   loadBoard();
 });
 
-let pageGroup = 1;
-let pageGroupSize = 5;
+window.addEventListener("DOMContentLoaded", () => {
+  loadSite();
+});
 
 async function loadPagination(){
 
@@ -1658,6 +1662,10 @@ async function submitPost(){
   loadBoard();
 
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadSite();
+});
 
 </script>
 
