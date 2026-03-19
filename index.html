@@ -1286,10 +1286,21 @@ if(ad.type==="video"){
   wrap.className="ad-item";
 
   wrap.innerHTML = `
-    <div class="video-ad">
-      <img src="https://img.youtube.com/vi/${getYoutubeId(ad.video_url)}/hqdefault.jpg"
-           onclick="openVideoModal('${ad.video_url}')">
+    <div class="video-ad" onclick="openVideoModal('${ad.video_url}')">
+      
+      <img src="https://img.youtube.com/vi/${getYoutubeId(ad.video_url)}/hqdefault.jpg">
+
+      <div style="
+        position:absolute;
+        top:50%;left:50%;
+        transform:translate(-50%,-50%);
+        font-size:40px;
+        color:white;
+        pointer-events:none;
+      ">▶</div>
+
     </div>
+
     <div class="ad-title">${ad.main_title||""}</div>
   `;
 
@@ -1299,12 +1310,30 @@ if(ad.type==="video"){
 function getYoutubeId(url){
   if(!url) return "";
 
-  if(url.includes("watch")){
-    return new URL(url).searchParams.get("v");
-  }
+  try{
 
-  if(url.includes("youtu.be")){
-    return url.split("/").pop();
+    // watch?v=
+    if(url.includes("watch")){
+      return new URL(url).searchParams.get("v");
+    }
+
+    // youtu.be
+    if(url.includes("youtu.be")){
+      return url.split("/").pop();
+    }
+
+    // shorts
+    if(url.includes("shorts")){
+      return url.split("/shorts/")[1]?.split("?")[0];
+    }
+
+    // embed
+    if(url.includes("embed")){
+      return url.split("/embed/")[1]?.split("?")[0];
+    }
+
+  }catch(e){
+    console.log("ID 추출 실패:", url);
   }
 
   return "";
