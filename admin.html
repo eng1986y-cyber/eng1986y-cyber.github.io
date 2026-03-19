@@ -529,19 +529,6 @@ function createCard(innerHTML){
 
 /* ================= 추가 ================= */
 
-function addSquareAd(main="", img="", link="", video=""){
-  squareAdmin.appendChild(
-    createCard(`
-      <input value="${main}" placeholder="메인 명칭">
-      <input value="${img}" placeholder="이미지 URL">
-      <input type="file" accept="image/*"
-        onchange="uploadImage(this)">
-      <input value="${link}" placeholder="클릭 링크">
-      <input value="${video}" placeholder="동영상 링크 (유튜브)">
-    `)
-  );
-}
-
 function addVideoAd(main="", video=""){
   videoAdmin.appendChild(
     createCard(`
@@ -560,6 +547,7 @@ function addTextAd(title="",link=""){
   );
 }
 
+function addSquareAd(main="", img="", link="", video=""){
   squareAdmin.appendChild(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
