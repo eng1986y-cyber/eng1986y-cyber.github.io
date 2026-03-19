@@ -375,16 +375,16 @@ font-weight:bold;
 
 </div>
 
-<!-- ================== SNS 광고 ================== -->
+<!-- ================== 영상 광고 ================== -->
 
 <div class="section">
 
-  <div class="ad-header">
-    <div class="ad-title">영상 광고</div>
-    <button class="add-btn" onclick="addVideoAd()">+ 추가</button>
-  </div>
+<div class="ad-header">
+<div class="ad-title">SNS 영상 광고</div>
+<button class="add-btn" onclick="addVideoAd()">+ 추가</button>
+</div>
 
-  <div class="grid" id="videoAdmin"></div>
+<div class="grid" id="videoAdmin"></div>
 
 </div>
 
@@ -467,7 +467,7 @@ document.body.classList.add("login-mode");
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
-const videoAdmin=document.getElementById("videoAdmin");
+const videoAdmin = document.getElementById("videoAdmin");
 
 const bannerImg=document.getElementById("bannerImg");
 const bannerLink=document.getElementById("bannerLink");
@@ -529,11 +529,19 @@ function createCard(innerHTML){
 
 /* ================= 추가 ================= */
 
-function addVideoAd(main="", video=""){
-  videoAdmin.appendChild(
+function addImageAd(main="", img="", link="", video=""){
+  imageAdmin.appendChild(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
-      <input value="${video}" placeholder="동영상 링크">
+
+      <input value="${img}" placeholder="이미지 URL">
+
+      <input type="file" accept="image/*"
+        onchange="uploadImage(this)">
+
+      <input value="${link}" placeholder="클릭 링크">
+
+      <input value="${video}" placeholder="동영상 링크 (유튜브)">
     `)
   );
 }
@@ -571,7 +579,6 @@ async function loadData(){
   imageAdmin.innerHTML="";
   textAdmin.innerHTML="";
   squareAdmin.innerHTML="";
-  videoAdmin.innerHTML="";
 
 const { data: ads } = await supabaseClient
   .from("ads")
@@ -677,7 +684,7 @@ for(const [index, block] of [...squareAdmin.children].entries()){
 
 for(const [index, block] of [...videoAdmin.children].entries()){
 
-  const i=block.querySelectorAll("input");
+  const i = block.querySelectorAll("input");
 
   if(i[1].value.trim()){
 
