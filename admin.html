@@ -375,19 +375,6 @@ font-weight:bold;
 
 </div>
 
-<!-- ================== 장방형 SNS 광고 ================== -->
-
-<div class="section">
-
-  <div class="ad-header">
-    <div class="ad-title">SNS 영상 광고</div>
-    <button class="add-btn" onclick="addVideoAd()">+ 추가</button>
-  </div>
-
-  <div class="grid" id="videoAdmin"></div>
-
-</div>
-
 <!-- ================== 게시판 관리 ================== -->
 
 <div class="section board-section">
@@ -467,7 +454,6 @@ document.body.classList.add("login-mode");
 const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
-const videoAdmin=document.getElementById("videoAdmin");
 
 const bannerImg=document.getElementById("bannerImg");
 const bannerLink=document.getElementById("bannerLink");
@@ -572,16 +558,6 @@ function addSquareAd(main="", img="", link="", video=""){
   );
 }
 
-function addVideoAd(main="", video="", link=""){
-  videoAdmin.appendChild(
-    createCard(`
-      <input value="${main}" placeholder="메인 명칭">
-      <input value="${video}" placeholder="영상 URL">
-      <input value="${link}" placeholder="클릭 링크">
-    `)
-  );
-}
-
 /* ================= 불러오기 ================= */
 
 async function loadData(){
@@ -603,8 +579,6 @@ const { data: ads } = await supabaseClient
         addTextAd(ad.title,ad.link_url);
       if(ad.type==="square")
         addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
-      if(ad.type==="video")
-        addVideoAd(ad.main_title, ad.video_url, ad.link_url);
     });
   }
 
@@ -638,7 +612,6 @@ async function saveAll(){
 await supabaseClient.from("ads").delete().eq("type","image");
 await supabaseClient.from("ads").delete().eq("type","text");
 await supabaseClient.from("ads").delete().eq("type","square");
-await supabaseClient.from("ads").delete().eq("type","video");
 
 for(const [index, block] of [...imageAdmin.children].entries()){
 
@@ -686,23 +659,6 @@ for(const [index, block] of [...squareAdmin.children].entries()){
       image_url:i[1].value.trim(),
       link_url:i[3].value.trim(),
       video_url:i[4].value.trim(),
-      sort:index
-    }]);
-
-  }
-}
-
-for(const [index, block] of [...videoAdmin.children].entries()){
-
-  const i=block.querySelectorAll("input");
-
-  if(i[1].value.trim()){
-
-    await supabaseClient.from("ads").insert([{
-      type:"video",
-      main_title:i[0].value.trim(),
-      video_url:i[1].value.trim(),
-      link_url:i[2].value.trim(),
       sort:index
     }]);
 
