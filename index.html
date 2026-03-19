@@ -859,6 +859,23 @@ body{
   background:#ddd;
 }
 
+.video-ad{
+  position:relative;
+  width:100%;
+  padding-top:75%; /* 4:3 비율 */
+  overflow:hidden;
+  border-radius:12px;
+  border:1px solid #ddd;
+}
+
+.video-ad iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
 </style>
 </head>
 
@@ -876,6 +893,7 @@ body{
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
+<div class="grid" id="videoAds"></div>
 
 <!-- 게시판 전용 검색 -->
 
@@ -1189,6 +1207,7 @@ async function loadSite(){
   const txtBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
   const bannerBox=document.getElementById("topBanner");
+  const videoBox = document.getElementById("videoAds");
 
   // 🔥 전체 초기화
   boardSection.innerHTML="";
@@ -1196,6 +1215,7 @@ async function loadSite(){
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
   bannerBox.innerHTML="";
+  videoBox.innerHTML="";
 
   /* ================= 광고 ================= */
 
@@ -1258,6 +1278,48 @@ const link = ad.link_url
 
         bottomBox.appendChild(wrap);
       }
+
+if(ad.type==="video"){
+  const wrap=document.createElement("div");
+
+  wrap.innerHTML = `
+    <div class="video-ad">
+      <iframe src="${convertToEmbed(ad.video_url)}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="ad-title">${ad.main_title||""}</div>
+  `;
+
+  videoBox.appendChild(wrap);
+}
+
+function convertToEmbed(url){
+
+  if(!url) return "";
+
+  if(url.includes("youtube.com") || url.includes("youtu.be")){
+    let id="";
+
+    if(url.includes("watch")){
+      id = new URL(url).searchParams.get("v");
+    }else{
+      id = url.split("/").pop();
+    }
+
+    return "https://www.youtube.com/embed/"+id;
+  }
+
+  if(url.includes("bilibili.com")){
+    let bvid = url.split("/video/")[1];
+    if(bvid) bvid = bvid.split("?")[0];
+
+    return "https://player.bilibili.com/player.html?bvid="+bvid;
+  }
+
+  return url;
+}
 
     });
   }
