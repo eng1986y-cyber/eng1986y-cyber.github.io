@@ -1378,6 +1378,8 @@ if(s.owner_blog){
 loadBoard();
 recordVisit();
 
+}
+
 async function recordVisit(){
 
   const today = new Date().toLocaleDateString("sv-SE");
@@ -1664,10 +1666,6 @@ async function submitPost(){
   loadBoard();
 
 }
-
-window.addEventListener("DOMContentLoaded", () => {
-  loadSite();
-});
 
 </script>
 
