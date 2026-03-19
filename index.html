@@ -862,7 +862,7 @@ body{
 .video-ad{
   position:relative;
   width:100%;
-  padding-top:75%; /* 4:3 비율 */
+  padding-top:75%; /* 4:5 비율 */
   overflow:hidden;
   border-radius:12px;
   border:1px solid #ddd;
@@ -1281,18 +1281,33 @@ const link = ad.link_url
 
 if(ad.type==="video"){
   const wrap=document.createElement("div");
+  wrap.className="ad-item";
 
   wrap.innerHTML = `
     <div class="video-ad">
-      <iframe src="${convertToEmbed(ad.video_url)}"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
+      <a href="${ad.video_url}" target="_blank">
+        <img src="https://img.youtube.com/vi/${getYoutubeId(ad.video_url)}/hqdefault.jpg"
+             style="width:100%;height:100%;object-fit:cover;">
+      </a>
     </div>
     <div class="ad-title">${ad.main_title||""}</div>
   `;
 
   videoBox.appendChild(wrap);
+}
+
+function getYoutubeId(url){
+  if(!url) return "";
+
+  if(url.includes("watch")){
+    return new URL(url).searchParams.get("v");
+  }
+
+  if(url.includes("youtu.be")){
+    return url.split("/").pop();
+  }
+
+  return "";
 }
 
 function convertToEmbed(url){
