@@ -952,6 +952,10 @@ function escapeHTML(str){
     .replace(/>/g,"&gt;");
 }
 
+function escapeAttr(str){
+  return str.replace(/"/g, "&quot;");
+}
+
 let currentCategory = "전체";
 
 function convertToEmbed(url){
@@ -1122,7 +1126,7 @@ if(currentCategory !== "전체"){
 
 const { count } = await query;
 
-  const totalPages = Math.ceil(count / pageSize);
+  const totalPages = Math.ceil((count || 0) / pageSize);
 
   const pagination = document.getElementById("pagination");
   pagination.innerHTML="";
@@ -1204,7 +1208,7 @@ async function loadSite(){
 
   const { data: ads } = await supabaseClient
     .from("ads")
-    .select("*")
+    .select("id,title,content,category,created_at,views")
     .order("id",{ascending:true});
 
   if(ads){
@@ -1217,7 +1221,7 @@ if(ad.type==="image"){
 
 const link = ad.link_url 
   ? `<a href="${safeUrl(ad.link_url)}" target="_blank">
-       <img src="${safeUrl(ad.image_url)}">
+       <img src="${escapeAttr(safeUrl(ad.image_url))}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${safeUrl(ad.video_url)}')">`
@@ -1248,7 +1252,7 @@ const link = ad.link_url
 
 const link = ad.link_url 
   ? `<a href="${safeUrl(ad.link_url)}" target="_blank">
-       <img src="${safeUrl(ad.image_url)}">
+       <img src="${escapeAttr(safeUrl(ad.image_url))}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${safeUrl(ad.video_url)}')">`
@@ -1290,7 +1294,7 @@ if(ad.type==="video"){
 
   const { data: settings } = await supabaseClient
     .from("site_settings")
-    .select("*")
+    .select("id,title,content,category,created_at,views")
     .limit(10);
 
   if(settings && settings.length>0){
@@ -1361,7 +1365,7 @@ async function recordVisit(){
 
   const { data } = await supabaseClient
     .from("site_visits")
-    .select("*")
+    .select("id,title,content,category,created_at,views")
     .eq("date",today)
     .limit(10);
 
@@ -1395,7 +1399,7 @@ async function loadBoard(){
 
 let query = supabaseClient
   .from("board_posts")
-  .select("*")
+  .select("id,title,content,category,created_at,views")
   .order("id",{ascending:false});
 
 if(currentCategory !== "전체"){
@@ -1423,11 +1427,11 @@ div.innerHTML = `
 
 div.onclick=async ()=>{
 
-  await supabaseClient.rpc('increment_views', {
-    post_id: post.id
-  });
+post.views = (post.views || 0) + 1;
 
-  const newViews = (post.views || 0) + 1;   // 🔥 이 줄 추가
+supabaseClient.rpc('increment_views', {
+  post_id: post.id
+});
 
   openModal(post.title, post.content, date, newViews);
 
@@ -1646,7 +1650,7 @@ async function submitPost(){
   </button>
 </div>
 
-<div class="modal" id="boardModal"">
+<div class="modal" id="boardModal">
   <div class="modal-content">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <h2 id="modalTitle"></h2>
