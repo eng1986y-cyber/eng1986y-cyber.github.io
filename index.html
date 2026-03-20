@@ -874,14 +874,6 @@ body{
   border:1px solid #ddd;
 }
 
-.video-ad.landscape{
-  aspect-ratio:16/9;
-}
-
-.video-ad.portrait{
-  aspect-ratio:9/16;
-}
-
 .video-ad img{
   position:absolute;
   top:0;
@@ -1258,7 +1250,7 @@ async function loadSite(){
 
 if(ad.type==="image"){
   const wrap=document.createElement("div");
-  wrap.className = "ad-item " + (isPortrait ? "portrait" : "landscape");
+  wrap.className="ad-item";
   wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
 const link = ad.link_url 
@@ -1289,7 +1281,7 @@ const link = ad.link_url
 
       if(ad.type==="square"){
         const wrap=document.createElement("div");
-        wrap.className = "ad-item " + (isPortrait ? "portrait" : "landscape");
+        wrap.className="ad-item";
         wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
 const link = ad.link_url 
@@ -1310,7 +1302,7 @@ const link = ad.link_url
 
 if(ad.type==="video"){
   const wrap=document.createElement("div");
-  wrap.className = "ad-item " + (isPortrait ? "portrait" : "landscape");
+  wrap.className="ad-item";
 
 let thumbnail = ad.image_url;
 
