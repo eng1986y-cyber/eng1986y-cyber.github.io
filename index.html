@@ -52,8 +52,7 @@
 
 .video-container{
   position:relative;
-  padding-bottom:56.25%;
-  height:0;
+  padding-top:125%; /* 4:5 */
 }
 
 .video-container iframe{
@@ -62,7 +61,6 @@
   left:0;
   width:100%;
   height:100%;
-  border-radius:10px;
 }
 
 .image-modal-box{
@@ -1759,15 +1757,6 @@ async function submitPost(){
     </div>
 
   </div>
-</div>
-
-<!-- 영상 팝업 -->
-<div id="videoModal" onclick="closeVideoModal()">
-
-  <div class="video-box" onclick="event.stopPropagation()">
-    <iframe id="videoFrame" frameborder="0" allowfullscreen></iframe>
-  </div>
-
 </div>
 
 </body>
