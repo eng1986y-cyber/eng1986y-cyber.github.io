@@ -1301,6 +1301,29 @@ const link = ad.link_url
       }
 
 if(ad.type==="video"){
+
+  const wrap=document.createElement("div");
+
+  let isPortrait = false;
+
+  const url = ad.video_url || "";
+
+  // 🔥 세로 영상 판단
+  if(
+    url.includes("shorts") ||
+    url.includes("tiktok") ||
+    url.includes("reel") ||
+    url.includes("instagram.com/reel") ||
+    url.includes("/shorts/") ||
+    url.includes("vt.tiktok.com") ||
+    url.includes("douyin")
+  ){
+    isPortrait = true;
+  }
+
+  wrap.className = "ad-item " + (isPortrait ? "portrait" : "landscape");
+
+if(ad.type==="video"){
   const wrap=document.createElement("div");
   wrap.className="ad-item";
 
@@ -1320,8 +1343,9 @@ if(!thumbnail){
 }
 
 wrap.innerHTML = `
-  <div class="video-ad" onclick="openVideoModal('${ad.video_url}')">
-    
+  <div class="video-ad ${isPortrait ? "portrait" : "landscape"}"
+       onclick="openVideoModal('${ad.video_url}')">
+
     <img src="${thumbnail}">
 
     <div style="
