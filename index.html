@@ -1304,24 +1304,24 @@ if(ad.type==="video"){
   const wrap=document.createElement("div");
   wrap.className="ad-item";
 
-  wrap.innerHTML = `
-    <div class="video-ad" onclick="openVideoModal('${ad.video_url}')">
-      
-      <img src="https://img.youtube.com/vi/${getYoutubeId(ad.video_url)}/hqdefault.jpg">
+wrap.innerHTML = `
+  <div class="video-ad" onclick="openVideoModal('${ad.video_url}')">
+    
+    <img src="${ad.image_url || '기본이미지.jpg'}">
 
-      <div style="
-        position:absolute;
-        top:50%;left:50%;
-        transform:translate(-50%,-50%);
-        font-size:40px;
-        color:white;
-        pointer-events:none;
-      ">▶</div>
+    <div style="
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      font-size:40px;
+      color:white;
+      pointer-events:none;
+    ">▶</div>
 
-    </div>
+  </div>
 
-    <div class="ad-title">${ad.main_title||""}</div>
-  `;
+  <div class="ad-title">${ad.main_title||""}</div>
+`;
 
   videoBox.appendChild(wrap);
 }
