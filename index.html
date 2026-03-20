@@ -1302,10 +1302,13 @@ async function loadSite(){
 
   /* ================= 광고 ================= */
 
-  const { data: ads } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
+const { data: ads, error } = await supabaseClient
+  .from("ads")
+  .select("*")
+  .order("id",{ascending:true});
+
+console.log("ads:", ads);
+console.log("ads error:", error);
 
   if(ads){
     ads.forEach(ad=>{
@@ -1458,9 +1461,8 @@ if(ad.type==="video"){
 window.addEventListener("load", () => {
   loadSite();
   loadBoard();
+  recordVisit();
 });
-
-recordVisit();
 
 async function recordVisit(){
 
