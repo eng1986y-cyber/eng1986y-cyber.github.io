@@ -52,15 +52,7 @@
 
 .video-container{
   position:relative;
-  padding-top:56.25%; /* 16:9 */
-}
-
-.video-container.landscape{
-  padding-top:56.25%; /* 16:9 */
-}
-
-.video-container.portrait{
-  padding-top:177.78%; /* 9:16 */
+  padding-top:125%; /* 4:5 */
 }
 
 .video-container iframe{
@@ -865,21 +857,10 @@ body{
   background:#ddd;
 }
 
-/* 기본 (기존 유지 - 상단 등) */
 .video-ad{
   position:relative;
   width:100%;
-  padding-top:56.25%; /* 16:9 */
-  overflow:hidden;
-  border-radius:12px;
-  border:1px solid #ddd;
-}
-
-/* SNS 영상 광고 전용 */
-.video-ad-vertical{
-  position:relative;
-  width:100%;
-  padding-top:177.78%; /* 9:16 */
+  padding-top:125%; /* 4:5 비율 */
   overflow:hidden;
   border-radius:12px;
   border:1px solid #ddd;
@@ -1339,7 +1320,7 @@ if(!thumbnail){
 }
 
 wrap.innerHTML = `
-  <div class="video-ad-vertical" onclick="openVideoModal('${ad.video_url}', true)">
+  <div class="video-ad" onclick="openVideoModal('${ad.video_url}')">
     
     <img src="${thumbnail}">
 
