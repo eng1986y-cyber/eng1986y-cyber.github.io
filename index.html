@@ -865,10 +865,21 @@ body{
   background:#ddd;
 }
 
+/* 기본 (기존 유지 - 상단 등) */
 .video-ad{
   position:relative;
   width:100%;
-  padding-top:125%; /* 4:5 비율 */
+  padding-top:56.25%; /* 16:9 */
+  overflow:hidden;
+  border-radius:12px;
+  border:1px solid #ddd;
+}
+
+/* SNS 영상 광고 전용 */
+.video-ad-vertical{
+  position:relative;
+  width:100%;
+  padding-top:177.78%; /* 9:16 */
   overflow:hidden;
   border-radius:12px;
   border:1px solid #ddd;
