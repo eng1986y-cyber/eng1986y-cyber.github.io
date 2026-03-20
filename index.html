@@ -52,7 +52,8 @@
 
 .video-container{
   position:relative;
-  width:100%;
+  padding-bottom:56.25%;
+  height:0;
 }
 
 .video-container iframe{
@@ -61,14 +62,7 @@
   left:0;
   width:100%;
   height:100%;
-}
-
-.video-container.landscape{
-  padding-top:56.25%; /* 16:9 */
-}
-
-.video-container.portrait{
-  padding-top:177.78%; /* 9:16 */
+  border-radius:10px;
 }
 
 .image-modal-box{
@@ -865,49 +859,6 @@ body{
   background:#ddd;
 }
 
-.video-ad{
-  position:relative;
-  width:100%;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #ddd;
-}
-
-/* 세로 영상 */
-.video-ad.portrait{
-  aspect-ratio:9/16;
-}
-
-/* 가로 영상 */
-.video-ad.landscape{
-  aspect-ratio:16/9;
-}
-
-.video-ad img{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  cursor:pointer;
-}
-
-#videoModal .video-box{
-  position:relative;
-  width:90%;
-  max-width:500px;
-  margin:auto;
-}
-
-#videoModal iframe{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-
 </style>
 </head>
 
@@ -925,7 +876,6 @@ body{
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
-<div class="grid" id="videoAds"></div>
 
 <!-- 게시판 전용 검색 -->
 
@@ -1012,64 +962,6 @@ body{
 
 <script>
 
-function getYoutubeId(url){
-  if(!url) return "";
-
-  try{
-
-    // watch?v=
-    if(url.includes("watch")){
-      return new URL(url).searchParams.get("v");
-    }
-
-    // youtu.be
-    if(url.includes("youtu.be")){
-      return url.split("/").pop();
-    }
-
-    // shorts
-    if(url.includes("shorts")){
-      return url.split("/shorts/")[1]?.split("?")[0];
-    }
-
-    // embed
-    if(url.includes("embed")){
-      return url.split("/embed/")[1]?.split("?")[0];
-    }
-
-  }catch(e){
-    console.log("ID 추출 실패:", url);
-  }
-
-  return "";
-}
-
-function convertToEmbed(url){
-
-  if(!url) return "";
-
-  if(url.includes("youtube.com") || url.includes("youtu.be")){
-    let id="";
-
-    if(url.includes("watch")){
-      id = new URL(url).searchParams.get("v");
-    }else{
-      id = url.split("/").pop();
-    }
-
-    return "https://www.youtube.com/embed/"+id;
-  }
-
-  if(url.includes("bilibili.com")){
-    let bvid = url.split("/video/")[1];
-    if(bvid) bvid = bvid.split("?")[0];
-
-    return "https://player.bilibili.com/player.html?bvid="+bvid;
-  }
-
-  return url;
-}
-
 function escapeHTML(str){
   return str
     .replace(/&/g,"&amp;")
@@ -1110,24 +1002,10 @@ function closeImageModal(){
 function openVideoModal(url){
 
 let embed="";
-let isPortrait = false;
 
 if(!url) return;
 
-/* ===== 쇼츠 / 세로영상 판단 ===== */
-if(
-  url.includes("shorts") ||        // 유튜브 쇼츠
-  url.includes("tiktok") ||        // 틱톡
-  url.includes("reel") ||          // 인스타 릴스
-  url.includes("instagram.com/reel") ||
-  url.includes("/shorts/") ||
-  url.includes("vt.tiktok.com") ||
-  url.includes("douyin")           // 중국 틱톡
-){
-  isPortrait = true;
-}
-
-/* ===== YouTube ===== */
+/* YouTube */
 if(url.includes("youtube.com") || url.includes("youtu.be")){
 
 let videoId="";
@@ -1138,7 +1016,6 @@ videoId = params.get("v");
 }
 else if(url.includes("shorts")){
 videoId = url.split("shorts/")[1];
-isPortrait = true; // 🔥 쇼츠 확정
 }
 else{
 videoId = url.split("/").pop();
@@ -1148,7 +1025,7 @@ embed = "https://www.youtube.com/embed/"+videoId+"?autoplay=1";
 
 }
 
-/* ===== Bilibili ===== */
+/* Bilibili */
 else if(url.includes("bilibili.com")){
 
 let bvid = url.split("/video/")[1];
@@ -1156,27 +1033,49 @@ if(bvid) bvid = bvid.split("?")[0];
 
 embed = "https://player.bilibili.com/player.html?bvid="+bvid+"&autoplay=1";
 
-/* bilibili는 판단 어려움 → 기본 가로 */
 }
 
-/* ===== 기타 ===== */
-else{
+/* iQIYI */
+else if(url.includes("iqiyi.com")){
+
 embed = url;
+
 }
 
-/* ===== 🔥 비율 적용 ===== */
-const container = document.getElementById("videoModal")
-  .querySelector(".video-container");
+/* Youku */
+else if(url.includes("youku.com")){
 
-container.classList.remove("landscape","portrait");
+embed = url;
 
-if(isPortrait){
-  container.classList.add("portrait");
-}else{
-  container.classList.add("landscape");
 }
 
-/* ===== 실행 ===== */
+/* Vimeo */
+else if(url.includes("vimeo.com")){
+
+let id = url.split("/").pop();
+embed = "https://player.vimeo.com/video/"+id+"?autoplay=1";
+
+}
+
+/* mp4 직접영상 */
+else if(url.endsWith(".mp4")){
+
+document.getElementById("modalVideo").outerHTML =
+`<video id="modalVideo" controls autoplay style="width:100%;height:100%">
+<source src="${url}" type="video/mp4">
+</video>`;
+
+document.getElementById("videoModal").style.display="flex";
+
+return;
+
+}
+
+/* 기본 iframe */
+else{
+embed=url;
+}
+
 document.getElementById("modalVideo").src = embed;
 document.getElementById("videoModal").style.display="flex";
 
@@ -1290,7 +1189,6 @@ async function loadSite(){
   const txtBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
   const bannerBox=document.getElementById("topBanner");
-  const videoBox = document.getElementById("videoAds");
 
   // 🔥 전체 초기화
   boardSection.innerHTML="";
@@ -1298,17 +1196,13 @@ async function loadSite(){
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
   bannerBox.innerHTML="";
-  videoBox.innerHTML="";
 
   /* ================= 광고 ================= */
 
-const { data: ads, error } = await supabaseClient
-  .from("ads")
-  .select("*")
-  .order("id",{ascending:true});
-
-console.log("ads:", ads);
-console.log("ads error:", error);
+  const { data: ads } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("id",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{
@@ -1320,11 +1214,11 @@ if(ad.type==="image"){
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${safeUrl(ad.image_url)}">
+       <img src="${ad.image_url}">
      </a>`
   : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openVideoModal('${safeUrl(ad.video_url)}')">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${safeUrl(ad.image_url)}')">`;
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
@@ -1351,11 +1245,11 @@ const link = ad.link_url
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${safeUrl(ad.image_url)}">
+       <img src="${ad.image_url}">
      </a>`
   : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openVideoModal('${safeUrl(ad.video_url)}')">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${safeUrl(ad.image_url)}')">`;
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
         wrap.innerHTML=`
           <div class="square-ad">${link}</div>
@@ -1365,62 +1259,8 @@ const link = ad.link_url
         bottomBox.appendChild(wrap);
       }
 
-if(ad.type==="video"){
-
-  const wrap=document.createElement("div");
-  wrap.className = "ad-item";
-
-  let isPortrait = false;
-
-  if(ad.video_url){
-    if(
-      ad.video_url.includes("shorts") ||
-      ad.video_url.includes("tiktok") ||
-      ad.video_url.includes("reel") ||
-      ad.video_url.includes("vt.tiktok.com") ||
-      ad.video_url.includes("douyin")
-    ){
-      isPortrait = true;
-    }
+    });
   }
-
-  let thumbnail = ad.image_url;
-
-  if(!thumbnail && ad.video_url && ad.video_url.includes("youtube")){
-    const id = getYoutubeId(ad.video_url);
-    if(id){
-      thumbnail = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
-    }
-  }
-
-  if(!thumbnail){
-    thumbnail = "https://via.placeholder.com/400x500?text=VIDEO";
-  }
-
-  wrap.innerHTML = `
-    <div class="video-ad ${isPortrait ? "portrait" : "landscape"}"
-         onclick="openVideoModal('${safeUrl(ad.video_url)}')">
-
-      <img src="${thumbnail}">
-
-      <div style="
-        position:absolute;
-        top:50%;left:50%;
-        transform:translate(-50%,-50%);
-        font-size:40px;
-        color:white;
-        pointer-events:none;
-      ">▶</div>
-
-    </div>
-
-    <div class="ad-title">${ad.main_title||""}</div>
-  `;
-
-  videoBox.appendChild(wrap);
-}
-
-});
 
   /* ================= 설정 ================= */
 
@@ -1458,11 +1298,10 @@ if(ad.type==="video"){
   }
 }
 
-window.addEventListener("load", () => {
-  loadSite();
-  loadBoard();
-  recordVisit();
-});
+loadSite();
+loadBoard();
+
+recordVisit();
 
 async function recordVisit(){
 
