@@ -55,6 +55,14 @@
   padding-top:56.25%; /* 16:9 */
 }
 
+.video-container.landscape{
+  padding-top:56.25%; /* 16:9 */
+}
+
+.video-container.portrait{
+  padding-top:177.78%; /* 9:16 */
+}
+
 .video-container iframe{
   position:absolute;
   top:0;
@@ -1041,10 +1049,21 @@ function closeImageModal(){
 function openVideoModal(url){
 
 let embed="";
+let isPortrait = false;
 
 if(!url) return;
 
-/* YouTube */
+/* ===== 쇼츠 / 세로영상 판단 ===== */
+if(
+  url.includes("shorts") ||   // 유튜브 쇼츠
+  url.includes("tiktok") ||
+  url.includes("reel") ||
+  url.includes("vertical")
+){
+  isPortrait = true;
+}
+
+/* ===== YouTube ===== */
 if(url.includes("youtube.com") || url.includes("youtu.be")){
 
 let videoId="";
@@ -1055,6 +1074,7 @@ videoId = params.get("v");
 }
 else if(url.includes("shorts")){
 videoId = url.split("shorts/")[1];
+isPortrait = true; // 🔥 쇼츠 확정
 }
 else{
 videoId = url.split("/").pop();
@@ -1064,7 +1084,7 @@ embed = "https://www.youtube.com/embed/"+videoId+"?autoplay=1";
 
 }
 
-/* Bilibili */
+/* ===== Bilibili ===== */
 else if(url.includes("bilibili.com")){
 
 let bvid = url.split("/video/")[1];
@@ -1072,49 +1092,26 @@ if(bvid) bvid = bvid.split("?")[0];
 
 embed = "https://player.bilibili.com/player.html?bvid="+bvid+"&autoplay=1";
 
+/* bilibili는 판단 어려움 → 기본 가로 */
 }
 
-/* iQIYI */
-else if(url.includes("iqiyi.com")){
-
-embed = url;
-
-}
-
-/* Youku */
-else if(url.includes("youku.com")){
-
-embed = url;
-
-}
-
-/* Vimeo */
-else if(url.includes("vimeo.com")){
-
-let id = url.split("/").pop();
-embed = "https://player.vimeo.com/video/"+id+"?autoplay=1";
-
-}
-
-/* mp4 직접영상 */
-else if(url.endsWith(".mp4")){
-
-document.getElementById("modalVideo").outerHTML =
-`<video id="modalVideo" controls autoplay style="width:100%;height:100%">
-<source src="${url}" type="video/mp4">
-</video>`;
-
-document.getElementById("videoModal").style.display="flex";
-
-return;
-
-}
-
-/* 기본 iframe */
+/* ===== 기타 ===== */
 else{
-embed=url;
+embed = url;
 }
 
+/* ===== 🔥 비율 적용 ===== */
+const container = document.querySelector("#videoModal .video-container");
+
+container.classList.remove("landscape","portrait");
+
+if(isPortrait){
+  container.classList.add("portrait");
+}else{
+  container.classList.add("landscape");
+}
+
+/* ===== 실행 ===== */
 document.getElementById("modalVideo").src = embed;
 document.getElementById("videoModal").style.display="flex";
 
