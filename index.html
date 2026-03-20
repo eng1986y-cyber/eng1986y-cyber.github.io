@@ -1455,8 +1455,10 @@ if(ad.type==="video"){
   }
 }
 
-loadSite();
-loadBoard();
+window.addEventListener("load", () => {
+  loadSite();
+  loadBoard();
+});
 
 recordVisit();
 
