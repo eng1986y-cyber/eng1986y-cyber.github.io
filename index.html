@@ -1303,64 +1303,54 @@ const link = ad.link_url
 if(ad.type==="video"){
 
   const wrap=document.createElement("div");
+  wrap.className = "ad-item";
 
   let isPortrait = false;
 
-  const url = ad.video_url || "";
-
-  // 🔥 세로 영상 판단
-  if(
-    url.includes("shorts") ||
-    url.includes("tiktok") ||
-    url.includes("reel") ||
-    url.includes("instagram.com/reel") ||
-    url.includes("/shorts/") ||
-    url.includes("vt.tiktok.com") ||
-    url.includes("douyin")
-  ){
-    isPortrait = true;
+  if(ad.video_url){
+    if(
+      ad.video_url.includes("shorts") ||
+      ad.video_url.includes("tiktok") ||
+      ad.video_url.includes("reel") ||
+      ad.video_url.includes("vt.tiktok.com") ||
+      ad.video_url.includes("douyin")
+    ){
+      isPortrait = true;
+    }
   }
 
-  wrap.className = "ad-item " + (isPortrait ? "portrait" : "landscape");
+  let thumbnail = ad.image_url;
 
-if(ad.type==="video"){
-  const wrap=document.createElement("div");
-  wrap.className="ad-item";
-
-let thumbnail = ad.image_url;
-
-/* 유튜브 자동 썸네일 */
-if(!thumbnail && ad.video_url.includes("youtube")){
-  const id = getYoutubeId(ad.video_url);
-  if(id){
-    thumbnail = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+  if(!thumbnail && ad.video_url.includes("youtube")){
+    const id = getYoutubeId(ad.video_url);
+    if(id){
+      thumbnail = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+    }
   }
-}
 
-/* bilibili는 자동 불가 → 기본이미지 */
-if(!thumbnail){
-  thumbnail = "https://via.placeholder.com/400x500?text=VIDEO";
-}
+  if(!thumbnail){
+    thumbnail = "https://via.placeholder.com/400x500?text=VIDEO";
+  }
 
-wrap.innerHTML = `
-  <div class="video-ad ${isPortrait ? "portrait" : "landscape"}"
-       onclick="openVideoModal('${ad.video_url}')">
+  wrap.innerHTML = `
+    <div class="video-ad ${isPortrait ? "portrait" : "landscape"}"
+         onclick="openVideoModal('${ad.video_url}')">
 
-    <img src="${thumbnail}">
+      <img src="${thumbnail}">
 
-    <div style="
-      position:absolute;
-      top:50%;left:50%;
-      transform:translate(-50%,-50%);
-      font-size:40px;
-      color:white;
-      pointer-events:none;
-    ">▶</div>
+      <div style="
+        position:absolute;
+        top:50%;left:50%;
+        transform:translate(-50%,-50%);
+        font-size:40px;
+        color:white;
+        pointer-events:none;
+      ">▶</div>
 
-  </div>
+    </div>
 
-  <div class="ad-title">${ad.main_title||""}</div>
-`;
+    <div class="ad-title">${ad.main_title||""}</div>
+  `;
 
   videoBox.appendChild(wrap);
 }
