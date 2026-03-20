@@ -1307,6 +1307,32 @@ if(ad.type==="video"){
   videoBox.appendChild(wrap);
 }
 
+function convertToEmbed(url){
+
+  if(!url) return "";
+
+  if(url.includes("youtube.com") || url.includes("youtu.be")){
+    let id="";
+
+    if(url.includes("watch")){
+      id = new URL(url).searchParams.get("v");
+    }else{
+      id = url.split("/").pop();
+    }
+
+    return "https://www.youtube.com/embed/"+id;
+  }
+
+  if(url.includes("bilibili.com")){
+    let bvid = url.split("/video/")[1];
+    if(bvid) bvid = bvid.split("?")[0];
+
+    return "https://player.bilibili.com/player.html?bvid="+bvid;
+  }
+
+  return url;
+}
+
 function getYoutubeId(url){
   if(!url) return "";
 
@@ -1337,32 +1363,6 @@ function getYoutubeId(url){
   }
 
   return "";
-}
-
-function convertToEmbed(url){
-
-  if(!url) return "";
-
-  if(url.includes("youtube.com") || url.includes("youtu.be")){
-    let id="";
-
-    if(url.includes("watch")){
-      id = new URL(url).searchParams.get("v");
-    }else{
-      id = url.split("/").pop();
-    }
-
-    return "https://www.youtube.com/embed/"+id;
-  }
-
-  if(url.includes("bilibili.com")){
-    let bvid = url.split("/video/")[1];
-    if(bvid) bvid = bvid.split("?")[0];
-
-    return "https://player.bilibili.com/player.html?bvid="+bvid;
-  }
-
-  return url;
 }
 
     });
