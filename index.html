@@ -878,6 +878,27 @@ body{
   cursor:pointer;
 }
 
+#videoModal .video-box{
+  position:relative;
+  width:90%;
+  max-width:500px;
+  margin:auto;
+}
+
+#videoModal .video-box::before{
+  content:"";
+  display:block;
+  padding-top:125%; /* 4:5 비율 */
+}
+
+#videoModal iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
 </style>
 </head>
 
@@ -1738,6 +1759,15 @@ async function submitPost(){
     </div>
 
   </div>
+</div>
+
+<!-- 영상 팝업 -->
+<div id="videoModal" onclick="closeVideoModal()">
+
+  <div class="video-box" onclick="event.stopPropagation()">
+    <iframe id="videoFrame" frameborder="0" allowfullscreen></iframe>
+  </div>
+
 </div>
 
 </body>
