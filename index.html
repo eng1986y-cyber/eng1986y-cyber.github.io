@@ -1053,10 +1053,13 @@ if(!url) return;
 
 /* ===== 쇼츠 / 세로영상 판단 ===== */
 if(
-  url.includes("shorts") ||   // 유튜브 쇼츠
-  url.includes("tiktok") ||
-  url.includes("reel") ||
-  url.includes("vertical")
+  url.includes("shorts") ||        // 유튜브 쇼츠
+  url.includes("tiktok") ||        // 틱톡
+  url.includes("reel") ||          // 인스타 릴스
+  url.includes("instagram.com/reel") ||
+  url.includes("/shorts/") ||
+  url.includes("vt.tiktok.com") ||
+  url.includes("douyin")           // 중국 틱톡
 ){
   isPortrait = true;
 }
@@ -1099,7 +1102,8 @@ embed = url;
 }
 
 /* ===== 🔥 비율 적용 ===== */
-const container = document.querySelector("#videoModal .video-container");
+const container = document.getElementById("videoModal")
+  .querySelector(".video-container");
 
 container.classList.remove("landscape","portrait");
 
