@@ -47,7 +47,8 @@
 
 .video-modal-box{
   position:relative;
-  max-width:960px;
+  width:100%;
+  max-width:420px;
 }
 
 .video-container{
@@ -85,14 +86,14 @@
 
 .image-modal-box{
   position:relative;
-  max-width:800px;
+  width:100%;
+  max-width:420px;
   text-align:center;
 }
 
 #modalAdImage{
   width:100%;
-  max-width:90vw;
-  max-height:80vh;
+  height:100%;
   object-fit:contain;
   border-radius:10px;
 }
@@ -1693,12 +1694,10 @@ async function submitPost(){
 <button id="topBtn" onclick="scrollToTop()">🔝</button>
 
 <div class="modal" id="imageModal" onclick="closeImageModal()">
-  <div class="modal-content image-modal-box">
-
+<div class="modal-content image-modal-box">
+  <div class="video-container">
     <div class="modal-close" onclick="closeImageModal()">✕</div>
-
     <img id="modalAdImage">
-
   </div>
 </div>
 
