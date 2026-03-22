@@ -18,12 +18,6 @@
 
 <style>
 
-#topModalAdImage{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
 .board-category{
   display:flex;
   justify-content:center;
@@ -53,30 +47,13 @@
 
 .video-modal-box{
   position:relative;
-  width:100%;
-  max-width:420px;
+  max-width:960px;
 }
 
 .video-container{
   position:relative;
-  width:100%;
-  max-width:420px;
-  margin:auto;
-}
-
-.top-image-container{
-  position:relative;
-  width:100%;
-  aspect-ratio:16/9;
-  background:#000;
-  border-radius:12px;
-  overflow:hidden;
-}
-
-.video-container::before{
-  content:"";
-  display:block;
-  padding-top:177.77%; /* 9:16 비율 */
+  padding-bottom:56.25%;
+  height:0;
 }
 
 .video-container iframe{
@@ -85,19 +62,19 @@
   left:0;
   width:100%;
   height:100%;
-  border:0;
+  border-radius:10px;
 }
 
 .image-modal-box{
   position:relative;
-  width:100%;
-  max-width:420px;
+  max-width:800px;
   text-align:center;
 }
 
 #modalAdImage{
   width:100%;
-  height:100%;
+  max-width:90vw;
+  max-height:80vh;
   object-fit:contain;
   border-radius:10px;
 }
@@ -174,7 +151,6 @@ html{
 }
 
 /* 장방형 카드 */
-
 .board-card{
   background:#fff;
   border-radius:12px;
@@ -238,7 +214,7 @@ html{
   max-height:80%;
   overflow:auto;
   border-radius:14px;
-  padding:0;
+  padding:25px;
   position:relative;
 }
 
@@ -248,6 +224,21 @@ html{
   right:15px;
   font-size:20px;
   cursor:pointer;
+}
+
+/* 모바일 2열 */
+@media(max-width:768px){
+  .board-section{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:768px){
+  .board-section{
+    grid-template-columns:repeat(2,1fr);
+    max-height:520px;
+    overflow-y:auto;
+  }
 }
 
 .board-card.highlight{
@@ -390,54 +381,6 @@ body{
   object-fit:cover;
 }
 
-.sns-video{
-  aspect-ratio:9/16;
-  border-radius:16px;
-  overflow:hidden;
-  border:1px solid #ddd;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-#snsVideoAds{
-  display:grid;
-  gap:12px;
-}
-
-#snsVideoAds .sns-video{
-  aspect-ratio:9/16;
-}
-
-.sns-video img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.video-modal-content{
-  width:90vw;
-  max-width:420px;
-  margin:auto;
-  padding:0;
-  background:transparent;
-}
-
-.video-wrapper{
-  aspect-ratio:9/16;
-  width:100%;
-}
-
-.video-wrapper iframe{
-  width:100%;
-  height:100%;
-  border:0;
-}
-
-.video-modal{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
 .board-card{
   background:#fff;
   padding:20px;
@@ -501,44 +444,93 @@ body{
 }
 
 /* ================= 모바일 전용 ================= */
-
 @media (max-width:768px){
 
   body{
     padding:15px;
   }
 
-  .board-section{
-    grid-template-columns:repeat(2,1fr);
-    max-height:520px;
-  }
-
   .search-box{
+    display:flex;
     flex-direction:column;
   }
 
   .search-box input,
   .search-box button{
     width:100%;
+    height:48px;
+    box-sizing:border-box;
   }
 
+  .search-box button{
+    margin:8px 0 0 0;
+  }
+
+  /* 배너 */
   .top-banner{
     height:90px;
+  }
+
+  /* 그리드 → 2열 */
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
   }
 
   .img-ad{
     height:90px;
   }
 
-  #topBtn{
-    left:auto;
-    right:15px;
-    margin-left:0;
-    bottom:80px;
+  .text-ad{
+    font-size:14px;
+    padding:10px;
   }
 
+  .owner-box{
+    margin-top:40px;
+    padding:18px;
+    position:relative;
+  }
+
+  .owner-name{
+    font-size:11px;
+  }
+
+  .owner-sns a{
+    width:30px;
+    height:30px;
+    font-size:16px;
+    margin:0 6px;
+  }
+
+  /* ===== 모바일 플로팅 네비 ===== */
   .mobile-nav{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
     display:flex;
+    gap:20px;
+    background:#fff;
+    padding:10px 20px;
+    border-radius:50px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    z-index:999;
+  }
+
+  .mobile-nav button{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:none;
+    background:#87CEEB;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+  }
+
+  .mobile-nav button:active{
+    transform:scale(0.95);
   }
 
 }
@@ -884,7 +876,6 @@ body{
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
-<div class="grid" id="snsVideoAds"></div>
 
 <!-- 게시판 전용 검색 -->
 
@@ -1006,15 +997,6 @@ function closeImageModal(){
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
 
-}
-
-function openTopImageModal(src){
-  document.getElementById("topModalAdImage").src = src;
-  document.getElementById("topImageModal").style.display="flex";
-}
-
-function closeTopImageModal(){
-  document.getElementById("topImageModal").style.display="none";
 }
 
 function openVideoModal(url){
@@ -1206,7 +1188,6 @@ async function loadSite(){
   const imgBox=document.getElementById("imageAds");
   const txtBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
-  const snsBox=document.getElementById("snsVideoAds");
   const bannerBox=document.getElementById("topBanner");
 
   // 🔥 전체 초기화
@@ -1214,7 +1195,6 @@ async function loadSite(){
   imgBox.innerHTML="";
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
-  snsBox.innerHTML="";
   bannerBox.innerHTML="";
 
   /* ================= 광고 ================= */
@@ -1279,21 +1259,6 @@ const link = ad.link_url
         bottomBox.appendChild(wrap);
       }
 
-if(ad.type==="sns"){
-  const wrap=document.createElement("div");
-  wrap.className="ad-item";
-
-  wrap.innerHTML=`
-    <div class="sns-video">
-      <img src="${ad.image_url}"
-      onclick="openVideoModal('${ad.video_url}')">
-    </div>
-    <div class="ad-title">${ad.title||""}</div>
-  `;
-
-  snsBox.appendChild(wrap);
-}
-
     });
   }
 
@@ -1309,10 +1274,11 @@ if(ad.type==="sns"){
     const s=settings[0];
 
     if(s.banner_img){
-bannerBox.innerHTML = `
-  <img src="${s.banner_img}"
-       onclick="openTopImageModal('${s.banner_img}')">
-`;
+      bannerBox.innerHTML = s.banner_link
+        ? `<a href="${s.banner_link}" target="_blank">
+             <img src="${s.banner_img}">
+           </a>`
+        : `<img src="${s.banner_img}">`;
     }
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
@@ -1648,19 +1614,11 @@ async function submitPost(){
 
 <div class="modal" id="imageModal" onclick="closeImageModal()">
   <div class="modal-content image-modal-box">
-    <div class="video-container">
-      <div class="modal-close" onclick="closeImageModal()">✕</div>
-      <img id="modalAdImage">
-    </div>
-  </div>
-</div>
 
-<div class="modal" id="topImageModal" onclick="closeTopImageModal()">
-  <div class="modal-content image-modal-box">
-    <div class="top-image-container">
-      <div class="modal-close" onclick="closeTopImageModal()">✕</div>
-      <img id="topModalAdImage">
-    </div>
+    <div class="modal-close" onclick="closeImageModal()">✕</div>
+
+    <img id="modalAdImage">
+
   </div>
 </div>
 
