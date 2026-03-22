@@ -393,6 +393,19 @@ body{
   margin:0 0 10px;
 }
 
+.sns-video{
+  aspect-ratio:4/3;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #ddd;
+}
+
+.sns-video img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
 /* ===== 소유자 영역 ===== */
 .owner-box{
   margin-top:60px;
@@ -876,6 +889,7 @@ body{
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
+<div class="grid" id="snsVideoAds"></div>
 
 <!-- 게시판 전용 검색 -->
 
@@ -1188,6 +1202,7 @@ async function loadSite(){
   const imgBox=document.getElementById("imageAds");
   const txtBox=document.getElementById("textAds");
   const bottomBox=document.getElementById("bottomImageAds");
+  const snsBox=document.getElementById("snsVideoAds");
   const bannerBox=document.getElementById("topBanner");
 
   // 🔥 전체 초기화
@@ -1195,6 +1210,7 @@ async function loadSite(){
   imgBox.innerHTML="";
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
+  snsBox.innerHTML="";
   bannerBox.innerHTML="";
 
   /* ================= 광고 ================= */
@@ -1258,6 +1274,21 @@ const link = ad.link_url
 
         bottomBox.appendChild(wrap);
       }
+
+if(ad.type==="sns"){
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+
+  wrap.innerHTML=`
+    <div class="sns-video">
+      <img src="${ad.image_url}"
+      onclick="openVideoModal('${ad.video_url}')">
+    </div>
+    <div class="ad-title">${ad.title||""}</div>
+  `;
+
+  snsBox.appendChild(wrap);
+}
 
     });
   }
