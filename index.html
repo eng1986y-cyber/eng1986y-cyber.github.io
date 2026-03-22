@@ -18,6 +18,12 @@
 
 <style>
 
+#topModalAdImage{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
 .board-category{
   display:flex;
   justify-content:center;
@@ -58,12 +64,14 @@
   margin:auto;
 }
 
-@media (max-width:768px){
-  .video-modal-content{
-    width:92vw;
-    max-width:none;
-  }
-
+.top-image-container{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+  border-radius:12px;
+  overflow:hidden;
+}
   .video-container{
     max-width:none;
   }
@@ -170,6 +178,7 @@ html{
 }
 
 /* 장방형 카드 */
+
 .board-card{
   background:#fff;
   border-radius:12px;
@@ -243,21 +252,6 @@ html{
   right:15px;
   font-size:20px;
   cursor:pointer;
-}
-
-/* 모바일 2열 */
-@media(max-width:768px){
-  .board-section{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:768px){
-  .board-section{
-    grid-template-columns:repeat(2,1fr);
-    max-height:520px;
-    overflow-y:auto;
-  }
 }
 
 .board-card.highlight{
@@ -511,6 +505,20 @@ body{
 }
 
 /* ================= 모바일 전용 ================= */
+
+@media(max-width:768px){
+  .board-section{
+    grid-template-columns:repeat(2,1fr);
+    max-height:520px;
+    overflow-y:auto;
+  }
+}
+
+@media (max-width:768px){
+  .video-modal-content{
+    width:92vw;
+    max-width:none;
+  }
 
 @media (max-width:768px){
 
@@ -1065,6 +1073,15 @@ function closeImageModal(){
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
 
+}
+
+function openTopImageModal(src){
+  document.getElementById("topModalAdImage").src = src;
+  document.getElementById("topImageModal").style.display="flex";
+}
+
+function closeTopImageModal(){
+  document.getElementById("topImageModal").style.display="none";
 }
 
 function openVideoModal(url){
@@ -1702,6 +1719,15 @@ async function submitPost(){
     <div class="video-container">
       <div class="modal-close" onclick="closeImageModal()">✕</div>
       <img id="modalAdImage">
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="topImageModal" onclick="closeTopImageModal()">
+  <div class="modal-content image-modal-box">
+    <div class="top-image-container">
+      <div class="modal-close" onclick="closeTopImageModal()">✕</div>
+      <img id="topModalAdImage">
     </div>
   </div>
 </div>
