@@ -513,13 +513,13 @@ body{
 /* ================= 모바일 전용 ================= */
 
 @media (max-width:768px){
+
   #topBtn{
     left:auto;
     right:15px;
     margin-left:0;
     bottom:80px;
   }
-}
 
   body{
     padding:15px;
@@ -541,12 +541,9 @@ body{
     margin:8px 0 0 0;
   }
 
-  /* 배너 */
   .top-banner{
     height:90px;
   }
-
-  /* 그리드 → 2열 */
 
   .img-ad{
     height:90px;
@@ -574,7 +571,6 @@ body{
     margin:0 6px;
   }
 
-  /* ===== 모바일 플로팅 네비 ===== */
   .mobile-nav{
     position:fixed;
     bottom:20px;
@@ -1702,10 +1698,11 @@ async function submitPost(){
 <button id="topBtn" onclick="scrollToTop()">🔝</button>
 
 <div class="modal" id="imageModal" onclick="closeImageModal()">
-<div class="modal-content image-modal-box">
-  <div class="video-container">
-    <div class="modal-close" onclick="closeImageModal()">✕</div>
-    <img id="modalAdImage">
+  <div class="modal-content image-modal-box">
+    <div class="video-container">
+      <div class="modal-close" onclick="closeImageModal()">✕</div>
+      <img id="modalAdImage">
+    </div>
   </div>
 </div>
 
