@@ -196,6 +196,17 @@ html{
   -webkit-box-orient:vertical;
 }
 
+.captcha-box{
+  margin-top:5px;
+}
+
+#captchaQuestion{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:8px;
+  color:#333;
+}
+
 /* ===== 팝업 ===== */
 .modal{
   display:none;
@@ -925,6 +936,12 @@ body{
       <label>내용</label>
       <textarea id="userPostContent" placeholder="내용을 입력하세요"></textarea>
 
+<div class="captcha-box">
+  <label>자동등록방지</label>
+  <div id="captchaQuestion"></div>
+  <input id="captchaAnswer" placeholder="정답 입력">
+</div>
+
     </div>
 
     <div class="write-footer">
@@ -975,6 +992,18 @@ body{
 <script src="supabase.js"></script>
 
 <script>
+
+let captchaValue = 0;
+
+function generateCaptcha(){
+  const a = Math.floor(Math.random()*9)+1;
+  const b = Math.floor(Math.random()*9)+1;
+
+  captchaValue = a + b;
+
+  document.getElementById("captchaQuestion").innerText =
+    a + " + " + b + " = ?";
+}
 
 function escapeHTML(str){
   return str
@@ -1584,6 +1613,8 @@ function scrollToTop(){
 
 function openWritePost(){
   document.getElementById("writeModal").style.display="flex";
+  document.getElementById("captchaAnswer").value="";
+  generateCaptcha();
 }
 
 function closeWritePost(){
@@ -1595,6 +1626,16 @@ async function submitPost(){
   const title=document.getElementById("userPostTitle").value.trim();
   const content=document.getElementById("userPostContent").value.trim();
   const category=document.getElementById("userPostCategory").value;
+
+const answer = document
+  .getElementById("captchaAnswer")
+  .value.trim();
+
+if(parseInt(answer) !== captchaValue){
+  alert("자동등록방지 정답이 틀렸습니다");
+  generateCaptcha();
+  return;
+}
 
   if(!title||!content){
     alert("제목과 내용을 입력하세요");
