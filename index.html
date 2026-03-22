@@ -52,8 +52,15 @@
 
 .video-container{
   position:relative;
-  padding-bottom:56.25%;
-  height:0;
+  width:100%;
+  max-width:420px;
+  margin:auto;
+}
+
+.video-container::before{
+  content:"";
+  display:block;
+  padding-top:177.77%; /* 9:16 비율 */
 }
 
 .video-container iframe{
@@ -62,7 +69,7 @@
   left:0;
   width:100%;
   height:100%;
-  border-radius:10px;
+  border:0;
 }
 
 .image-modal-box{
