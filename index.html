@@ -552,7 +552,9 @@ body{
   display:none;
 }
 
-#topBtn{ display:none; }
+#topBtn{
+  display:none;
+}
 
   #topBtn{
     left:auto;
@@ -1697,9 +1699,39 @@ if(parseInt(answer) !== captchaValue){
 
 }
 
+/* ===== PC 전용 플로팅 버튼 ===== */
+.pc-floating{
+  position:fixed;
+  right:20px;
+  bottom:30px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:999;
+}
+
+.pc-floating button{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:none;
+  background:#87CEEB;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* 모바일에서는 숨김 */
+@media (max-width:768px){
+  .pc-floating{
+    display:none;
+  }
+}
+
 </script>
 
-<div class="mobile-nav">
+<div class="pc-floating">
   <button onclick="scrollToTop()">
     <i class="fas fa-home"></i>
   </button>
