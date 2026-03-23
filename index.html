@@ -129,13 +129,12 @@
     transform:translateX(-50%);
     flex-direction:row;
     align-items:center;
-    gap:14px;              /* ← 버튼 간격 추가 */
+    gap:14px;
     background:white;
-    padding:10px 16px;     /* ← 여백 조금 증가 */
+    padding:10px 16px;
     border-radius:40px;
     box-shadow:0 6px 20px rgba(0,0,0,0.15);
   }
-}
 
   .floating-right button{
     width:42px;
@@ -569,40 +568,11 @@ body{
 }
 
   /* ===== 모바일 플로팅 네비 ===== */
-.mobile-nav{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:20px;
-  background:#fff;
-  padding:10px 20px;
-  border-radius:50px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  z-index:999;
-}
-
-.mobile-nav button{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  border:none;
-  background:#87CEEB;
-  color:#fff;
-  font-size:20px;
-  cursor:pointer;
-}
 
   .mobile-nav button:active{
     transform:scale(0.95);
   }
 
-}
-
-/* PC에서는 완전 숨김 */
-.mobile-nav{
-  display:none;
 }
 
 .ad-title{
@@ -1704,20 +1674,6 @@ if(parseInt(answer) !== captchaValue){
 }
 
 </script>
-
-<div class="mobile-nav">
-  <button onclick="scrollToTop()">
-    <i class="fas fa-home"></i>
-  </button>
-
-  <button onclick="focusSearch()">
-    <i class="fas fa-search"></i>
-  </button>
-
-  <button onclick="scrollToTop()">
-    🔝
-  </button>
-</div>
 
 <div class="modal" id="boardModal" onclick="outsideClose(event)">
   <div class="modal-content">
