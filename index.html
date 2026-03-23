@@ -567,14 +567,15 @@ body{
   /* ===== 모바일 플로팅 네비 ===== */
 .mobile-nav{
   position:fixed;
-  right:15px;
   bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
   display:flex;
-  flex-direction:column;
-  gap:10px;
-  background:transparent;
-  padding:0;
-  box-shadow:none;
+  gap:20px;
+  background:#fff;
+  padding:10px 20px;
+  border-radius:50px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
   z-index:999;
 }
 
@@ -585,9 +586,8 @@ body{
   border:none;
   background:#87CEEB;
   color:#fff;
-  font-size:18px;
+  font-size:20px;
   cursor:pointer;
-  box-shadow:0 6px 14px rgba(0,0,0,0.15);
 }
 
   .mobile-nav button:active{
@@ -1701,7 +1701,7 @@ if(parseInt(answer) !== captchaValue){
 
 </script>
 
-<div class="pc-floating">
+<div class="mobile-nav">
   <button onclick="scrollToTop()">
     <i class="fas fa-home"></i>
   </button>
