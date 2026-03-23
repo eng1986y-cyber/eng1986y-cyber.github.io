@@ -563,30 +563,30 @@ body{
 }
 
   /* ===== 모바일 플로팅 네비 ===== */
-  .mobile-nav{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:20px;
-    background:#fff;
-    padding:10px 20px;
-    border-radius:50px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-    z-index:999;
-  }
+.mobile-nav{
+  position:fixed;
+  right:15px;
+  bottom:20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  background:transparent;
+  padding:0;
+  box-shadow:none;
+  z-index:999;
+}
 
-  .mobile-nav button{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    border:none;
-    background:#87CEEB;
-    color:#fff;
-    font-size:20px;
-    cursor:pointer;
-  }
+.mobile-nav button{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:none;
+  background:#87CEEB;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(0,0,0,0.15);
+}
 
   .mobile-nav button:active{
     transform:scale(0.95);
@@ -1703,8 +1703,13 @@ if(parseInt(answer) !== captchaValue){
   <button onclick="scrollToTop()">
     <i class="fas fa-home"></i>
   </button>
+
   <button onclick="focusSearch()">
     <i class="fas fa-search"></i>
+  </button>
+
+  <button onclick="scrollToTop()">
+    🔝
   </button>
 </div>
 
@@ -1716,8 +1721,6 @@ if(parseInt(answer) !== captchaValue){
     <div id="modalContent"></div>
   </div>
 </div>
-
-<button id="topBtn" onclick="scrollToTop()">🔝</button>
 
 <div class="modal" id="imageModal" onclick="closeImageModal()">
   <div class="modal-content image-modal-box">
