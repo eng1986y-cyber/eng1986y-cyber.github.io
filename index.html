@@ -113,6 +113,26 @@
   transition:0.3s;
 }
 
+.floating-menu{
+  position:fixed;
+  left:50%;
+  margin-left:630px;
+  bottom:140px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.floating-menu button{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:none;
+  background:#111;
+  color:#fff;
+  cursor:pointer;
+}
+
 #topBtn:hover{
   background:#87CEEB;
   color:white; /* hover 시 🔝 흰색 */
@@ -531,6 +551,8 @@ body{
 .top-banner{
   display:none;
 }
+
+#topBtn{ display:none; }
 
   #topBtn{
     left:auto;
