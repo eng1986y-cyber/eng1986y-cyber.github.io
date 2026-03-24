@@ -240,10 +240,11 @@ html{
 
 .modal-content{
   background:#fff;
-  width:600px;
-  max-width:90%;
-  max-height:80%;
-  overflow:auto;
+  width:90%;            /* PC/태블릿 공통 */
+  max-width:600px;
+  height:auto;          /* 높이 자동 */
+  max-height:90vh;      /* 화면 90%까지만 */
+  overflow:hidden;      /* 스크롤 제거 */
   border-radius:14px;
   padding:25px;
   position:relative;
@@ -1048,10 +1049,17 @@ function filterCategory(cat, el){
 }
 
 function openImageModal(url){
+  const modal = document.getElementById("imageModal");
+  const content = modal.querySelector(".modal-content");
 
   document.getElementById("modalAdImage").src = url;
-  document.getElementById("imageModal").style.display="flex";
 
+  // 화면 높이에 맞춰 높이 조정
+  const vh = window.innerHeight;
+  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
+  content.style.overflow = "hidden";
+
+  modal.style.display="flex";
 }
 
 function closeImageModal(){
