@@ -46,15 +46,15 @@
 }
 
 .video-modal-box{
-  max-width:90%;
-  width:400px;       /* 필요하면 조정 */
-  max-height:90vh;   /* 화면 높이 90% */
-  overflow:hidden;   /* 스크롤 제거 */
+  max-width: 400px;   /* 필요하면 카드보다 넓게 */
+  width:90%;
+  max-height:90vh;
+  overflow:hidden;    /* 스크롤 제거 */
 }
 
 .video-container{
   position:relative;
-  padding-bottom:37.5%; /* 6/16 = 0.375 → 37.5% */
+  padding-bottom:177.78%; /* 16:9 영상이 세로일 경우 → 세로가 가로의 16/9배 */
   height:0;
 }
 
@@ -430,7 +430,7 @@ body{
 }
 
 .sns-video{
-  aspect-ratio:9/16;
+  aspect-ratio:4/5;
   border-radius:12px;
   overflow:hidden;
   border:1px solid #ddd;
