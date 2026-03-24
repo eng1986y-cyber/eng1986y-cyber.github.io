@@ -68,30 +68,40 @@
   border-radius:10px;
 }
 
-/* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
-.video-modal-box{
-  width:90%;
-  max-width:600px;
-  max-height:80vh;
-  overflow:hidden;
-  padding:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+@media (min-width: 769px) and (max-width: 1024px) {
 
-.video-container{
-  width:100%;
-  height:100%;
-  position:relative;
-}
+  .sns-video {
+    height: 300px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: #000 !important;
+  }
 
-.video-container iframe,
-.video-container video{
-  width:100%;
-  height:100%;
-  border-radius:10px;
-  object-fit:contain; /* 원본 비율 유지, 카드 밖 튀어나오지 않음 */
+  .video-modal-box {
+    max-width: 550px !important;
+    max-height: 75vh !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: #000 !important;
+  }
+
+  .video-container {
+    width: 90% !important;
+    height: 90% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .video-container iframe,
+  .video-container video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
 }
 
 .image-modal-box{
