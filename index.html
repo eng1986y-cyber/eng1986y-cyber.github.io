@@ -45,22 +45,27 @@
   border-color:#87CEEB;
 }
 
-/* 기본 팝업 */
 .video-modal-box{
+  max-width: 400px;   /* 필요하면 카드보다 넓게 */
   width:90%;
-  max-width:400px;
-  max-height:90vh;       /* 기본: 화면 높이 90% */
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  max-height:90vh;
+  overflow:hidden;    /* 스크롤 제거 */
+}
+
+.video-container{
+  position:relative;
+  padding-bottom:177.78%; /* 16:9 영상이 세로일 경우 → 세로가 가로의 16/9배 */
+  height:0;
 }
 
 .video-container iframe,
 .video-container video{
+  position:absolute;
+  top:0;
+  left:0;
   width:100%;
   height:100%;
-  object-fit:contain;    /* 영상 전체 표시, 잘림 없음 */
+  border-radius:10px;
 }
 
 /* 태블릿 전용: 화면 너비 768px ~ 1024px */
