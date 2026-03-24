@@ -1333,6 +1333,7 @@ const link = ad.link_url
 if(ad.type==="sns"){
   const wrap=document.createElement("div");
   wrap.className="ad-item";
+  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
 
   wrap.innerHTML=`
     <div class="sns-video">
