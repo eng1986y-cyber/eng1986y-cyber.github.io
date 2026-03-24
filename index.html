@@ -1232,6 +1232,13 @@ function scrollToTop(){
   });
 }
 
+function scrollToBottom(){
+  window.scrollTo({
+    top:document.documentElement.scrollHeight,
+    behavior:"smooth"
+  });
+}
+
 function focusSearch(){
   document.getElementById("searchInput").focus();
 }
@@ -1622,6 +1629,13 @@ function scrollToTop(){
   });
 }
 
+function scrollToBottom(){
+  window.scrollTo({
+    top:document.documentElement.scrollHeight,
+    behavior:"smooth"
+  });
+}
+
 function openWritePost(){
   document.getElementById("writeModal").style.display="flex";
   document.getElementById("captchaAnswer").value="";
@@ -1716,9 +1730,9 @@ if(parseInt(answer) !== captchaValue){
     <i class="fas fa-search"></i>
   </button>
 
-  <button onclick="scrollToTop()">
-    🔝
-  </button>
+<button onclick="scrollToBottom()">
+  🔽
+</button>
 
 </div>
 
