@@ -68,7 +68,7 @@
   border-radius:10px;
 }
 
-/* ===== 영상 모달 공통 ===== */
+/* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
 .video-modal-box{
   width:90%;
   max-width:600px;
@@ -82,20 +82,16 @@
 
 .video-container{
   width:100%;
-  height:0;
-  padding-bottom:56.25%; /* 16:9 비율 */
+  height:100%;
   position:relative;
 }
 
 .video-container iframe,
 .video-container video{
-  position:absolute;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   border-radius:10px;
-  object-fit:contain; /* 잘림 없이 전체 표시 */
+  object-fit:contain; /* 원본 비율 유지, 카드 밖 튀어나오지 않음 */
 }
 
 .image-modal-box{
