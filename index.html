@@ -572,15 +572,20 @@ body{
 
 }
 
+.ad-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 자식 요소들 수평 중앙 정렬 */
+}
+
 .ad-title {
-  display: block !important;
-  text-align: center !important;
   margin-top: 10px;
   font-family: 'HYGraphicM', Arial, sans-serif;
   font-size: 15px;
   font-weight: 500;
   letter-spacing: 1px;
   color: #222;
+  text-align: center;  /* 텍스트 자체 중앙 정렬 */
 }
 
   width:100%;
