@@ -18,6 +18,18 @@
 
 <style>
 
+/* 상단 배너 항상 위 */
+.top-banner-wrapper {
+  position: relative;
+  z-index: 10; /* 항상 광고 그리드 위 */
+  margin-bottom: 20px; /* 필요하면 간격 조정 */
+}
+
+.grid-wrapper {
+  position: relative;
+  z-index: 0;
+}
+
 .board-category{
   display:flex;
   justify-content:center;
@@ -907,12 +919,18 @@ body{
   <button onclick="search()">검색</button>
 </div>
 
-<div class="top-banner" id="topBanner"></div>
+<!-- 상단 배너 감싸는 wrapper 추가 -->
+<div class="top-banner-wrapper">
+  <div class="top-banner" id="topBanner"></div>
+</div>
 
-<div class="grid" id="imageAds"></div>
-<div class="grid" id="textAds"></div>
-<div class="grid" id="bottomImageAds"></div>
-<div class="grid" id="snsVideoAds"></div>
+<!-- 광고 그리드 전체 감싸기 -->
+<div class="grid-wrapper">
+  <div class="grid" id="imageAds"></div>
+  <div class="grid" id="textAds"></div>
+  <div class="grid" id="bottomImageAds"></div>
+  <div class="grid" id="snsVideoAds"></div>
+</div>
 
 <!-- 게시판 전용 검색 -->
 
