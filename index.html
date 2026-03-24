@@ -68,47 +68,30 @@
   border-radius:10px;
 }
 
-/* 태블릿 전용 영상 모달 스타일 */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .video-modal-box {
-    width: auto; 
-    height: 85vh;          /* 화면 높이의 85% 고정 */
-    aspect-ratio: 9 / 16;  /* SNS 세로 비율 강제 */
-    max-width: 90vw;
-    background: #000;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+/* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
+.video-modal-box{
+  width:90%;
+  max-width:600px;
+  max-height:80vh;
+  overflow:hidden;
+  padding:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-  .video-container {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 0;     /* 기존 padding 방식 해제 */
-  }
+.video-container{
+  width:100%;
+  height:100%;
+  position:relative;
+}
 
-  .video-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    /* 빌리빌리 영상이 찌그러지지 않게 설정 */
-    object-fit: contain; 
-  }
-  
-  /* 태블릿용 닫기 버튼 (영상 우측 상단 배치) */
-  .video-modal-box .modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 99;
-    color: #fff;
-    background: rgba(0,0,0,0.4);
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-  }
+.video-container iframe,
+.video-container video{
+  width:100%;
+  height:100%;
+  border-radius:10px;
+  object-fit:contain; /* 원본 비율 유지, 카드 밖 튀어나오지 않음 */
 }
 
 .image-modal-box{
