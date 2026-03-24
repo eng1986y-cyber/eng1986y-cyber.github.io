@@ -46,17 +46,20 @@
 }
 
 .video-modal-box{
-  position:relative;
-  max-width:960px;
+  max-width:90%;
+  width:400px;       /* 필요하면 조정 */
+  max-height:90vh;   /* 화면 높이 90% */
+  overflow:hidden;   /* 스크롤 제거 */
 }
 
 .video-container{
   position:relative;
-  padding-bottom:56.25%; /* 16:9 비율 */
+  padding-bottom:37.5%; /* 6/16 = 0.375 → 37.5% */
   height:0;
 }
 
-.video-container iframe{
+.video-container iframe,
+.video-container video{
   position:absolute;
   top:0;
   left:0;
