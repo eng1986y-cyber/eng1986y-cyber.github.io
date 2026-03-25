@@ -18,6 +18,21 @@
 
 <style>
 
+.video-wrap{
+  position:relative;
+  width:100%;
+  padding-top:56.25%; /* 16:9 */
+}
+
+.video-wrap iframe,
+.video-wrap video{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
 .video-modal-box .modal-close{
   position:absolute;
   top:10px;
@@ -1348,7 +1363,14 @@ const link = ad.link_url
        <img src="${ad.image_url}">
      </a>`
   : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  ? `
+    <div class="video-wrap">
+      <iframe src="${ad.video_url}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    </div>
+    `
   : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
