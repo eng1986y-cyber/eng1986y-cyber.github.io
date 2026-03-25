@@ -231,7 +231,9 @@ button:hover{ background:#6bbfe0; }
 
 #visitStats{
   display:flex;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
+  overflow:hidden;
+  white-space:nowrap;
 }
 
 #visitStats div::after{
@@ -1100,7 +1102,7 @@ async function loadVisitStats(){
     .from("site_visits")
     .select("*")
     .order("date",{ascending:false})
-    .limit(30);
+    .limit(7);
 
   const box = document.getElementById("visitStats");
   const summary = document.getElementById("visitSummary");
