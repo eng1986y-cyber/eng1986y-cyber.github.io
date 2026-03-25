@@ -986,6 +986,23 @@ body{
   height:100%;
 }
 
+.play-overlay{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:40px;
+  color:white;
+  background:rgba(0,0,0,0.5);
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
+
 </style>
 </head>
 
@@ -1380,9 +1397,10 @@ const link = ad.link_url
      </a>`
   : ad.video_url
   ? `
-    <div class="video-wrap" onclick="playVideo(this,'${ad.video_url}')">
-      <img src="${ad.image_url}">
-    </div>
+<div class="video-wrap" onclick="playVideo(this,'${ad.video_url}')">
+  <img src="${ad.image_url}" style="width:100%;height:100%;object-fit:cover;">
+  <div class="play-overlay">▶</div>
+</div>
     `
   : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
@@ -1824,13 +1842,14 @@ else if(url.includes("bilibili.com")){
   embed = "https://player.bilibili.com/player.html?bvid="+bvid;
 }
 
-  el.innerHTML = `
-    <iframe src="${embed}"
-      frameborder="0"
-      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  `;
+el.innerHTML = `
+  <iframe src="${embed}"
+    frameborder="0"
+    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    onclick="event.stopPropagation()">
+  </iframe>
+`;
 }
 
 </script>
