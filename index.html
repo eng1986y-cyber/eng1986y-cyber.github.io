@@ -1187,9 +1187,10 @@ if(url.includes("youtube.com") || url.includes("youtu.be")){
 
 document.getElementById("videoModal").style.display="flex";
 
-document.getElementById("videoFrame").innerHTML = `
+document.getElementById("modalVideo").outerHTML = `
   <div class="video-wrap">
-    <iframe src="${embed}"
+    <iframe id="modalVideo"
+      src="${embed}"
       frameborder="0"
       allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
@@ -1199,8 +1200,10 @@ document.getElementById("videoFrame").innerHTML = `
 }
 
 function closeVideoModal(){
-
-const iframe = document.getElementById("modalVideo");
+  const modal = document.getElementById("videoModal");
+  modal.style.display="none";
+  modal.querySelector(".video-wrap").innerHTML="";
+}
 
 if(iframe.tagName==="IFRAME"){
 iframe.src="";
