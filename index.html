@@ -1168,6 +1168,13 @@ let embed="";
 if(!url) return;
 
 const modalBox = document.querySelector("#videoModal .video-modal-box");
+const container = document.querySelector("#videoModal .video-container");
+
+if(type === "top"){
+  container.style.paddingBottom = "56.25%";
+}else{
+  container.style.paddingBottom = "177.78%";
+}
 
 /* 초기화 */
 modalBox.classList.remove("top-banner");
