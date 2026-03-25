@@ -18,32 +18,6 @@
 
 <style>
 
-.video-container.vertical{
-  padding-bottom:177.78%;
-}
-
-.video-container.horizontal{
-  padding-bottom:56.25%;
-}
-
-.video-modal-box.top-banner{
-  max-width:900px;
-  width:90%;
-  margin:auto;
-}
-
-.video-modal-box.top-banner .video-container{
-  aspect-ratio:16/9 !important;
-  padding-bottom:0 !important;
-  height:auto !important;
-}
-
-.video-modal-box.top-banner iframe,
-.video-modal-box.top-banner video{
-  width:100%;
-  height:100%;
-}
-
 .video-modal-box .modal-close{
   position:absolute;
   top:10px;
@@ -981,28 +955,6 @@ body{
   background:#ddd;
 }
 
-/* ===== 상단 이미지 광고 영상 가로 강제 ===== */
-#videoModal .video-modal-box.top-banner{
-  max-width:900px !important;
-  width:90% !important;
-}
-
-#videoModal .video-modal-box.top-banner .video-container{
-  position:relative !important;
-  width:100% !important;
-  height:0 !important;
-  padding-bottom:56.25% !important; /* 16:9 */
-}
-
-#videoModal .video-modal-box.top-banner iframe,
-#videoModal .video-modal-box.top-banner video{
-  position:absolute !important;
-  top:0;
-  left:0;
-  width:100% !important;
-  height:100% !important;
-}
-
 </style>
 </head>
 
@@ -1169,30 +1121,11 @@ function closeImageModal(){
 
 }
 
-function openVideoModal(url, type){
+function openVideoModal(url){
 
 let embed="";
 
 if(!url) return;
-
-const modalBox = document.querySelector("#videoModal .video-modal-box");
-const container = document.querySelector("#videoModal .video-container");
-
-container.classList.remove("horizontal","vertical");
-
-if(type === "top"){
-  container.classList.add("horizontal");
-}else{
-  container.classList.add("vertical");
-}
-
-/* 초기화 */
-modalBox.classList.remove("top-banner");
-
-/* 상단 이미지 광고면 가로 */
-if(type === "top"){
-  modalBox.classList.add("top-banner");
-}
 
 /* YouTube */
 if(url.includes("youtube.com") || url.includes("youtu.be")){
@@ -1415,7 +1348,7 @@ const link = ad.link_url
        <img src="${ad.image_url}">
      </a>`
   : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}','top')">`
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
   : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
@@ -1845,14 +1778,17 @@ if(parseInt(answer) !== captchaValue){
 </div>
 
 <div class="modal" id="videoModal" onclick="closeVideoModal()">
-<div class="modal-content video-modal-box">
+  <div class="modal-content video-modal-box">
 
-  <div class="modal-close" onclick="closeVideoModal()">✕</div>
+    <div class="modal-close" onclick="closeVideoModal()">✕</div>
 
-  <div class="video-container vertical">
-    <iframe id="modalVideo" frameborder="0" allowfullscreen></iframe>
+    <div class="video-container">
+      <iframe id="modalVideo"
+        frameborder="0"
+        allowfullscreen></iframe>
+    </div>
+
   </div>
-
 </div>
 
 <div class="floating-right">
