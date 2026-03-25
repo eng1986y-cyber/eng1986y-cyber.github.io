@@ -1380,11 +1380,8 @@ const link = ad.link_url
      </a>`
   : ad.video_url
   ? `
-    <div class="video-wrap">
-      <iframe src="${ad.video_url}"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
+    <div class="video-wrap" onclick="playVideo(this,'${ad.video_url}')">
+      <img src="${ad.image_url}">
     </div>
     `
   : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
@@ -1792,6 +1789,15 @@ if(parseInt(answer) !== captchaValue){
   closeWritePost();
   loadBoard();
 
+}
+
+function playVideo(el,url){
+  el.innerHTML = `
+    <iframe src="${url}"
+      frameborder="0"
+      allowfullscreen>
+    </iframe>
+  `;
 }
 
 </script>
