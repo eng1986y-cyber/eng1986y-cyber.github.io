@@ -1396,12 +1396,7 @@ const link = ad.link_url
        <img src="${ad.image_url}">
      </a>`
   : ad.video_url
-  ? `
-<div class="video-wrap" onclick="playVideo(this,'${ad.video_url}')">
-  <img src="${ad.image_url}" style="width:100%;height:100%;object-fit:cover;">
-  <div class="play-overlay">▶</div>
-</div>
-    `
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
   : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
@@ -1807,49 +1802,6 @@ if(parseInt(answer) !== captchaValue){
   closeWritePost();
   loadBoard();
 
-}
-
-function playVideo(el,url){
-
-let embed = url;
-
-/* YouTube */
-if(url.includes("youtube.com") || url.includes("youtu.be")){
-  let videoId="";
-
-  if(url.includes("watch")){
-    const params = new URL(url).searchParams;
-    videoId = params.get("v");
-  }else if(url.includes("shorts")){
-    videoId = url.split("shorts/")[1];
-  }else{
-    videoId = url.split("/").pop();
-  }
-
-  embed = "https://www.youtube.com/embed/"+videoId;
-}
-
-/* Vimeo */
-else if(url.includes("vimeo.com")){
-  let id = url.split("/").pop();
-  embed = "https://player.vimeo.com/video/"+id;
-}
-
-/* bilibili */
-else if(url.includes("bilibili.com")){
-  let bvid = url.split("/video/")[1];
-  if(bvid) bvid = bvid.split("?")[0];
-  embed = "https://player.bilibili.com/player.html?bvid="+bvid;
-}
-
-el.innerHTML = `
-  <iframe src="${embed}"
-    frameborder="0"
-    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-    onclick="event.stopPropagation()">
-  </iframe>
-`;
 }
 
 </script>
