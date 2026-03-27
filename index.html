@@ -35,8 +35,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5530864523798922"
-     crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:,">
 <meta charset="UTF-8">
@@ -1832,6 +1830,22 @@ if(parseInt(answer) !== captchaValue){
 </button>
 
 </div>
+
+async function loadAdsense(){
+  const { data } = await supabase
+    .from("settings")
+    .select("value")
+    .eq("key", "adsense_script")
+    .single();
+
+  if(data && data.value){
+    const div = document.createElement("div");
+    div.innerHTML = data.value;
+    document.body.appendChild(div);
+  }
+}
+
+window.addEventListener("load", loadAdsense);
 
 </body>
 </html>
