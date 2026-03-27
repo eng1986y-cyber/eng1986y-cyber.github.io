@@ -1841,13 +1841,9 @@ async function loadAdsense(){
       .single();
 
     if(data && data.value){
-      const div = document.createElement("div");
-      div.innerHTML = data.value;
-      document.body.appendChild(div);
+      document.head.insertAdjacentHTML("beforeend", data.value);
     }
-  }catch(e){
-    console.log("adsense 없음");
-  }
+  }catch(e){}
 }
 
 window.addEventListener("load", loadAdsense);
