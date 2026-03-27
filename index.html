@@ -1831,21 +1831,27 @@ if(parseInt(answer) !== captchaValue){
 
 </div>
 
+<script>
 async function loadAdsense(){
-  const { data } = await supabase
-    .from("settings")
-    .select("value")
-    .eq("key", "adsense_script")
-    .single();
+  try{
+    const { data } = await supabase
+      .from("settings")
+      .select("value")
+      .eq("key","adsense_script")
+      .single();
 
-  if(data && data.value){
-    const div = document.createElement("div");
-    div.innerHTML = data.value;
-    document.body.appendChild(div);
+    if(data && data.value){
+      const div = document.createElement("div");
+      div.innerHTML = data.value;
+      document.body.appendChild(div);
+    }
+  }catch(e){
+    console.log("adsense 없음");
   }
 }
 
 window.addEventListener("load", loadAdsense);
+</script>
 
 </body>
 </html>
