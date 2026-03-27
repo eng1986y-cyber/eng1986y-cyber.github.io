@@ -662,6 +662,13 @@ body{
   display:block;
 }
 
+.scroll-top {
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  z-index: 9999;
+}
+
 @keyframes glow{
   from{ box-shadow:0 0 0px rgba(135,206,235,0); }
   to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
@@ -970,6 +977,14 @@ body{
 
 .cancel-btn:hover{
   background:#ddd;
+}
+
+.floating-right{
+  position:fixed !important;
+  right:20px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  z-index:99999 !important;
 }
 
 </style>
