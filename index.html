@@ -27,8 +27,6 @@
 <!-- canonical -->
 <link rel="canonical" href="https://yb365.info">
 
-<meta name="description" content="한국 방문자 통계 시스템, 광고 배너 관리, 게시판 기능 제공">
-<meta name="keywords" content="访问统计, 韩国网站, 广告管理, 게시판, 网站统计">
 <meta http-equiv="content-language" content="zh-CN">
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -1834,7 +1832,7 @@ if(parseInt(answer) !== captchaValue){
 <script>
 async function loadAdsense(){
   try{
-    const { data } = await supabase
+    const { data } = await supabaseClient
       .from("settings")
       .select("value")
       .eq("key","adsense_script")
@@ -1843,10 +1841,16 @@ async function loadAdsense(){
     if(data && data.value){
       document.head.insertAdjacentHTML("beforeend", data.value);
     }
-  }catch(e){}
+  }catch(e){
+    console.log("adsense 없음");
+  }
 }
 
 window.addEventListener("load", loadAdsense);
+</script>
+
+<script>
+(window.adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 </body>
