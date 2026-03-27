@@ -2,38 +2,18 @@
 <html lang="ko">
 <head>
 
-<meta name="baidu-site-verification" content="codeva-B94djfklpr" />
-
-<meta charset="UTF-8">
-
-<!-- Baidu SEO -->
-<meta name="robots" content="index, follow">
-<meta name="author" content="연변정보공유 플랫폼">
-<meta name="renderer" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-<!-- SEO Description -->
-<meta name="description" content="연변 정보 공유 플랫폼, 광고, 게시판, 중국 사용자 대상 정보 사이트">
-<meta name="keywords" content="延边信息, 延吉, 珲春, 广告平台, 信息发布, 韩国华人网站">
-
-<!-- Open Graph (바이두도 읽음) -->
-<meta property="og:title" content="연변정보공유 플랫폼">
-<meta property="og:description" content="연변 지역 정보 공유 및 광고 플랫폼">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://yb365.info">
-<meta property="og:image" content="https://여기대표이미지.jpg">
-
-<!-- canonical -->
-<link rel="canonical" href="https://yb365.info">
-
-<meta http-equiv="content-language" content="zh-CN">
-
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5530864523798922"
+     crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <title>연변정보공유 플랫폼</title>
 
 <style>
@@ -657,16 +637,12 @@ body{
   font-weight: 500;
   letter-spacing: 1px;
   color: #222;
-  text-align: center;
-  width:100%;
-  display:block;
+  text-align: center;  /* 텍스트 자체 중앙 정렬 */
 }
 
-.scroll-top {
-  position: fixed;
-  right: 20px;
-  bottom: 80px;
-  z-index: 9999;
+  width:100%;
+  display:block;
+  text-align:center;
 }
 
 @keyframes glow{
@@ -977,14 +953,6 @@ body{
 
 .cancel-btn:hover{
   background:#ddd;
-}
-
-.floating-right{
-  position:fixed !important;
-  right:20px !important;
-  top:50% !important;
-  transform:translateY(-50%) !important;
-  z-index:99999 !important;
 }
 
 </style>
@@ -1838,26 +1806,6 @@ if(parseInt(answer) !== captchaValue){
 </button>
 
 </div>
-
-<script>
-async function loadAdsense(){
-  try{
-    const { data } = await supabaseClient
-      .from("settings")
-      .select("value")
-      .eq("key","adsense_script")
-      .single();
-
-    if(data && data.value){
-      document.head.insertAdjacentHTML("beforeend", data.value);
-    }
-  }catch(e){
-    console.log("adsense 없음");
-  }
-}
-
-window.addEventListener("load", loadAdsense);
-</script>
 
 </body>
 </html>
