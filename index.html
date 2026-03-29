@@ -953,6 +953,11 @@ body{
   background:#ddd;
 }
 
+.adsense-block{
+  margin:20px 0;
+  text-align:center;
+}
+
 </style>
 </head>
 
@@ -964,6 +969,8 @@ body{
   <input id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
 </div>
+
+<div id="adsenseArea"></div>
 
 <div class="top-banner" id="topBanner"></div>
 
@@ -1428,6 +1435,32 @@ if(ad.type==="sns"){
     if(s.owner_blog)
       snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
   }
+
+/* ================= 애드센스 ================= */
+
+const adsenseArea=document.getElementById("adsenseArea");
+
+if(adsenseArea){
+
+  const { data: adsense } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .eq("type","adsense")
+    .order("sort",{ascending:true});
+
+  adsenseArea.innerHTML="";
+
+  if(adsense){
+    adsense.forEach(ad=>{
+      const div=document.createElement("div");
+      div.className="adsense-block";
+      div.innerHTML=ad.code;
+      adsenseArea.appendChild(div);
+    });
+  }
+
+}
+
 }
 
 loadSite();
