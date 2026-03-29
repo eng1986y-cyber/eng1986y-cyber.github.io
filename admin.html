@@ -756,11 +756,21 @@ for(const [index, block] of [...adsenseAdmin.children].entries()){
   const textarea=block.querySelector("textarea");
 
   if(textarea.value.trim()){
-    await supabaseClient.from("ads").insert({
-      type:"adsense",
-      code:textarea.value,
-      sort:index
-    });
+
+    const { error } = await supabaseClient
+      .from("ads")
+      .insert([{
+        type:"adsense",
+        code:textarea.value,
+        sort:index
+      }]);
+
+    if(error){
+      console.log("애드센스 저장 오류:", error);
+      alert("애드센스 저장 실패");
+      return;
+    }
+
   }
 
 }
