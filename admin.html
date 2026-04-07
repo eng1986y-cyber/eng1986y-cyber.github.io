@@ -245,6 +245,23 @@ button:hover{ background:#6bbfe0; }
   content:"";
 }
 
+.search-with-logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.search-logo{
+  height:36px;
+  width:auto;
+  border-radius:6px;
+}
+
+.search-with-logo input[type="text"]{
+  flex:1;
+  margin-bottom:0;
+}
+
 </style>
 
 </head>
@@ -289,6 +306,18 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 <div class="admin-container" id="adminPage" style="display:none;">
 
 <h1 style="text-align:center;">관리자 페이지</h1>
+
+<div class="search-with-logo">
+
+  <img id="searchLogoPreview" class="search-logo" src="">
+
+  <input type="file" accept="image/*"
+         onchange="uploadSearchLogo(this)"
+         style="width:140px;">
+
+  <input type="text" placeholder="검색어 입력">
+
+</div>
 
 <div class="section">
 <h2>방문자 통계</h2>
@@ -1226,6 +1255,35 @@ async function deleteBannerImage(){
   bannerLink.value = "";
 
   alert("배너 삭제 완료 ✅");
+}
+
+async function uploadSearchLogo(input){
+
+  const file = input.files[0];
+  if(!file) return;
+
+  const fileName = "search_logo_"+crypto.randomUUID()+"_"+file.name;
+
+  const { error } = await supabaseClient
+    .storage
+    .from("yb365")
+    .upload(fileName, file);
+
+  if(error){
+    alert("로고 업로드 실패");
+    return;
+  }
+
+  const { data: urlData } = supabaseClient
+    .storage
+    .from("yb365")
+    .getPublicUrl(fileName);
+
+  const imageUrl = urlData.publicUrl;
+
+  document.getElementById("searchLogoPreview").src = imageUrl;
+
+  alert("로고 업로드 완료 ✅");
 }
 
 </script>
