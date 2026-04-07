@@ -701,8 +701,9 @@ if(settings && settings.length>0){
   const logoPreview = document.getElementById("searchLogoPreview");
   if(logoPreview) logoPreview.src = s.search_logo || "";
 
-  if(desc && s.site_description !== null && s.site_description !== undefined){
-  desc.value = s.site_description;
+  const desc = document.getElementById("siteDescriptionInput");
+  if(desc) desc.value = s.site_description || "";
+}
 }
 
 /* ================= 저장 ================= */
