@@ -665,49 +665,47 @@ const { data: ads } = await supabaseClient
   .select("*")
   .order("sort",{ascending:true});
 
-  if(ads){
-    ads.forEach(ad=>{
-      if(ad.type==="image")
-        addImageAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
-      if(ad.type==="text")
-        addTextAd(ad.title,ad.link_url);
-      if(ad.type==="square")
-        addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
-      if(ad.type==="sns")
-        addSnsVideo(ad.title, ad.image_url, ad.video_url);
-      if(ad.type==="adsense")
-        addAdsense(ad.code);
-    });
-  }
-
-  const { data: settings } = await supabaseClient
-    .from("site_settings")
-    .select("*")
-    .limit(1);
-
-  if(settings && settings.length>0){
-
-    const s=settings[0];
-
-    bannerImg.value=s.banner_img||"";
-    bannerLink.value=s.banner_link||"";
-
-    ownerNameInput.value=s.owner_name||"";
-    ownerInstagram.value=s.owner_instagram||"";
-    ownerYoutube.value=s.owner_youtube||"";
-    ownerBlog.value=s.owner_blog||"";
-
-document.getElementById("searchLogoInput").value =
-  s.search_logo || "";
-
-const logoPreview = document.getElementById("searchLogoPreview");
-if(logoPreview){
-  logoPreview.src = s.search_logo || "";
+if(ads){
+  ads.forEach(ad=>{
+    if(ad.type==="image")
+      addImageAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
+    if(ad.type==="text")
+      addTextAd(ad.title,ad.link_url);
+    if(ad.type==="square")
+      addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
+    if(ad.type==="sns")
+      addSnsVideo(ad.title, ad.image_url, ad.video_url);
+    if(ad.type==="adsense")
+      addAdsense(ad.code);
+  });
 }
 
-const desc = document.getElementById("siteDescriptionInput");
-if(desc){
-  desc.value = s.site_description || "";
+const { data: settings } = await supabaseClient
+  .from("site_settings")
+  .select("*")
+  .limit(1);
+
+if(settings && settings.length>0){
+
+  const s=settings[0];
+
+  bannerImg.value=s.banner_img||"";
+  bannerLink.value=s.banner_link||"";
+
+  ownerNameInput.value=s.owner_name||"";
+  ownerInstagram.value=s.owner_instagram||"";
+  ownerYoutube.value=s.owner_youtube||"";
+  ownerBlog.value=s.owner_blog||"";
+
+  const logoInput = document.getElementById("searchLogoInput");
+  if(logoInput) logoInput.value = s.search_logo || "";
+
+  const logoPreview = document.getElementById("searchLogoPreview");
+  if(logoPreview) logoPreview.src = s.search_logo || "";
+
+  const desc = document.getElementById("siteDescriptionInput");
+  if(desc) desc.value = s.site_description || "";
+}
 }
 
 /* ================= 저장 ================= */
