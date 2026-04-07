@@ -1189,7 +1189,7 @@ async function loadVisitStats() {
   const { data } = await supabaseClient
     .from("site_visits")
     .select("date, count")
-    .order("date", { ascending: true })
+    .order("date", { ascending: false })   // 최신부터
     .limit(7);
 
   const box = document.getElementById("visitStats");
@@ -1200,17 +1200,25 @@ async function loadVisitStats() {
 
   if (!data || data.length === 0) return;
 
-  const todayISO = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const yesterdayISO = new Date(Date.now() - 24 * 60 * 60 * 1000)
-    .toISOString()
-    .split("T")[0];
+  // 한국 시간 기준 날짜
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  const format = (d) =>
+    d.getFullYear() + "-" +
+    String(d.getMonth()+1).padStart(2,"0") + "-" +
+    String(d.getDate()).padStart(2,"0");
+
+  const todayISO = format(today);
+  const yesterdayISO = format(yesterday);
 
   let todayCount = 0;
   let yesterdayCount = 0;
   let total = 0;
 
-  data.forEach(v => {
-    const visitDate = new Date(v.date).toISOString().split("T")[0];
+  data.reverse().forEach(v => {   // 날짜 순서 다시 정렬
+    const visitDate = v.date;
     const count = Number(v.count || 0);
 
     total += count;
