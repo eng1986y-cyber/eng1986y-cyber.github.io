@@ -307,18 +307,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.1);
 
 <h1 style="text-align:center;">관리자 페이지</h1>
 
-<div class="search-with-logo">
-
-  <img id="searchLogoPreview" class="search-logo" src="">
-
-  <input type="file" accept="image/*"
-         onchange="uploadSearchLogo(this)"
-         style="width:140px;">
-
-  <input type="text" placeholder="검색어 입력">
-
-</div>
-
 <div class="section">
 <h2>방문자 통계</h2>
 
@@ -1294,6 +1282,7 @@ async function uploadSearchLogo(input){
   const imageUrl = urlData.publicUrl;
 
   document.getElementById("searchLogoPreview").src = imageUrl;
+  document.getElementById("searchLogoInput").value = imageUrl;
 
   alert("로고 업로드 완료 ✅");
 }
