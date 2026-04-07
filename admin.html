@@ -1207,26 +1207,6 @@ async function loadVisitStats(){
   yesterdayDate.setDate(yesterdayDate.getDate()-1);
   const yesterday = yesterdayDate.toLocaleDateString("sv-SE");
 
-  let todayCount = 0;
-  let yesterdayCount = 0;
-  let total = 0;
-
-  data.forEach(v=>{
-
-    total += v.count;
-
-    if(v.date === today)
-      todayCount = v.count;
-
-    if(v.date === yesterday)
-      yesterdayCount = v.count;
-
-    const div=document.createElement("div");
-    div.innerText = v.date + " : " + v.count + "명";
-    box.appendChild(div);
-
-  });
-
 let todayCount = 0;
 let yesterdayCount = 0;
 let total = 0;
