@@ -958,6 +958,19 @@ body{
   text-align:center;
 }
 
+.search-logo{
+  height:46px;
+  width:auto;
+  border-radius:6px;
+}
+
+.search-box{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+}
+
 </style>
 </head>
 
@@ -966,8 +979,12 @@ body{
 <div class="container">
 
 <div class="search-box">
+
+  <img id="searchLogo" class="search-logo" src="">
+
   <input id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
+
 </div>
 
 <div id="adsenseArea"></div>
@@ -1411,6 +1428,10 @@ if(ad.type==="sns"){
   if(settings && settings.length>0){
 
     const s=settings[0];
+
+if(s.search_logo){
+  document.getElementById("searchLogo").src = s.search_logo;
+}
 
     if(s.banner_img){
       bannerBox.innerHTML = s.banner_link

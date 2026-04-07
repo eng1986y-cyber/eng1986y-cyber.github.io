@@ -356,6 +356,12 @@ style="background:#ff5c5c;margin-bottom:6px;">
 
 <div class="section">
 <h2>소유자 정보 관리</h2>
+<h2>검색 로고</h2>
+
+<input id="searchLogoInput" placeholder="로고 URL">
+
+<input type="file" accept="image/*"
+  onchange="uploadSearchLogo(this)">
 <input id="ownerNameInput" placeholder="소유자 이름">
 <input id="ownerInstagram" placeholder="인스타그램 URL">
 <input id="ownerYoutube" placeholder="유튜브 URL">
@@ -695,8 +701,13 @@ const { data: ads } = await supabaseClient
     ownerYoutube.value=s.owner_youtube||"";
     ownerBlog.value=s.owner_blog||"";
 
-    // 🔥 여기로 이동
-    document.getElementById("siteDescriptionInput").value =
+document.getElementById("searchLogoInput").value =
+  s.search_logo || "";
+
+document.getElementById("searchLogoPreview").src =
+  s.search_logo || "";
+
+document.getElementById("siteDescriptionInput").value =
       s.site_description || "";
   }
 }
@@ -804,20 +815,21 @@ for(const [index, block] of [...adsenseAdmin.children].entries()){
 
 }
 
-  await supabaseClient
-    .from("site_settings")
-    .upsert([{
-      id:1,
-site_description: document
-  .getElementById("siteDescriptionInput")
-  .value.trim(),
-      banner_img:bannerImg.value.trim(),
-      banner_link:bannerLink.value.trim(),
-      owner_name:ownerNameInput.value.trim(),
-      owner_instagram:ownerInstagram.value.trim(),
-      owner_youtube:ownerYoutube.value.trim(),
-      owner_blog:ownerBlog.value.trim()
-    }]);
+await supabaseClient
+  .from("site_settings")
+  .upsert([{
+    id:1,
+    site_description: document
+      .getElementById("siteDescriptionInput")
+      .value.trim(),
+    banner_img:bannerImg.value.trim(),
+    banner_link:bannerLink.value.trim(),
+    owner_name:ownerNameInput.value.trim(),
+    owner_instagram:ownerInstagram.value.trim(),
+    owner_youtube:ownerYoutube.value.trim(),
+    owner_blog:ownerBlog.value.trim(),
+    search_logo: document.getElementById("searchLogoInput").value.trim()
+  }]);
 
   alert("저장 완료 ✅");
 }
