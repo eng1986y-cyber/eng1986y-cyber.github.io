@@ -1213,7 +1213,9 @@ async function loadVisitStats() {
   let yesterdayCount = 0;
   let total = 0;
 
-  data.forEach(v => {
+const last7 = data.slice(-7);
+
+last7.forEach(v => {
 
     const visitDate = new Date(v.date)
       .toISOString()
