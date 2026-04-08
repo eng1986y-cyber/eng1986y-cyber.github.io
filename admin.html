@@ -1189,8 +1189,7 @@ async function loadVisitStats() {
   const { data } = await supabaseClient
     .from("site_visits")
     .select("date, count")
-    .order("date", { ascending: false })   // 최신부터
-    .limit(7);
+    .order("date", { ascending: false })
 
   const box = document.getElementById("visitStats");
   const summary = document.getElementById("visitSummary");
