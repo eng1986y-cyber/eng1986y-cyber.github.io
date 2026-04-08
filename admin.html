@@ -1186,10 +1186,16 @@ function scrollToBottom(){
 }
 
 async function loadVisitStats() {
-  const { data } = await supabaseClient
+
+  const { data, error } = await supabaseClient
     .from("site_visits")
-    .select("date, count")
-    .order("date", { ascending: false })
+    .select("*")
+    .order("date", { ascending: true });
+
+  if(error){
+    console.log("방문자 통계 오류:", error);
+    return;
+  }
 
   const box = document.getElementById("visitStats");
   const summary = document.getElementById("visitSummary");
@@ -1197,9 +1203,11 @@ async function loadVisitStats() {
   box.innerHTML = "";
   summary.innerHTML = "";
 
-  if (!data || data.length === 0) return;
+  if (!data || data.length === 0){
+    summary.innerHTML = "데이터 없음";
+    return;
+  }
 
-  // 한국 시간 기준 날짜
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -1216,14 +1224,15 @@ async function loadVisitStats() {
   let yesterdayCount = 0;
   let total = 0;
 
-  data.reverse().forEach(v => {   // 날짜 순서 다시 정렬
-    const visitDate = v.date.split("T")[0];
+  data.forEach(v => {
+
+    const visitDate = (v.date || "").split("T")[0];
     const count = Number(v.count || 0);
 
     total += count;
 
-if (visitDate.startsWith(todayISO)) todayCount = count;
-if (visitDate.startsWith(yesterdayISO)) yesterdayCount = count;
+    if (visitDate === todayISO) todayCount = count;
+    if (visitDate === yesterdayISO) yesterdayCount = count;
 
     const div = document.createElement("div");
     div.innerText = visitDate + " : " + count + "명";
@@ -1233,7 +1242,7 @@ if (visitDate.startsWith(yesterdayISO)) yesterdayCount = count;
   summary.innerHTML = `
 오늘: ${todayCount}명 /
 어제: ${yesterdayCount}명 /
-최근합계: ${total}명
+총합: ${total}명
 `;
 }
 
