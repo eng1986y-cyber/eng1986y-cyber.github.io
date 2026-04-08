@@ -1491,9 +1491,12 @@ recordVisit();
 
 async function recordVisit(){
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString("sv-SE");
+  const visited = localStorage.getItem("visit_date");
 
-  const { data, error } = await supabaseClient
+  if(visited === today) return;
+
+  const { data } = await supabaseClient
     .from("site_visits")
     .select("*")
     .eq("date", today);
@@ -1514,6 +1517,8 @@ async function recordVisit(){
       .insert([{ date: today, count: 1 }]);
 
   }
+
+  localStorage.setItem("visit_date", today);
 }
 
 async function loadBoard(){
