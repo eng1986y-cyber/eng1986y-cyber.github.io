@@ -390,24 +390,20 @@ style="background:#ff5c5c;margin-bottom:6px;">
 <input id="ownerYoutube" placeholder="유튜브 URL">
 <input id="ownerBlog" placeholder="블로그 URL">
 
-</div>
-</div>
+<hr style="margin:15px 0;">
+
+<div style="font-weight:bold;margin-bottom:5px;">
+구글 애드센스
 </div>
 
-</div>
-
-<div class="section">
-<div class="ad-header">
-<div class="ad-title">구글 애드센스</div>
-</div>
-
-<div class="grid">
-<div class="card" style="grid-column: span 6;">
 <textarea id="adsenseCode"
 placeholder="구글 애드센스 광고 코드 입력"
 style="height:160px;"></textarea>
+
 </div>
 </div>
+</div>
+
 </div>
 
 <!-- ================== 사이트 설명 ================== -->
@@ -731,6 +727,10 @@ if(settings && settings.length>0){
 
   const desc = document.getElementById("siteDescriptionInput");
   if(desc) desc.value = s.site_description || "";
+
+  const adsense = document.getElementById("adsenseCode");
+  if(adsense) adsense.value = s.adsense_code || "";
+
 }
 }
 
@@ -826,7 +826,8 @@ await supabaseClient
     owner_instagram:ownerInstagram.value.trim(),
     owner_youtube:ownerYoutube.value.trim(),
     owner_blog:ownerBlog.value.trim(),
-    search_logo: document.getElementById("searchLogoInput").value.trim()
+    search_logo: document.getElementById("searchLogoInput").value.trim(),
+adsense_code: document.getElementById("adsenseCode").value.trim()
   }]);
 
   alert("저장 완료 ✅");
