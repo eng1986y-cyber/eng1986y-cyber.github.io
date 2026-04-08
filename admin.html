@@ -1192,11 +1192,6 @@ async function loadVisitStats() {
     .select("*")
     .order("date", { ascending: true });
 
-  if(error){
-    console.log("방문자 통계 오류:", error);
-    return;
-  }
-
   const box = document.getElementById("visitStats");
   const summary = document.getElementById("visitSummary");
 
@@ -1208,17 +1203,11 @@ async function loadVisitStats() {
     return;
   }
 
-  const today = new Date();
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
+  const today = new Date().toISOString().split("T")[0];
 
-  const format = (d) =>
-    d.getFullYear() + "-" +
-    String(d.getMonth()+1).padStart(2,"0") + "-" +
-    String(d.getDate()).padStart(2,"0");
-
-  const todayISO = format(today);
-  const yesterdayISO = format(yesterday);
+  const y = new Date();
+  y.setDate(y.getDate()-1);
+  const yesterday = y.toISOString().split("T")[0];
 
   let todayCount = 0;
   let yesterdayCount = 0;
@@ -1226,13 +1215,16 @@ async function loadVisitStats() {
 
   data.forEach(v => {
 
-    const visitDate = (v.date || "").split("T")[0];
+    const visitDate = new Date(v.date)
+      .toISOString()
+      .split("T")[0];
+
     const count = Number(v.count || 0);
 
     total += count;
 
-    if (visitDate === todayISO) todayCount = count;
-    if (visitDate === yesterdayISO) yesterdayCount = count;
+    if (visitDate === today) todayCount = count;
+    if (visitDate === yesterday) yesterdayCount = count;
 
     const div = document.createElement("div");
     div.innerText = visitDate + " : " + count + "명";
