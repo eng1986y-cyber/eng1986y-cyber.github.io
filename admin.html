@@ -1222,8 +1222,8 @@ async function loadVisitStats() {
 
     total += count;
 
-    if (visitDate === todayISO) todayCount = count;
-    if (visitDate === yesterdayISO) yesterdayCount = count;
+if (visitDate.startsWith(todayISO)) todayCount = count;
+if (visitDate.startsWith(yesterdayISO)) yesterdayCount = count;
 
     const div = document.createElement("div");
     div.innerText = visitDate + " : " + count + "명";
