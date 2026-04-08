@@ -1491,41 +1491,29 @@ recordVisit();
 
 async function recordVisit(){
 
-  const now = new Date();
-  const today =
-    now.getFullYear() + "-" +
-    String(now.getMonth()+1).padStart(2,"0") + "-" +
-    String(now.getDate()).padStart(2,"0");
+  const today = new Date().toISOString().split("T")[0];
 
-  const visited = localStorage.getItem("visit_date");
-
-  if(visited === today){
-    return;
-  }
-
-  const { data } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from("site_visits")
     .select("*")
-    .eq("date",today)
-    .limit(1);
+    .eq("date", today);
 
   if(data && data.length > 0){
 
+    const count = data[0].count || 0;
+
     await supabaseClient
       .from("site_visits")
-      .update({ count:data[0].count + 1 })
-      .eq("id",data[0].id);
+      .update({ count: count + 1 })
+      .eq("date", today);
 
   }else{
 
     await supabaseClient
       .from("site_visits")
-      .insert([{ date:today, count:1 }]);
+      .insert([{ date: today, count: 1 }]);
 
   }
-
-  localStorage.setItem("visit_date", today);
-
 }
 
 async function loadBoard(){
