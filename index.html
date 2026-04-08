@@ -1491,7 +1491,7 @@ recordVisit();
 
 async function recordVisit(){
 
-  const today = new Date().toLocaleDateString("sv-SE");
+  const today = new Date().toISOString().slice(0,10);
 
   const visited = localStorage.getItem("visit_date");
 
