@@ -1340,6 +1340,53 @@ const { data, error } = await supabaseClient
   alert("로고 업로드 완료 ✅");
 }
 
+async function loadVisitStats(){
+
+  const { data } = await supabaseClient
+    .from("site_visits")
+    .select("*")
+    .order("date", { ascending: true });
+
+  if(!data) return;
+
+  const today = new Date().toISOString().split("T")[0];
+
+  let total = 0;
+  let todayCount = 0;
+
+  const labels = [];
+  const counts = [];
+
+  data.forEach(row=>{
+    total += row.count;
+    if(row.date === today) todayCount = row.count;
+
+    labels.push(row.date.slice(5));
+    counts.push(row.count);
+  });
+
+  document.getElementById("todayVisit").textContent = todayCount;
+  document.getElementById("totalVisit").textContent = total;
+
+  new Chart(document.getElementById("visitChart"), {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        data: counts,
+        tension: 0.3,
+        fill: true
+      }]
+    },
+    options: {
+      plugins:{ legend:{ display:false }},
+      scales:{ y:{ display:false }}
+    }
+  });
+}
+
+loadVisitStats();
+
 </script>
 
 </body>
