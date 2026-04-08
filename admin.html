@@ -561,7 +561,6 @@ const imageAdmin=document.getElementById("imageAdmin");
 const textAdmin=document.getElementById("textAdmin");
 const squareAdmin=document.getElementById("squareAdmin");
 const snsVideoAdmin=document.getElementById("snsVideoAdmin");
-const adsenseAdmin=document.getElementById("adsenseAdmin");
 
 const bannerImg=document.getElementById("bannerImg");
 const bannerLink=document.getElementById("bannerLink");
@@ -689,7 +688,6 @@ imageAdmin.innerHTML="";
 textAdmin.innerHTML="";
 squareAdmin.innerHTML="";
 snsVideoAdmin.innerHTML="";
-adsenseAdmin.innerHTML="";
 
 const { data: ads } = await supabaseClient
   .from("ads")
@@ -706,8 +704,6 @@ if(ads){
       addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
     if(ad.type==="sns")
       addSnsVideo(ad.title, ad.image_url, ad.video_url);
-    if(ad.type==="adsense")
-      addAdsense(ad.code);
   });
 }
 
@@ -816,30 +812,6 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
     }]);
 
   }
-}
-
-for(const [index, block] of [...adsenseAdmin.children].entries()){
-
-  const textarea=block.querySelector("textarea");
-
-  if(textarea.value.trim()){
-
-    const { error } = await supabaseClient
-      .from("ads")
-      .insert([{
-        type:"adsense",
-        code:textarea.value,
-        sort:index
-      }]);
-
-    if(error){
-      console.log("애드센스 저장 오류:", error);
-      alert("애드센스 저장 실패");
-      return;
-    }
-
-  }
-
 }
 
 await supabaseClient
@@ -1216,61 +1188,6 @@ function scrollToBottom(){
     behavior:"smooth"
   });
 
-}
-
-async function loadVisitStats() {
-
-  const { data, error } = await supabaseClient
-    .from("site_visits")
-    .select("*")
-    .order("date", { ascending: true });
-
-  const box = document.getElementById("visitStats");
-  const summary = document.getElementById("visitSummary");
-
-  box.innerHTML = "";
-  summary.innerHTML = "";
-
-  if (!data || data.length === 0){
-    summary.innerHTML = "데이터 없음";
-    return;
-  }
-
-  const today = new Date().toISOString().split("T")[0];
-
-  const y = new Date();
-  y.setDate(y.getDate()-1);
-  const yesterday = y.toISOString().split("T")[0];
-
-  let todayCount = 0;
-  let yesterdayCount = 0;
-  let total = 0;
-
-const last7 = data.slice(-7);
-
-last7.forEach(v => {
-
-    const visitDate = new Date(v.date)
-      .toISOString()
-      .split("T")[0];
-
-    const count = Number(v.count || 0);
-
-    total += count;
-
-    if (visitDate === today) todayCount = count;
-    if (visitDate === yesterday) yesterdayCount = count;
-
-    const div = document.createElement("div");
-    div.innerText = visitDate + " : " + count + "명";
-    box.appendChild(div);
-  });
-
-  summary.innerHTML = `
-오늘: ${todayCount}명 /
-어제: ${yesterdayCount}명 /
-총합: ${total}명
-`;
 }
 
 async function deleteBannerImage(){
