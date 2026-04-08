@@ -1218,7 +1218,7 @@ async function loadVisitStats() {
   let total = 0;
 
   data.reverse().forEach(v => {   // 날짜 순서 다시 정렬
-    const visitDate = v.date;
+    const visitDate = v.date.split("T")[0];
     const count = Number(v.count || 0);
 
     total += count;
