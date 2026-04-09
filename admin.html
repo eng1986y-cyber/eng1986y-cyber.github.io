@@ -824,7 +824,7 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
 const { data: existing } = await supabaseClient
   .from("site_settings")
   .select("id")
-  .limit(1);
+  .single();
 
 const payload = {
   site_description: document
@@ -840,19 +840,26 @@ const payload = {
   adsense_code: document.getElementById("adsenseCode").value.trim()
 };
 
+let result;
+
 if(existing && existing.length > 0){
-  await supabaseClient
+  result = await supabaseClient
     .from("site_settings")
     .update(payload)
     .eq("id", existing[0].id);
 }else{
-  await supabaseClient
+  result = await supabaseClient
     .from("site_settings")
     .insert([{ id:1, ...payload }]);
 }
 
-  alert("저장 완료 ✅");
+if(result.error){
+  console.error(result.error);
+  alert("저장 실패: " + result.error.message);
+  return;
 }
+
+alert("저장 완료 ✅");
 
 async function init(){
 
