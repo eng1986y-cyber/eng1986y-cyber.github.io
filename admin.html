@@ -821,22 +821,35 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
   }
 }
 
-await supabaseClient
+const { data: existing } = await supabaseClient
   .from("site_settings")
-  .upsert([{
-    id: 1,
-    site_description: document
-      .getElementById("siteDescriptionInput")
-      .value.trim(),
-    banner_img: bannerImg.value.trim(),
-    banner_link: bannerLink.value.trim(),
-    owner_name: ownerNameInput.value.trim(),
-    owner_instagram: ownerInstagram.value.trim(),
-    owner_youtube: ownerYoutube.value.trim(),
-    owner_blog: ownerBlog.value.trim(),
-    search_logo: document.getElementById("searchLogoInput").value.trim(),
-    adsense_code: document.getElementById("adsenseCode").value.trim()
-  }], { onConflict: "id" });
+  .select("id")
+  .limit(1);
+
+const payload = {
+  site_description: document
+    .getElementById("siteDescriptionInput")
+    .value.trim(),
+  banner_img: bannerImg.value.trim(),
+  banner_link: bannerLink.value.trim(),
+  owner_name: ownerNameInput.value.trim(),
+  owner_instagram: ownerInstagram.value.trim(),
+  owner_youtube: ownerYoutube.value.trim(),
+  owner_blog: ownerBlog.value.trim(),
+  search_logo: document.getElementById("searchLogoInput").value.trim(),
+  adsense_code: document.getElementById("adsenseCode").value.trim()
+};
+
+if(existing && existing.length > 0){
+  await supabaseClient
+    .from("site_settings")
+    .update(payload)
+    .eq("id", existing[0].id);
+}else{
+  await supabaseClient
+    .from("site_settings")
+    .insert([{ id:1, ...payload }]);
+}
 
   alert("저장 완료 ✅");
 }
