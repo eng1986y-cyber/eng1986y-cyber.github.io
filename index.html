@@ -1451,13 +1451,17 @@ if(s.search_logo){
   document.getElementById("searchLogo").src = s.search_logo;
 }
 
-    if(s.banner_img){
-      bannerBox.innerHTML = s.banner_link
-        ? `<a href="${s.banner_link}" target="_blank">
-             <img src="${s.banner_img}">
-           </a>`
-        : `<img src="${s.banner_img}">`;
+if(s.banner_img){
+  bannerBox.innerHTML = `
+    ${s.banner_link
+      ? `<a href="${s.banner_link}" target="_blank">
+           <img src="${s.banner_img}">
+         </a>`
+      : `<img src="${s.banner_img}">`
     }
+    <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
+  `;
+}
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
     document.getElementById("siteDescription").innerText=s.site_description||"";
