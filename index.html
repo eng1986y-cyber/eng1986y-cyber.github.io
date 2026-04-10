@@ -1812,30 +1812,25 @@ if(parseInt(answer) !== captchaValue){
 }
 
 async function loadWeather(){
-
   const box = document.getElementById("weatherBox");
-  if(!box) return; // ← 요소 없으면 중단 (에러 방지)
-
-  const apiKey = "f7b7fa3e2c16dc48db3cf6508a6800a7"; 
-  const url =
-  "https://api.openweathermap.org/data/2.5/weather?lat=42.88&lon=129.50&appid="+apiKey+"&units=metric&lang=zh_cn";
+  if(!box) return;
 
   try{
-    const res = await fetch(url);
+    const res = await fetch(
+      "https://wttr.in/Yanbian?format=j1"
+    );
     const data = await res.json();
 
-    if(!data.main) throw new Error("API error");
-
-    const temp = Math.round(data.main.temp);
-    const desc = data.weather[0].description;
+    const temp = data.current_condition[0].temp_C;
+    const desc = data.current_condition[0].weatherDesc[0].value;
 
     box.innerText = `延边 ${temp}°C ${desc}`;
-
   }catch(e){
     box.innerText="날씨 오류";
-    console.log("weather error", e);
   }
 }
+
+setTimeout(loadWeather,1500);
 
 </script>
 
