@@ -1820,6 +1820,8 @@ async function loadWeather(){
     const res = await fetch(url);
     const data = await res.json();
 
+    console.log(data); // ← 추가
+
     const temp = Math.round(data.main.temp);
     const desc = data.weather[0].description;
 
@@ -1830,6 +1832,8 @@ async function loadWeather(){
     document.getElementById("weatherBox").innerText="날씨 오류";
   }
 }
+
+setTimeout(loadWeather, 500);
 
 </script>
 
