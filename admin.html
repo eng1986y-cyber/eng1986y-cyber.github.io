@@ -845,25 +845,20 @@ const payload = {
 
 let result;
 
-if(existing && existing.length > 0){
-  result = await supabaseClient
-    .from("site_settings")
-    .update(payload)
-    .eq("id", existing[0].id);
-}else{
-  result = await supabaseClient
-    .from("site_settings")
-    .insert([{ id:1, ...payload }]);
-}
+const { error } = await supabaseClient
+  .from("site_settings")
+  .upsert(
+    { id: 1, ...payload },
+    { onConflict: "id" }
+  );
 
-if(result.error){
-  console.error(result.error);
-  alert("저장 실패: " + result.error.message);
+if(error){
+  console.error(error);
+  alert("저장 실패: " + error.message);
   return;
 }
 
 alert("저장 완료 ✅");
-}
 
 async function init(){
 
