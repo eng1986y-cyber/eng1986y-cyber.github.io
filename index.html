@@ -1822,9 +1822,30 @@ async function loadWeather(){
     const data = await res.json();
 
     const temp = data.current_condition[0].temp_C;
-    const desc = data.current_condition[0].weatherDesc[0].value;
+    let desc = data.current_condition[0].weatherDesc[0].value;
 
-    box.innerText = `延边 ${temp}°C ${desc}`;
+    // 날씨 한글 변환
+    const map = {
+      "Sunny":"맑음",
+      "Clear":"맑음",
+      "Partly cloudy":"구름 조금",
+      "Cloudy":"흐림",
+      "Overcast":"흐림",
+      "Mist":"안개",
+      "Fog":"안개",
+      "Rain":"비",
+      "Light rain":"약한 비",
+      "Moderate rain":"비",
+      "Heavy rain":"폭우",
+      "Snow":"눈",
+      "Light snow":"약한 눈",
+      "Heavy snow":"폭설",
+      "Thunderstorm":"천둥번개"
+    };
+
+    desc = map[desc] || desc;
+
+    box.innerText = `연변 ${temp}°C ${desc}`;
   }catch(e){
     box.innerText="날씨 오류";
   }
