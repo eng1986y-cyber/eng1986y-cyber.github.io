@@ -1503,9 +1503,10 @@ if(adsenseArea){
 
 }
 
-loadSite();
-loadBoard();
-setTimeout(loadWeather,1000);
+loadSite().then(()=>{
+  loadBoard();
+  setTimeout(loadWeather, 500);
+});
 
 recordVisit();
 
@@ -1835,8 +1836,6 @@ async function loadWeather(){
     console.log("weather error", e);
   }
 }
-
-setTimeout(loadWeather, 1500);
 
 </script>
 
