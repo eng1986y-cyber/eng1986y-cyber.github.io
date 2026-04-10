@@ -581,11 +581,9 @@ async function adminLogin(){
   const password = document.getElementById("loginPassword").value;
 
   const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
+    email,
+    password
   });
-
-  console.log("login result:", data, error); // ← 추가
 
   if(error){
     alert("로그인 실패: " + error.message);
@@ -597,9 +595,13 @@ async function adminLogin(){
 
   document.body.classList.remove("login-mode");
 
-  loadData();
-  loadBoardData();
-  loadVisitStats();
+  try{
+    await loadData();
+    await loadBoardData();
+    await loadVisitStats();
+  }catch(e){
+    console.error("로그인 후 로딩 에러:", e);
+  }
 }
 
 /* ================= 공통 카드 생성 ================= */
