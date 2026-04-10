@@ -1833,7 +1833,7 @@ async function loadWeather(){
   }
 }
 
-setTimeout(loadWeather, 500);
+window.addEventListener("load", loadWeather);
 
 </script>
 
