@@ -391,6 +391,7 @@ body{
 /* 배너 */
 
 .top-banner{
+  position:relative;
   width:100%;
   max-width:1200px;
   height:120px;
@@ -971,6 +972,19 @@ body{
   gap:6px;
 }
 
+.weather-box{
+  position:absolute;
+  top:8px;
+  right:12px;
+  background:rgba(0,0,0,0.45);
+  color:#fff;
+  padding:6px 10px;
+  border-radius:8px;
+  font-size:13px;
+  backdrop-filter:blur(4px);
+  z-index:10;
+}
+
 </style>
 </head>
 
@@ -989,7 +1003,9 @@ body{
 
 <div id="adsenseArea"></div>
 
-<div class="top-banner" id="topBanner"></div>
+<div class="top-banner" id="topBanner">
+  <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
+</div>
 
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
@@ -1789,6 +1805,31 @@ if(parseInt(answer) !== captchaValue){
   loadBoard();
 
 }
+
+async function loadWeather(){
+
+  const apiKey = "f7b7fa3e2c16dc48db3cf6508a6800a7";   // 내가 아래 설명
+  const city = "Yanbian";
+
+  const url =
+  `https://api.openweathermap.org/data/2.5/weather?q=${city},cn&appid=${apiKey}&units=metric&lang=zh_cn`;
+
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const temp = Math.round(data.main.temp);
+    const desc = data.weather[0].description;
+
+    document.getElementById("weatherBox").innerText =
+      `延边 ${temp}°C ${desc}`;
+
+  }catch(e){
+    document.getElementById("weatherBox").innerText="날씨 오류";
+  }
+}
+
+loadWeather();
 
 </script>
 
