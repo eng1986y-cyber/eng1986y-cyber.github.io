@@ -391,7 +391,6 @@ body{
 /* 배너 */
 
 .top-banner{
-  position:relative;
   width:100%;
   max-width:1200px;
   height:120px;
@@ -972,19 +971,6 @@ body{
   gap:6px;
 }
 
-.weather-box{
-  position:absolute;
-  top:8px;
-  right:12px;
-  background:rgba(0,0,0,0.45);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:8px;
-  font-size:13px;
-  backdrop-filter:blur(4px);
-  z-index:10;
-}
-
 </style>
 </head>
 
@@ -1003,9 +989,7 @@ body{
 
 <div id="adsenseArea"></div>
 
-<div class="top-banner" id="topBanner">
-  <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
-</div>
+<div class="top-banner" id="topBanner"></div>
 
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
@@ -1450,15 +1434,12 @@ if(s.search_logo){
 }
 
     if(s.banner_img){
-bannerBox.innerHTML = `
-  ${s.banner_link
-    ? `<a href="${s.banner_link}" target="_blank">
-         <img src="${s.banner_img}">
-       </a>`
-    : `<img src="${s.banner_img}">`
-  }
-  <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
-`;
+      bannerBox.innerHTML = s.banner_link
+        ? `<a href="${s.banner_link}" target="_blank">
+             <img src="${s.banner_img}">
+           </a>`
+        : `<img src="${s.banner_img}">`;
+    }
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
     document.getElementById("siteDescription").innerText=s.site_description||"";
@@ -1503,10 +1484,8 @@ if(adsenseArea){
 
 }
 
-loadSite().then(()=>{
-  loadBoard();
-  setTimeout(loadWeather, 500);
-});
+loadSite();
+loadBoard();
 
 recordVisit();
 
@@ -1810,27 +1789,6 @@ if(parseInt(answer) !== captchaValue){
   loadBoard();
 
 }
-
-async function loadWeather(){
-  const box = document.getElementById("weatherBox");
-  if(!box) return;
-
-  try{
-    const res = await fetch(
-      "https://wttr.in/Yanbian?format=j1"
-    );
-    const data = await res.json();
-
-    const temp = data.current_condition[0].temp_C;
-    const desc = data.current_condition[0].weatherDesc[0].value;
-
-    box.innerText = `延边 ${temp}°C ${desc}`;
-  }catch(e){
-    box.innerText="날씨 오류";
-  }
-}
-
-setTimeout(loadWeather,1500);
 
 </script>
 
