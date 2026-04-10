@@ -1812,11 +1812,9 @@ if(parseInt(answer) !== captchaValue){
 
 async function loadWeather(){
 
-  const apiKey = "f7b7fa3e2c16dc48db3cf6508a6800a7";   // 내가 아래 설명
-  const city = "Yanbian";
-
+  const apiKey = "여기에API키"; 
   const url =
-  `https://api.openweathermap.org/data/2.5/weather?q=${city},cn&appid=${apiKey}&units=metric&lang=zh_cn`;
+  "https://api.openweathermap.org/data/2.5/weather?lat=42.88&lon=129.50&appid="+apiKey+"&units=metric&lang=zh_cn";
 
   try{
     const res = await fetch(url);
