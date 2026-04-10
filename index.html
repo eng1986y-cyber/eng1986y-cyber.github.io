@@ -1457,7 +1457,7 @@ bannerBox.innerHTML = `
        </a>`
     : `<img src="${s.banner_img}">`
   }
-  <div id="weatherBox" class="weather-box"></div>
+  <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
 `;
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
@@ -1505,7 +1505,7 @@ if(adsenseArea){
 
 loadSite();
 loadBoard();
-setTimeout(loadWeather, 500);
+setTimeout(loadWeather,1000);
 
 recordVisit();
 
