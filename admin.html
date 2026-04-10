@@ -585,20 +585,21 @@ async function adminLogin(){
     password: password
   });
 
+  console.log("login result:", data, error); // ← 추가
+
   if(error){
-    alert("로그인 실패");
+    alert("로그인 실패: " + error.message);
     return;
   }
 
-document.getElementById("loginPage").style.display="none";
-document.getElementById("adminPage").style.display="block";
+  document.getElementById("loginPage").style.display="none";
+  document.getElementById("adminPage").style.display="block";
 
-document.body.classList.remove("login-mode");
+  document.body.classList.remove("login-mode");
 
-loadData();
-loadBoardData();
-loadVisitStats();
-
+  loadData();
+  loadBoardData();
+  loadVisitStats();
 }
 
 /* ================= 공통 카드 생성 ================= */
