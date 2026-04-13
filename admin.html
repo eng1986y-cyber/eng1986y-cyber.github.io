@@ -671,17 +671,17 @@ function addSquareAd(main="", img="", link="", video=""){
   );
 }
 
-function addSnsVideo(title="", thumb="", video=""){
+function addSnsVideo(title="", thumb="", video="", link=""){
   snsVideoAdmin.appendChild(
     createCard(`
       <input value="${title}" placeholder="영상 제목">
-
       <input value="${thumb}" placeholder="썸네일 이미지 URL">
-
       <input type="file" accept="image/*"
         onchange="uploadImage(this)">
+      <input value="${video}" placeholder="영상 링크">
 
-      <input value="${video}" placeholder="bilibili 영상 링크">
+      <!-- 🔥 추가 -->
+      <input value="${link}" placeholder="알리마마 링크">
     `)
   );
 }
@@ -709,7 +709,7 @@ if(ads){
     if(ad.type==="square")
       addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
     if(ad.type==="sns")
-      addSnsVideo(ad.title, ad.image_url, ad.video_url);
+      addSnsVideo(ad.title, ad.image_url, ad.video_url, ad.link_url);
   });
 }
 
@@ -818,6 +818,7 @@ for(const [index, block] of [...snsVideoAdmin.children].entries()){
       title:i[0].value.trim(),
       image_url:i[1].value.trim(),
       video_url:i[3].value.trim(),
+      link_url:i[4].value.trim(),   // 🔥 추가
       sort:index
     }]);
 
