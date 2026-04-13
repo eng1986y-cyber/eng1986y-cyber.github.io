@@ -14,6 +14,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <title>연변정보공유 플랫폼</title>
 
+<!-- ✅ SEO 추가 시작 -->
+<meta name="keywords" content="延边信息搜索, 延边搜索网站, 延边信息查询, 延边信息平台">
+<meta name="description" content="연변정보 검색플랫폼 | 延边信息搜索网站. 연변지역 생활정보, 광고, 게시판, 검색기능 제공">
+<meta name="robots" content="index,follow">
+
+<link rel="alternate" hreflang="zh-cn" href="https://yb365.info/cn" />
+<link rel="alternate" hreflang="ko" href="https://yb365.info/ko" />
+<!-- ✅ SEO 추가 끝 -->
+
 <style>
 
 .video-modal-box .modal-close{
@@ -635,7 +644,9 @@ body{
   font-weight: 500;
   letter-spacing: 1px;
   color: #222;
-  text-align: center;  /* 텍스트 자체 중앙 정렬 */
+  text-align: center;
+  width:100%;
+  display:block;
 }
 
   width:100%;
@@ -1001,6 +1012,11 @@ body{
   <input id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
 
+</div>
+
+<!-- ✅ 여기 추가 -->
+<div style="position:absolute; left:-9999px;">
+  延边信息搜索, 延边信息查询, 延边网站导航, 朝鲜语信息平台
 </div>
 
 <div id="adsenseArea"></div>
@@ -1900,6 +1916,12 @@ async function loadWeather(){
    ▼
 </button>
 
+</div>
+
+<!-- ✅ 숨김 SEO -->
+<div style="display:none;" aria-hidden="true">
+  延边信息搜索网站, 延边生活信息, 延边新闻搜索, 延边网站导航,
+  朝鲜语信息搜索平台, 延边资源搜索引擎, 延边信息共享平台
 </div>
 
 </body>
