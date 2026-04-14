@@ -1840,9 +1840,14 @@ async function loadWeather(){
     const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
     const data = await res.json();
 
-    const temp = data.current_condition[0].temp_C;
-    let desc = data.current_condition[0].weatherDesc[0].value;
+    const current = data.current_condition[0];
 
+    const temp = current.temp_C;
+    const feels = current.FeelsLikeC;
+    let desc = current.weatherDesc[0].value;
+    const icon = current.weatherIconUrl[0].value;
+
+    // 한글 변환
     const map = {
       "Sunny":"맑음",
       "Clear":"맑음",
@@ -1863,7 +1868,19 @@ async function loadWeather(){
 
     desc = map[desc] || desc;
 
-    box.innerText = `연변조선족자치주 ${temp}°C ${desc}`;
+    // 👇 핵심 UI
+    box.innerHTML = `
+      <div style="display:flex;align-items:center;gap:6px;">
+        <img src="${icon}" style="width:26px;height:26px;">
+        <div>
+          <div>연변조선족자치주 ${temp}°C</div>
+          <div style="font-size:11px;color:#ddd;">
+            체감 ${feels}°C · ${desc}
+          </div>
+        </div>
+      </div>
+    `;
+
   }catch(e){
     box.innerText="날씨 오류";
   }
