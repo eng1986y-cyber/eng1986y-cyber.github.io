@@ -1544,17 +1544,15 @@ if(s.banner_img){
 
 /* ================= 애드센스 ================= */
 
-const adsenseArea=document.getElementById("adsenseArea");
+const adsenseArea = document.getElementById("adsenseArea");
 
-if(adsenseArea){
+if(adsenseArea && adsenseArea.children.length === 0){
 
   const { data: adsense } = await supabaseClient
     .from("ads")
     .select("*")
     .eq("type","adsense")
     .order("sort",{ascending:true});
-
-  adsenseArea.innerHTML="";
 
   if(adsense){
     adsense.forEach(ad=>{
@@ -1567,14 +1565,11 @@ if(adsenseArea){
 
 }
 
-}
-
-loadSite();
-loadBoard();
-
 loadSite().then(()=>{
   loadWeather();
 });
+
+loadBoard();
 
 recordVisit();
 
