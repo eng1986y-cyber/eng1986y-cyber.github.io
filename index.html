@@ -998,53 +998,6 @@ body{
   position:relative;
 }
 
-/* ===== 날씨 애니메이션 ===== */
-
-.weather-box{
-  position:absolute;
-  top:8px;
-  right:10px;
-  background:rgba(0,0,0,0.55);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:8px;
-  font-size:12px;
-  overflow:hidden;
-}
-
-/* 비 */
-.rain::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:
-    linear-gradient(transparent 70%, rgba(255,255,255,0.4) 100%);
-  background-size:2px 20px;
-  animation:rainFall 0.5s linear infinite;
-}
-
-@keyframes rainFall{
-  from{ background-position:0 0; }
-  to{ background-position:0 20px; }
-}
-
-/* 눈 */
-.snow::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:
-    radial-gradient(white 1px, transparent 1px);
-  background-size:15px 15px;
-  animation:snowFall 3s linear infinite;
-  opacity:0.6;
-}
-
-@keyframes snowFall{
-  from{ transform:translateY(-10px); }
-  to{ transform:translateY(10px); }
-}
-
 </style>
 </head>
 
@@ -1544,15 +1497,17 @@ if(s.banner_img){
 
 /* ================= 애드센스 ================= */
 
-const adsenseArea = document.getElementById("adsenseArea");
+const adsenseArea=document.getElementById("adsenseArea");
 
-if(adsenseArea && adsenseArea.children.length === 0){
+if(adsenseArea){
 
   const { data: adsense } = await supabaseClient
     .from("ads")
     .select("*")
     .eq("type","adsense")
     .order("sort",{ascending:true});
+
+  adsenseArea.innerHTML="";
 
   if(adsense){
     adsense.forEach(ad=>{
@@ -1564,6 +1519,12 @@ if(adsenseArea && adsenseArea.children.length === 0){
   }
 
 }
+
+}
+
+loadSite();
+loadBoard();
+setTimeout(loadWeather,2000);
 
 recordVisit();
 
@@ -1873,16 +1834,13 @@ async function loadWeather(){
   if(!box) return;
 
   try{
-    const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
+    const res = await fetch("https://wttr.in/Yanbian?format=j1");
     const data = await res.json();
 
-    const current = data.current_condition[0];
+    const temp = data.current_condition[0].temp_C;
+    let desc = data.current_condition[0].weatherDesc[0].value;
 
-    const temp = current.temp_C;
-    const feels = current.FeelsLikeC;
-    let desc = current.weatherDesc[0].value;
-
-    // 한글 변환
+    // 날씨 한글 변환
     const map = {
       "Sunny":"맑음",
       "Clear":"맑음",
@@ -1903,43 +1861,11 @@ async function loadWeather(){
 
     desc = map[desc] || desc;
 
-// 기존 클래스 제거
-box.classList.remove("rain","snow");
-
-let effect = "";
-
-// 더 정확한 날씨 판단
-if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
-  effect = "rain";
-}
-else if(desc.includes("눈") || desc.includes("폭설")){
-  effect = "snow";
-}
-
-// 적용
-if(effect){
-  box.classList.add(effect);
-}
-
-// 출력
-box.innerHTML = `
-  <div>
-    연변조선족자치주 ${temp}°C
-    <div style="font-size:11px;color:#ddd;">
-      체감 ${feels}°C · ${desc}
-    </div>
-  </div>
-`;
-
+    box.innerText = `연변 ${temp}°C ${desc}`;
   }catch(e){
     box.innerText="날씨 오류";
   }
 }
-
-loadSite();
-loadWeather();
-loadBoard();
-recordVisit();
 
 </script>
 
