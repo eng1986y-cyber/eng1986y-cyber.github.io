@@ -1843,26 +1843,37 @@ async function loadWeather(){
     const feels = current.FeelsLikeC;
     let desc = current.weatherDesc[0].value;
 
-    // 한글 변환
-    const map = {
-      "Sunny":"맑음",
-      "Clear":"맑음",
-      "Partly cloudy":"구름 조금",
-      "Cloudy":"흐림",
-      "Overcast":"흐림",
-      "Mist":"안개",
-      "Fog":"안개",
-      "Rain":"비",
-      "Light rain":"약한 비",
-      "Moderate rain":"비",
-      "Heavy rain":"폭우",
-      "Snow":"눈",
-      "Light snow":"약한 눈",
-      "Heavy snow":"폭설",
-      "Thunderstorm":"천둥번개"
-    };
+const map = {
+  "Sunny":"맑음",
+  "Clear":"맑음",
+  "Partly cloudy":"구름 조금",
+  "Cloudy":"흐림",
+  "Overcast":"흐림",
+  "Mist":"안개",
+  "Fog":"안개",
 
-    desc = map[desc] || desc;
+  "Rain":"비",
+  "Light rain":"약한 비",
+  "Moderate rain":"비",
+  "Heavy rain":"폭우",
+
+  "Drizzle":"이슬비",
+  "Light drizzle":"약한 이슬비",
+  "Patchy light drizzle":"약한 이슬비",
+  "Freezing drizzle":"어는 이슬비",
+
+  "Patchy rain possible":"비 가능성",
+  "Patchy light rain":"약한 비",
+  "Patchy moderate rain":"비",
+
+  "Snow":"눈",
+  "Light snow":"약한 눈",
+  "Heavy snow":"폭설",
+
+  "Thunderstorm":"천둥번개"
+};
+
+   desc = map[desc] || "날씨 정보";
 
 // 기존 클래스 제거
 box.classList.remove("rain","snow");
