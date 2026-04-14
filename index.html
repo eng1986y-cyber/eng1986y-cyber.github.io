@@ -1565,12 +1565,6 @@ if(adsenseArea && adsenseArea.children.length === 0){
 
 }
 
-loadSite().then(()=>{
-  loadWeather();
-});
-
-loadBoard();
-
 recordVisit();
 
 async function recordVisit(){
@@ -1941,6 +1935,13 @@ box.innerHTML = `
     box.innerText="날씨 오류";
   }
 }
+
+loadSite().then(()=>{
+  loadWeather();
+});
+
+loadBoard();
+recordVisit();
 
 </script>
 
