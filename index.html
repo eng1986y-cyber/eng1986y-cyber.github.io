@@ -1004,6 +1004,64 @@ body{
   position:relative;
 }
 
+/* ===== 배너 날씨 효과 ===== */
+
+.top-banner.rain::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/7Qp5ZkR.png'); /* 비 이미지 */
+  opacity:0.3;
+  pointer-events:none;
+  animation:rainMove 0.5s linear infinite;
+}
+
+@keyframes rainMove{
+  from{ background-position:0 0; }
+  to{ background-position:-100px 200px; }
+}
+
+/* 눈 */
+.top-banner.snow::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/V4RclNb.png'); /* 눈 이미지 */
+  opacity:0.5;
+  pointer-events:none;
+  animation:snowMove 5s linear infinite;
+}
+
+@keyframes snowMove{
+  from{ background-position:0 0; }
+  to{ background-position:0 300px; }
+}
+
+/* 번개 */
+.top-banner.thunder{
+  animation:flash 3s infinite;
+}
+
+@keyframes flash{
+  0%,95%,100%{ filter:brightness(1); }
+  96%{ filter:brightness(2.5); }
+  97%{ filter:brightness(1); }
+}
+
+/* 바람 */
+.top-banner.wind::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation:windMove 2s linear infinite;
+}
+
+@keyframes windMove{
+  from{ transform:translateX(-100%); }
+  to{ transform:translateX(100%); }
+}
+
 </style>
 </head>
 
@@ -1839,6 +1897,12 @@ async function loadWeather(){
   const box = document.getElementById("weatherBox");
   if(!box) return;
 
+const banner = document.getElementById("topBanner");
+if(!banner) return;
+
+// 기존 효과 제거
+banner.classList.remove("rain","snow","thunder","wind");
+
   try{
     const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
     const data = await res.json();
@@ -1894,9 +1958,17 @@ else if(desc.includes("눈") || desc.includes("폭설")){
   effect = "snow";
 }
 
-// 적용
-if(effect){
-  box.classList.add(effect);
+if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
+  banner.classList.add("rain");
+}
+else if(desc.includes("눈") || desc.includes("폭설")){
+  banner.classList.add("snow");
+}
+else if(desc.includes("천둥") || desc.includes("번개")){
+  banner.classList.add("thunder");
+}
+else if(current.windspeedKmph > 20){
+  banner.classList.add("wind");
 }
 
 // 출력
