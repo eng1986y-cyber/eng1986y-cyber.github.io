@@ -177,19 +177,25 @@
   box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* 모바일에서는 하단 가로 정렬 */
 @media(max-width:768px){
   .floating-right{
-    right:10px;
-    left:auto;
-    top:50%;
-    bottom:auto;
-    transform:translateY(-50%);
-    flex-direction:column;
-    background:transparent;
-    padding:0;
-    box-shadow:none;
-    gap:10px;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    transform:none;
+
+    flex-direction:row;
+    justify-content:space-around;
+    align-items:center;
+
+    width:100%;
+    padding:10px 0;
+
+    background:#111;
+    box-shadow:0 -4px 10px rgba(0,0,0,0.2);
+    z-index:9999;
   }
 }
 
