@@ -1943,29 +1943,16 @@ const map = {
   "Thunderstorm":"천둥번개"
 };
 
-   desc = map[desc] || "날씨 정보";
+desc = map[desc] || "날씨 정보";
 
-// 기존 클래스 제거
-box.classList.remove("rain","snow");
-
-let effect = "";
-
-// 더 정확한 날씨 판단
-if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
-  effect = "rain";
+if(desc.includes("천둥") || desc.includes("번개")){
+  banner.classList.add("thunder");
 }
-else if(desc.includes("눈") || desc.includes("폭설")){
-  effect = "snow";
-}
-
-if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
+else if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
   banner.classList.add("rain");
 }
 else if(desc.includes("눈") || desc.includes("폭설")){
   banner.classList.add("snow");
-}
-else if(desc.includes("천둥") || desc.includes("번개")){
-  banner.classList.add("thunder");
 }
 else if(current.windspeedKmph > 20){
   banner.classList.add("wind");
