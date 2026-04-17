@@ -223,7 +223,8 @@ html{
   display:grid;
   grid-template-columns:repeat(3,1fr);
 
-  gap:3px;
+  column-gap:5px;   /* 좌우 간격 유지 */
+  row-gap:2px;      /* 상하 간격만 축소 */
 
   height:600px;
   overflow-y:auto;
@@ -312,13 +313,8 @@ html{
 @media(max-width:768px){
   .board-section{
     grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:768px){
-  .board-section{
-    grid-template-columns:repeat(2,1fr);
-    gap:3px;
+    column-gap:5px; /* 좌우 유지 */
+    row-gap:2px;    /* 상하 축소 */
     max-height:520px;
     overflow-y:auto;
   }
