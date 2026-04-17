@@ -1432,7 +1432,7 @@ const link = ad.link_url
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
-    <div class="ad-title">${ad.main_title||""}</div>
+    <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
   `;
 
   imgBox.appendChild(wrap);
@@ -1463,7 +1463,7 @@ const link = ad.link_url
 
         wrap.innerHTML=`
           <div class="square-ad">${link}</div>
-          <div class="ad-title">${ad.main_title||""}</div>
+          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
         `;
 
         bottomBox.appendChild(wrap);
@@ -1690,7 +1690,7 @@ async function boardSearch(){
 const { count: position } = await supabaseClient
   .from("board_posts")
   .select("*",{count:"exact", head:true})
-  .lt("id", post.id);
+  created_at 기준 정렬;
 
   const index = position;
 
@@ -1707,7 +1707,7 @@ const { count: position } = await supabaseClient
     boards.forEach(board=>{
       board.classList.remove("highlight");
 
-      if(board.innerText.toLowerCase().includes(keyword)){
+      if(board.innerText.toLowerCase().replace(/\s/g,"")){
         board.classList.add("highlight");
         board.scrollIntoView({
           behavior:"smooth",
@@ -1737,7 +1737,7 @@ function search(){
 
     const title=ad.getAttribute("data-title");
 
-    if(title && title.includes(keyword)){
+    if(title && title.replace(/\s/g,"")){
       ad.classList.add("highlight");
       found=true;
       ad.scrollIntoView({behavior:"smooth", block:"center"});
@@ -1752,7 +1752,7 @@ function search(){
 
     const text=board.innerText.toLowerCase();
 
-    if(text.includes(keyword)){
+    if(text.replace(/\s/g,"")){
       board.classList.add("highlight");
       found=true;
       board.scrollIntoView({behavior:"smooth", block:"center"});
