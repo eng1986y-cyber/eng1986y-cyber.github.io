@@ -232,9 +232,9 @@ html{
 
 .board-card{
   background:#fff;
-  border-radius:12px;
-  border:2px solid #ddd;
-  padding:6px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:8px;
   cursor:pointer;
   transition:0.2s;
   height:80px;
@@ -244,9 +244,13 @@ html{
   justify-content:flex-start;
 }
 
+.board-card:hover{
+  border-color:#E2C65C;
+}
+
 .board-card h3{
+  margin:0 0 4px;
   font-size:12px;
-  margin-bottom:2px;
   line-height:1.2;
   white-space:nowrap;
   overflow:hidden;
@@ -330,20 +334,18 @@ body{
   margin:0;
   padding:20px;
 
-body{
   font-family:
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  "Apple SD Gothic Neo",   /* 한국 */
-  "Malgun Gothic",         /* 윈도우 한글 */
-  "Microsoft YaHei",       /* 중국 */
-  "PingFang SC",           /* 중국 (맥) */
-  "Hiragino Sans",         /* 일본 */
-  "Yu Gothic",             /* 일본 (윈도우) */
-  Arial,
-  sans-serif;
-}
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    "Microsoft YaHei",
+    "PingFang SC",
+    "Hiragino Sans",
+    "Yu Gothic",
+    Arial,
+    sans-serif;
 
   background:#f5f5f5;
   overflow-y:scroll;
@@ -362,6 +364,46 @@ body{
   align-items:center;
   gap:6px;
   margin-bottom:30px;
+}
+
+.search-box input{
+  width:320px;
+  height:46px;
+  padding:0 12px;
+  border:2px solid #87CEEB;
+  border-radius:6px;
+  font-size:16px;
+}
+
+.search-box button{
+  width:160px;
+  height:46px;
+  border:none;
+  border-radius:6px;
+  background:#87CEEB;
+  color:#fff;
+  cursor:pointer;
+}
+
+.search-box button:hover{
+  background:#6bbfe0;
+}
+
+@media(max-width:768px){
+  .search-box{
+    flex-direction:column;
+  }
+
+  .search-box input,
+  .search-box button{
+    width:100%;
+    height:48px;
+    box-sizing:border-box;
+  }
+
+  .search-box button{
+    margin-top:8px;
+  }
 }
 
 .search-box input{
@@ -394,10 +436,11 @@ body{
 /* 배너 */
 
 .top-banner{
+  position:relative;
   width:100%;
   max-width:1200px;
   height:240px;
-  margin:20px auto 30px;  /* ← 중앙 정렬 */
+  margin:20px auto 30px;
   border-radius:14px;
   overflow:hidden;
   display:block;
@@ -407,9 +450,15 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
-  display:block;          /* ← 추가 */
-  margin:0 auto;          /* ← 추가 */
+  display:block;
+  margin:0 auto;
   transition:transform 0.4s ease;
+}
+
+@media(max-width:768px){
+  .top-banner{
+    display:none;
+  }
 }
 
 /* 그리드 */
@@ -463,18 +512,6 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
-}
-
-.board-card{
-  background:#fff;
-  padding:20px;
-  margin-bottom:15px;
-  border-radius:10px;
-  border:1px solid #ddd;
-}
-
-.board-card h3{
-  margin:0 0 10px;
 }
 
 .sns-video{
@@ -557,11 +594,6 @@ body{
     margin:15px auto 25px;
   }
 
-  .search-box{
-    display:flex;
-    flex-direction:column;
-  }
-
   .search-box input,
   .search-box button{
     width:100%;
@@ -603,10 +635,6 @@ body{
     font-size:16px;
     margin:0 6px;
   }
-
-.top-banner{
-  display:none;
-}
 
 #topBtn{
   display:none;
@@ -972,13 +1000,6 @@ body{
   border-radius:6px;
 }
 
-.search-box{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-}
-
 .weather-box{
   position:absolute;
   top:8px;
@@ -989,10 +1010,6 @@ body{
   border-radius:6px;
   font-size:12px;
   z-index:10;
-}
-
-.top-banner{
-  position:relative;
 }
 
 /* ===== 배너 날씨 효과 ===== */
@@ -1818,13 +1835,6 @@ document.getElementById("boardSearchInput")
       boardSearch();
     }
 });
-
-function scrollToTop(){
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
 
 function scrollToBottom(){
   window.scrollTo({
