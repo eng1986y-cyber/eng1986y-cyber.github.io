@@ -223,8 +223,7 @@ html{
   display:grid;
   grid-template-columns:repeat(3,1fr);
 
-  column-gap:5px;
-  row-gap:5px;
+  gap:3px;
 
   height:600px;
   overflow-y:auto;
@@ -319,6 +318,7 @@ html{
 @media(max-width:768px){
   .board-section{
     grid-template-columns:repeat(2,1fr);
+    gap:3px;
     max-height:520px;
     overflow-y:auto;
   }
