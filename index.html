@@ -1690,7 +1690,7 @@ async function boardSearch(){
 const { count: position } = await supabaseClient
   .from("board_posts")
   .select("*",{count:"exact", head:true})
-  created_at 기준 정렬;
+  .lt("id", post.id);
 
   const index = position;
 
