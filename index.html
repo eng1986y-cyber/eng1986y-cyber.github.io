@@ -228,7 +228,6 @@ html{
   overflow-y:auto;
 }
 
-/* 장방형 카드 */
 .board-card{
   background:#fff;
   border-radius:12px;
@@ -236,20 +235,17 @@ html{
   padding:6px;
   cursor:pointer;
   transition:0.2s;
-  height:75px;
+  height:80px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
-}
-
-.board-card:hover{
-  border-color:#E2C65C;
+  justify-content:flex-start;
 }
 
 .board-card h3{
   font-size:12px;
-  margin:0;
+  margin-bottom:2px;
+  line-height:1.2;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -261,8 +257,12 @@ html{
   overflow:hidden;
   text-overflow:ellipsis;
   display:-webkit-box;
-  -webkit-line-clamp:3;
+  -webkit-line-clamp:1;
   -webkit-box-orient:vertical;
+}
+
+.board-card:hover{
+  border-color:#E2C65C;
 }
 
 .captcha-box{
