@@ -1707,7 +1707,7 @@ const { count: position } = await supabaseClient
     boards.forEach(board=>{
       board.classList.remove("highlight");
 
-      if(board.innerText.toLowerCase().replace(/\s/g,"")){
+      if(board.innerText.toLowerCase().replace(/＼s/g,"")){
         board.classList.add("highlight");
         board.scrollIntoView({
           behavior:"smooth",
@@ -1737,7 +1737,7 @@ function search(){
 
     const title=ad.getAttribute("data-title");
 
-    if(title && title.replace(/\s/g,"")){
+    if(title && title.replace(/＼s/g,"")){
       ad.classList.add("highlight");
       found=true;
       ad.scrollIntoView({behavior:"smooth", block:"center"});
@@ -1752,7 +1752,7 @@ function search(){
 
     const text=board.innerText.toLowerCase();
 
-    if(text.replace(/\s/g,"")){
+    if(text.replace(/＼s/g,"")){
       board.classList.add("highlight");
       found=true;
       board.scrollIntoView({behavior:"smooth", block:"center"});
