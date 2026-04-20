@@ -1725,22 +1725,56 @@ async function boardSearch(){
 
   const keyword = document
     .getElementById("boardSearchInput")
-    .value
-    .trim()
-    .toLowerCase();
+    .value.trim();
 
   if(!keyword) return;
 
-  const { data: posts, count } = await supabaseClient
+  const { data: posts } = await supabaseClient
     .from("board_posts")
-    .select("*",{count:"exact"})
+    .select("*")
     .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
-    .limit(1);
+    .order("id",{ascending:false})
+    .limit(20);
 
-  if(!posts || posts.length === 0){
+  if(!posts || posts.length===0){
     alert("검색 결과 없음");
     return;
   }
+
+  const list = document.getElementById("searchResultList");
+  list.innerHTML="";
+
+  posts.forEach(post=>{
+
+    const div=document.createElement("div");
+    div.style.padding="10px";
+    div.style.borderBottom="1px solid #eee";
+    div.style.cursor="pointer";
+
+    div.innerHTML=`[${post.category}] ${post.title}`;
+
+    div.onclick=()=>{
+
+      closeSearchResult();
+
+      const date = new Date(post.created_at)
+      .toLocaleDateString("ko-KR");
+
+      openModal(
+        post.title,
+        post.content,
+        date,
+        post.views || 0
+      );
+
+    };
+
+    list.appendChild(div);
+
+  });
+
+  document.getElementById("searchResultModal").style.display="flex";
+}
 
   const post = posts[0];
 
@@ -1833,6 +1867,10 @@ function openModal(title,content,date,views){
 
 function closeModal(){
   document.getElementById("boardModal").style.display="none";
+}
+
+function closeSearchResult(){
+  document.getElementById("searchResultModal").style.display="none";
 }
 
 // 팝업 배경 클릭 시 닫기
@@ -2039,6 +2077,13 @@ box.innerHTML = `
    ▼
 </button>
 
+</div>
+<div class="modal" id="searchResultModal">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeSearchResult()">✕</div>
+    <h3>검색 결과</h3>
+    <div id="searchResultList"></div>
+  </div>
 </div>
 </body>
 </html>
