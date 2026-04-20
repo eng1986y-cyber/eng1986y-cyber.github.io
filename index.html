@@ -1042,6 +1042,10 @@ body{
   to{ transform:translateX(100%); }
 }
 
+body.modal-open{
+  overflow:hidden;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1250,6 +1254,7 @@ function openImageModal(url){
   content.style.overflow = "hidden";
 
   modal.style.display="flex";
+document.body.classList.add("modal-open");
 }
 
 function closeImageModal(){
@@ -1326,6 +1331,7 @@ document.getElementById("modalVideo").outerHTML =
 </video>`;
 
 document.getElementById("videoModal").style.display="flex";
+document.body.classList.add("modal-open");
 
 return;
 
@@ -1773,7 +1779,8 @@ async function boardSearch(){
 
   });
 
-  document.getElementById("searchResultModal").style.display="flex";
+  document.getElementById("writeModal").style.display="flex";
+document.body.classList.add("modal-open");
 }
 
 function search(){
@@ -1826,14 +1833,17 @@ function openModal(title,content,date,views){
   document.getElementById("modalMeta").innerText=
     date + " · 조회 " + views;
   document.getElementById("boardModal").style.display="flex";
+document.body.classList.add("modal-open");
 }
 
 function closeModal(){
   document.getElementById("boardModal").style.display="none";
+  document.body.classList.remove("modal-open");
 }
 
 function closeSearchResult(){
   document.getElementById("searchResultModal").style.display="none";
+  document.body.classList.remove("modal-open");
 }
 
 // 팝업 배경 클릭 시 닫기
