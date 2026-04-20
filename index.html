@@ -1037,6 +1037,20 @@ body{
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
+
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"WebSite",
+ "name":"延边信息搜索平台",
+ "url":"https://yb365.info",
+ "potentialAction":{
+   "@type":"SearchAction",
+   "target":"https://yb365.info/?q={search_term_string}",
+   "query-input":"required name=search_term_string"
+ }
+}
+</script>
 </head>
 
 <body>
@@ -1047,7 +1061,7 @@ body{
 
   <img id="searchLogo" class="search-logo" src="">
 
-  <input id="searchInput" placeholder="검색어 입력">
+  <input id="searchInput" placeholder="검색어 입력 / 输入关键词">
   <button onclick="search()">검색</button>
 
 </div>
@@ -1173,7 +1187,8 @@ function generateCaptcha(){
 }
 
 function escapeHTML(str){
-  return str
+  if(!str) return "";
+  return String(str)
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;");
@@ -1440,7 +1455,7 @@ if(ad.type==="image"){
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}">
+       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
@@ -1471,7 +1486,7 @@ const link = ad.link_url
 
 const link = ad.link_url 
   ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}">
+       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
