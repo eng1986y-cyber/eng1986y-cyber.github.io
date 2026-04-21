@@ -1078,6 +1078,11 @@ body.modal-open{
   overflow:hidden;
 }
 
+html,body{
+  overflow-y:scroll;
+  scrollbar-gutter:stable;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1239,16 +1244,26 @@ margin:0 auto;">
 
 <script>
 
-let captchaValue = 0;
+let savedScrollY = 0;
 
-function generateCaptcha(){
-  const a = Math.floor(Math.random()*9)+1;
-  const b = Math.floor(Math.random()*9)+1;
+function lockBody(){
+  savedScrollY = window.scrollY;
 
-  captchaValue = a + b;
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${savedScrollY}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+}
 
-  document.getElementById("captchaQuestion").innerText =
-    a + " + " + b + " = ?";
+function unlockBody(){
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+
+  window.scrollTo(0, savedScrollY);
 }
 
 function escapeHTML(str){
@@ -1276,25 +1291,27 @@ function filterCategory(cat, el){
 }
 
 function openImageModal(url,event){
-
   if(event){
     event.preventDefault();
     event.stopPropagation();
   }
 
-  document.getElementById("modalAdImage").src = url;
-  document.getElementById("imageModal").style.display = "flex";
+  lockBody();
 
-  document.body.classList.add("modal-open");
+  document.getElementById("modalAdImage").src = url;
+  document.getElementById("imageModal").style.display="flex";
 }
 
 function closeImageModal(){
-  document.getElementById("imageModal").style.display = "none";
-  document.getElementById("modalAdImage").src = "";
-  document.body.classList.remove("modal-open");
+  document.getElementById("imageModal").style.display="none";
+  document.getElementById("modalAdImage").src="";
+
+  unlockBody();
 }
 
 function openVideoModal(url){
+
+lockBody();
 
 let embed="";
 
@@ -1361,7 +1378,6 @@ document.getElementById("modalVideo").outerHTML =
 </video>`;
 
 document.getElementById("videoModal").style.display="flex";
-document.body.classList.add("modal-open");
 
 return;
 
@@ -1374,7 +1390,6 @@ embed=url;
 
 document.getElementById("modalVideo").src = embed;
 document.getElementById("videoModal").style.display="flex";
-document.body.classList.add("modal-open");
 }
 
 function closeVideoModal(){
@@ -1386,6 +1401,9 @@ iframe.src="";
 }
 
 document.getElementById("videoModal").style.display="none";
+
+unlockBody();
+
 document.body.classList.remove("modal-open");
 }
 
@@ -1810,7 +1828,6 @@ async function boardSearch(){
   });
 
   document.getElementById("searchResultModal").style.display="flex";
-document.body.classList.add("modal-open");
 }
 
 function search(){
@@ -1846,16 +1863,21 @@ function search(){
 }
 
 function openModal(title,content,date,views){
+
+  lockBody();
+
   document.getElementById("modalTitle").innerText=title;
   document.getElementById("modalContent").innerText=content;
   document.getElementById("modalMeta").innerText=
     date + " · 조회 " + views;
   document.getElementById("boardModal").style.display="flex";
-document.body.classList.add("modal-open");
 }
 
 function closeModal(){
   document.getElementById("boardModal").style.display="none";
+
+  unlockBody();
+
   document.body.classList.remove("modal-open");
 }
 
