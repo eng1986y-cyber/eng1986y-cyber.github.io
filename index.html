@@ -1042,13 +1042,6 @@ body{
   to{ transform:translateX(100%); }
 }
 
-html.modal-open,
-body.modal-open{
-  overflow:hidden !important;
-  height:100%;
-  touch-action:none;
-}
-
 html{
   overflow-y:scroll;
 }
@@ -1073,6 +1066,16 @@ body{
 html{
   overflow-y:scroll;
   scrollbar-gutter: stable;
+}
+
+html,
+body{
+  overflow-y:scroll;
+  scrollbar-gutter:stable;
+}
+
+body.modal-open{
+  overflow:hidden;
 }
 
 </style>
@@ -1279,42 +1282,16 @@ function openImageModal(url,event){
     event.stopPropagation();
   }
 
-  const scrollY = window.scrollY;
-
-  document.body.dataset.scrollY = scrollY;
-
-  document.body.style.position = "fixed";
-  document.body.style.top = `-${scrollY}px`;
-  document.body.style.left = "0";
-  document.body.style.right = "0";
-  document.body.style.width = "100%";
-
-  const modal = document.getElementById("imageModal");
-  const content = modal.querySelector(".modal-content");
-
   document.getElementById("modalAdImage").src = url;
+  document.getElementById("imageModal").style.display = "flex";
 
-  const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px";
-  content.style.overflow = "hidden";
-
-  modal.style.display = "flex";
+  document.body.classList.add("modal-open");
 }
 
 function closeImageModal(){
-
-  const y = parseInt(document.body.dataset.scrollY || "0");
-
   document.getElementById("imageModal").style.display = "none";
   document.getElementById("modalAdImage").src = "";
-
-  document.body.style.position = "";
-  document.body.style.top = "";
-  document.body.style.left = "";
-  document.body.style.right = "";
-  document.body.style.width = "";
-
-  window.scrollTo(0,y);
+  document.body.classList.remove("modal-open");
 }
 
 function openVideoModal(url){
@@ -1385,7 +1362,6 @@ document.getElementById("modalVideo").outerHTML =
 
 document.getElementById("videoModal").style.display="flex";
 document.body.classList.add("modal-open");
-document.documentElement.classList.add("modal-open");
 
 return;
 
@@ -1399,7 +1375,6 @@ embed=url;
 document.getElementById("modalVideo").src = embed;
 document.getElementById("videoModal").style.display="flex";
 document.body.classList.add("modal-open");
-document.documentElement.classList.add("modal-open");
 }
 
 function closeVideoModal(){
@@ -1412,7 +1387,6 @@ iframe.src="";
 
 document.getElementById("videoModal").style.display="none";
 document.body.classList.remove("modal-open");
-document.documentElement.classList.remove("modal-open");
 }
 
 let currentPage = 1;
@@ -1837,7 +1811,6 @@ async function boardSearch(){
 
   document.getElementById("searchResultModal").style.display="flex";
 document.body.classList.add("modal-open");
-document.documentElement.classList.add("modal-open");
 }
 
 function search(){
@@ -1879,19 +1852,16 @@ function openModal(title,content,date,views){
     date + " · 조회 " + views;
   document.getElementById("boardModal").style.display="flex";
 document.body.classList.add("modal-open");
-document.documentElement.classList.add("modal-open");
 }
 
 function closeModal(){
   document.getElementById("boardModal").style.display="none";
   document.body.classList.remove("modal-open");
-  document.documentElement.classList.remove("modal-open");
 }
 
 function closeSearchResult(){
   document.getElementById("searchResultModal").style.display="none";
   document.body.classList.remove("modal-open");
-  document.documentElement.classList.remove("modal-open");
 }
 
 // 팝업 배경 클릭 시 닫기
@@ -1920,7 +1890,6 @@ function openWritePost(){
 function closeWritePost(){
   document.getElementById("writeModal").style.display="none";
   document.body.classList.remove("modal-open");
-  document.documentElement.classList.remove("modal-open");
 }
 
 async function submitPost(){
