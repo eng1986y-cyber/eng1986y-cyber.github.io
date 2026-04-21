@@ -1270,10 +1270,9 @@ document.body.classList.add("modal-open");
 }
 
 function closeImageModal(){
-
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
-
+  document.body.classList.remove("modal-open");
 }
 
 function openVideoModal(url){
@@ -1368,7 +1367,7 @@ iframe.src="";
 }
 
 document.getElementById("videoModal").style.display="none";
-
+document.body.classList.remove("modal-open");
 }
 
 let currentPage = 1;
@@ -1791,8 +1790,8 @@ async function boardSearch(){
 
   });
 
-  document.getElementById("writeModal").style.display="flex";
-document.body.classList.add("modal-open");
+  document.getElementById("searchResultModal").style.display="flex";
+  document.body.classList.add("modal-open");
 }
 
 function search(){
@@ -1890,6 +1889,7 @@ function openWritePost(){
 
 function closeWritePost(){
   document.getElementById("writeModal").style.display="none";
+  document.body.classList.remove("modal-open");
 }
 
 async function submitPost(){
