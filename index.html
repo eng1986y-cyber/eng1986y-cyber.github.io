@@ -78,13 +78,6 @@
   border-color:#87CEEB;
 }
 
-.video-modal-box{
-  max-width: 400px;   /* 필요하면 카드보다 넓게 */
-  width:90%;
-  max-height:90vh;
-  overflow:hidden;    /* 스크롤 제거 */
-}
-
 .video-container{
   position:relative;
   padding-bottom:177.78%; /* 16:9 영상이 세로일 경우 → 세로가 가로의 16/9배 */
@@ -629,10 +622,6 @@ body{
 
   /* ===== 모바일 플로팅 네비 ===== */
 
-  .mobile-nav button:active{
-    transform:scale(0.95);
-  }
-
 .ad-item {
   display: flex;
   flex-direction: column;
@@ -649,11 +638,6 @@ body{
   text-align: center;
   width:100%;
   display:block;
-}
-
-@keyframes glow{
-  from{ box-shadow:0 0 0px rgba(135,206,235,0); }
-  to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
 }
 
 .ad-title{
@@ -775,13 +759,6 @@ body{
   z-index:9999;          /* 🔥 위로 올림 */
 }
 
-.write-box{
-  background:white;
-  padding:20px;
-  width:400px;
-  border-radius:10px;
-}
-
 .write-box input,
 .write-box textarea,
 .write-box select{
@@ -807,11 +784,6 @@ body{
   right:0;
 }
 
-.board-category button.active{
-  background:#333;
-  color:#fff;
-}
-
 @media (max-width:768px){
 
   .board-top{
@@ -833,21 +805,10 @@ body{
 
 }
 
-/* 배경 */
-.write-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.55);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
 /* 박스 */
 .write-box{
-  width:420px;
-  max-width:90%;
+  width:100%;
+  max-width:420px;
   background:#fff;
   border-radius:16px;
   box-shadow:0 20px 50px rgba(0,0,0,0.2);
@@ -1342,20 +1303,27 @@ document.getElementById("videoModal").style.display="flex";
 }
 
 function closeVideoModal(){
-
-const iframe = document.getElementById("modalVideo");
-
-if(iframe.tagName==="IFRAME"){
-iframe.src="";
-}
-
-document.getElementById("videoModal").style.display="none";
-
+  const videoElem = document.getElementById("modalVideo");
+  if(videoElem.tagName === "IFRAME"){
+    videoElem.src = "";
+  } else if(videoElem.tagName === "VIDEO"){
+    videoElem.pause();
+  }
+  document.getElementById("videoModal").style.display = "none";
 }
 
 let currentPage = 1;
 
 let pageSize = window.innerWidth <= 768 ? 6 : 12;
+
+window.addEventListener("resize", () => {
+  const newSize = window.innerWidth <= 768 ? 6 : 12;
+  if (pageSize !== newSize) {
+    pageSize = newSize;   // ← 이 줄 추가
+    currentPage = 1;
+    loadBoard();
+  }
+});
 
 let pageGroup = 1;
 let pageGroupSize = 5;
@@ -1459,7 +1427,6 @@ async function loadSite(){
   const bannerBox=document.getElementById("topBanner");
 
   // 🔥 전체 초기화
-  boardSection.innerHTML="";
   imgBox.innerHTML="";
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
@@ -1691,19 +1658,16 @@ div.innerHTML = `
   </div>
 `;
 
-div.onclick=async ()=>{
+div.onclick = async () => {
+  // 조회수 증가
+  await supabaseClient
+    .from("board_posts")
+    .update({ views: (post.views || 0) + 1 })
+    .eq("id", post.id);
 
-  await supabaseClient.rpc('increment_views', {
-    post_id: post.id
-  });
-
-  const newViews = (post.views || 0) + 1;   // 🔥 이 줄 추가
-
+  const newViews = (post.views || 0) + 1;
   openModal(post.title, post.content, date, newViews);
-
-  div.querySelector(".view-count").innerText =
-    date + " · 조회 " + newViews;
-
+  div.querySelector(".view-count").innerText = date + " · 조회 " + newViews;
   post.views = newViews;
 };
 
@@ -1833,7 +1797,8 @@ function closeModal(){
 }
 
 function closeSearchResult(){
-  document.getElementById("searchResultModal").style.display="none";
+  document.getElementById("searchResultModal").style.display = "none";
+  document.getElementById("searchResultList").innerHTML = ""; // 추가
 }
 
 // 팝업 배경 클릭 시 닫기
@@ -1871,33 +1836,27 @@ function closeWritePost(){
 }
 
 async function submitPost(){
+  const title = document.getElementById("userPostTitle").value.trim();
+  const content = document.getElementById("userPostContent").value.trim();
+  const category = document.getElementById("userPostCategory").value;
 
-  const title=document.getElementById("userPostTitle").value.trim();
-  const content=document.getElementById("userPostContent").value.trim();
-  const category=document.getElementById("userPostCategory").value;
+  const answer = document.getElementById("captchaAnswer").value.trim();
+  const answerNum = parseInt(answer, 10);
+  
+  if (isNaN(answerNum) || answerNum !== captchaValue) {
+    alert("자동등록방지 정답이 틀렸습니다");
+    generateCaptcha();
+    return;
+  }
 
-const answer = document
-  .getElementById("captchaAnswer")
-  .value.trim();
-
-if(parseInt(answer) !== captchaValue){
-  alert("자동등록방지 정답이 틀렸습니다");
-  generateCaptcha();
-  return;
-}
-
-  if(!title||!content){
+  if(!title || !content){
     alert("제목과 내용을 입력하세요");
     return;
   }
 
-  const {error}=await supabaseClient
-  .from("board_posts")
-  .insert([{
-    title:title,
-    content:content,
-    category:category
-  }]);
+  const { error } = await supabaseClient
+    .from("board_posts")
+    .insert([{ title, content, category }]);
 
   if(error){
     alert("등록 실패");
@@ -1905,10 +1864,8 @@ if(parseInt(answer) !== captchaValue){
   }
 
   alert("게시글 등록 완료");
-
   closeWritePost();
   loadBoard();
-
 }
 
 async function loadWeather(){
