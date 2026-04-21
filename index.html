@@ -1083,6 +1083,10 @@ html,body{
   scrollbar-gutter:stable;
 }
 
+html, body{
+  overflow-x:hidden;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1243,28 +1247,30 @@ margin:0 auto;">
 <script src="supabase.js"></script>
 
 <script>
-
 let savedScrollY = 0;
+let savedScrollX = 0;
 
 function lockBody(){
   savedScrollY = window.scrollY;
+  savedScrollX = window.scrollX;
 
   document.body.style.position = "fixed";
   document.body.style.top = `-${savedScrollY}px`;
-  document.body.style.left = "0";
-  document.body.style.right = "0";
-  document.body.style.width = "100%";
+  document.body.style.left = `-${savedScrollX}px`;
+  document.body.style.width = "100vw";
+  document.body.style.overflowX = "hidden";
 }
 
 function unlockBody(){
   document.body.style.position = "";
   document.body.style.top = "";
   document.body.style.left = "";
-  document.body.style.right = "";
   document.body.style.width = "";
+  document.body.style.overflowX = "";
 
-  window.scrollTo(0, savedScrollY);
+  window.scrollTo(savedScrollX, savedScrollY);
 }
+</script>
 
 function escapeHTML(str){
   if(!str) return "";
