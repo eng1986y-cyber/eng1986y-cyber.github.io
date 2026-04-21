@@ -1804,7 +1804,7 @@ function search(){
 
   let found=false;
 
-  /* ===== 광고 검색 ===== */
+  /* 광고 검색만 */
   const ads=document.querySelectorAll(".ad-item");
 
   ads.forEach(ad=>{
@@ -1815,22 +1815,10 @@ function search(){
     if(title && title.includes(keyword)){
       ad.classList.add("highlight");
       found=true;
-      ad.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-  });
-
-  /* ===== 게시판 검색 ===== */
-  const boards=document.querySelectorAll(".board-card");
-
-  boards.forEach(board=>{
-    board.classList.remove("highlight");
-
-    const text=board.innerText.toLowerCase();
-
-    if(text.includes(keyword)){
-      board.classList.add("highlight");
-      found=true;
-      board.scrollIntoView({behavior:"smooth", block:"center"});
+      ad.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
     }
   });
 
