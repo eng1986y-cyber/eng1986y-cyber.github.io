@@ -1272,7 +1272,13 @@ function filterCategory(cat, el){
   loadBoard();
 }
 
-function openImageModal(url){
+function openImageModal(url,event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  const currentY = window.scrollY;
   const modal = document.getElementById("imageModal");
   const content = modal.querySelector(".modal-content");
 
@@ -1283,7 +1289,10 @@ function openImageModal(url){
   content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
   content.style.overflow = "hidden";
 
-  modal.style.display="flex";
+modal.style.display="flex";
+
+window.scrollTo(0,currentY);
+
 document.body.classList.add("modal-open");
 document.documentElement.classList.add("modal-open");
 }
@@ -1527,7 +1536,7 @@ const link = ad.link_url
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}', event)">`;
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
@@ -1558,7 +1567,7 @@ const link = ad.link_url
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}', event)">`;
 
         wrap.innerHTML=`
           <div class="square-ad">${link}</div>
