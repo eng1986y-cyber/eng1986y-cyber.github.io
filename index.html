@@ -1254,19 +1254,26 @@ function lockBody(){
   savedScrollY = window.scrollY;
   savedScrollX = window.scrollX;
 
+  const scrollBarWidth =
+    window.innerWidth - document.documentElement.clientWidth;
+
   document.body.style.position = "fixed";
   document.body.style.top = `-${savedScrollY}px`;
-  document.body.style.left = `-${savedScrollX}px`;
-  document.body.style.width = "100vw";
-  document.body.style.overflowX = "hidden";
+  document.body.style.left = `0`;
+  document.body.style.right = `0`;
+  document.body.style.width = "100%";
+  document.body.style.overflowY = "scroll";
+  document.body.style.paddingRight = scrollBarWidth + "px";
 }
 
 function unlockBody(){
   document.body.style.position = "";
   document.body.style.top = "";
   document.body.style.left = "";
+  document.body.style.right = "";
   document.body.style.width = "";
-  document.body.style.overflowX = "";
+  document.body.style.overflowY = "";
+  document.body.style.paddingRight = "";
 
   window.scrollTo(savedScrollX, savedScrollY);
 }
