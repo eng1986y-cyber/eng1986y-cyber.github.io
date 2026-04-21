@@ -1042,7 +1042,11 @@ body{
   to{ transform:translateX(100%); }
 }
 
+html.modal-open,
 body.modal-open{
+  overflow:hidden !important;
+  height:100%;
+  touch-action:none;
 }
 
 html{
@@ -1281,12 +1285,14 @@ function openImageModal(url){
 
   modal.style.display="flex";
 document.body.classList.add("modal-open");
+document.documentElement.classList.add("modal-open");
 }
 
 function closeImageModal(){
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
   document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 }
 
 function openVideoModal(url){
@@ -1357,6 +1363,7 @@ document.getElementById("modalVideo").outerHTML =
 
 document.getElementById("videoModal").style.display="flex";
 document.body.classList.add("modal-open");
+document.documentElement.classList.add("modal-open");
 
 return;
 
@@ -1370,6 +1377,7 @@ embed=url;
 document.getElementById("modalVideo").src = embed;
 document.getElementById("videoModal").style.display="flex";
 document.body.classList.add("modal-open");
+document.documentElement.classList.add("modal-open");
 }
 
 function closeVideoModal(){
@@ -1382,6 +1390,7 @@ iframe.src="";
 
 document.getElementById("videoModal").style.display="none";
 document.body.classList.remove("modal-open");
+document.documentElement.classList.remove("modal-open");
 }
 
 let currentPage = 1;
@@ -1805,7 +1814,8 @@ async function boardSearch(){
   });
 
   document.getElementById("searchResultModal").style.display="flex";
-  document.body.classList.add("modal-open");
+document.body.classList.add("modal-open");
+document.documentElement.classList.add("modal-open");
 }
 
 function search(){
@@ -1847,16 +1857,19 @@ function openModal(title,content,date,views){
     date + " · 조회 " + views;
   document.getElementById("boardModal").style.display="flex";
 document.body.classList.add("modal-open");
+document.documentElement.classList.add("modal-open");
 }
 
 function closeModal(){
   document.getElementById("boardModal").style.display="none";
   document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 }
 
 function closeSearchResult(){
   document.getElementById("searchResultModal").style.display="none";
   document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 }
 
 // 팝업 배경 클릭 시 닫기
@@ -1885,6 +1898,7 @@ function openWritePost(){
 function closeWritePost(){
   document.getElementById("writeModal").style.display="none";
   document.body.classList.remove("modal-open");
+  document.documentElement.classList.remove("modal-open");
 }
 
 async function submitPost(){
