@@ -47,6 +47,10 @@
   backdrop-filter:blur(4px);
 }
 
+.video-modal-box{
+  position:relative;   /* 이거 중요 */
+}
+
 .board-category{
   display:flex;
   justify-content:center;
@@ -72,6 +76,29 @@
   background:#87CEEB;
   color:white;
   border-color:#87CEEB;
+}
+
+.video-modal-box{
+  max-width: 400px;   /* 필요하면 카드보다 넓게 */
+  width:90%;
+  max-height:90vh;
+  overflow:hidden;    /* 스크롤 제거 */
+}
+
+.video-container{
+  position:relative;
+  padding-bottom:177.78%; /* 16:9 영상이 세로일 경우 → 세로가 가로의 16/9배 */
+  height:0;
+}
+
+.video-container iframe,
+.video-container video{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border-radius:10px;
 }
 
 /* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
@@ -732,6 +759,29 @@ body{
   color:#fff;
 }
 
+.write-modal{
+  position:fixed;        /* 🔥 핵심 */
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+
+  background:rgba(0,0,0,0.5);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:9999;          /* 🔥 위로 올림 */
+}
+
+.write-box{
+  background:white;
+  padding:20px;
+  width:400px;
+  border-radius:10px;
+}
+
 .write-box input,
 .write-box textarea,
 .write-box select{
@@ -992,93 +1042,6 @@ body{
   to{ transform:translateX(100%); }
 }
 
-/* ===== 전체 모달 통합 ===== */
-
-.modal,
-.write-modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,0.58);
-  z-index:99999;
-}
-
-.modal.show,
-.write-modal.show{
-  display:flex;
-}
-
-.modal-content,
-.write-box{
-  background:#fff;
-  width:92%;
-  max-width:600px;
-  max-height:90vh;
-  overflow:auto;
-  border-radius:16px;
-  padding:24px;
-  position:relative;
-}
-
-/* 영상모달 */
-.video-modal-box{
-  padding:0;
-  overflow:hidden;
-}
-
-.video-container{
-  width:100%;
-  aspect-ratio:9/16;
-}
-
-.video-container iframe,
-.video-container video{
-  width:100%;
-  height:100%;
-  border:0;
-  object-fit:contain;
-}
-
-/* 이미지모달 */
-.image-modal-box{
-  padding:0;
-  background:transparent;
-  box-shadow:none;
-}
-
-#modalAdImage{
-  max-width:92vw;
-  max-height:88vh;
-  object-fit:contain;
-  border-radius:12px;
-}
-
-/* 닫기버튼 */
-.modal-close,
-.close-btn{
-  position:absolute;
-  top:12px;
-  right:14px;
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:#111;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  font-size:15px;
-  z-index:5;
-}
-
-/* 팝업 열릴때 스크롤잠금 */
-body.modal-open{
-  overflow:hidden;
-}
-
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1088,42 +1051,13 @@ body.modal-open{
  "@context":"https://schema.org",
  "@type":"WebSite",
  "name":"延边信息搜索平台",
- "url":"https://yb365.info"
+ "url":"https://yb365.info",
+ "potentialAction":{
+   "@type":"SearchAction",
+   "target":"https://yb365.info/?q={search_term_string}",
+   "query-input":"required name=search_term_string"
+ }
 }
-</script>
-
-/* 기존 함수 연결 */
-
-function openWritePost(){
-  generateCaptcha();
-  openBox("writeModal");
-}
-
-function closeWritePost(){
-  closeBox("writeModal");
-}
-
-function closeImageModal(){
-  document.getElementById("modalAdImage").src="";
-  closeBox("imageModal");
-}
-
-function closeSearchResult(){
-  closeBox("searchResultModal");
-}
-
-/* 배경 클릭 닫기 */
-  modal.addEventListener("click",e=>{
-    if(e.target===modal){
-      modal.classList.remove("show");
-
-      if(!document.querySelector(".show")){
-        document.body.classList.remove("modal-open");
-      }
-    }
-  });
-});
-
 </script>
 </head>
 
@@ -1310,11 +1244,19 @@ function openImageModal(url){
 
   document.getElementById("modalAdImage").src = url;
 
+  // 화면 높이에 맞춰 높이 조정
   const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px";
+  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
   content.style.overflow = "hidden";
 
-  modal.style.display = "flex";
+  modal.style.display="flex";
+}
+
+function closeImageModal(){
+
+  document.getElementById("imageModal").style.display="none";
+  document.getElementById("modalAdImage").src="";
+
 }
 
 function openVideoModal(url){
@@ -1383,6 +1325,8 @@ document.getElementById("modalVideo").outerHTML =
 <source src="${url}" type="video/mp4">
 </video>`;
 
+document.getElementById("videoModal").style.display="flex";
+
 return;
 
 }
@@ -1393,6 +1337,8 @@ embed=url;
 }
 
 document.getElementById("modalVideo").src = embed;
+document.getElementById("videoModal").style.display="flex";
+
 }
 
 function closeVideoModal(){
@@ -1890,11 +1836,15 @@ function closeSearchResult(){
   document.getElementById("searchResultModal").style.display="none";
 }
 
+// 팝업 배경 클릭 시 닫기
 document.getElementById("boardModal")
-.addEventListener("click", function(e){
-  if(e.target === this){
-    closeModal();
-  }
+  .addEventListener("click", function(e){
+
+    // 배경을 클릭한 경우만 닫기
+    if(e.target === this){
+      closeModal();
+    }
+
 });
 
 function outsideClose(e){
