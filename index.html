@@ -2029,6 +2029,58 @@ box.innerHTML = `
   }
 }
 
+let savedScrollY = 0;
+
+/* 전체 사이트 완전 고정 */
+function lockBodyScroll(){
+  savedScrollY = window.scrollY || window.pageYOffset;
+
+  document.body.style.position = "fixed";
+  document.body.style.top = "-" + savedScrollY + "px";
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+  document.body.style.overflow = "hidden";
+}
+
+/* 원위치 복구 */
+function unlockBodyScroll(){
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  document.body.style.overflow = "";
+
+  window.scrollTo(0, savedScrollY);
+}
+
+/* 이미지 팝업 */
+function openImageModal(url){
+  document.getElementById("modalAdImage").src = url;
+  document.getElementById("imageModal").style.display = "flex";
+  lockBodyScroll();
+}
+
+function closeImageModal(){
+  document.getElementById("imageModal").style.display = "none";
+  document.getElementById("modalAdImage").src = "";
+  unlockBodyScroll();
+}
+
+/* 영상 팝업 */
+function openVideoModal(url){
+  document.getElementById("modalVideo").src = url;
+  document.getElementById("videoModal").style.display = "flex";
+  lockBodyScroll();
+}
+
+function closeVideoModal(){
+  document.getElementById("videoModal").style.display = "none";
+  document.getElementById("modalVideo").src = "";
+  unlockBodyScroll();
+}
+
 </script>
 
 <div class="modal" id="boardModal">
