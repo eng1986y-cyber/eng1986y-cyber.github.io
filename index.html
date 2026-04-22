@@ -1421,7 +1421,7 @@ document.getElementById("videoModal").style.display="none";
 
 let currentPage = 1;
 
-let pageSize = window.innerWidth <= 768 ? 6 : 12;
+let pageSize = 17;
 
 let pageGroup = 1;
 let pageGroupSize = 5;
@@ -1738,7 +1738,7 @@ async function loadBoard(){
     query = query.eq("category", currentCategory);
   }
 
-  const { data: posts } = await query.limit(100);
+  const { data: posts } = await query;
 
   if(!posts) return;
 
