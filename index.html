@@ -328,15 +328,13 @@ animation:shake 0.4s;
 }
 
 .board-card.highlight{
-background:#ffcc00 !important;
-color:#000 !important;
-border-color:#C9A227;
-border:2px solid red !important;
-transform:scale(1.03);
+  background:#ffcc00 !important;
+  border:2px solid #C9A227 !important;
 }
 
-html{
-  overflow-y:scroll;
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 body{
@@ -1056,13 +1054,10 @@ body.modal-lock{
   right:0;
 }
 
-html{
-  overflow-y: scroll;
-}
-
 body.modal-lock {
   position: fixed;
   width: 100%;
+  overflow: hidden;
 }
 
 </style>
@@ -1232,8 +1227,6 @@ function lockBodyScroll(){
 
   document.body.classList.add("modal-lock");
   document.documentElement.classList.add("modal-lock");
-
-  document.body.style.top = `-${savedScrollY}px`;
 }
 
 function unlockBodyScroll(){
