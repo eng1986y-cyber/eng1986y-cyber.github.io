@@ -1093,8 +1093,10 @@ body{
 
 #noticePagination,
 #regionPagination{
-  text-align:center;
-  margin:10px 0 20px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:10px;
 }
 
 </style>
@@ -1218,16 +1220,14 @@ body{
   <div class="board-box">
     <h3>공지글</h3>
     <div id="noticeList" class="board-list"></div>
+    <div id="noticePagination"></div>
   </div>
-
-  <div id="noticePagination"></div>
 
   <div class="board-box">
     <h3>지역정보</h3>
     <div id="regionList" class="board-list"></div>
+    <div id="regionPagination"></div>
   </div>
-
-  <div id="regionPagination"></div>
 
 </div>
 
