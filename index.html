@@ -1777,59 +1777,31 @@ async function loadBoard(){
 
 }
 
-async function boardSearch(){
+function boardSearch(){
 
   const keyword = document
     .getElementById("boardSearchInput")
-    .value.trim();
+    .value
+    .trim()
+    .toLowerCase();
 
-  if(!keyword) return;
+  const items = document.querySelectorAll(".board-list div");
 
-  const { data: posts } = await supabaseClient
-    .from("board_posts")
-    .select("*")
-    .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
-    .order("id",{ascending:false})
-    .limit(20);
+  let found = false;
 
-  if(!posts || posts.length===0){
-    alert("검색 결과 없음");
-    return;
-  }
+  items.forEach(item => {
 
-  const list = document.getElementById("searchResultList");
-  list.innerHTML="";
+    const text = item.innerText.toLowerCase();
 
-  posts.forEach(post=>{
-
-    const div=document.createElement("div");
-    div.style.padding="10px";
-    div.style.borderBottom="1px solid #eee";
-    div.style.cursor="pointer";
-
-    div.innerHTML=`[${post.category}] ${post.title}`;
-
-    div.onclick=()=>{
-
-      closeSearchResult();
-
-      const date = new Date(post.created_at)
-      .toLocaleDateString("ko-KR");
-
-      openModal(
-        post.title,
-        post.content,
-        date,
-        post.views || 0
-      );
-
-    };
-
-    list.appendChild(div);
+    if(keyword === "" || text.includes(keyword)){
+      item.style.display = "block";
+      found = true;
+    } else {
+      item.style.display = "none";
+    }
 
   });
 
-  document.getElementById("searchResultModal").style.display="flex";
 }
 
 function search(){
