@@ -1214,26 +1214,6 @@ margin:0 auto;">
 
 <script>
 
-let savedScrollY = 0;
-
-function lockBodyScroll(){
-  savedScrollY = window.scrollY || window.pageYOffset;
-
-  document.body.classList.add("modal-lock");
-  document.documentElement.classList.add("modal-lock");
-
-  document.body.style.top = `-${savedScrollY}px`;
-}
-
-function unlockBodyScroll(){
-  document.body.classList.remove("modal-lock");
-  document.documentElement.classList.remove("modal-lock");
-
-  document.body.style.top = "";
-
-  window.scrollTo(0, savedScrollY);
-}
-
 let captchaValue = 0;
 
 function generateCaptcha(){
@@ -1269,126 +1249,6 @@ function filterCategory(cat, el){
 
   loadBoard();
 }
-
-function openImageModal(url){
-  const modal = document.getElementById("imageModal");
-  const content = modal.querySelector(".modal-content");
-
-  document.getElementById("modalAdImage").src = url;
-
-  // 화면 높이에 맞춰 높이 조정
-  const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
-  content.style.overflow = "hidden";
-
-  modal.style.display="flex";
-}
-
-function closeImageModal(){
-
-  document.getElementById("imageModal").style.display="none";
-  document.getElementById("modalAdImage").src="";
-}
-
-function openVideoModal(url){
-
-let embed="";
-
-if(!url) return;
-
-/* YouTube */
-if(url.includes("youtube.com") || url.includes("youtu.be")){
-
-let videoId="";
-
-if(url.includes("watch")){
-const params = new URL(url).searchParams;
-videoId = params.get("v");
-}
-else if(url.includes("shorts")){
-videoId = url.split("shorts/")[1];
-}
-else{
-videoId = url.split("/").pop();
-}
-
-embed = "https://www.youtube.com/embed/"+videoId+"?autoplay=1";
-
-}
-
-/* Bilibili */
-else if(url.includes("bilibili.com")){
-
-let bvid = url.split("/video/")[1];
-if(bvid) bvid = bvid.split("?")[0];
-
-embed = "https://player.bilibili.com/player.html?bvid="+bvid+"&autoplay=1";
-
-}
-
-/* iQIYI */
-else if(url.includes("iqiyi.com")){
-
-embed = url;
-
-}
-
-/* Youku */
-else if(url.includes("youku.com")){
-
-embed = url;
-
-}
-
-/* Vimeo */
-else if(url.includes("vimeo.com")){
-
-let id = url.split("/").pop();
-embed = "https://player.vimeo.com/video/"+id+"?autoplay=1";
-
-}
-
-/* mp4 직접영상 */
-else if(url.endsWith(".mp4")){
-
-document.getElementById("modalVideo").outerHTML =
-`<video id="modalVideo" controls autoplay style="width:100%;height:100%">
-<source src="${url}" type="video/mp4">
-</video>`;
-
-document.getElementById("videoModal").style.display="flex";
-
-return;
-
-}
-
-/* 기본 iframe */
-else{
-embed=url;
-}
-
-document.getElementById("modalVideo").src = embed;
-document.getElementById("videoModal").style.display="flex";
-
-}
-
-function closeVideoModal(){
-
-const iframe = document.getElementById("modalVideo");
-
-if(iframe.tagName==="IFRAME"){
-iframe.src="";
-}
-
-document.getElementById("videoModal").style.display="none";
-}
-
-let currentPage = 1;
-
-let pageSize = window.innerWidth <= 768 ? 6 : 12;
-
-let pageGroup = 1;
-let pageGroupSize = 5;
 
 async function loadPagination(){
 
@@ -2019,54 +1879,6 @@ box.innerHTML = `
   }catch(e){
     box.innerText="날씨 오류";
   }
-}
-
-let savedScrollY = 0;
-
-/* 전체 사이트 완전 고정 */
-function lockBodyScroll(){
-  savedScrollY = window.scrollY || window.pageYOffset;
-
-  document.body.style.position = "fixed";
-  document.body.style.top = "-" + savedScrollY + "px";
-  document.body.style.left = "0";
-  document.body.style.right = "0";
-  document.body.style.width = "100%";
-  document.body.style.overflow = "hidden";
-}
-
-/* 원위치 복구 */
-function unlockBodyScroll(){
-  document.body.style.position = "";
-  document.body.style.top = "";
-  document.body.style.left = "";
-  document.body.style.right = "";
-  document.body.style.width = "";
-  document.body.style.overflow = "";
-
-  window.scrollTo(0, savedScrollY);
-}
-
-/* 이미지 팝업 */
-function openImageModal(url){
-  document.getElementById("modalAdImage").src = url;
-  document.getElementById("imageModal").style.display = "flex";
-}
-
-function closeImageModal(){
-  document.getElementById("imageModal").style.display = "none";
-  document.getElementById("modalAdImage").src = "";
-}
-
-/* 영상 팝업 */
-function openVideoModal(url){
-  document.getElementById("modalVideo").src = url;
-  document.getElementById("videoModal").style.display = "flex";
-}
-
-function closeVideoModal(){
-  document.getElementById("videoModal").style.display = "none";
-  document.getElementById("modalVideo").src = "";
 }
 
 </script>
