@@ -1267,6 +1267,9 @@ margin:0 auto;">
 
 <script>
 
+let boardPage = 1;
+const boardPageSize = 17;
+
 let captchaValue = 0;
 
 function generateCaptcha(){
@@ -1290,8 +1293,11 @@ function escapeHTML(str){
 let currentCategory = "전체";
 
 function filterCategory(cat, el){
+
   currentCategory = cat;
-  currentPage = 1;
+
+  boardPage = 1;   // 🔥 추가 필수
+
   pageGroup = 1;
 
   document
@@ -1737,17 +1743,21 @@ async function loadBoard(){
     query = query.eq("category", currentCategory);
   }
 
-  const { data: posts } = await query.limit(100);
+  const { data: posts } = await query;
 
   if(!posts) return;
 
-  posts.forEach(post => {
+  // ===== 페이징 계산 =====
+  const start = (boardPage - 1) * boardPageSize;
+  const end = start + boardPageSize;
+
+  const pagePosts = posts.slice(start, end);
+
+  pagePosts.forEach(post => {
 
     const div = document.createElement("div");
 
-    const text = `[${post.category}] ${post.title}`;
-
-    div.innerText = text;
+    div.innerText = `[${post.category}] ${post.title}`;
 
     div.onclick = () => {
 
@@ -1766,7 +1776,6 @@ async function loadBoard(){
       );
     };
 
-    // 🔥 분리 기준
     if(post.category === "공지" || post.category === "공지글"){
       noticeList.appendChild(div);
     } else {
@@ -1774,6 +1783,60 @@ async function loadBoard(){
     }
 
   });
+
+  renderBoardPagination(posts.length);
+
+}
+
+function renderBoardPagination(total){
+
+  const totalPages = Math.ceil(total / boardPageSize);
+
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = "";
+
+  if(totalPages <= 1) return;
+
+  // 이전
+  if(boardPage > 1){
+    const prev = document.createElement("button");
+    prev.innerText = "◀";
+    prev.onclick = () => {
+      boardPage--;
+      loadBoard();
+    };
+    pagination.appendChild(prev);
+  }
+
+  // 번호
+  for(let i=1;i<=totalPages;i++){
+
+    const btn = document.createElement("button");
+    btn.innerText = i;
+
+    if(i === boardPage){
+      btn.style.background = "#87CEEB";
+      btn.style.color = "#fff";
+    }
+
+    btn.onclick = () => {
+      boardPage = i;
+      loadBoard();
+    };
+
+    pagination.appendChild(btn);
+  }
+
+  // 다음
+  if(boardPage < totalPages){
+    const next = document.createElement("button");
+    next.innerText = "▶";
+    next.onclick = () => {
+      boardPage++;
+      loadBoard();
+    };
+    pagination.appendChild(next);
+  }
 
 }
 
