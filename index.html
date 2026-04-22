@@ -1835,20 +1835,19 @@ function renderBoardPagination(totalCount, type){
       btn.style.background = "#87CEEB";
     }
 
-    btn.onclick = () => {
+btn.onclick = () => {
 
-      if(type === "notice"){
-        noticePage = i;
-      } else {
-        regionPage = i;
-      }
-
-      loadBoard();
-    };
-
-    container.appendChild(btn);
+  if(type === "notice"){
+    noticePage = i;
+    renderBoardList(noticeData, noticeList, noticePage, "notice");
   }
-}
+
+  if(type === "region"){
+    regionPage = i;
+    renderBoardList(regionData, regionList, regionPage, "region");
+  }
+
+};
 
 function boardSearch(){
 
