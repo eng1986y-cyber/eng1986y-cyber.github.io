@@ -1091,6 +1091,12 @@ body{
   }
 }
 
+#noticePagination,
+#regionPagination{
+  text-align:center;
+  margin:10px 0 20px;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1209,19 +1215,19 @@ body{
 
 <div class="board-wrapper">
 
-  <!-- 공지 -->
   <div class="board-box">
     <h3>공지글</h3>
     <div id="noticeList" class="board-list"></div>
-    <div id="noticePagination"></div>
   </div>
 
-  <!-- 지역 -->
+  <div id="noticePagination"></div>
+
   <div class="board-box">
     <h3>지역정보</h3>
     <div id="regionList" class="board-list"></div>
-    <div id="regionPagination"></div>
   </div>
+
+  <div id="regionPagination"></div>
 
 </div>
 
