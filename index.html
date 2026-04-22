@@ -166,7 +166,7 @@
   display:flex;
   flex-direction:column;
   gap:10px;
-  z-index:9000;
+  z-index:9999;
 }
 
 .floating-right .float-btn{
@@ -292,7 +292,7 @@
   background:rgba(0,0,0,0.6);
   justify-content:center;
   align-items:center;
-  z-index:20000;
+  z-index:9999;
 }
 
 .modal-content{
@@ -1178,7 +1178,7 @@ color:#cfcfcf;
 display:block;
 margin-top:8px;
 ">
-延吉 / 珲春 / 图们 / 龙井 / 和龙 / 安图 / 敦化 / 汪清等 商家信息一站式查询
+延吉 / 珲春 / 图们 / 龙井商家信息一站式查询
 </span>
 </h1>
 
@@ -1250,13 +1250,14 @@ function openImageModal(url){
   content.style.overflow = "hidden";
 
   modal.style.display="flex";
+  document.body.style.overflow="hidden";
 }
 
 function closeImageModal(){
 
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
-
+  document.body.style.overflow="auto";
 }
 
 function openVideoModal(url){
@@ -1326,6 +1327,7 @@ document.getElementById("modalVideo").outerHTML =
 </video>`;
 
 document.getElementById("videoModal").style.display="flex";
+document.body.style.overflow="hidden";
 
 return;
 
@@ -1350,7 +1352,7 @@ iframe.src="";
 }
 
 document.getElementById("videoModal").style.display="none";
-
+document.body.style.overflow="auto";
 }
 
 let currentPage = 1;
