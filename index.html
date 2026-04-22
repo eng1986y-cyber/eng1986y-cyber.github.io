@@ -1046,14 +1046,15 @@ body{
   display:flex;
   gap:12px;
   margin-top:60px;
+  align-items:stretch;
 }
 
 .board-box{
+  flex:1;
   background:#fff;
   border:1px solid #ddd;
   border-radius:12px;
   padding:12px;
-
   height:600px;
 
   display:flex;
@@ -1061,7 +1062,8 @@ body{
 }
 
 .board-list{
-  flex:1;
+  min-height:0;
+  flex-grow:1;
   overflow-y:auto;
 }
 
@@ -1101,8 +1103,8 @@ body{
 #noticePagination,
 #regionPagination{
   margin-top:auto;
-  text-align:center;
   padding-top:10px;
+  text-align:center;
 }
 
 </style>
