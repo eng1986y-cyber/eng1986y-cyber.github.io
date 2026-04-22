@@ -1092,7 +1092,6 @@ body{
 }
 
 </style>
-
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
 
@@ -1244,7 +1243,7 @@ color:#cfcfcf;
 display:block;
 margin-top:8px;
 ">
-延吉 / 珲春 / 图们 / 龙井 / 汪清 / 安图 / 图们 / 和龙等 商家信息一站式查询
+延吉 / 珲春 / 图们 / 龙井商家信息一站式查询
 </span>
 </h1>
 
@@ -1421,7 +1420,7 @@ document.getElementById("videoModal").style.display="none";
 
 let currentPage = 1;
 
-let pageSize = window.innerWidth <= 768 ? 6 : 12;
+let pageSize = 17;
 
 let pageGroup = 1;
 let pageGroupSize = 5;
@@ -1473,8 +1472,7 @@ const { count } = await query;
       currentPage=i;
       loadBoard();
 
-      document.getElementById("boardSection").scrollIntoView({
-        behavior:"smooth"
+      window.scrollTo({ top: 0, behavior: "smooth" });
       });
     };
 
@@ -1738,7 +1736,7 @@ async function loadBoard(){
     query = query.eq("category", currentCategory);
   }
 
-  const { data: posts } = await query.limit(100);
+  const { data: posts } = await query;
 
   if(!posts) return;
 
