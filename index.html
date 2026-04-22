@@ -1815,72 +1815,45 @@ function renderBoardList(list, target, page, type){
 renderBoardPagination(list.length, type, list, target);
 }
 
-function renderBoardPagination(totalCount, type){
+function renderBoardPagination(totalCount, type, list, target){
 
-  let container =
-    type === "notice"
-    ? document.getElementById("noticePagination")
-    : document.getElementById("regionPagination");
+  let container;
+
+  if(type === "notice"){
+    container = document.getElementById("noticePagination");
+  } else {
+    container = document.getElementById("regionPagination");
+  }
 
   container.innerHTML = "";
 
   const totalPages = Math.ceil(totalCount / boardPageSize);
-  const current = type === "notice" ? noticePage : regionPage;
 
-  const groupSize = 10;
-  const currentGroup = Math.ceil(current / groupSize);
-
-  const startPage = (currentGroup - 1) * groupSize + 1;
-  const endPage = Math.min(startPage + groupSize - 1, totalPages);
-
-  // 이전 그룹
-  if(startPage > 1){
-    const prev = document.createElement("button");
-    prev.innerText = "<";
-
-    prev.onclick = () => {
-      if(type === "notice") noticePage = startPage - 1;
-      else regionPage = startPage - 1;
-
-      loadBoard();
-    };
-
-    container.appendChild(prev);
-  }
-
-  // 페이지 번호
-  for(let i=startPage; i<=endPage; i++){
+  for(let i=1; i<=totalPages; i++){
 
     const btn = document.createElement("button");
     btn.innerText = i;
 
-    if(i === current){
+    if(type === "notice" && i === noticePage) {
+      btn.style.background = "#87CEEB";
+    }
+
+    if(type === "region" && i === regionPage) {
       btn.style.background = "#87CEEB";
     }
 
     btn.onclick = () => {
-      if(type === "notice") noticePage = i;
-      else regionPage = i;
 
-      loadBoard();
+      if(type === "notice"){
+        noticePage = i;
+      } else {
+        regionPage = i;
+      }
+
+      renderBoardList(list, target, type === "notice" ? noticePage : regionPage, type);
     };
 
     container.appendChild(btn);
-  }
-
-  // 다음 그룹
-  if(endPage < totalPages){
-    const next = document.createElement("button");
-    next.innerText = ">";
-
-    next.onclick = () => {
-      if(type === "notice") noticePage = endPage + 1;
-      else regionPage = endPage + 1;
-
-      loadBoard();
-    };
-
-    container.appendChild(next);
   }
 }
 
