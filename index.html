@@ -1049,12 +1049,19 @@ body{
 }
 
 .board-box{
-  flex:1;
   background:#fff;
   border:1px solid #ddd;
   border-radius:12px;
   padding:12px;
+
   height:600px;
+
+  display:flex;
+  flex-direction:column;
+}
+
+.board-list{
+  flex:1;
   overflow-y:auto;
 }
 
@@ -1093,10 +1100,9 @@ body{
 
 #noticePagination,
 #regionPagination{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-top:10px;
+  margin-top:auto;
+  text-align:center;
+  padding-top:10px;
 }
 
 </style>
