@@ -1420,7 +1420,7 @@ document.getElementById("videoModal").style.display="none";
 
 let currentPage = 1;
 
-let pageSize = 17;
+let pageSize = window.innerWidth <= 768 ? 6 : 12;
 
 let pageGroup = 1;
 let pageGroupSize = 5;
@@ -1472,7 +1472,8 @@ const { count } = await query;
       currentPage=i;
       loadBoard();
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      document.getElementById("boardSection").scrollIntoView({
+        behavior:"smooth"
       });
     };
 
@@ -1736,7 +1737,7 @@ async function loadBoard(){
     query = query.eq("category", currentCategory);
   }
 
-  const { data: posts } = await query;
+  const { data: posts } = await query.limit(100);
 
   if(!posts) return;
 
