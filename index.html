@@ -1042,6 +1042,18 @@ body{
   to{ transform:translateX(100%); }
 }
 
+body.modal-lock{
+  position:fixed !important;
+  overflow:hidden !important;
+  width:100%;
+  left:0;
+  right:0;
+}
+
+html.modal-lock{
+  overflow:hidden !important;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1202,6 +1214,26 @@ margin:0 auto;">
 
 <script>
 
+let savedScrollY = 0;
+
+function lockBodyScroll(){
+  savedScrollY = window.scrollY || window.pageYOffset;
+
+  document.body.classList.add("modal-lock");
+  document.documentElement.classList.add("modal-lock");
+
+  document.body.style.top = `-${savedScrollY}px`;
+}
+
+function unlockBodyScroll(){
+  document.body.classList.remove("modal-lock");
+  document.documentElement.classList.remove("modal-lock");
+
+  document.body.style.top = "";
+
+  window.scrollTo(0, savedScrollY);
+}
+
 let captchaValue = 0;
 
 function generateCaptcha(){
@@ -1250,16 +1282,13 @@ function openImageModal(url){
   content.style.overflow = "hidden";
 
   modal.style.display="flex";
-  lockBodyScroll();
-  document.body.style.overflow="hidden";
 }
 
 function closeImageModal(){
 
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
-  document.body.style.overflow="auto";
-  unlockBodyScroll();
+
 }
 
 function openVideoModal(url){
@@ -1329,8 +1358,6 @@ document.getElementById("modalVideo").outerHTML =
 </video>`;
 
 document.getElementById("videoModal").style.display="flex";
-document.body.style.overflow="hidden";
-lockBodyScroll();
 
 return;
 
@@ -1355,8 +1382,7 @@ iframe.src="";
 }
 
 document.getElementById("videoModal").style.display="none";
-document.body.style.overflow="auto";
-unlockBodyScroll();
+
 }
 
 let currentPage = 1;
