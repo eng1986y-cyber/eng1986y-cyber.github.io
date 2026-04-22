@@ -10,17 +10,16 @@
 
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <title>延边信息搜索网_延边生活信息平台_연변정보공유 플랫폼</title>
 
 <!-- SEO -->
 <meta name="keywords" content="延边信息搜索,延边生活信息,延边招聘,延边房产,延边二手市场,延边网站导航,延边朝鲜族信息平台">
-<meta name="description" content="延边信息搜索网 제공. 연변 생활정보, 구인구직, 부동산, 중고거래, 광고홍보, 지역게시판 플랫폼.">
+<meta name="description" content="延边信息搜索网 제공. 연변 생활정보, 구인구직, 부동산, 중고거래, 광고홍보, 지역게시판, 연길 훈춘 도문 룡정 왕청 돈화 안도 지역정보 제공 플랫폼.">
 <meta name="robots" content="index,follow">
 <meta name="author" content="yb365.info">
 <meta http-equiv="content-language" content="zh-CN,ko-KR">
 
-<!-- OG -->
+<!-- Open Graph -->
 <meta property="og:title" content="延边信息搜索网">
 <meta property="og:description" content="延边生活信息, 招聘, 房产, 二手市场, 地区交流平台">
 <meta property="og:image" content="https://puevyaupeytllaquecoc.supabase.co/storage/v1/object/public/yb365/banner_09d95650-0a7c-4262-b553-5119a5d82751_YB365INFO_BANER_B.jpg">
@@ -28,8 +27,1024 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
 
-<link rel="canonical" href="https://yb365.info">
+<style>
+
+.video-modal-box .modal-close{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  cursor:pointer;
+  z-index:10;
+  backdrop-filter:blur(4px);
+}
+
+.video-modal-box{
+  position:relative;   /* 이거 중요 */
+}
+
+.board-category{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.board-category button{
+  border:1px solid #ddd;
+  background:white;
+  padding:6px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.board-category button:hover{
+  background:#87CEEB;
+  color:white;
+}
+
+.board-category button.active{
+  background:#87CEEB;
+  color:white;
+  border-color:#87CEEB;
+}
+
+.video-modal-box{
+  max-width: 400px;   /* 필요하면 카드보다 넓게 */
+  width:90%;
+  max-height:90vh;
+  overflow:hidden;    /* 스크롤 제거 */
+}
+
+.video-container{
+  position:relative;
+  padding-bottom:177.78%; /* 16:9 영상이 세로일 경우 → 세로가 가로의 16/9배 */
+  height:0;
+}
+
+.video-container iframe,
+.video-container video{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border-radius:10px;
+}
+
+/* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
+.video-modal-box{
+  width:90%;
+  max-width:600px;
+  max-height:80vh;
+  overflow:hidden;
+  padding:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.video-container{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+
+.video-container iframe,
+.video-container video{
+  width:100%;
+  height:100%;
+  border-radius:10px;
+  object-fit:contain; /* 원본 비율 유지, 카드 밖 튀어나오지 않음 */
+}
+
+.image-modal-box{
+  position:relative;
+  max-width:800px;
+  text-align:center;
+}
+
+#modalAdImage{
+  width:100%;
+  max-width:90vw;
+  max-height:80vh;
+  object-fit:contain;
+  border-radius:10px;
+}
+
+.image-modal-box .modal-close{
+  position:absolute;
+  top:10px;
+  right:12px;
+  font-size:22px;
+  cursor:pointer;
+  background:#fff;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* 오른쪽 플로팅 메뉴 */
+.floating-right{
+  position:fixed;
+  right:calc((100vw - 1200px)/2 - 70px);
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:9999;
+}
+
+.floating-right .float-btn{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:none;
+  background:#111;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+@media(max-width:768px){
+  .floating-right{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    transform:none;
+
+    flex-direction:row;
+    justify-content:space-around;
+    align-items:center;
+
+    width:100%;
+    padding:6px 0;
+
+    background:#111;
+    box-shadow:0 -4px 10px rgba(0,0,0,0.2);
+    z-index:9999;
+  }
+}
+
+#pagination button{
+  margin:4px;
+  padding:6px 12px;
+  width:auto;
+  height:auto;
+  border:none;
+  border-radius:6px;
+  background:#eee;
+  color:#000;
+  cursor:pointer;
+  box-shadow:none;
+  transform:none;
+}
+
+#pagination button:hover{
+  background:#87CEEB;
+  color:#fff;
+}
+
+/* ===== 게시판 그리드 ===== */
+
+.board-section{
+  margin-top:60px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+
+  column-gap:5px;   /* 좌우 간격 유지 */
+  row-gap:2px;      /* 상하 간격만 축소 */
+
+  height:600px;
+  overflow-y:auto;
+}
+
+.board-card{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:8px;
+  cursor:pointer;
+  transition:0.2s;
+  height:92px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
+.board-card:hover{
+  border-color:#E2C65C;
+}
+
+.board-card h3{
+  margin:0 0 4px;
+  font-size:12px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.board-preview{
+  font-size:11px;
+  color:#666;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+}
+
+.captcha-box{
+  margin-top:5px;
+}
+
+#captchaQuestion{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:3px;
+  color:#333;
+}
+
+/* ===== 팝업 ===== */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content{
+  background:#fff;
+  width:90%;            /* PC/태블릿 공통 */
+  max-width:600px;
+  height:auto;          /* 높이 자동 */
+  max-height:90vh;      /* 화면 90%까지만 */
+  overflow:hidden;      /* 스크롤 제거 */
+  border-radius:14px;
+  padding:25px;
+  position:relative;
+}
+
+.modal-close{
+  position:absolute;
+  top:12px;
+  right:15px;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* 모바일 2열 */
+@media(max-width:768px){
+  .board-section{
+    grid-template-columns:repeat(2,1fr);
+    column-gap:5px; /* 좌우 유지 */
+    row-gap:2px;    /* 상하 축소 */
+    max-height:420px;
+    overflow-y:auto;
+  }
+}
+
+.board-card.highlight{
+  background:#E2C65C;
+  color:#fff;
+  border-color:#C9A227;
+}
+
+body{
+  margin:0;
+  padding:20px;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    "Microsoft YaHei",
+    "PingFang SC",
+    "Hiragino Sans",
+    "Yu Gothic",
+    Arial,
+    sans-serif;
+
+  background:#f5f5f5;
+  overflow-y:scroll;
+}
+
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  width:100%;
+}
+
+/* 검색 */
+.search-box{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+  margin-bottom:30px;
+}
+
+.search-box input{
+  width:320px;
+  height:46px;
+  padding:0 12px;
+  border:2px solid #87CEEB;
+  border-radius:6px;
+  font-size:16px;
+  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
+  color:#222;
+}
+
+.search-box input::placeholder{
+  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
+  color:#888;
+}
+
+.search-box button{
+  width:120px;
+  font-weight:600;
+  height:46px;
+  border:none;
+  border-radius:6px;
+  background:#87CEEB;
+  color:#fff;
+  cursor:pointer;
+}
+
+.search-box button:hover{
+  background:#6bbfe0;
+}
+
+@media(max-width:768px){
+  .search-box{
+    flex-direction:column;
+  }
+
+  .search-box input,
+  .search-box button{
+    width:100%;
+    height:48px;
+    box-sizing:border-box;
+  }
+
+  .search-box button{
+    margin-top:8px;
+  }
+}
+
+/* 배너 */
+
+.top-banner{
+  position:relative;
+  width:100%;
+  max-width:1200px;
+  height:240px;
+  margin:20px auto 30px;
+  border-radius:14px;
+  overflow:hidden;
+  display:block;
+}
+
+.top-banner img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  margin:0 auto;
+  transition:transform 0.4s ease;
+}
+
+@media(max-width:768px){
+  .top-banner{
+    display:none;
+  }
+}
+
+/* 그리드 */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+  margin-bottom:40px;
+}
+
+/* 일반 이미지 광고 */
+.img-ad{
+  height:100px;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #ddd;
+}
+
+.img-ad img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* 텍스트 광고 */
+.text-ad{
+  background:#fff;
+  border:1px solid #ccc;
+  padding:12px;
+  text-align:center;
+  border-radius:8px;
+  text-decoration:none;
+  color:#222;
+  transition:0.2s;
+}
+
+.text-ad:hover{
+  background:#87CEEB;
+  color:#fff;
+}
+
+/* 정방형 광고 */
+.square-ad{
+  aspect-ratio:1/1;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #ddd;
+}
+
+.square-ad img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.sns-video{
+  aspect-ratio:4/5;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #ddd;
+}
+
+.sns-video img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+/* ===== 소유자 영역 ===== */
+.owner-box{
+  margin-top:60px;
+  padding:25px;
+  border-radius:11px;
+  text-align:center;
+  position:relative;
+}
+
+.owner-name{
+  font-family: 'Bahnschrift Light', serif;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:2px;
+  margin-bottom:11px;
+  color:#222;
+  position:relative;
+  display:inline-block;
+}
+
+.owner-sns{
+  position:static;
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.owner-sns a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #87CEEB;
+  color:#87CEEB;
+  font-size:16px;
+  text-decoration:none;
+  transition:all 0.3s ease;
+}
+
+.owner-sns a:hover{
+  background:#87CEEB;
+  color:#fff;
+  transform:translateY(-4px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+
+/* ================= 모바일 전용 ================= */
+
+@media (max-width:768px){
+
+  body{
+    padding:15px;
+  }
+
+  .board-card{
+    height:85px;
+  }
+
+  .top-banner{
+    height:90px;
+    margin:15px auto 25px;
+  }
+
+  .search-box input,
+  .search-box button{
+    width:100%;
+    height:48px;
+    box-sizing:border-box;
+  }
+
+  .search-box button{
+    margin:8px 0 0 0;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+  }
+
+  .img-ad{
+    height:90px;
+  }
+
+  .text-ad{
+    font-size:14px;
+    padding:10px;
+  }
+
+  .owner-box{
+    margin-top:40px;
+    padding:18px;
+    position:relative;
+  }
+
+  .owner-name{
+    font-size:11px;
+  }
+
+  .owner-sns a{
+    width:30px;
+    height:30px;
+    font-size:16px;
+    margin:0 6px;
+  }
+
+  #topBtn{
+    left:auto;
+    right:15px;
+    margin-left:0;
+  }
+
+}
+
+  /* ===== 모바일 플로팅 네비 ===== */
+
+  .mobile-nav button:active{
+    transform:scale(0.95);
+  }
+
+.ad-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 자식 요소들 수평 중앙 정렬 */
+}
+
+.ad-title {
+  margin-top: 10px;
+  font-family: 'HYGraphicM', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #222;
+  text-align: center;
+  width:100%;
+  display:block;
+}
+
+@keyframes glow{
+  from{ box-shadow:0 0 0px rgba(135,206,235,0); }
+  to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
+}
+
+.ad-title{
+  text-decoration:none;
+}
+
+.img-ad a,
+.square-ad a{
+  text-decoration:none;
+}
+
+.img-ad a,
+.square-ad a,
+.ad-title{
+  text-decoration:none !important;
+}
+
+.ad-item.highlight{
+  background:transparent !important;
+}
+
+/* 이미지 광고 검색 결과 */
+.ad-item.highlight .ad-title{
+  background:#E2C65C !important;
+  border-radius:8px;
+  padding:6px 0;
+}
+
+/* 텍스트 광고 검색 결과 */
+.text-ad.highlight{
+  background:#E2C65C !important;   /* 겨자색 */
+  color:#fff !important;
+  border-color:#C9A227 !important;
+}
+
+.site-description{
+  margin-top:60px;
+  padding:30px;
+  background:#ffffff;
+  border-radius:12px;
+  border:1px solid #ddd;
+  text-align:center;
+  font-size:15px;
+  color:#444;
+  line-height:1.7;
+}
+
+/* 기본은 숨김 (PC에서는 안보임) */
+.mobile-adsense{
+  display:none;
+  margin:20px 0;
+}
+
+/* 모바일에서만 노출 */
+@media (max-width:768px){
+  .mobile-adsense{
+    display:block;
+  }
+}
+
+.board-search{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-bottom:10px;
+}
+
+.board-search input{
+  width:180px;
+  height:32px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  padding:0 8px;
+  font-size:16px;   /* 13px → 16px */
+}
+
+.board-search button{
+  height:32px;
+  padding:0 10px;
+  border:none;
+  border-radius:6px;
+  background:#87CEEB;
+  color:#fff;
+  cursor:pointer;
+  font-size:13px;
+}
+
+@media (max-width:768px){
+
+  input, textarea, select{
+    font-size:16px;
+  }
+
+}
+
+.write-btn{
+  margin:10px 0;
+  padding:8px 16px;
+  background:#87CEEB;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  color:#fff;
+}
+
+.write-modal{
+  position:fixed;        /* 🔥 핵심 */
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+
+  background:rgba(0,0,0,0.5);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:9999;          /* 🔥 위로 올림 */
+}
+
+.write-box{
+  background:white;
+  padding:20px;
+  width:400px;
+  border-radius:10px;
+}
+
+.write-box input,
+.write-box textarea,
+.write-box select{
+  width:100%;
+  margin-bottom:10px;
+  padding:8px;
+}
+
+.board-top{
+  display:flex;
+  align-items:center;        /* ← 핵심 */
+  justify-content:center;    /* 카테고리 중앙 */
+  position:relative;
+}
+
+.board-category{
+  display:flex;
+  gap:8px;
+}
+
+.write-btn{
+  position:absolute;
+  right:0;
+}
+
+.board-category button.active{
+  background:#333;
+  color:#fff;
+}
+
+@media (max-width:768px){
+
+  .board-top{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .write-btn{
+    position:static;      /* absolute 제거 */
+    width:100%;
+  }
+
+  .board-category{
+    justify-content:flex-start;
+    flex-wrap:wrap;       /* 줄바꿈 */
+  }
+
+}
+
+/* 배경 */
+.write-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+/* 박스 */
+.write-box{
+  width:420px;
+  max-width:90%;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.2);
+  overflow:hidden;
+  animation:fadeUp 0.25s ease;
+}
+
+/* 애니메이션 */
+@keyframes fadeUp{
+  from{transform:translateY(20px); opacity:0;}
+  to{transform:translateY(0); opacity:1;}
+}
+
+/* 헤더 */
+.write-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px;
+  border-bottom:1px solid #eee;
+}
+
+.write-header h2{
+  font-size:18px;
+  margin:0;
+}
+
+.close-btn{
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* 바디 */
+.write-body{
+  padding:20px;
+}
+
+.write-body label{
+  display:block;
+  font-size:13px;
+  margin-bottom:6px;
+  color:#555;
+}
+
+/* 입력 공통 */
+.write-body input,
+.write-body textarea,
+.write-body select{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+
+  border-radius:8px;
+  border:1px solid #ddd;
+
+  font-size:16px;
+
+  box-sizing:border-box;   /* ✅ 핵심 */
+}
+
+/* 포커스 효과 */
+.write-body input:focus,
+.write-body textarea:focus,
+.write-body select:focus{
+  border-color:#87CEEB;
+  box-shadow:0 0 0 3px rgba(135,206,235,0.2);
+  outline:none;
+}
+
+/* textarea 크기 */
+.write-body textarea{
+  height:120px;
+  resize:none;
+}
+
+/* 푸터 */
+.write-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:15px 20px;
+  border-top:1px solid #eee;
+}
+
+/* 버튼 */
+.cancel-btn{
+  background:#eee;
+  border:none;
+  padding:8px 16px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.submit-btn{
+  background:#87CEEB;
+  color:#fff;
+  border:none;
+  padding:8px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:500;
+}
+
+/* 버튼 hover */
+.submit-btn:hover{
+  background:#6bbfe0;
+  transform:translateY(-1px);
+}
+
+.cancel-btn:hover{
+  background:#ddd;
+}
+
+.adsense-block{
+  margin:20px 0;
+  text-align:center;
+}
+
+.search-logo{
+  height:46px;
+  width:auto;
+  border-radius:6px;
+}
+
+.weather-box{
+  position:absolute;
+  top:8px;
+  right:10px;
+  background:rgba(0,0,0,0.55);
+  color:#fff;
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:12px;
+  z-index:10;
+}
+
+/* ===== 배너 날씨 효과 ===== */
+
+.top-banner.rain::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/7Qp5ZkR.png'); /* 비 이미지 */
+  opacity:0.3;
+  pointer-events:none;
+  animation:rainMove 0.5s linear infinite;
+}
+
+@keyframes rainMove{
+  from{ background-position:0 0; }
+  to{ background-position:-100px 200px; }
+}
+
+/* 눈 */
+.top-banner.snow::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/V4RclNb.png'); /* 눈 이미지 */
+  opacity:0.5;
+  pointer-events:none;
+  animation:snowMove 5s linear infinite;
+}
+
+@keyframes snowMove{
+  from{ background-position:0 0; }
+  to{ background-position:0 300px; }
+}
+
+/* 번개 */
+.top-banner.thunder{
+  animation:flash 3s infinite;
+}
+
+@keyframes flash{
+  0%,95%,100%{ filter:brightness(1); }
+  96%{ filter:brightness(2.5); }
+  97%{ filter:brightness(1); }
+}
+
+/* 바람 */
+.top-banner.wind::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation:windMove 2s linear infinite;
+}
+
+@keyframes windMove{
+  from{ transform:translateX(-100%); }
+  to{ transform:translateX(100%); }
+}
+
+</style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
+<link rel="canonical" href="https://yb365.info">
 
 <script type="application/ld+json">
 {
@@ -44,551 +1059,46 @@
  }
 }
 </script>
-
-<style>
-
-/* =========================
-기본
-========================= */
-*{box-sizing:border-box;}
-
-body{
-  margin:0;
-  padding:20px;
-  background:#f5f5f5;
-  overflow-y:scroll;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Apple SD Gothic Neo",
-    "Malgun Gothic",
-    "Microsoft YaHei",
-    Arial,
-    sans-serif;
-}
-
-.container{
-  max-width:1200px;
-  margin:0 auto;
-  width:100%;
-}
-
-/* 팝업 열리면 사이트 고정 */
-body.modal-open{
-  overflow:hidden !important;
-  height:100vh !important;
-  touch-action:none;
-}
-
-/* =========================
-검색
-========================= */
-.search-box{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-  margin-bottom:30px;
-}
-
-.search-logo{
-  height:46px;
-  width:auto;
-  border-radius:6px;
-}
-
-.search-box input{
-  width:320px;
-  height:46px;
-  padding:0 12px;
-  border:2px solid #87CEEB;
-  border-radius:6px;
-  font-size:16px;
-}
-
-.search-box button{
-  width:120px;
-  height:46px;
-  border:none;
-  border-radius:6px;
-  background:#87CEEB;
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.search-box button:hover{
-  background:#6bbfe0;
-}
-
-/* =========================
-배너
-========================= */
-.top-banner{
-  position:relative;
-  width:100%;
-  max-width:1200px;
-  height:240px;
-  margin:20px auto 30px;
-  border-radius:14px;
-  overflow:hidden;
-}
-
-.top-banner img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.weather-box{
-  position:absolute;
-  top:8px;
-  right:10px;
-  background:rgba(0,0,0,.55);
-  color:#fff;
-  padding:4px 8px;
-  border-radius:6px;
-  font-size:12px;
-  z-index:10;
-}
-
-/* =========================
-광고 그리드
-========================= */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:10px;
-  margin-bottom:40px;
-}
-
-.ad-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-.ad-title{
-  margin-top:10px;
-  font-size:15px;
-  color:#222;
-  text-align:center;
-  text-decoration:none;
-  width:100%;
-}
-
-.img-ad,
-.square-ad,
-.sns-video{
-  width:100%;
-  overflow:hidden;
-  border-radius:12px;
-  border:1px solid #ddd;
-}
-
-.img-ad{height:100px;}
-.square-ad{aspect-ratio:1/1;}
-.sns-video{aspect-ratio:4/5;}
-
-.img-ad img,
-.square-ad img,
-.sns-video img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  cursor:pointer;
-}
-
-.text-ad{
-  background:#fff;
-  border:1px solid #ccc;
-  padding:12px;
-  text-align:center;
-  border-radius:8px;
-  text-decoration:none;
-  color:#222;
-}
-
-.text-ad:hover{
-  background:#87CEEB;
-  color:#fff;
-}
-
-/* =========================
-게시판
-========================= */
-.board-search{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  margin-bottom:10px;
-}
-
-.board-search input{
-  width:180px;
-  height:32px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  padding:0 8px;
-}
-
-.board-search button{
-  height:32px;
-  padding:0 10px;
-  border:none;
-  border-radius:6px;
-  background:#87CEEB;
-  color:#fff;
-  cursor:pointer;
-}
-
-.board-top{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-.board-category{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.board-category button{
-  border:1px solid #ddd;
-  background:#fff;
-  padding:6px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:13px;
-}
-
-.board-category button.active{
-  background:#333;
-  color:#fff;
-}
-
-.write-btn{
-  position:absolute;
-  right:0;
-  padding:8px 16px;
-  background:#87CEEB;
-  color:#fff;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.board-section{
-  margin-top:60px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-  height:600px;
-  overflow-y:auto;
-}
-
-.board-card{
-  background:#fff;
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:8px;
-  height:92px;
-  overflow:hidden;
-  cursor:pointer;
-}
-
-.board-card:hover{
-  border-color:#E2C65C;
-}
-
-.board-card h3{
-  margin:0 0 4px;
-  font-size:12px;
-}
-
-.board-preview{
-  font-size:11px;
-  color:#666;
-}
-
-/* =========================
-모달 공통
-========================= */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.modal-content{
-  background:#fff;
-  width:90%;
-  max-width:600px;
-  max-height:90vh;
-  overflow:hidden;
-  border-radius:14px;
-  padding:25px;
-  position:relative;
-}
-
-.modal-close{
-  position:absolute;
-  top:12px;
-  right:15px;
-  font-size:20px;
-  cursor:pointer;
-}
-
-/* =========================
-이미지 모달
-========================= */
-.image-modal-box{
-  max-width:800px;
-  text-align:center;
-}
-
-#modalAdImage{
-  width:100%;
-  max-width:90vw;
-  max-height:80vh;
-  object-fit:contain;
-}
-
-/* =========================
-영상 모달
-========================= */
-.video-modal-box{
-  width:90%;
-  max-width:600px;
-  padding:0;
-}
-
-.video-container{
-  position:relative;
-  width:100%;
-  height:80vh;
-}
-
-.video-container iframe,
-.video-container video{
-  width:100%;
-  height:100%;
-  border:0;
-}
-
-/* =========================
-글쓰기 모달
-========================= */
-.write-modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.write-box{
-  width:420px;
-  max-width:90%;
-  background:#fff;
-  border-radius:16px;
-  overflow:hidden;
-}
-
-.write-header,
-.write-footer{
-  padding:18px 20px;
-  border-bottom:1px solid #eee;
-}
-
-.write-body{
-  padding:20px;
-}
-
-.write-body input,
-.write-body textarea,
-.write-body select{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  font-size:16px;
-}
-
-.write-body textarea{
-  height:120px;
-  resize:none;
-}
-
-.write-footer{
-  border-top:1px solid #eee;
-  border-bottom:none;
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-}
-
-/* =========================
-모바일
-========================= */
-@media(max-width:768px){
-
-body{padding:15px;}
-
-.search-box{
-  flex-direction:column;
-}
-
-.search-box input,
-.search-box button{
-  width:100%;
-}
-
-.top-banner{
-  display:none;
-}
-
-.grid{
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-
-.board-section{
-  grid-template-columns:repeat(2,1fr);
-  max-height:420px;
-}
-
-.board-top{
-  flex-direction:column;
-  gap:10px;
-  align-items:stretch;
-}
-
-.write-btn{
-  position:static;
-  width:100%;
-}
-
-}
-
-</style>
-
 </head>
+
 <body>
 
 <div class="container">
 
-<!-- 검색 -->
 <div class="search-box">
+
   <img id="searchLogo" class="search-logo" src="">
+
   <input id="searchInput" placeholder="검색어 입력 / 输入关键词">
   <button onclick="search()">검색</button>
+
 </div>
 
-<!-- 애드센스 -->
 <div id="adsenseArea"></div>
 
-<!-- 상단배너 -->
 <div class="top-banner" id="topBanner">
   <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
 </div>
 
-<!-- 광고 영역 -->
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
 <div class="grid" id="bottomImageAds"></div>
 <div class="grid" id="snsVideoAds"></div>
 
-<!-- 게시판 검색 -->
+<!-- 게시판 전용 검색 -->
+
 <div class="board-search">
-  <input id="boardSearchInput" placeholder="게시판 검색">
+<input id="boardSearchInput"
+       placeholder="게시판 검색">
   <button onclick="boardSearch()">검색</button>
 </div>
 
-<!-- 글쓰기 버튼 + 카테고리 -->
-<div class="board-top">
-
-  <div class="board-category" id="boardCategoryBar">
-    <button onclick="filterCategory('전체',this)">전체</button>
-    <button onclick="filterCategory('연길',this)">연길</button>
-    <button onclick="filterCategory('훈춘',this)">훈춘</button>
-    <button onclick="filterCategory('화룡',this)">화룡</button>
-    <button onclick="filterCategory('룡정',this)">룡정</button>
-    <button onclick="filterCategory('왕청',this)">왕청</button>
-    <button onclick="filterCategory('도문',this)">도문</button>
-    <button onclick="filterCategory('돈화',this)">돈화</button>
-    <button onclick="filterCategory('안도',this)">안도</button>
-    <button onclick="filterCategory('불편신고',this)">불편신고</button>
-  </div>
-
-  <button class="write-btn" onclick="openWritePost()">글쓰기</button>
-
-</div>
-
-<!-- 게시판 -->
-<div class="board-section" id="boardSection"></div>
-
-<!-- 페이지네이션 -->
-<div id="pagination" style="margin-top:20px;text-align:center;"></div>
-
-<!-- 소개문구 -->
-<div class="site-description" id="siteDescription"></div>
-
-<!-- 하단 텍스트 -->
-<h1 style="
-font-size:12px;
-font-weight:700;
-line-height:1.6;
-text-align:center;
-margin:18px 0;
-color:#e0e0e0;">
-延边信息搜索平台<br>
-<span style="
-font-size:12px;
-font-weight:500;
-color:#cfcfcf;
-display:block;
-margin-top:8px;">
-延吉 / 珲春 / 图们 / 龙井商家信息一站式查询
-</span>
-</h1>
-
-<div style="
-padding:0 20px 20px;
-font-size:12px;
-color:#d5d5d5;
-line-height:1.8;
-text-align:center;
-max-width:700px;
-margin:0 auto;">
-延边信息搜索平台，提供商家信息等延边地区综合生活信息查询服务。
-</div>
-
-<!-- 운영자 -->
-<div class="owner-box">
-  <div class="owner-name" id="ownerName"></div>
-  <div class="owner-sns" id="ownerSNS"></div>
-</div>
-
-<!-- =========================
-글쓰기 팝업
-========================= -->
-<div id="writeModal" class="write-modal">
+<div id="writeModal" class="write-modal" style="display:none;">
   <div class="write-box">
 
     <div class="write-header">
       <h2>지역별로 정보등록해주세요</h2>
-      <span class="modal-close" onclick="closeWritePost()">✕</span>
+      <span onclick="closeWritePost()" class="close-btn">✕</span>
     </div>
 
     <div class="write-body">
@@ -607,104 +1117,101 @@ margin:0 auto;">
       </select>
 
       <label>제목</label>
-      <input id="userPostTitle" placeholder="제목 입력">
+      <input id="userPostTitle" placeholder="제목을 입력하세요">
 
       <label>내용</label>
-      <textarea id="userPostContent" placeholder="내용 입력"></textarea>
+      <textarea id="userPostContent" placeholder="내용을 입력하세요"></textarea>
 
-      <label>자동등록방지</label>
-      <div id="captchaQuestion" style="margin-bottom:8px;"></div>
-      <input id="captchaAnswer" placeholder="정답 입력">
+<div class="captcha-box">
+  <label>자동등록방지</label>
+  <div id="captchaQuestion"></div>
+  <input id="captchaAnswer" placeholder="정답 입력">
+</div>
 
     </div>
 
     <div class="write-footer">
-      <button onclick="closeWritePost()">취소</button>
-      <button onclick="submitPost()">등록하기</button>
+      <button class="cancel-btn" onclick="closeWritePost()">취소</button>
+      <button class="submit-btn" onclick="submitPost()">등록하기</button>
     </div>
 
   </div>
 </div>
 
-<!-- =========================
-게시판 상세 팝업
-========================= -->
-<div class="modal" id="boardModal">
-  <div class="modal-content">
-    <div class="modal-close" onclick="closeModal()">✕</div>
-    <h2 id="modalTitle"></h2>
-    <div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
-    <div id="modalContent"></div>
-  </div>
+<div class="board-top">
+
+<div class="board-category" id="boardCategoryBar">
+  <button onclick="filterCategory('전체', this)">전체</button>
+  <button onclick="filterCategory('연길', this)">연길</button>
+  <button onclick="filterCategory('훈춘', this)">훈춘</button>
+  <button onclick="filterCategory('화룡', this)">화룡</button>
+  <button onclick="filterCategory('룡정', this)">룡정</button>
+  <button onclick="filterCategory('왕청', this)">왕청</button>
+  <button onclick="filterCategory('도문', this)">도문</button>
+  <button onclick="filterCategory('돈화', this)">돈화</button>
+  <button onclick="filterCategory('안도', this)">안도</button>
+  <button onclick="filterCategory('불편신고', this)">불편신고</button>
 </div>
 
-<!-- 이미지 팝업 -->
-<div class="modal" id="imageModal" onclick="closeImageModal()">
-  <div class="modal-content image-modal-box">
-    <div class="modal-close" onclick="closeImageModal()">✕</div>
-    <img id="modalAdImage">
-  </div>
+<button onclick="openWritePost()" class="write-btn">글쓰기</button>
 </div>
 
-<!-- 영상 팝업 -->
-<div class="modal" id="videoModal" onclick="closeVideoModal()">
-  <div class="modal-content video-modal-box">
-    <div class="modal-close" onclick="closeVideoModal()">✕</div>
-    <div class="video-container">
-      <iframe id="modalVideo" allowfullscreen></iframe>
-    </div>
-  </div>
+<div class="board-section" id="boardSection"></div>
+<div id="pagination" style="margin-top:20px;text-align:center;"></div>
+<div class="site-description" id="siteDescription"></div>
+
+<h1 style="
+font-family:'Microsoft YaHei','微软雅黑',sans-serif;
+font-size:12px;
+font-weight:700;
+line-height:1.6;
+letter-spacing:0.5px;
+text-align:center;
+margin:18px 0;
+color:#e0e0e0;
+">
+延边信息搜索平台<br>
+<span style="
+font-size:12px;
+font-weight:500;
+color:#cfcfcf;
+display:block;
+margin-top:8px;
+">
+延吉 / 珲春 / 图们 / 龙井商家信息一站式查询
+</span>
+</h1>
+
+<div style="padding:0 20px 20px;
+font-size:12px;
+color:#d5d5d5;
+line-height:1.8;
+text-align:center;
+max-width:700px;
+margin:0 auto;">
+延边信息搜索平台，提供商家信息等延边地区综合生活信息查询服务。
 </div>
 
-<!-- 게시판 검색결과 팝업 -->
-<div class="modal" id="searchResultModal">
-  <div class="modal-content">
-    <div class="modal-close" onclick="closeSearchResult()">✕</div>
-    <h3>검색 결과</h3>
-    <div id="searchResultList"></div>
-  </div>
+<div class="owner-box">
+  <div class="owner-name" id="ownerName"></div>
+  <div class="owner-sns" id="ownerSNS"></div>
 </div>
 
-<!-- 플로팅 버튼 -->
-<div class="floating-right">
-
-  <button onclick="scrollToTop()">
-    <i class="fas fa-home"></i>
-  </button>
-
-  <button onclick="focusSearch()">
-    <i class="fas fa-search"></i>
-  </button>
-
-  <button onclick="scrollToBottom()">▼</button>
-
-</div>
-
-<!-- 외부 js -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
 <script>
 
-/* =========================
-기본 변수
-========================= */
 let captchaValue = 0;
-let currentCategory = "전체";
-let currentPage = 1;
-let pageGroup = 1;
-let pageGroupSize = 5;
-let pageSize = window.innerWidth <= 768 ? 6 : 12;
 
-/* =========================
-공통
-========================= */
-function lockSite(){
-  document.body.classList.add("modal-open");
-}
+function generateCaptcha(){
+  const a = Math.floor(Math.random()*9)+1;
+  const b = Math.floor(Math.random()*9)+1;
 
-function unlockSite(){
-  document.body.classList.remove("modal-open");
+  captchaValue = a + b;
+
+  document.getElementById("captchaQuestion").innerText =
+    a + " + " + b + " = ?";
 }
 
 function escapeHTML(str){
@@ -715,43 +1222,9 @@ function escapeHTML(str){
     .replace(/>/g,"&gt;");
 }
 
-/* =========================
-스크롤 버튼
-========================= */
-function scrollToTop(){
-  window.scrollTo({top:0,behavior:"smooth"});
-}
+let currentCategory = "전체";
 
-function scrollToBottom(){
-  window.scrollTo({
-    top:document.documentElement.scrollHeight,
-    behavior:"smooth"
-  });
-}
-
-function focusSearch(){
-  document.getElementById("searchInput").focus();
-}
-
-/* =========================
-캡챠
-========================= */
-function generateCaptcha(){
-
-  const a = Math.floor(Math.random()*9)+1;
-  const b = Math.floor(Math.random()*9)+1;
-
-  captchaValue = a+b;
-
-  document.getElementById("captchaQuestion").innerText =
-    a + " + " + b + " = ?";
-}
-
-/* =========================
-카테고리
-========================= */
-function filterCategory(cat,el){
-
+function filterCategory(cat, el){
   currentCategory = cat;
   currentPage = 1;
   pageGroup = 1;
@@ -765,15 +1238,18 @@ function filterCategory(cat,el){
   loadBoard();
 }
 
-/* =========================
-모달 - 이미지
-========================= */
 function openImageModal(url){
+  const modal = document.getElementById("imageModal");
+  const content = modal.querySelector(".modal-content");
 
   document.getElementById("modalAdImage").src = url;
-  document.getElementById("imageModal").style.display="flex";
 
-  lockSite();
+  // 화면 높이에 맞춰 높이 조정
+  const vh = window.innerHeight;
+  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
+  content.style.overflow = "hidden";
+
+  modal.style.display="flex";
 }
 
 function closeImageModal(){
@@ -781,275 +1257,133 @@ function closeImageModal(){
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
 
-  unlockSite();
 }
 
-/* =========================
-모달 - 영상
-========================= */
 function openVideoModal(url){
 
-  if(!url) return;
+let embed="";
 
-  let embed = "";
+if(!url) return;
 
-  if(url.includes("youtube.com") || url.includes("youtu.be")){
+/* YouTube */
+if(url.includes("youtube.com") || url.includes("youtu.be")){
 
-    let id="";
+let videoId="";
 
-    if(url.includes("watch")){
-      id = new URL(url).searchParams.get("v");
-    }else if(url.includes("shorts")){
-      id = url.split("shorts/")[1];
-    }else{
-      id = url.split("/").pop();
-    }
+if(url.includes("watch")){
+const params = new URL(url).searchParams;
+videoId = params.get("v");
+}
+else if(url.includes("shorts")){
+videoId = url.split("shorts/")[1];
+}
+else{
+videoId = url.split("/").pop();
+}
 
-    embed =
-    "https://www.youtube.com/embed/"+id+"?autoplay=1";
+embed = "https://www.youtube.com/embed/"+videoId+"?autoplay=1";
 
-  }else if(url.includes("vimeo.com")){
+}
 
-    let id = url.split("/").pop();
+/* Bilibili */
+else if(url.includes("bilibili.com")){
 
-    embed =
-    "https://player.vimeo.com/video/"+id;
+let bvid = url.split("/video/")[1];
+if(bvid) bvid = bvid.split("?")[0];
 
-  }else{
-    embed = url;
-  }
+embed = "https://player.bilibili.com/player.html?bvid="+bvid+"&autoplay=1";
 
-  document.getElementById("modalVideo").src = embed;
-  document.getElementById("videoModal").style.display="flex";
+}
 
-  lockSite();
+/* iQIYI */
+else if(url.includes("iqiyi.com")){
+
+embed = url;
+
+}
+
+/* Youku */
+else if(url.includes("youku.com")){
+
+embed = url;
+
+}
+
+/* Vimeo */
+else if(url.includes("vimeo.com")){
+
+let id = url.split("/").pop();
+embed = "https://player.vimeo.com/video/"+id+"?autoplay=1";
+
+}
+
+/* mp4 직접영상 */
+else if(url.endsWith(".mp4")){
+
+document.getElementById("modalVideo").outerHTML =
+`<video id="modalVideo" controls autoplay style="width:100%;height:100%">
+<source src="${url}" type="video/mp4">
+</video>`;
+
+document.getElementById("videoModal").style.display="flex";
+
+return;
+
+}
+
+/* 기본 iframe */
+else{
+embed=url;
+}
+
+document.getElementById("modalVideo").src = embed;
+document.getElementById("videoModal").style.display="flex";
+
 }
 
 function closeVideoModal(){
 
-  document.getElementById("modalVideo").src="";
-  document.getElementById("videoModal").style.display="none";
+const iframe = document.getElementById("modalVideo");
 
-  unlockSite();
+if(iframe.tagName==="IFRAME"){
+iframe.src="";
 }
 
-/* =========================
-모달 - 게시판 상세
-========================= */
-function openModal(title,content,date,views){
+document.getElementById("videoModal").style.display="none";
 
-  document.getElementById("modalTitle").innerText = title;
-  document.getElementById("modalContent").innerText = content;
-  document.getElementById("modalMeta").innerText =
-    date + " · 조회 " + views;
-
-  document.getElementById("boardModal").style.display="flex";
-
-  lockSite();
 }
 
-function closeModal(){
+let currentPage = 1;
 
-  document.getElementById("boardModal").style.display="none";
+let pageSize = window.innerWidth <= 768 ? 6 : 12;
 
-  unlockSite();
-}
+let pageGroup = 1;
+let pageGroupSize = 5;
 
-/* =========================
-글쓰기 모달
-========================= */
-function openWritePost(){
-
-  document.getElementById("writeModal").style.display="flex";
-  document.getElementById("captchaAnswer").value="";
-
-  generateCaptcha();
-  lockSite();
-}
-
-function closeWritePost(){
-
-  document.getElementById("writeModal").style.display="none";
-
-  unlockSite();
-}
-
-/* =========================
-검색결과 팝업
-========================= */
-function closeSearchResult(){
-
-  document.getElementById("searchResultModal")
-    .style.display="none";
-
-  unlockSite();
-}
-
-/* =========================
-메인 검색
-========================= */
-function search(){
-
-  const keyword =
-  document.getElementById("searchInput")
-  .value.trim().toLowerCase();
-
-  if(!keyword) return;
-
-  let found=false;
-
-  document.querySelectorAll(".ad-item").forEach(ad=>{
-
-    ad.classList.remove("highlight");
-
-    const title =
-    (ad.getAttribute("data-title")||"").toLowerCase();
-
-    if(title.includes(keyword)){
-      ad.classList.add("highlight");
-      ad.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-      });
-      found=true;
-    }
-  });
-
-  document.querySelectorAll(".board-card")
-  .forEach(card=>{
-
-    card.classList.remove("highlight");
-
-    if(card.innerText.toLowerCase().includes(keyword)){
-      card.classList.add("highlight");
-      card.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-      });
-      found=true;
-    }
-  });
-
-  if(!found){
-    alert("검색 결과 없음");
-  }
-}
-
-/* =========================
-게시판 불러오기
-========================= */
-async function loadBoard(){
-
-  const board =
-  document.getElementById("boardSection");
-
-  board.innerHTML="";
-
-  const start = (currentPage-1) * pageSize;
-  const end   = start + pageSize - 1;
-
-  let query = supabaseClient
-    .from("board_posts")
-    .select("*")
-    .order("id",{ascending:false});
-
-  if(currentCategory !== "전체"){
-    query = query.eq("category",currentCategory);
-  }
-
-  const { data:posts } =
-  await query.range(start,end);
-
-  if(posts){
-
-    posts.forEach(post=>{
-
-      const div = document.createElement("div");
-      div.className="board-card";
-
-      const date =
-      new Date(post.created_at)
-      .toLocaleDateString("ko-KR");
-
-      div.innerHTML = `
-        <h3>[${post.category||"일반"}]
-        ${escapeHTML(post.title)}</h3>
-
-        <div class="board-preview">
-        ${escapeHTML(post.content)}
-        </div>
-
-        <div style="
-        font-size:11px;
-        color:#999;
-        margin-top:6px;">
-        ${date} · 조회 ${post.views||0}
-        </div>
-      `;
-
-      div.onclick = async ()=>{
-
-        await supabaseClient.rpc(
-          "increment_views",
-          {post_id:post.id}
-        );
-
-        post.views = (post.views||0)+1;
-
-        openModal(
-          post.title,
-          post.content,
-          date,
-          post.views
-        );
-      };
-
-      board.appendChild(div);
-
-    });
-
-  }
-
-  loadPagination();
-}
-
-/* =========================
-페이지네이션
-========================= */
 async function loadPagination(){
 
-  let query = supabaseClient
-    .from("board_posts")
-    .select("*",{count:"exact",head:true});
+let query = supabaseClient
+  .from("board_posts")
+  .select("*",{count:"exact", head:true});
 
-  if(currentCategory !== "전체"){
-    query = query.eq("category",currentCategory);
-  }
+if(currentCategory !== "전체"){
+  query = query.eq("category", currentCategory);
+}
 
-  const { count } = await query;
+const { count } = await query;
 
-  const totalPages =
-  Math.ceil(count / pageSize);
+  const totalPages = Math.ceil(count / pageSize);
 
-  const wrap =
-  document.getElementById("pagination");
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML="";
 
-  wrap.innerHTML="";
+  const startPage = (pageGroup - 1) * pageGroupSize + 1;
+  const endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
 
-  const startPage =
-  (pageGroup-1)*pageGroupSize + 1;
-
-  const endPage =
-  Math.min(
-    startPage+pageGroupSize-1,
-    totalPages
-  );
-
+  /* 이전 그룹 */
   if(pageGroup > 1){
 
-    const prev =
-    document.createElement("button");
-
+    const prev=document.createElement("button");
     prev.innerText="<<";
 
     prev.onclick=()=>{
@@ -1057,34 +1391,34 @@ async function loadPagination(){
       loadPagination();
     };
 
-    wrap.appendChild(prev);
+    pagination.appendChild(prev);
   }
 
+  /* 페이지 번호 */
   for(let i=startPage;i<=endPage;i++){
 
-    const btn =
-    document.createElement("button");
-
+    const btn=document.createElement("button");
     btn.innerText=i;
 
-    if(i===currentPage){
+    if(i===currentPage)
       btn.style.background="#87CEEB";
-      btn.style.color="#fff";
-    }
 
     btn.onclick=()=>{
       currentPage=i;
       loadBoard();
+
+      document.getElementById("boardSection").scrollIntoView({
+        behavior:"smooth"
+      });
     };
 
-    wrap.appendChild(btn);
+    pagination.appendChild(btn);
   }
 
+  /* 다음 그룹 */
   if(endPage < totalPages){
 
-    const next =
-    document.createElement("button");
-
+    const next=document.createElement("button");
     next.innerText=">>";
 
     next.onclick=()=>{
@@ -1092,29 +1426,313 @@ async function loadPagination(){
       loadPagination();
     };
 
-    wrap.appendChild(next);
+    pagination.appendChild(next);
   }
+
 }
 
-/* =========================
-게시판 검색
-========================= */
+function scrollToTop(){
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function scrollToBottom(){
+  window.scrollTo({
+    top:document.documentElement.scrollHeight,
+    behavior:"smooth"
+  });
+}
+
+function focusSearch(){
+  document.getElementById("searchInput").focus();
+}
+
+async function loadSite(){
+
+  const boardSection=document.getElementById("boardSection");
+  const imgBox=document.getElementById("imageAds");
+  const txtBox=document.getElementById("textAds");
+  const bottomBox=document.getElementById("bottomImageAds");
+  const snsBox=document.getElementById("snsVideoAds");
+  const bannerBox=document.getElementById("topBanner");
+
+  // 🔥 전체 초기화
+  boardSection.innerHTML="";
+  imgBox.innerHTML="";
+  txtBox.innerHTML="";
+  bottomBox.innerHTML="";
+  snsBox.innerHTML="";
+  bannerBox.innerHTML="";
+
+  /* ================= 광고 ================= */
+
+  const { data: ads } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("id",{ascending:true});
+
+  if(ads){
+    ads.forEach(ad=>{
+
+if(ad.type==="image"){
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
+
+const link = ad.link_url 
+  ? `<a href="${ad.link_url}" target="_blank">
+       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
+     </a>`
+  : ad.video_url
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+
+  wrap.innerHTML=`
+    <div class="img-ad">${link}</div>
+    <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
+  `;
+
+  imgBox.appendChild(wrap);
+}
+
+      if(ad.type==="text"){
+        const a=document.createElement("a");
+        a.className="text-ad ad-item";
+        a.href=ad.link_url||"#";
+        a.target="_blank";
+        a.innerText=ad.title||"텍스트광고";
+        a.setAttribute("data-title",(ad.title||"").toLowerCase());
+        txtBox.appendChild(a);
+      }
+
+      if(ad.type==="square"){
+        const wrap=document.createElement("div");
+        wrap.className="ad-item";
+        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
+
+const link = ad.link_url 
+  ? `<a href="${ad.link_url}" target="_blank">
+       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
+     </a>`
+  : ad.video_url
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+
+        wrap.innerHTML=`
+          <div class="square-ad">${link}</div>
+          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
+        `;
+
+        bottomBox.appendChild(wrap);
+      }
+
+if(ad.type==="sns"){
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
+
+  wrap.innerHTML=`
+    <div class="sns-video">
+      <img src="${ad.image_url}"
+      onclick="openVideoModal('${ad.video_url}')">
+    </div>
+    <div class="ad-title">${ad.title||""}</div>
+  `;
+
+  snsBox.appendChild(wrap);
+}
+
+    });
+  }
+
+  /* ================= 설정 ================= */
+
+  const { data: settings } = await supabaseClient
+    .from("site_settings")
+    .select("*")
+    .limit(1);
+
+  if(settings && settings.length>0){
+
+    const s=settings[0];
+
+if(s.search_logo){
+  document.getElementById("searchLogo").src = s.search_logo;
+}
+
+if(s.banner_img){
+  bannerBox.innerHTML = `
+    ${s.banner_link
+      ? `<a href="${s.banner_link}" target="_blank">
+           <img src="${s.banner_img}">
+         </a>`
+      : `<img src="${s.banner_img}">`
+    }
+    <div id="weatherBox" class="weather-box">날씨 로딩중...</div>
+  `;
+}
+
+    document.getElementById("ownerName").innerText=s.owner_name||"";
+    document.getElementById("siteDescription").innerText=s.site_description||"";
+
+    const snsBox=document.getElementById("ownerSNS");
+    snsBox.innerHTML="";
+
+    if(s.owner_instagram)
+      snsBox.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+
+    if(s.owner_youtube)
+      snsBox.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+
+    if(s.owner_blog)
+      snsBox.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
+  }
+
+/* ================= 애드센스 ================= */
+
+const adsenseArea=document.getElementById("adsenseArea");
+
+if(adsenseArea){
+
+  const { data: adsense } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .eq("type","adsense")
+    .order("sort",{ascending:true});
+
+  adsenseArea.innerHTML="";
+
+  if(adsense){
+    adsense.forEach(ad=>{
+      const div=document.createElement("div");
+      div.className="adsense-block";
+      div.innerHTML=ad.code;
+      adsenseArea.appendChild(div);
+    });
+  }
+
+}
+
+}
+
+loadSite();
+loadBoard();
+setTimeout(loadWeather,2000);
+
+recordVisit();
+
+async function recordVisit(){
+
+  const today = new Date().toLocaleDateString("sv-SE");
+  const visited = localStorage.getItem("visit_date");
+
+  if(visited === today) return;
+
+  const { data } = await supabaseClient
+    .from("site_visits")
+    .select("*")
+    .eq("date", today);
+
+  if(data && data.length > 0){
+
+    const count = data[0].count || 0;
+
+    await supabaseClient
+      .from("site_visits")
+      .update({ count: count + 1 })
+      .eq("date", today);
+
+  }else{
+
+    await supabaseClient
+      .from("site_visits")
+      .insert([{ date: today, count: 1 }]);
+
+  }
+
+  localStorage.setItem("visit_date", today);
+}
+
+async function loadBoard(){
+
+  const boardSection=document.getElementById("boardSection");
+  boardSection.innerHTML="";
+
+  const start=(currentPage-1)*pageSize;
+  const end=start+pageSize-1;
+
+let query = supabaseClient
+  .from("board_posts")
+  .select("*")
+  .order("id",{ascending:false});
+
+if(currentCategory !== "전체"){
+  query = query.eq("category", currentCategory);
+}
+
+const { data: posts } = await query.range(start,end);
+
+  if(posts){
+    posts.forEach(post=>{
+
+      const div=document.createElement("div");
+      div.className="board-card";
+
+      const date=new Date(post.created_at)
+        .toLocaleDateString("ko-KR");
+
+div.innerHTML = `
+  <h3>[${post.category||"일반"}] ${escapeHTML(post.title)}</h3>
+  <div class="board-preview">${escapeHTML(post.content)}</div>
+  <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
+    ${date} · 조회 ${post.views||0}
+  </div>
+`;
+
+div.onclick=async ()=>{
+
+  await supabaseClient.rpc('increment_views', {
+    post_id: post.id
+  });
+
+  const newViews = (post.views || 0) + 1;   // 🔥 이 줄 추가
+
+  openModal(post.title, post.content, date, newViews);
+
+  div.querySelector(".view-count").innerText =
+    date + " · 조회 " + newViews;
+
+  post.views = newViews;
+};
+
+      boardSection.appendChild(div);
+    });
+  }
+
+  loadPagination();
+}
+
+document.getElementById("searchInput")
+  .addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+      search();
+    }
+  });
+
 async function boardSearch(){
 
-  const keyword =
-  document.getElementById("boardSearchInput")
-  .value.trim();
+  const keyword = document
+    .getElementById("boardSearchInput")
+    .value.trim();
 
   if(!keyword) return;
 
-  const { data:posts } =
-  await supabaseClient
+  const { data: posts } = await supabaseClient
     .from("board_posts")
     .select("*")
-    .or(
-      `title.ilike.%${keyword}%,
-       content.ilike.%${keyword}%`
-    )
+    .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
     .order("id",{ascending:false})
     .limit(20);
 
@@ -1123,501 +1741,312 @@ async function boardSearch(){
     return;
   }
 
-  const list =
-  document.getElementById("searchResultList");
-
+  const list = document.getElementById("searchResultList");
   list.innerHTML="";
 
   posts.forEach(post=>{
 
-    const div =
-    document.createElement("div");
-
+    const div=document.createElement("div");
     div.style.padding="10px";
-    div.style.borderBottom=
-    "1px solid #eee";
-
+    div.style.borderBottom="1px solid #eee";
     div.style.cursor="pointer";
 
-    div.innerHTML=
-    `[${post.category}] ${post.title}`;
+    div.innerHTML=`[${post.category}] ${post.title}`;
 
     div.onclick=()=>{
 
       closeSearchResult();
 
-      const date =
-      new Date(post.created_at)
+      const date = new Date(post.created_at)
       .toLocaleDateString("ko-KR");
 
       openModal(
         post.title,
         post.content,
         date,
-        post.views||0
+        post.views || 0
       );
+
     };
 
     list.appendChild(div);
 
   });
 
-  document.getElementById(
-    "searchResultModal"
-  ).style.display="flex";
-
-  lockSite();
+  document.getElementById("searchResultModal").style.display="flex";
 }
 
-/* =========================
-게시글 등록
-========================= */
+function search(){
+
+  const keyword=document.getElementById("searchInput")
+    .value.trim().toLowerCase();
+
+  if(!keyword) return;
+
+  let found=false;
+
+  /* ===== 광고 검색 ===== */
+  const ads=document.querySelectorAll(".ad-item");
+
+  ads.forEach(ad=>{
+    ad.classList.remove("highlight");
+
+    const title=ad.getAttribute("data-title");
+
+    if(title && title.includes(keyword)){
+      ad.classList.add("highlight");
+      found=true;
+      ad.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
+
+  /* ===== 게시판 검색 ===== */
+  const boards=document.querySelectorAll(".board-card");
+
+  boards.forEach(board=>{
+    board.classList.remove("highlight");
+
+    const text=board.innerText.toLowerCase();
+
+    if(text.includes(keyword)){
+      board.classList.add("highlight");
+      found=true;
+      board.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
+
+  if(!found){
+    alert("검색 결과 없음");
+  }
+}
+
+function openModal(title,content,date,views){
+  document.getElementById("modalTitle").innerText=title;
+  document.getElementById("modalContent").innerText=content;
+  document.getElementById("modalMeta").innerText=
+    date + " · 조회 " + views;
+  document.getElementById("boardModal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("boardModal").style.display="none";
+}
+
+function closeSearchResult(){
+  document.getElementById("searchResultModal").style.display="none";
+}
+
+// 팝업 배경 클릭 시 닫기
+document.getElementById("boardModal")
+  .addEventListener("click", function(e){
+
+    // 배경을 클릭한 경우만 닫기
+    if(e.target === this){
+      closeModal();
+    }
+
+});
+
+function outsideClose(e){
+  if(e.target.classList.contains("modal")){
+    closeModal();
+  }
+}
+
+document.getElementById("boardSearchInput")
+  .addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+      boardSearch();
+    }
+});
+
+function openWritePost(){
+  document.getElementById("writeModal").style.display="flex";
+  document.getElementById("captchaAnswer").value="";
+  generateCaptcha();
+}
+
+function closeWritePost(){
+  document.getElementById("writeModal").style.display="none";
+}
+
 async function submitPost(){
 
-  const title =
-  document.getElementById(
-    "userPostTitle"
-  ).value.trim();
+  const title=document.getElementById("userPostTitle").value.trim();
+  const content=document.getElementById("userPostContent").value.trim();
+  const category=document.getElementById("userPostCategory").value;
 
-  const content =
-  document.getElementById(
-    "userPostContent"
-  ).value.trim();
+const answer = document
+  .getElementById("captchaAnswer")
+  .value.trim();
 
-  const category =
-  document.getElementById(
-    "userPostCategory"
-  ).value;
+if(parseInt(answer) !== captchaValue){
+  alert("자동등록방지 정답이 틀렸습니다");
+  generateCaptcha();
+  return;
+}
 
-  const answer =
-  parseInt(
-    document.getElementById(
-      "captchaAnswer"
-    ).value.trim()
-  );
-
-  if(answer !== captchaValue){
-    alert("자동등록방지 정답 오류");
-    generateCaptcha();
-    return;
-  }
-
-  if(!title || !content){
+  if(!title||!content){
     alert("제목과 내용을 입력하세요");
     return;
   }
 
-  const { error } =
-  await supabaseClient
-    .from("board_posts")
-    .insert([{
-      title:title,
-      content:content,
-      category:category
-    }]);
+  const {error}=await supabaseClient
+  .from("board_posts")
+  .insert([{
+    title:title,
+    content:content,
+    category:category
+  }]);
 
   if(error){
     alert("등록 실패");
     return;
   }
 
-  alert("등록 완료");
+  alert("게시글 등록 완료");
 
   closeWritePost();
   loadBoard();
-}
-
-/* =========================
-광고 + 사이트 설정 로드
-========================= */
-async function loadSite(){
-
-  const imageAds   = document.getElementById("imageAds");
-  const textAds    = document.getElementById("textAds");
-  const squareAds  = document.getElementById("bottomImageAds");
-  const snsAds     = document.getElementById("snsVideoAds");
-  const topBanner  = document.getElementById("topBanner");
-
-  imageAds.innerHTML="";
-  textAds.innerHTML="";
-  squareAds.innerHTML="";
-  snsAds.innerHTML="";
-
-  /* 광고 불러오기 */
-  const { data:ads } =
-  await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
-
-  if(ads){
-
-    ads.forEach(ad=>{
-
-      /* 상단 이미지 광고 */
-      if(ad.type==="image"){
-
-        const wrap =
-        document.createElement("div");
-
-        wrap.className="ad-item";
-        wrap.setAttribute(
-          "data-title",
-          (ad.main_title||"").toLowerCase()
-        );
-
-        wrap.innerHTML = `
-          <div class="img-ad">
-            <img
-              src="${ad.image_url}"
-              onclick="${
-                ad.video_url
-                ? `openVideoModal('${ad.video_url}')`
-                : `openImageModal('${ad.image_url}')`
-              }">
-          </div>
-
-          <div class="ad-title">
-            ${escapeHTML(ad.main_title||"")}
-          </div>
-        `;
-
-        imageAds.appendChild(wrap);
-      }
-
-      /* 텍스트 광고 */
-      if(ad.type==="text"){
-
-        const a =
-        document.createElement("a");
-
-        a.className="text-ad ad-item";
-        a.href=ad.link_url||"#";
-        a.target="_blank";
-        a.innerText=ad.title||"텍스트광고";
-
-        a.setAttribute(
-          "data-title",
-          (ad.title||"").toLowerCase()
-        );
-
-        textAds.appendChild(a);
-      }
-
-      /* 정방형 광고 */
-      if(ad.type==="square"){
-
-        const wrap =
-        document.createElement("div");
-
-        wrap.className="ad-item";
-
-        wrap.setAttribute(
-          "data-title",
-          (ad.main_title||"").toLowerCase()
-        );
-
-        wrap.innerHTML = `
-          <div class="square-ad">
-            <img
-              src="${ad.image_url}"
-              onclick="${
-                ad.video_url
-                ? `openVideoModal('${ad.video_url}')`
-                : `openImageModal('${ad.image_url}')`
-              }">
-          </div>
-
-          <div class="ad-title">
-            ${escapeHTML(ad.main_title||"")}
-          </div>
-        `;
-
-        squareAds.appendChild(wrap);
-      }
-
-      /* sns 광고 */
-      if(ad.type==="sns"){
-
-        const wrap =
-        document.createElement("div");
-
-        wrap.className="ad-item";
-
-        wrap.setAttribute(
-          "data-title",
-          (ad.title||"").toLowerCase()
-        );
-
-        wrap.innerHTML = `
-          <div class="sns-video">
-            <img
-              src="${ad.image_url}"
-              onclick="openVideoModal('${ad.video_url}')">
-          </div>
-
-          <div class="ad-title">
-            ${escapeHTML(ad.title||"")}
-          </div>
-        `;
-
-        snsAds.appendChild(wrap);
-      }
-
-    });
-
-  }
-
-  /* 사이트 설정 */
-  const { data:setting } =
-  await supabaseClient
-    .from("site_settings")
-    .select("*")
-    .limit(1);
-
-  if(setting && setting.length){
-
-    const s = setting[0];
-
-    if(s.search_logo){
-      document.getElementById(
-        "searchLogo"
-      ).src = s.search_logo;
-    }
-
-    if(s.banner_img){
-
-      topBanner.innerHTML = `
-        <img src="${s.banner_img}">
-        <div
-        id="weatherBox"
-        class="weather-box">
-        날씨 로딩중...
-        </div>
-      `;
-    }
-
-    document.getElementById(
-      "ownerName"
-    ).innerText =
-    s.owner_name || "";
-
-    document.getElementById(
-      "siteDescription"
-    ).innerText =
-    s.site_description || "";
-
-    const sns =
-    document.getElementById("ownerSNS");
-
-    sns.innerHTML="";
-
-    if(s.owner_instagram){
-      sns.innerHTML += `
-      <a href="${s.owner_instagram}"
-      target="_blank">
-      <i class="fab fa-instagram"></i>
-      </a>`;
-    }
-
-    if(s.owner_youtube){
-      sns.innerHTML += `
-      <a href="${s.owner_youtube}"
-      target="_blank">
-      <i class="fab fa-youtube"></i>
-      </a>`;
-    }
-
-    if(s.owner_blog){
-      sns.innerHTML += `
-      <a href="${s.owner_blog}"
-      target="_blank">
-      <i class="fas fa-blog"></i>
-      </a>`;
-    }
-
-  }
 
 }
 
-/* =========================
-방문자수 기록
-========================= */
-async function recordVisit(){
-
-  const today =
-  new Date().toLocaleDateString("sv-SE");
-
-  const visited =
-  localStorage.getItem("visit_date");
-
-  if(visited === today) return;
-
-  const { data } =
-  await supabaseClient
-    .from("site_visits")
-    .select("*")
-    .eq("date",today);
-
-  if(data && data.length){
-
-    await supabaseClient
-      .from("site_visits")
-      .update({
-        count:(data[0].count||0)+1
-      })
-      .eq("date",today);
-
-  }else{
-
-    await supabaseClient
-      .from("site_visits")
-      .insert([{
-        date:today,
-        count:1
-      }]);
-  }
-
-  localStorage.setItem(
-    "visit_date",
-    today
-  );
-}
-
-/* =========================
-날씨 로드
-========================= */
 async function loadWeather(){
+  const box = document.getElementById("weatherBox");
+  if(!box) return;
 
-  const box =
-  document.getElementById("weatherBox");
+const banner = document.getElementById("topBanner");
+if(!banner) return;
 
-  const banner =
-  document.getElementById("topBanner");
-
-  if(!box || !banner) return;
+// 기존 효과 제거
+banner.classList.remove("rain","snow","thunder","wind");
 
   try{
-
-    const res =
-    await fetch(
-      "https://wttr.in/42.88,129.51?format=j1"
-    );
-
+    const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
     const data = await res.json();
 
-    const current =
-    data.current_condition[0];
+    const current = data.current_condition[0];
 
-    const temp =
-    current.temp_C;
+    const temp = current.temp_C;
+    const feels = current.FeelsLikeC;
+    let desc = current.weatherDesc[0].value;
 
-    const feels =
-    current.FeelsLikeC;
+const map = {
+  "Sunny":"맑음",
+  "Clear":"맑음",
+  "Partly cloudy":"구름 조금",
+  "Cloudy":"흐림",
+  "Overcast":"흐림",
+  "Mist":"안개",
+  "Fog":"안개",
 
-    let desc =
-    current.weatherDesc[0].value;
+  "Rain":"비",
+  "Light rain":"약한 비",
+  "Moderate rain":"비",
+  "Heavy rain":"폭우",
 
-    const map = {
+  "Drizzle":"이슬비",
+  "Light drizzle":"약한 이슬비",
+  "Patchy light drizzle":"약한 이슬비",
+  "Freezing drizzle":"어는 이슬비",
 
-      "Sunny":"맑음",
-      "Clear":"맑음",
-      "Partly cloudy":"구름조금",
-      "Cloudy":"흐림",
-      "Overcast":"흐림",
-      "Mist":"안개",
-      "Fog":"안개",
+  "Patchy rain possible":"비 가능성",
+  "Patchy light rain":"약한 비",
+  "Patchy moderate rain":"비",
 
-      "Light rain":"약한 비",
-      "Moderate rain":"비",
-      "Heavy rain":"폭우",
+  "Snow":"눈",
+  "Light snow":"약한 눈",
+  "Heavy snow":"폭설",
 
-      "Light snow":"약한 눈",
-      "Heavy snow":"폭설",
+  "Thunderstorm":"천둥번개"
+};
 
-      "Thunderstorm":"천둥번개"
-    };
+desc = map[desc] || "날씨 정보";
 
-    desc = map[desc] || desc;
-
-    box.innerHTML = `
-      연변 ${temp}°C
-      <div style="
-      font-size:11px;
-      color:#ddd;">
-      체감 ${feels}°C · ${desc}
-      </div>
-    `;
-
-  }catch(e){
-
-    box.innerText="날씨 오류";
-
-  }
-
+if(desc.includes("천둥") || desc.includes("번개")){
+  banner.classList.add("thunder");
+}
+else if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
+  banner.classList.add("rain");
+}
+else if(desc.includes("눈") || desc.includes("폭설")){
+  banner.classList.add("snow");
+}
+else if(current.windspeedKmph > 20){
+  banner.classList.add("wind");
 }
 
-/* =========================
-엔터 검색
-========================= */
-document.getElementById("searchInput")
-.addEventListener("keydown",function(e){
+// 출력
+box.innerHTML = `
+  <div>
+    연변조선족자치주 ${temp}°C
+    <div style="font-size:11px;color:#ddd;">
+      체감 ${feels}°C · ${desc}
+    </div>
+  </div>
+`;
 
-  if(e.key==="Enter"){
-    search();
+  }catch(e){
+    box.innerText="날씨 오류";
   }
-
-});
-
-document.getElementById("boardSearchInput")
-.addEventListener("keydown",function(e){
-
-  if(e.key==="Enter"){
-    boardSearch();
-  }
-
-});
-
-/* =========================
-배경 클릭 닫기
-========================= */
-document.getElementById("boardModal")
-.addEventListener("click",function(e){
-
-  if(e.target===this){
-    closeModal();
-  }
-
-});
-
-document.getElementById("searchResultModal")
-.addEventListener("click",function(e){
-
-  if(e.target===this){
-    closeSearchResult();
-  }
-
-});
-
-document.getElementById("writeModal")
-.addEventListener("click",function(e){
-
-  if(e.target===this){
-    closeWritePost();
-  }
-
-});
-
-/* =========================
-초기 실행
-========================= */
-loadSite();
-loadBoard();
-recordVisit();
-
-setTimeout(loadWeather,1200);
+}
 
 </script>
 
+<div class="modal" id="boardModal">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <h2 id="modalTitle"></h2>
+    <div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div class="modal" id="imageModal" onclick="closeImageModal()">
+  <div class="modal-content image-modal-box">
+
+    <div class="modal-close" onclick="closeImageModal()">✕</div>
+
+    <img id="modalAdImage">
+
+  </div>
+</div>
+
+<div class="modal" id="videoModal" onclick="closeVideoModal()">
+  <div class="modal-content video-modal-box">
+
+    <div class="modal-close" onclick="closeVideoModal()">✕</div>
+
+    <div class="video-container">
+      <iframe id="modalVideo"
+        frameborder="0"
+        allowfullscreen></iframe>
+    </div>
+
+  </div>
+</div>
+
+<div class="floating-right">
+
+  <button onclick="scrollToTop()">
+    <i class="fas fa-home"></i>
+  </button>
+
+  <button onclick="focusSearch()">
+    <i class="fas fa-search"></i>
+  </button>
+
+<button onclick="scrollToBottom()">
+   ▼
+</button>
+
+</div>
+<div class="modal" id="searchResultModal">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeSearchResult()">✕</div>
+    <h3>검색 결과</h3>
+    <div id="searchResultList"></div>
+  </div>
+</div>
 </body>
 </html>
