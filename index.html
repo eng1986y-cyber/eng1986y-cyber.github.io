@@ -1209,20 +1209,22 @@ body{
 
 <div class="board-wrapper">
 
-  <!-- 왼쪽: 공지 -->
+  <!-- 공지 -->
   <div class="board-box">
     <h3>공지글</h3>
     <div id="noticeList" class="board-list"></div>
+    <div id="noticePagination"></div>
   </div>
 
-  <!-- 오른쪽: 지역 -->
+  <!-- 지역 -->
   <div class="board-box">
     <h3>지역정보</h3>
     <div id="regionList" class="board-list"></div>
+    <div id="regionPagination"></div>
   </div>
 
 </div>
-<div id="pagination" style="margin-top:20px;text-align:center;"></div>
+
 <div class="site-description" id="siteDescription"></div>
 
 <h1 style="
@@ -1778,7 +1780,6 @@ function renderBoardList(list, target, page, type){
     div.innerText = `[${post.category}] ${post.title}`;
 
     div.onclick = () => {
-
       const date = new Date(post.created_at)
         .toLocaleDateString("ko-KR");
 
@@ -1792,36 +1793,24 @@ function renderBoardList(list, target, page, type){
         date,
         (post.views || 0) + 1
       );
-
     };
 
     target.appendChild(div);
-
   });
 
+  // 🔥 여기 중요: type 유지해서 각각 따로 렌더
   renderBoardPagination(list.length, type);
-
 }
 
 function renderBoardPagination(totalCount, type){
 
-<div class="board-wrapper">
+  let container;
 
-  <!-- 공지 -->
-  <div class="board-box">
-    <h3>공지글</h3>
-    <div id="noticeList" class="board-list"></div>
-    <div id="noticePagination"></div>
-  </div>
-
-  <!-- 지역 -->
-  <div class="board-box">
-    <h3>지역정보</h3>
-    <div id="regionList" class="board-list"></div>
-    <div id="regionPagination"></div>
-  </div>
-
-</div>
+  if(type === "notice"){
+    container = document.getElementById("noticePagination");
+  } else {
+    container = document.getElementById("regionPagination");
+  }
 
   container.innerHTML = "";
 
@@ -1832,7 +1821,16 @@ function renderBoardPagination(totalCount, type){
     const btn = document.createElement("button");
     btn.innerText = i;
 
+    if(type === "notice" && i === noticePage) {
+      btn.style.background = "#87CEEB";
+    }
+
+    if(type === "region" && i === regionPage) {
+      btn.style.background = "#87CEEB";
+    }
+
     btn.onclick = () => {
+
       if(type === "notice"){
         noticePage = i;
       } else {
