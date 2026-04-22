@@ -1765,6 +1765,8 @@ async function loadBoard(){
 
 function renderBoardList(list, target, page, type){
 
+  target.innerHTML = "";
+
   const start = (page - 1) * boardPageSize;
   const end = start + boardPageSize;
 
@@ -1799,6 +1801,32 @@ function renderBoardList(list, target, page, type){
 
   renderBoardPagination(list.length, type);
 
+}
+
+function renderBoardPagination(totalCount, type){
+
+  const container = document.getElementById("pagination");
+  container.innerHTML = "";
+
+  const totalPages = Math.ceil(totalCount / boardPageSize);
+
+  for(let i=1; i<=totalPages; i++){
+
+    const btn = document.createElement("button");
+    btn.innerText = i;
+
+    btn.onclick = () => {
+      if(type === "notice"){
+        noticePage = i;
+      } else {
+        regionPage = i;
+      }
+
+      loadBoard();
+    };
+
+    container.appendChild(btn);
+  }
 }
 
 function boardSearch(){
