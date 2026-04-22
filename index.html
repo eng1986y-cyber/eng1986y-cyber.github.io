@@ -1250,6 +1250,7 @@ function openImageModal(url){
   content.style.overflow = "hidden";
 
   modal.style.display="flex";
+  lockBodyScroll();
   document.body.style.overflow="hidden";
 }
 
@@ -1258,6 +1259,7 @@ function closeImageModal(){
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
   document.body.style.overflow="auto";
+  unlockBodyScroll();
 }
 
 function openVideoModal(url){
@@ -1328,6 +1330,7 @@ document.getElementById("modalVideo").outerHTML =
 
 document.getElementById("videoModal").style.display="flex";
 document.body.style.overflow="hidden";
+lockBodyScroll();
 
 return;
 
@@ -1353,6 +1356,7 @@ iframe.src="";
 
 document.getElementById("videoModal").style.display="none";
 document.body.style.overflow="auto";
+unlockBodyScroll();
 }
 
 let currentPage = 1;
