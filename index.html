@@ -1282,16 +1282,12 @@ function openImageModal(url){
   content.style.overflow = "hidden";
 
   modal.style.display="flex";
-  lockBodyScroll();
-  document.body.style.overflow="hidden";
 }
 
 function closeImageModal(){
 
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
-  document.body.style.overflow="auto";
-  unlockBodyScroll();
 }
 
 function openVideoModal(url){
@@ -1361,8 +1357,6 @@ document.getElementById("modalVideo").outerHTML =
 </video>`;
 
 document.getElementById("videoModal").style.display="flex";
-document.body.style.overflow="hidden";
-lockBodyScroll();
 
 return;
 
@@ -1387,8 +1381,6 @@ iframe.src="";
 }
 
 document.getElementById("videoModal").style.display="none";
-document.body.style.overflow="auto";
-unlockBodyScroll();
 }
 
 let currentPage = 1;
@@ -2059,26 +2051,22 @@ function unlockBodyScroll(){
 function openImageModal(url){
   document.getElementById("modalAdImage").src = url;
   document.getElementById("imageModal").style.display = "flex";
-  lockBodyScroll();
 }
 
 function closeImageModal(){
   document.getElementById("imageModal").style.display = "none";
   document.getElementById("modalAdImage").src = "";
-  unlockBodyScroll();
 }
 
 /* 영상 팝업 */
 function openVideoModal(url){
   document.getElementById("modalVideo").src = url;
   document.getElementById("videoModal").style.display = "flex";
-  lockBodyScroll();
 }
 
 function closeVideoModal(){
   document.getElementById("videoModal").style.display = "none";
   document.getElementById("modalVideo").src = "";
-  unlockBodyScroll();
 }
 
 </script>
