@@ -1860,10 +1860,6 @@ function closeModal(){
   document.getElementById("boardModal").style.display="none";
 }
 
-function closeSearchResult(){
-  document.getElementById("searchResultModal").style.display="none";
-}
-
 // 팝업 배경 클릭 시 닫기
 document.getElementById("boardModal")
   .addEventListener("click", function(e){
@@ -2068,13 +2064,6 @@ box.innerHTML = `
    ▼
 </button>
 
-</div>
-<div class="modal" id="searchResultModal">
-  <div class="modal-content">
-    <div class="modal-close" onclick="closeSearchResult()">✕</div>
-    <h3>검색 결과</h3>
-    <div id="searchResultList"></div>
-  </div>
 </div>
 </body>
 </html>
