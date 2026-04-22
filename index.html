@@ -1267,7 +1267,9 @@ margin:0 auto;">
 
 <script>
 
-let boardPage = 1;
+let noticePage = 1;
+let regionPage = 1;
+
 const boardPageSize = 17;
 
 let captchaValue = 0;
@@ -1296,9 +1298,8 @@ function filterCategory(cat, el){
 
   currentCategory = cat;
 
-  boardPage = 1;   // 🔥 추가 필수
-
-  pageGroup = 1;
+  noticePage = 1;
+  regionPage = 1;
 
   document
     .querySelectorAll(".board-category button")
@@ -1747,16 +1748,31 @@ async function loadBoard(){
 
   if(!posts) return;
 
-  // ===== 페이징 계산 =====
-  const start = (boardPage - 1) * boardPageSize;
+  // ===== 1. 공지 / 지역 분리 =====
+  const notices = posts.filter(p =>
+    p.category === "공지" || p.category === "공지글"
+  );
+
+  const regions = posts.filter(p =>
+    p.category !== "공지" && p.category !== "공지글"
+  );
+
+  // ===== 2. 페이징 =====
+  renderBoardList(notices, noticeList, noticePage, "notice");
+  renderBoardList(regions, regionList, regionPage, "region");
+
+}
+
+function renderBoardList(list, target, page, type){
+
+  const start = (page - 1) * boardPageSize;
   const end = start + boardPageSize;
 
-  const pagePosts = posts.slice(start, end);
+  const pageItems = list.slice(start, end);
 
-  pagePosts.forEach(post => {
+  pageItems.forEach(post => {
 
     const div = document.createElement("div");
-
     div.innerText = `[${post.category}] ${post.title}`;
 
     div.onclick = () => {
@@ -1774,69 +1790,14 @@ async function loadBoard(){
         date,
         (post.views || 0) + 1
       );
+
     };
 
-    if(post.category === "공지" || post.category === "공지글"){
-      noticeList.appendChild(div);
-    } else {
-      regionList.appendChild(div);
-    }
+    target.appendChild(div);
 
   });
 
-  renderBoardPagination(posts.length);
-
-}
-
-function renderBoardPagination(total){
-
-  const totalPages = Math.ceil(total / boardPageSize);
-
-  const pagination = document.getElementById("pagination");
-  pagination.innerHTML = "";
-
-  if(totalPages <= 1) return;
-
-  // 이전
-  if(boardPage > 1){
-    const prev = document.createElement("button");
-    prev.innerText = "◀";
-    prev.onclick = () => {
-      boardPage--;
-      loadBoard();
-    };
-    pagination.appendChild(prev);
-  }
-
-  // 번호
-  for(let i=1;i<=totalPages;i++){
-
-    const btn = document.createElement("button");
-    btn.innerText = i;
-
-    if(i === boardPage){
-      btn.style.background = "#87CEEB";
-      btn.style.color = "#fff";
-    }
-
-    btn.onclick = () => {
-      boardPage = i;
-      loadBoard();
-    };
-
-    pagination.appendChild(btn);
-  }
-
-  // 다음
-  if(boardPage < totalPages){
-    const next = document.createElement("button");
-    next.innerText = "▶";
-    next.onclick = () => {
-      boardPage++;
-      loadBoard();
-    };
-    pagination.appendChild(next);
-  }
+  renderBoardPagination(list.length, type);
 
 }
 
