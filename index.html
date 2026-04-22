@@ -1042,7 +1042,57 @@ body{
   to{ transform:translateX(100%); }
 }
 
+.board-wrapper{
+  display:flex;
+  gap:12px;
+  margin-top:60px;
+}
+
+.board-box{
+  flex:1;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:12px;
+  height:600px;
+  overflow-y:auto;
+}
+
+.board-box h3{
+  margin:0 0 10px;
+  font-size:14px;
+  border-bottom:1px solid #eee;
+  padding-bottom:6px;
+}
+
+/* 텍스트 리스트 */
+.board-list div{
+  padding:6px 0;
+  border-bottom:1px solid #f1f1f1;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.board-list div:hover{
+  color:#87CEEB;
+}
+
+/* 모바일 */
+@media(max-width:768px){
+  .board-wrapper{
+    flex-direction:column;
+  }
+
+  .board-box{
+    height:300px;
+  }
+}
+
 </style>
+
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
 
@@ -1092,6 +1142,8 @@ body{
        placeholder="게시판 검색">
   <button onclick="boardSearch()">검색</button>
 </div>
+
+<div id="boardSection"></div>
 
 <div id="writeModal" class="write-modal" style="display:none;">
   <div class="write-box">
@@ -1156,7 +1208,21 @@ body{
 <button onclick="openWritePost()" class="write-btn">글쓰기</button>
 </div>
 
-<div class="board-section" id="boardSection"></div>
+<div class="board-wrapper">
+
+  <!-- 왼쪽: 공지 -->
+  <div class="board-box">
+    <h3>공지글</h3>
+    <div id="noticeList" class="board-list"></div>
+  </div>
+
+  <!-- 오른쪽: 지역 -->
+  <div class="board-box">
+    <h3>지역정보</h3>
+    <div id="regionList" class="board-list"></div>
+  </div>
+
+</div>
 <div id="pagination" style="margin-top:20px;text-align:center;"></div>
 <div class="site-description" id="siteDescription"></div>
 
@@ -1178,7 +1244,7 @@ color:#cfcfcf;
 display:block;
 margin-top:8px;
 ">
-延吉 / 珲春 / 图们 / 龙井商家信息一站式查询
+延吉 / 珲春 / 图们 / 龙井 / 汪清 / 安图 / 图们 / 和龙等 商家信息一站式查询
 </span>
 </h1>
 
@@ -1657,69 +1723,60 @@ async function recordVisit(){
 
 async function loadBoard(){
 
-  const boardSection=document.getElementById("boardSection");
-  boardSection.innerHTML="";
+  const noticeList = document.getElementById("noticeList");
+  const regionList = document.getElementById("regionList");
 
-  const start=(currentPage-1)*pageSize;
-  const end=start+pageSize-1;
+  noticeList.innerHTML = "";
+  regionList.innerHTML = "";
 
-let query = supabaseClient
-  .from("board_posts")
-  .select("*")
-  .order("id",{ascending:false});
+  let query = supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ascending:false});
 
-if(currentCategory !== "전체"){
-  query = query.eq("category", currentCategory);
-}
-
-const { data: posts } = await query.range(start,end);
-
-  if(posts){
-    posts.forEach(post=>{
-
-      const div=document.createElement("div");
-      div.className="board-card";
-
-      const date=new Date(post.created_at)
-        .toLocaleDateString("ko-KR");
-
-div.innerHTML = `
-  <h3>[${post.category||"일반"}] ${escapeHTML(post.title)}</h3>
-  <div class="board-preview">${escapeHTML(post.content)}</div>
-  <div class="view-count" style="font-size:11px;color:#999;margin-top:6px;">
-    ${date} · 조회 ${post.views||0}
-  </div>
-`;
-
-div.onclick=async ()=>{
-
-  await supabaseClient.rpc('increment_views', {
-    post_id: post.id
-  });
-
-  const newViews = (post.views || 0) + 1;   // 🔥 이 줄 추가
-
-  openModal(post.title, post.content, date, newViews);
-
-  div.querySelector(".view-count").innerText =
-    date + " · 조회 " + newViews;
-
-  post.views = newViews;
-};
-
-      boardSection.appendChild(div);
-    });
+  if(currentCategory !== "전체"){
+    query = query.eq("category", currentCategory);
   }
 
-  loadPagination();
-}
+  const { data: posts } = await query.limit(100);
 
-document.getElementById("searchInput")
-  .addEventListener("keydown",function(e){
-    if(e.key==="Enter"){
-      search();
+  if(!posts) return;
+
+  posts.forEach(post => {
+
+    const div = document.createElement("div");
+
+    const text = `[${post.category}] ${post.title}`;
+
+    div.innerText = text;
+
+    div.onclick = () => {
+
+      const date = new Date(post.created_at)
+        .toLocaleDateString("ko-KR");
+
+      supabaseClient.rpc('increment_views', {
+        post_id: post.id
+      });
+
+      openModal(
+        post.title,
+        post.content,
+        date,
+        (post.views || 0) + 1
+      );
+    };
+
+    // 🔥 분리 기준
+    if(post.category === "공지" || post.category === "공지글"){
+      noticeList.appendChild(div);
+    } else {
+      regionList.appendChild(div);
     }
+
   });
+
+}
 
 async function boardSearch(){
 
