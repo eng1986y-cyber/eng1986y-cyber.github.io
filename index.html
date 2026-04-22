@@ -29,6 +29,18 @@
 
 <style>
 
+@keyframes shake{
+0%{transform:translateX(0);}
+25%{transform:translateX(-4px);}
+50%{transform:translateX(4px);}
+75%{transform:translateX(-4px);}
+100%{transform:translateX(0);}
+}
+
+.highlight{
+animation:shake 0.4s;
+}
+
 .video-modal-box .modal-close{
   position:absolute;
   top:10px;
@@ -327,9 +339,11 @@
 }
 
 .board-card.highlight{
-  background:#E2C65C;
-  color:#fff;
-  border-color:#C9A227;
+background:#ffcc00 !important;
+color:#000 !important;
+border-color:#C9A227;
+border:2px solid red !important;
+transform:scale(1.03);
 }
 
 body{
@@ -1043,8 +1057,8 @@ body{
 }
 
 body.modal-lock{
-  position:fixed !important;
   overflow:hidden !important;
+  touch-action:none;
   width:100%;
   left:0;
   right:0;
@@ -1214,6 +1228,26 @@ margin:0 auto;">
 
 <script>
 
+let savedScrollY = 0;
+
+function lockBodyScroll(){
+  savedScrollY = window.scrollY || window.pageYOffset;
+
+  document.body.classList.add("modal-lock");
+  document.documentElement.classList.add("modal-lock");
+
+  document.body.style.top = `-${savedScrollY}px`;
+}
+
+function unlockBodyScroll(){
+  document.body.classList.remove("modal-lock");
+  document.documentElement.classList.remove("modal-lock");
+
+  document.body.style.top = "";
+
+  window.scrollTo(0, savedScrollY);
+}
+
 let captchaValue = 0;
 
 function generateCaptcha(){
@@ -1248,6 +1282,85 @@ function filterCategory(cat, el){
   el.classList.add("active");
 
   loadBoard();
+}
+
+function openImageModal(url){
+  lockBodyScroll();
+
+  const modal = document.getElementById("imageModal");
+  const content = modal.querySelector(".modal-content");
+
+  document.getElementById("modalAdImage").src = url;
+
+  const vh = window.innerHeight;
+  content.style.maxHeight = vh * 0.9 + "px";
+  content.style.overflow = "hidden";
+
+  modal.style.display="flex";
+}
+
+function closeImageModal(){
+  unlockBodyScroll();
+
+  document.getElementById("imageModal").style.display="none";
+  document.getElementById("modalAdImage").src="";
+}
+
+function openVideoModal(url){
+
+  lockBodyScroll();
+
+  let embed="";
+
+  if(!url) return;
+
+  if(url.includes("youtube.com") || url.includes("youtu.be")){
+
+    let videoId="";
+
+    if(url.includes("watch")){
+      const params = new URL(url).searchParams;
+      videoId = params.get("v");
+    }else if(url.includes("shorts")){
+      videoId = url.split("shorts/")[1];
+    }else{
+      videoId = url.split("/").pop();
+    }
+
+    embed = "https://www.youtube.com/embed/"+videoId+"?autoplay=1";
+  }
+
+  else if(url.includes("bilibili.com")){
+    let bvid = url.split("/video/")[1];
+    if(bvid) bvid = bvid.split("?")[0];
+
+    embed = "https://player.bilibili.com/player.html?bvid="+bvid+"&autoplay=1";
+  }
+
+  else if(url.includes("vimeo.com")){
+    let id = url.split("/").pop();
+    embed = "https://player.vimeo.com/video/"+id+"?autoplay=1";
+  }
+
+  else{
+    embed = url;
+  }
+
+  document.getElementById("modalVideo").src = embed;
+  document.getElementById("videoModal").style.display="flex";
+}
+
+function closeVideoModal(){
+
+  unlockBodyScroll();
+
+  const iframe = document.getElementById("modalVideo");
+
+  if(iframe.tagName==="IFRAME"){
+    iframe.src="";
+  }
+
+  document.getElementById("videoModal").style.display="none";
 }
 
 async function loadPagination(){
@@ -1354,7 +1467,7 @@ async function loadSite(){
   txtBox.innerHTML="";
   bottomBox.innerHTML="";
   snsBox.innerHTML="";
-  bannerBox.innerHTML="";
+  bannerBox.innerHTML='<div id="weatherBox" class="weather-box">날씨 로딩중...</div>';
 
   /* ================= 광고 ================= */
 
