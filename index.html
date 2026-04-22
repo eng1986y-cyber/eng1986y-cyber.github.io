@@ -2,55 +2,41 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="applicable-device" content="pc,mobile">
 
-<title>延边信息搜索网 | 연변 생활정보 플랫폼</title>
+<title>延边信息搜索网_延边生活信息平台_연변정보공유 플랫폼</title>
 
-<meta name="description" content="연변 생활정보, 구인구직, 부동산, 중고거래, 지역게시판, 광고홍보를 제공하는 연변 정보 검색 플랫폼">
-<meta name="keywords" content="延边信息搜索,延边招聘,延边房产,延边二手市场,연변정보,연길정보">
+<meta name="keywords" content="延边信息搜索,延边生活信息,延边招聘,延边房产,延边二手市场,延边网站导航,延边朝鲜族信息平台">
+<meta name="description" content="연변 생활정보, 구인구직, 부동산, 중고거래, 광고홍보, 지역게시판 제공 플랫폼">
 <meta name="robots" content="index,follow">
 <meta name="author" content="yb365.info">
+<meta name="theme-color" content="#87CEEB">
+
 <link rel="canonical" href="https://yb365.info">
-
-<meta property="og:title" content="延边信息搜索网">
-<meta property="og:description" content="연변 생활정보 통합 플랫폼">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://yb365.info">
-
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<script type="application/ld+json">
-{
- "@context":"https://schema.org",
- "@type":"WebSite",
- "name":"延边信息搜索网",
- "url":"https://yb365.info",
- "potentialAction":{
-   "@type":"SearchAction",
-   "target":"https://yb365.info/?q={search_term_string}",
-   "query-input":"required name=search_term_string"
- }
-}
-</script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
 body{
-background:#f5f5f5;
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Microsoft YaHei",sans-serif;
+background:#f5f5f5;
 color:#222;
 overflow-y:scroll;
 }
 
+html.modal-open,
 body.modal-open{
-overflow:hidden;
+overflow:hidden !important;
+height:100% !important;
 touch-action:none;
+overscroll-behavior:none;
 }
-
-a{text-decoration:none;color:inherit}
 
 .container{
 max-width:1200px;
@@ -61,9 +47,9 @@ padding:20px;
 /* 검색 */
 .search-box{
 display:flex;
-gap:8px;
-margin-bottom:20px;
 align-items:center;
+gap:8px;
+margin-bottom:25px;
 }
 
 .search-logo{
@@ -81,21 +67,21 @@ font-size:16px;
 }
 
 .search-box button{
+width:120px;
 height:46px;
-padding:0 22px;
 border:none;
+border-radius:8px;
 background:#87CEEB;
 color:#fff;
-border-radius:8px;
-cursor:pointer;
 font-weight:700;
+cursor:pointer;
 }
 
 /* 배너 */
 .top-banner{
 position:relative;
 height:240px;
-border-radius:16px;
+border-radius:14px;
 overflow:hidden;
 margin-bottom:25px;
 background:#ddd;
@@ -109,11 +95,11 @@ object-fit:cover;
 
 .weather-box{
 position:absolute;
-right:10px;
 top:10px;
+right:10px;
 background:rgba(0,0,0,.55);
 color:#fff;
-padding:8px 10px;
+padding:6px 10px;
 border-radius:8px;
 font-size:12px;
 z-index:2;
@@ -133,22 +119,40 @@ flex-direction:column;
 gap:8px;
 }
 
-.img-ad,.square-ad,.sns-video{
+.img-ad,
+.square-ad,
+.sns-video{
+border:1px solid #ddd;
 border-radius:12px;
 overflow:hidden;
 background:#fff;
-border:1px solid #ddd;
 }
 
 .img-ad{height:100px}
 .square-ad{aspect-ratio:1/1}
 .sns-video{aspect-ratio:4/5}
 
-.img-ad img,.square-ad img,.sns-video img{
+.img-ad img,
+.square-ad img,
+.sns-video img{
 width:100%;
 height:100%;
 object-fit:cover;
 cursor:pointer;
+}
+
+.text-ad{
+display:flex;
+justify-content:center;
+align-items:center;
+background:#fff;
+border:1px solid #ddd;
+border-radius:10px;
+padding:12px;
+min-height:70px;
+text-align:center;
+text-decoration:none;
+color:#222;
 }
 
 .ad-title{
@@ -157,23 +161,11 @@ text-align:center;
 line-height:1.4;
 }
 
-.text-ad{
-display:flex;
-align-items:center;
-justify-content:center;
-background:#fff;
-border:1px solid #ddd;
-border-radius:10px;
-padding:14px;
-min-height:70px;
-text-align:center;
-}
-
 /* 게시판 */
 .board-search{
 display:flex;
 gap:8px;
-margin:30px 0 15px;
+margin:30px 0 14px;
 }
 
 .board-search input{
@@ -188,9 +180,9 @@ border-radius:8px;
 height:40px;
 padding:0 16px;
 border:none;
+border-radius:8px;
 background:#87CEEB;
 color:#fff;
-border-radius:8px;
 }
 
 .board-top{
@@ -208,13 +200,13 @@ gap:8px;
 flex-wrap:wrap;
 }
 
-.board-category button,.write-btn{
-border:none;
+.board-category button,
+.write-btn{
 padding:8px 14px;
 border-radius:20px;
-cursor:pointer;
-background:#fff;
 border:1px solid #ddd;
+background:#fff;
+cursor:pointer;
 }
 
 .board-category button.active{
@@ -232,7 +224,7 @@ color:#fff;
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:8px;
-min-height:400px;
+min-height:420px;
 }
 
 .board-card{
@@ -246,7 +238,6 @@ transition:.2s;
 
 .board-card:hover{
 border-color:#87CEEB;
-transform:translateY(-2px);
 }
 
 .board-card h3{
@@ -265,14 +256,14 @@ overflow:hidden;
 }
 
 .board-meta{
-margin-top:8px;
 font-size:12px;
 color:#999;
+margin-top:8px;
 }
 
 #pagination{
 text-align:center;
-margin-top:20px;
+margin-top:18px;
 }
 
 #pagination button{
@@ -286,18 +277,18 @@ cursor:pointer;
 /* 하단 */
 .site-description{
 margin-top:40px;
+padding:25px;
 background:#fff;
 border:1px solid #ddd;
 border-radius:14px;
-padding:25px;
 text-align:center;
 line-height:1.7;
 }
 
 .owner-box{
-margin-top:25px;
+margin-top:24px;
+padding-bottom:50px;
 text-align:center;
-padding-bottom:40px;
 }
 
 .owner-name{
@@ -320,6 +311,7 @@ justify-content:center;
 border-radius:50%;
 background:#87CEEB;
 color:#fff;
+text-decoration:none;
 }
 
 /* 모달 */
@@ -328,9 +320,9 @@ display:none;
 position:fixed;
 inset:0;
 background:rgba(0,0,0,.65);
-z-index:9999;
 justify-content:center;
 align-items:center;
+z-index:99999;
 padding:20px;
 }
 
@@ -339,13 +331,13 @@ display:flex;
 }
 
 .modal-box{
-background:#fff;
 width:100%;
-max-width:600px;
+max-width:620px;
 max-height:90vh;
 overflow:auto;
+background:#fff;
 border-radius:16px;
-padding:22px;
+padding:24px;
 position:relative;
 }
 
@@ -392,6 +384,7 @@ grid-template-columns:repeat(2,1fr);
 
 .board-section{
 grid-template-columns:repeat(2,1fr);
+gap:6px;
 }
 
 .board-top{
@@ -406,6 +399,7 @@ width:100%;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -417,13 +411,13 @@ width:100%;
 </div>
 
 <div class="top-banner" id="topBanner">
-<div class="weather-box" id="weatherBox">날씨 불러오는중...</div>
+<div class="weather-box" id="weatherBox">날씨 로딩중...</div>
 </div>
 
 <div class="grid" id="imageAds"></div>
 <div class="grid" id="textAds"></div>
-<div class="grid" id="bottomAds"></div>
-<div class="grid" id="snsAds"></div>
+<div class="grid" id="bottomImageAds"></div>
+<div class="grid" id="snsVideoAds"></div>
 
 <div class="board-search">
 <input id="boardKeyword" placeholder="게시판 검색">
@@ -432,10 +426,10 @@ width:100%;
 
 <div class="board-top">
 <div class="board-category" id="categoryBar"></div>
-<button class="write-btn" onclick="openWriteModal()">글쓰기</button>
+<button class="write-btn" onclick="openWrite()">글쓰기</button>
 </div>
 
-<div class="board-section" id="boardList"></div>
+<div class="board-section" id="boardSection"></div>
 <div id="pagination"></div>
 
 <div class="site-description" id="siteDescription"></div>
@@ -452,408 +446,344 @@ width:100%;
 
 <script>
 const CATEGORYS=["전체","연길","훈춘","화룡","룡정","왕청","도문","돈화","안도","불편신고"];
+let currentCategory="전체";
 let currentPage=1;
 let pageSize=window.innerWidth<=768?6:12;
-let currentCategory="전체";
 
-function lockScroll(){
-  document.body.classList.add("modal-open");
+/* 스크롤 */
+function lockBody(){
+document.documentElement.classList.add("modal-open");
+document.body.classList.add("modal-open");
 }
-
-function unlockScroll(){
-  document.body.classList.remove("modal-open");
+function unlockBody(){
+document.documentElement.classList.remove("modal-open");
+document.body.classList.remove("modal-open");
 }
 
 /* 카테고리 */
 function renderCategory(){
-  const bar=document.getElementById("categoryBar");
-  bar.innerHTML="";
-  CATEGORYS.forEach(cat=>{
-    const btn=document.createElement("button");
-    btn.innerText=cat;
-    if(cat===currentCategory) btn.classList.add("active");
-
-    btn.onclick=()=>{
-      currentCategory=cat;
-      currentPage=1;
-      renderCategory();
-      loadBoard();
-    };
-    bar.appendChild(btn);
-  });
+const bar=document.getElementById("categoryBar");
+bar.innerHTML="";
+CATEGORYS.forEach(cat=>{
+const btn=document.createElement("button");
+btn.innerText=cat;
+if(cat===currentCategory) btn.classList.add("active");
+btn.onclick=()=>{
+currentCategory=cat;
+currentPage=1;
+renderCategory();
+loadBoard();
+};
+bar.appendChild(btn);
+});
 }
 
-/* 광고 로드 */
+/* 광고 */
 async function loadAds(){
-  const {data,error}=await supabaseClient
-  .from("ads")
-  .select("*")
-  .order("id",{ascending:true});
+const {data}=await supabaseClient.from("ads").select("*").order("id",{ascending:true});
+const ads=data||[];
 
-  const ads=data||[];
+imageAds.innerHTML="";
+textAds.innerHTML="";
+bottomImageAds.innerHTML="";
+snsVideoAds.innerHTML="";
 
-  const imageAds=document.getElementById("imageAds");
-  const textAds=document.getElementById("textAds");
-  const bottomAds=document.getElementById("bottomAds");
-  const snsAds=document.getElementById("snsAds");
+ads.forEach(ad=>{
+const t=(ad.type||"").toLowerCase();
 
-  imageAds.innerHTML="";
-  textAds.innerHTML="";
-  bottomAds.innerHTML="";
-  snsAds.innerHTML="";
-
-  ads.forEach(ad=>{
-
-    const type=(ad.type||"").toLowerCase();
-
-    if(type==="image"){
-      imageAds.innerHTML+=`
-      <div class="ad-item">
-        <div class="img-ad">
-          <img src="${ad.image_url}" onclick="openImage('${ad.image_url}')">
-        </div>
-        <div class="ad-title">${ad.main_title||""}</div>
-      </div>`;
-    }
-
-    else if(type==="text"){
-      textAds.innerHTML+=`
-      <a class="text-ad" href="${ad.link_url||'#'}" target="_blank">
-      ${ad.title||"텍스트광고"}
-      </a>`;
-    }
-
-    else if(type==="square"){
-      bottomAds.innerHTML+=`
-      <div class="ad-item">
-        <div class="square-ad">
-          <img src="${ad.image_url}" onclick="openImage('${ad.image_url}')">
-        </div>
-        <div class="ad-title">${ad.main_title||""}</div>
-      </div>`;
-    }
-
-    else if(type==="sns"){
-      snsAds.innerHTML+=`
-      <div class="ad-item">
-        <div class="sns-video">
-          <img src="${ad.image_url}" onclick="openVideo('${ad.video_url}')">
-        </div>
-        <div class="ad-title">${ad.title||""}</div>
-      </div>`;
-    }
-
-  });
+if(t==="image"){
+imageAds.innerHTML+=`
+<div class="ad-item">
+<div class="img-ad"><img src="${ad.image_url||''}" onclick="openImage('${ad.image_url||''}')"></div>
+<div class="ad-title">${ad.main_title||''}</div>
+</div>`;
 }
 
-/* 사이트설정 */
-async function loadSettings(){
+if(t==="text"){
+textAds.innerHTML+=`
+<a class="text-ad" href="${ad.link_url||'#'}" target="_blank">${ad.title||'광고'}</a>`;
+}
 
- const {data}=await supabaseClient
- .from("site_settings")
- .select("*")
- .limit(1);
+if(t==="square"){
+bottomImageAds.innerHTML+=`
+<div class="ad-item">
+<div class="square-ad"><img src="${ad.image_url||''}" onclick="openImage('${ad.image_url||''}')"></div>
+<div class="ad-title">${ad.main_title||''}</div>
+</div>`;
+}
 
- if(!data || !data.length) return;
+if(t==="sns"){
+snsVideoAds.innerHTML+=`
+<div class="ad-item">
+<div class="sns-video"><img src="${ad.image_url||''}" onclick="openVideo('${ad.video_url||''}')"></div>
+<div class="ad-title">${ad.title||''}</div>
+</div>`;
+}
 
- const s=data[0];
+});
+}
 
- if(s.search_logo){
-   document.getElementById("searchLogo").src=s.search_logo;
- }
+/* 설정 */
+async function loadSite(){
+const {data}=await supabaseClient.from("site_settings").select("*").limit(1);
+if(!data || !data.length) return;
 
- if(s.banner_img){
-   document.getElementById("topBanner").innerHTML=`
-   ${s.banner_link?
-   `<a href="${s.banner_link}" target="_blank"><img src="${s.banner_img}"></a>`
-   :
-   `<img src="${s.banner_img}">`
-   }
-   <div class="weather-box" id="weatherBox">날씨 불러오는중...</div>
-   `;
- }
+const s=data[0];
 
- document.getElementById("siteDescription").innerText=
- s.site_description || "연변 생활정보 플랫폼";
+if(s.search_logo) searchLogo.src=s.search_logo;
 
- document.getElementById("ownerName").innerText=
- s.owner_name || "延边信息搜索网";
+if(s.banner_img){
+topBanner.innerHTML=`
+${s.banner_link?`<a href="${s.banner_link}" target="_blank"><img src="${s.banner_img}"></a>`:`<img src="${s.banner_img}">`}
+<div class="weather-box" id="weatherBox">날씨 로딩중...</div>`;
+}
 
- const sns=document.getElementById("ownerSNS");
- sns.innerHTML="";
+ownerName.innerText=s.owner_name||"延边信息搜索网";
+siteDescription.innerText=s.site_description||"연변 생활정보 플랫폼";
 
- if(s.owner_instagram){
-   sns.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
- }
+ownerSNS.innerHTML="";
 
- if(s.owner_youtube){
-   sns.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
- }
-
- if(s.owner_blog){
-   sns.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
- }
-
+if(s.owner_instagram) ownerSNS.innerHTML+=`<a href="${s.owner_instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`;
+if(s.owner_youtube) ownerSNS.innerHTML+=`<a href="${s.owner_youtube}" target="_blank"><i class="fab fa-youtube"></i></a>`;
+if(s.owner_blog) ownerSNS.innerHTML+=`<a href="${s.owner_blog}" target="_blank"><i class="fas fa-blog"></i></a>`;
 }
 
 /* 게시판 */
 async function loadBoard(){
 
- let query=supabaseClient
- .from("board_posts")
- .select("*",{count:"exact"})
- .order("id",{ascending:false});
+let query=supabaseClient
+.from("board_posts")
+.select("*",{count:"exact"})
+.order("id",{ascending:false});
 
- if(currentCategory!=="전체"){
-   query=query.eq("category",currentCategory);
- }
+if(currentCategory!=="전체"){
+query=query.eq("category",currentCategory);
+}
 
- const from=(currentPage-1)*pageSize;
- const to=from+pageSize-1;
+const from=(currentPage-1)*pageSize;
+const to=from+pageSize-1;
 
- const {data,count}=await query.range(from,to);
+const {data,count}=await query.range(from,to);
 
- const list=document.getElementById("boardList");
- list.innerHTML="";
+boardSection.innerHTML="";
 
- if(!data || !data.length){
-   list.innerHTML="<div>게시글이 없습니다.</div>";
-   return;
- }
+if(!data || !data.length){
+boardSection.innerHTML="<div style='padding:30px'>게시글이 없습니다.</div>";
+pagination.innerHTML="";
+return;
+}
 
- data.forEach(post=>{
+data.forEach(post=>{
 
-   const date=new Date(post.created_at).toLocaleDateString("ko-KR");
+const date=new Date(post.created_at).toLocaleDateString("ko-KR");
 
-   list.innerHTML+=`
-   <div class="board-card"
-   onclick="openPost('${encodeURIComponent(post.title)}','${encodeURIComponent(post.content)}','${date}','${post.views||0}','${post.id}')">
+boardSection.innerHTML+=`
+<div class="board-card"
+onclick="openPost('${encodeURIComponent(post.title)}','${encodeURIComponent(post.content)}','${date}','${post.views||0}','${post.id}')">
 
-     <h3>[${post.category}] ${post.title}</h3>
-     <div class="board-preview">${post.content}</div>
-     <div class="board-meta">${date} · 조회 ${post.views||0}</div>
+<h3>[${post.category}] ${post.title}</h3>
+<div class="board-preview">${post.content}</div>
+<div class="board-meta">${date} · 조회 ${post.views||0}</div>
 
-   </div>`;
- });
+</div>`;
+});
 
- renderPagination(count);
+renderPagination(count);
 }
 
 function renderPagination(total){
 
- const totalPage=Math.ceil(total/pageSize);
- const box=document.getElementById("pagination");
- box.innerHTML="";
+pagination.innerHTML="";
 
- for(let i=1;i<=totalPage;i++){
-   const btn=document.createElement("button");
-   btn.innerText=i;
+const totalPage=Math.ceil(total/pageSize);
 
-   if(i===currentPage){
-     btn.style.background="#87CEEB";
-     btn.style.color="#fff";
-   }
+for(let i=1;i<=totalPage;i++){
+const btn=document.createElement("button");
+btn.innerText=i;
 
-   btn.onclick=()=>{
-     currentPage=i;
-     loadBoard();
-     window.scrollTo({top:0,behavior:"smooth"});
-   };
+if(i===currentPage){
+btn.style.background="#87CEEB";
+btn.style.color="#fff";
+}
 
-   box.appendChild(btn);
- }
+btn.onclick=()=>{
+currentPage=i;
+loadBoard();
+window.scrollTo({top:0,behavior:"smooth"});
+};
 
+pagination.appendChild(btn);
+}
 }
 
 /* 검색 */
 function searchSite(){
+const key=searchInput.value.trim().toLowerCase();
+if(!key) return;
 
- const key=document.getElementById("searchInput").value.trim().toLowerCase();
+let found=false;
 
- if(!key) return;
+document.querySelectorAll(".ad-title,.text-ad,.board-card").forEach(el=>{
+if(el.innerText.toLowerCase().includes(key)){
+el.scrollIntoView({behavior:"smooth",block:"center"});
+found=true;
+}
+});
 
- let found=false;
-
- document.querySelectorAll(".ad-title,.text-ad,.board-card").forEach(el=>{
-   if(el.innerText.toLowerCase().includes(key)){
-     el.scrollIntoView({behavior:"smooth",block:"center"});
-     found=true;
-   }
- });
-
- if(!found) alert("검색 결과 없음");
+if(!found) alert("검색 결과 없음");
 }
 
+/* 게시판검색 */
 async function searchBoard(){
 
- const key=document.getElementById("boardKeyword").value.trim();
+const key=boardKeyword.value.trim();
+if(!key) return;
 
- if(!key) return;
+const {data}=await supabaseClient
+.from("board_posts")
+.select("*")
+.or(`title.ilike.%${key}%,content.ilike.%${key}%`)
+.limit(30);
 
- const {data}=await supabaseClient
- .from("board_posts")
- .select("*")
- .or(`title.ilike.%${key}%,content.ilike.%${key}%`)
- .limit(30);
+boardSection.innerHTML="";
 
- if(!data || !data.length){
-   alert("검색 결과 없음");
-   return;
- }
+if(!data || !data.length){
+alert("검색 결과 없음");
+return;
+}
 
- currentCategory="전체";
- currentPage=1;
+data.forEach(post=>{
+const date=new Date(post.created_at).toLocaleDateString("ko-KR");
 
- const list=document.getElementById("boardList");
- list.innerHTML="";
+boardSection.innerHTML+=`
+<div class="board-card"
+onclick="openPost('${encodeURIComponent(post.title)}','${encodeURIComponent(post.content)}','${date}','${post.views||0}','${post.id}')">
+<h3>[${post.category}] ${post.title}</h3>
+<div class="board-preview">${post.content}</div>
+<div class="board-meta">${date}</div>
+</div>`;
+});
 
- data.forEach(post=>{
-   const date=new Date(post.created_at).toLocaleDateString("ko-KR");
-
-   list.innerHTML+=`
-   <div class="board-card"
-   onclick="openPost('${encodeURIComponent(post.title)}','${encodeURIComponent(post.content)}','${date}','${post.views||0}','${post.id}')">
-   <h3>[${post.category}] ${post.title}</h3>
-   <div class="board-preview">${post.content}</div>
-   <div class="board-meta">${date}</div>
-   </div>`;
- });
-
+pagination.innerHTML="";
 }
 
 /* 모달 */
 function openImage(url){
- document.getElementById("globalModal").classList.add("show");
- document.getElementById("modalBody").innerHTML=
- `<img src="${url}" class="modal-img">`;
- lockScroll();
+globalModal.classList.add("show");
+modalBody.innerHTML=`<img src="${url}" class="modal-img">`;
+lockBody();
 }
 
 function openVideo(url){
- document.getElementById("globalModal").classList.add("show");
- document.getElementById("modalBody").innerHTML=
- `<iframe id="modalVideo" src="${url}" allowfullscreen></iframe>`;
- lockScroll();
+globalModal.classList.add("show");
+modalBody.innerHTML=`<iframe id="modalVideo" src="${url}" allowfullscreen></iframe>`;
+lockBody();
 }
 
 async function openPost(t,c,d,v,id){
 
- const title=decodeURIComponent(t);
- const content=decodeURIComponent(c);
+const title=decodeURIComponent(t);
+const content=decodeURIComponent(c);
 
- document.getElementById("globalModal").classList.add("show");
- document.getElementById("modalBody").innerHTML=`
- <h2 style="margin-bottom:10px">${title}</h2>
- <div style="font-size:12px;color:#888;margin-bottom:15px">${d} · 조회 ${v}</div>
- <div style="line-height:1.7">${content}</div>
- `;
+globalModal.classList.add("show");
+modalBody.innerHTML=`
+<h2 style="margin-bottom:10px">${title}</h2>
+<div style="font-size:12px;color:#888;margin-bottom:15px">${d} · 조회 ${v}</div>
+<div style="line-height:1.7">${content}</div>
+`;
 
- lockScroll();
+lockBody();
 
- await supabaseClient
- .from("board_posts")
- .update({views:Number(v)+1})
- .eq("id",id);
-
+await supabaseClient
+.from("board_posts")
+.update({views:Number(v)+1})
+.eq("id",id);
 }
 
 function closeModal(){
- document.getElementById("globalModal").classList.remove("show");
- document.getElementById("modalBody").innerHTML="";
- unlockScroll();
+globalModal.classList.remove("show");
+modalBody.innerHTML="";
+unlockBody();
 }
 
 /* 글쓰기 */
-function openWriteModal(){
+function openWrite(){
 
- document.getElementById("globalModal").classList.add("show");
+globalModal.classList.add("show");
 
- document.getElementById("modalBody").innerHTML=`
- <h2 style="margin-bottom:15px">글쓰기</h2>
+modalBody.innerHTML=`
+<h2 style="margin-bottom:15px">글쓰기</h2>
 
- <input id="wTitle" placeholder="제목"
- style="width:100%;height:42px;margin-bottom:10px;padding:0 10px">
+<input id="wTitle" placeholder="제목"
+style="width:100%;height:42px;margin-bottom:10px;padding:0 10px">
 
- <select id="wCategory"
- style="width:100%;height:42px;margin-bottom:10px">
- ${CATEGORYS.filter(x=>x!=="전체").map(x=>`<option>${x}</option>`).join("")}
- </select>
+<select id="wCategory"
+style="width:100%;height:42px;margin-bottom:10px">
+${CATEGORYS.filter(x=>x!=="전체").map(x=>`<option>${x}</option>`).join("")}
+</select>
 
- <textarea id="wContent"
- placeholder="내용"
- style="width:100%;height:140px;padding:10px"></textarea>
+<textarea id="wContent"
+style="width:100%;height:140px;padding:10px"
+placeholder="내용"></textarea>
 
- <button onclick="submitPost()"
- style="margin-top:12px;width:100%;height:44px;border:none;background:#87CEEB;color:#fff;border-radius:8px">
- 등록하기
- </button>
- `;
+<button onclick="submitPost()"
+style="width:100%;height:44px;margin-top:12px;border:none;background:#87CEEB;color:#fff;border-radius:8px">
+등록하기
+</button>
+`;
 
- lockScroll();
+lockBody();
 }
 
 async function submitPost(){
 
- const title=document.getElementById("wTitle").value.trim();
- const category=document.getElementById("wCategory").value;
- const content=document.getElementById("wContent").value.trim();
+const title=document.getElementById("wTitle").value.trim();
+const category=document.getElementById("wCategory").value;
+const content=document.getElementById("wContent").value.trim();
 
- if(!title || !content){
-   alert("제목과 내용을 입력하세요");
-   return;
- }
+if(!title || !content){
+alert("제목과 내용을 입력하세요");
+return;
+}
 
- const {error}=await supabaseClient
- .from("board_posts")
- .insert([{title,category,content}]);
+const {error}=await supabaseClient
+.from("board_posts")
+.insert([{title,category,content}]);
 
- if(error){
-   alert("등록 실패");
-   return;
- }
+if(error){
+alert("등록 실패");
+return;
+}
 
- alert("등록 완료");
- closeModal();
- loadBoard();
+alert("등록 완료");
+closeModal();
+loadBoard();
 }
 
 /* 날씨 */
 async function loadWeather(){
-
- try{
-   const res=await fetch("https://wttr.in/42.88,129.51?format=j1");
-   const data=await res.json();
-
-   const c=data.current_condition[0];
-
-   const box=document.getElementById("weatherBox");
-
-   if(box){
-     box.innerHTML=`연변 ${c.temp_C}°C`;
-   }
-
- }catch(e){}
+try{
+const res=await fetch("https://wttr.in/42.88,129.51?format=j1");
+const data=await res.json();
+const c=data.current_condition[0];
+const box=document.getElementById("weatherBox");
+if(box) box.innerHTML=`연변 ${c.temp_C}°C`;
+}catch(e){}
 }
-
-/* 엔터 */
-document.addEventListener("keydown",e=>{
- if(e.key==="Enter" && document.activeElement.id==="searchInput"){
-   searchSite();
- }
-});
 
 /* 시작 */
 window.addEventListener("DOMContentLoaded",async()=>{
 
- renderCategory();
+renderCategory();
 
- await loadSettings();
- await loadAds();
- await loadBoard();
+await loadSite();
+await loadAds();
+await loadBoard();
 
- loadWeather();
+loadWeather();
 
 });
+
 </script>
 
 <div class="modal" id="globalModal" onclick="if(event.target===this)closeModal()">
