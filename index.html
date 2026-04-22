@@ -1805,7 +1805,24 @@ function renderBoardList(list, target, page, type){
 
 function renderBoardPagination(totalCount, type){
 
-  const container = document.getElementById("pagination");
+<div class="board-wrapper">
+
+  <!-- 공지 -->
+  <div class="board-box">
+    <h3>공지글</h3>
+    <div id="noticeList" class="board-list"></div>
+    <div id="noticePagination"></div>
+  </div>
+
+  <!-- 지역 -->
+  <div class="board-box">
+    <h3>지역정보</h3>
+    <div id="regionList" class="board-list"></div>
+    <div id="regionPagination"></div>
+  </div>
+
+</div>
+
   container.innerHTML = "";
 
   const totalPages = Math.ceil(totalCount / boardPageSize);
