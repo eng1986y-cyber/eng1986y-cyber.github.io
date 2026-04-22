@@ -1804,11 +1804,10 @@ function renderBoardList(list, target, page, type){
     target.appendChild(div);
   });
 
-  // 🔥 여기 중요: type 유지해서 각각 따로 렌더
-  renderBoardPagination(list.length, type);
+renderBoardPagination(list.length, type, list, target);
 }
 
-function renderBoardPagination(totalCount, type){
+function renderBoardPagination(totalCount, type, list, target){
 
   let container;
 
@@ -1835,19 +1834,20 @@ function renderBoardPagination(totalCount, type){
       btn.style.background = "#87CEEB";
     }
 
-btn.onclick = () => {
+    btn.onclick = () => {
 
-  if(type === "notice"){
-    noticePage = i;
-    renderBoardList(noticeData, noticeList, noticePage, "notice");
+      if(type === "notice"){
+        noticePage = i;
+      } else {
+        regionPage = i;
+      }
+
+      renderBoardList(list, target, type === "notice" ? noticePage : regionPage, type);
+    };
+
+    container.appendChild(btn);
   }
-
-  if(type === "region"){
-    regionPage = i;
-    renderBoardList(regionData, regionList, regionPage, "region");
-  }
-
-};
+}
 
 function boardSearch(){
 
