@@ -1751,35 +1751,44 @@ async function loadBoard(){
   const noticeList = document.getElementById("noticeList");
   const regionList = document.getElementById("regionList");
 
+  /* 지역정보만 로딩 느낌 주기 */
+  regionList.innerHTML = "불러오는중...";
   noticeList.innerHTML = "";
-  regionList.innerHTML = "";
 
-  let query = supabaseClient
+  /* ---------------- 공지글은 전체 고정 ---------------- */
+  const { data: noticePosts } = await supabaseClient
     .from("board_posts")
     .select("*")
+    .in("category", ["공지","공지글"])
     .order("id",{ascending:false});
 
+  /* ---------------- 지역정보만 카테고리 적용 ---------------- */
+  let regionQuery = supabaseClient
+    .from("board_posts")
+    .select("*")
+    .order("id",{ascending:false})
+    .not("category","in",'("공지","공지글")');
+
   if(currentCategory !== "전체"){
-    query = query.eq("category", currentCategory);
+    regionQuery = regionQuery.eq("category", currentCategory);
   }
 
-  const { data: posts } = await query;
+  const { data: regionPosts } = await regionQuery;
 
-  if(!posts) return;
-
-  // ===== 1. 공지 / 지역 분리 =====
-  const notices = posts.filter(p =>
-    p.category === "공지" || p.category === "공지글"
+  /* ---------------- 출력 ---------------- */
+  renderBoardList(
+    noticePosts || [],
+    noticeList,
+    noticePage,
+    "notice"
   );
 
-  const regions = posts.filter(p =>
-    p.category !== "공지" && p.category !== "공지글"
+  renderBoardList(
+    regionPosts || [],
+    regionList,
+    regionPage,
+    "region"
   );
-
-  // ===== 2. 페이징 =====
-  renderBoardList(notices, noticeList, noticePage, "notice");
-  renderBoardList(regions, regionList, regionPage, "region");
-
 }
 
 function renderBoardList(list, target, page, type){
