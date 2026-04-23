@@ -1154,7 +1154,8 @@ body{
 
 <div class="board-search">
 <input id="boardSearchInput"
-       placeholder="게시판 검색">
+       placeholder="게시판 검색"
+       onkeydown="if(event.key==='Enter'){boardSearch();}">
   <button onclick="boardSearch()">검색</button>
 </div>
 
