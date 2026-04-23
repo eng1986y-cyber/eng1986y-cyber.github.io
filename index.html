@@ -1825,8 +1825,8 @@ function renderBoardList(list, target, page, type){
   target.innerHTML = "";
 
 const pageSize =
-  (type === "notice" && window.innerWidth <= 768)
-    ? 5
+  window.innerWidth <= 768
+    ? (type === "notice" ? 5 : 10)
     : boardPageSize;
 
 const start = (page - 1) * pageSize;
@@ -1874,8 +1874,8 @@ function renderBoardPagination(totalCount, type, list, target){
   container.innerHTML = "";
 
 const pageSize =
-  (type === "notice" && window.innerWidth <= 768)
-    ? 5
+  window.innerWidth <= 768
+    ? (type === "notice" ? 5 : 10)
     : boardPageSize;
 
 const totalPages = Math.ceil(totalCount / pageSize);
