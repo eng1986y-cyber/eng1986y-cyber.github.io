@@ -1285,14 +1285,21 @@ const { data, error } = await supabaseClient
 
 async function loadVisitStats(){
 
+  const today = new Date();
+  const startDate = new Date();
+  startDate.setDate(today.getDate() - 29);   // 오늘 포함 최근 30일
+
+  const start = startDate.toISOString().split("T")[0];
+  const todayStr = today.toISOString().split("T")[0];
+
   const { data } = await supabaseClient
     .from("site_visits")
     .select("*")
-    .order("date", { ascending: false })
+    .gte("date", start)
+    .lte("date", todayStr)
+    .order("date", { ascending: true });
 
   if(!data) return;
-
-  const today = new Date().toISOString().split("T")[0];
 
   let total = 0;
   let todayCount = 0;
@@ -1300,18 +1307,29 @@ async function loadVisitStats(){
   const labels = [];
   const counts = [];
 
-  data.forEach(row=>{
-    total += row.count;
-    if(row.date === today) todayCount = row.count;
+  data.forEach(row => {
 
-    labels.push(row.date.slice(5));
+    total += row.count;
+
+    if(row.date === todayStr){
+      todayCount = row.count;
+    }
+
+    labels.push(row.date.slice(5)); // MM-DD
     counts.push(row.count);
+
   });
 
   document.getElementById("todayVisit").textContent = todayCount;
   document.getElementById("totalVisit").textContent = total;
 
-  new Chart(document.getElementById("visitChart"), {
+  const ctx = document.getElementById("visitChart");
+
+  if(window.visitChartInstance){
+    window.visitChartInstance.destroy();
+  }
+
+  window.visitChartInstance = new Chart(ctx, {
     type: "line",
     data: {
       labels: labels,
