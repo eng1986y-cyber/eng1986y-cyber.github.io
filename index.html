@@ -1786,7 +1786,7 @@ async function loadBoard(){
     .from("board_posts")
     .select("*")
     .order("id",{ascending:false})
-    .not("category","in",'("공지","공지글")');
+    .not("category","in",'("공지","공지글","이벤트")');
 
   if(currentCategory !== "전체"){
     regionQuery = regionQuery.eq("category", currentCategory);
