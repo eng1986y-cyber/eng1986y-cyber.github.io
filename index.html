@@ -1134,7 +1134,9 @@ body{
 
   <img id="searchLogo" class="search-logo" src="">
 
-  <input id="searchInput" placeholder="검색어 입력 / 输入关键词">
+  <input id="searchInput"
+       placeholder="검색어 입력 / 输入关键词"
+       onkeydown="if(event.key==='Enter'){search();}">
   <button onclick="search()">검색</button>
 
 </div>
