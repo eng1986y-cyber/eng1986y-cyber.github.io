@@ -1812,8 +1812,13 @@ function renderBoardList(list, target, page, type){
 
   target.innerHTML = "";
 
-  const start = (page - 1) * boardPageSize;
-  const end = start + boardPageSize;
+const pageSize =
+  (type === "notice" && window.innerWidth <= 768)
+    ? 5
+    : boardPageSize;
+
+const start = (page - 1) * pageSize;
+const end = start + pageSize;
 
   const pageItems = list.slice(start, end);
 
@@ -1856,7 +1861,12 @@ function renderBoardPagination(totalCount, type, list, target){
 
   container.innerHTML = "";
 
-  const totalPages = Math.ceil(totalCount / boardPageSize);
+const pageSize =
+  (type === "notice" && window.innerWidth <= 768)
+    ? 5
+    : boardPageSize;
+
+const totalPages = Math.ceil(totalCount / pageSize);
 
   // 현재 페이지 확인
   let current = (type === "notice") ? noticePage : regionPage;
