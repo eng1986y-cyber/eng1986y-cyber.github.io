@@ -1862,7 +1862,7 @@ function renderBoardPagination(totalCount, type, list, target){
   let current = (type === "notice") ? noticePage : regionPage;
 
   // ===== 10개씩 그룹 =====
-  const groupSize = 10;
+  const groupSize = window.innerWidth <= 768 ? 5 : 10;
   const group = Math.ceil(current / groupSize);
 
   const startPage = (group - 1) * groupSize + 1;
