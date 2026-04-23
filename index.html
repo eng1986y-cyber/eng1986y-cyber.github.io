@@ -1091,15 +1091,25 @@ body{
 
 /* 모바일 */
 @media(max-width:768px){
+
   .board-wrapper{
     flex-direction:column;
   }
 
-  .board-box{
+  /* 공지사항 */
+  .board-box:first-child{
+    height:250px;
+    min-height:250px;
+    max-height:250px;
+  }
+
+  /* 지역정보 */
+  .board-box:last-child{
     height:420px;
     min-height:420px;
     max-height:420px;
   }
+
 }
 
 #noticePagination,
