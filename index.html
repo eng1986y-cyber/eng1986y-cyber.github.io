@@ -1534,8 +1534,12 @@ function scrollToBottom(){
 }
 
 function focusSearch(){
-  document.getElementById("searchInput").focus();
-}
+  document.getElementById("boardSearchInput")
+  .addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+      boardSearch();
+    }
+});
 
 async function loadSite(){
 
