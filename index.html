@@ -1534,12 +1534,8 @@ function scrollToBottom(){
 }
 
 function focusSearch(){
-  document.getElementById("boardSearchInput")
-  .addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
-      boardSearch();
-    }
-});
+  document.getElementById("searchInput").focus();
+}
 
 async function loadSite(){
 
@@ -2016,11 +2012,16 @@ function outsideClose(e){
   }
 }
 
-document.getElementById("boardSearchInput")
-  .addEventListener("keydown",function(e){
-    if(e.key==="Enter"){
-      boardSearch();
-    }
+window.addEventListener("DOMContentLoaded", function(){
+
+  document.getElementById("boardSearchInput")
+    .addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        e.preventDefault();
+        boardSearch();
+      }
+    });
+
 });
 
 function openWritePost(){
