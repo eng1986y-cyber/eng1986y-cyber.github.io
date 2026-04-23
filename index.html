@@ -1203,7 +1203,6 @@ body{
         <option value="돈화">돈화</option>
         <option value="안도">안도</option>
         <option value="불편신고">불편신고</option>
-        <option value="이벤트">이벤트</option>
       </select>
 
       <label>제목</label>
@@ -1241,7 +1240,6 @@ body{
   <button onclick="filterCategory('돈화', this)">돈화</button>
   <button onclick="filterCategory('안도', this)">안도</button>
   <button onclick="filterCategory('불편신고', this)">불편신고</button>
-  <button onclick="filterCategory('이벤트', this)">이벤트</button>
 </div>
 
 <button onclick="openWritePost()" class="write-btn">글쓰기</button>
@@ -1780,7 +1778,7 @@ async function loadBoard(){
   const { data: noticePosts } = await supabaseClient
     .from("board_posts")
     .select("*")
-    .in("category", ["공지","공지글"])
+    .in("category", ["공지","공지글","이벤트"])
     .order("id",{ascending:false});
 
   /* ---------------- 지역정보만 카테고리 적용 ---------------- */
