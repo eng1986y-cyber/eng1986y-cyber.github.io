@@ -1297,7 +1297,7 @@ async function loadVisitStats(){
     .select("*")
     .gte("date", start)
     .lte("date", todayStr)
-    .order("date", { ascending: true });
+    .order("date", { ascending: false });
 
   if(!data) return;
 
