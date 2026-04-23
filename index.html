@@ -1829,31 +1829,86 @@ function renderBoardPagination(totalCount, type, list, target){
 
   const totalPages = Math.ceil(totalCount / boardPageSize);
 
-  for(let i=1; i<=totalPages; i++){
+  // 현재 페이지 확인
+  let current = (type === "notice") ? noticePage : regionPage;
+
+  // ===== 10개씩 그룹 =====
+  const groupSize = 10;
+  const group = Math.ceil(current / groupSize);
+
+  const startPage = (group - 1) * groupSize + 1;
+  const endPage = Math.min(startPage + groupSize - 1, totalPages);
+
+  // 이전 버튼
+  if(startPage > 1){
+    const prev = document.createElement("button");
+    prev.innerText = "이전";
+
+    prev.onclick = () => {
+      if(type === "notice"){
+        noticePage = startPage - 1;
+      }else{
+        regionPage = startPage - 1;
+      }
+
+      renderBoardList(
+        list,
+        target,
+        (type === "notice") ? noticePage : regionPage,
+        type
+      );
+    };
+
+    container.appendChild(prev);
+  }
+
+  // 페이지 번호
+  for(let i = startPage; i <= endPage; i++){
 
     const btn = document.createElement("button");
     btn.innerText = i;
 
-    if(type === "notice" && i === noticePage) {
+    if(i === current){
       btn.style.background = "#87CEEB";
-    }
-
-    if(type === "region" && i === regionPage) {
-      btn.style.background = "#87CEEB";
+      btn.style.color = "#fff";
     }
 
     btn.onclick = () => {
 
       if(type === "notice"){
         noticePage = i;
-      } else {
+      }else{
         regionPage = i;
       }
 
-      renderBoardList(list, target, type === "notice" ? noticePage : regionPage, type);
+      renderBoardList(list, target, i, type);
     };
 
     container.appendChild(btn);
+  }
+
+  // 다음 버튼
+  if(endPage < totalPages){
+    const next = document.createElement("button");
+    next.innerText = "다음";
+
+    next.onclick = () => {
+
+      if(type === "notice"){
+        noticePage = endPage + 1;
+      }else{
+        regionPage = endPage + 1;
+      }
+
+      renderBoardList(
+        list,
+        target,
+        (type === "notice") ? noticePage : regionPage,
+        type
+      );
+    };
+
+    container.appendChild(next);
   }
 }
 
