@@ -984,62 +984,119 @@ body{
   z-index:10;
 }
 
-/* ===== 배너 날씨 효과 ===== */
+/* ===== 배너 날씨효과 개선판 ===== */
+.top-banner{
+  position:relative;
+  overflow:hidden;
+}
 
-.top-banner.rain::after{
+/* 공통 */
+.top-banner::before,
+.top-banner::after{
   content:"";
   position:absolute;
   inset:0;
-  background: url('https://i.imgur.com/7Qp5ZkR.png'); /* 비 이미지 */
-  opacity:0.3;
   pointer-events:none;
-  animation:rainMove 0.5s linear infinite;
+  z-index:2;
 }
 
-@keyframes rainMove{
-  from{ background-position:0 0; }
-  to{ background-position:-100px 200px; }
+/* 맑음 */
+.top-banner.sunny::before{
+  background:
+    radial-gradient(circle at 12% 18%,
+    rgba(255,255,255,.95) 0%,
+    rgba(255,245,180,.75) 18%,
+    rgba(255,255,255,0) 42%);
+}
+
+/* 흐림 */
+.top-banner.cloudy::before{
+  background:
+    linear-gradient(rgba(120,120,120,.18),rgba(80,80,80,.28));
+}
+
+/* 안개 */
+.top-banner.fog::before{
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.08) 0px,
+      rgba(255,255,255,.14) 24px,
+      rgba(255,255,255,.05) 48px
+    );
+  animation:fogMove 12s linear infinite;
+}
+
+/* 비 */
+.top-banner.rain::after{
+  background-image:
+    repeating-linear-gradient(
+      115deg,
+      rgba(255,255,255,.0) 0px,
+      rgba(255,255,255,.0) 8px,
+      rgba(255,255,255,.45) 9px,
+      rgba(255,255,255,.0) 11px
+    );
+  background-size:240px 240px;
+  opacity:.7;
+  animation:rainMove .45s linear infinite;
 }
 
 /* 눈 */
 .top-banner.snow::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: url('https://i.imgur.com/V4RclNb.png'); /* 눈 이미지 */
-  opacity:0.5;
-  pointer-events:none;
-  animation:snowMove 5s linear infinite;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.95) 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,255,255,.8) 1.5px, transparent 2.5px),
+    radial-gradient(circle, rgba(255,255,255,.7) 2px, transparent 3px);
+  background-size:80px 80px,120px 120px,160px 160px;
+  background-position:0 0, 30px 20px, 60px 40px;
+  animation:snowMove 8s linear infinite;
 }
 
-@keyframes snowMove{
-  from{ background-position:0 0; }
-  to{ background-position:0 300px; }
-}
-
-/* 번개 */
+/* 천둥 */
 .top-banner.thunder{
-  animation:flash 3s infinite;
-}
-
-@keyframes flash{
-  0%,95%,100%{ filter:brightness(1); }
-  96%{ filter:brightness(2.5); }
-  97%{ filter:brightness(1); }
+  animation:thunderFlash 4s infinite;
 }
 
 /* 바람 */
-.top-banner.wind::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  animation:windMove 2s linear infinite;
+.top-banner.wind::before{
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.12),
+      transparent
+    );
+  animation:windMove 1.8s linear infinite;
+}
+
+/* 애니메이션 */
+@keyframes rainMove{
+  from{transform:translateY(-120px);}
+  to{transform:translateY(120px);}
+}
+
+@keyframes snowMove{
+  from{transform:translateY(-30px);}
+  to{transform:translateY(120px);}
+}
+
+@keyframes fogMove{
+  from{transform:translateX(-60px);}
+  to{transform:translateX(60px);}
 }
 
 @keyframes windMove{
-  from{ transform:translateX(-100%); }
-  to{ transform:translateX(100%); }
+  from{transform:translateX(-100%);}
+  to{transform:translateX(100%);}
+}
+
+@keyframes thunderFlash{
+  0%,92%,100%{filter:brightness(1);}
+  93%{filter:brightness(2.1);}
+  94%{filter:brightness(1);}
+  95%{filter:brightness(1.7);}
+  96%{filter:brightness(1);}
 }
 
 .board-wrapper{
@@ -2127,82 +2184,69 @@ if(parseInt(answer) !== captchaValue){
 }
 
 async function loadWeather(){
+
   const box = document.getElementById("weatherBox");
-  if(!box) return;
+  const banner = document.getElementById("topBanner");
 
-const banner = document.getElementById("topBanner");
-if(!banner) return;
+  if(!box || !banner) return;
 
-// 기존 효과 제거
-banner.classList.remove("rain","snow","thunder","wind");
+  banner.className = "top-banner";
 
   try{
+
     const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
     const data = await res.json();
 
     const current = data.current_condition[0];
 
-    const temp = current.temp_C;
+    const temp  = current.temp_C;
     const feels = current.FeelsLikeC;
-    let desc = current.weatherDesc[0].value;
+    const wind  = Number(current.windspeedKmph || 0);
 
-const map = {
-  "Sunny":"맑음",
-  "Clear":"맑음",
-  "Partly cloudy":"구름 조금",
-  "Cloudy":"흐림",
-  "Overcast":"흐림",
-  "Mist":"안개",
-  "Fog":"안개",
+    let raw = current.weatherDesc[0].value.toLowerCase();
 
-  "Rain":"비",
-  "Light rain":"약한 비",
-  "Moderate rain":"비",
-  "Heavy rain":"폭우",
+    let desc = "맑음";
 
-  "Drizzle":"이슬비",
-  "Light drizzle":"약한 이슬비",
-  "Patchy light drizzle":"약한 이슬비",
-  "Freezing drizzle":"어는 이슬비",
+    if(raw.includes("thunder")){
+      desc="천둥번개";
+      banner.classList.add("thunder");
+    }
+    else if(raw.includes("snow") || raw.includes("blizzard") || raw.includes("sleet")){
+      desc="눈";
+      banner.classList.add("snow");
+    }
+    else if(raw.includes("rain") || raw.includes("drizzle") || raw.includes("shower")){
+      desc="비";
+      banner.classList.add("rain");
+    }
+    else if(raw.includes("fog") || raw.includes("mist")){
+      desc="안개";
+      banner.classList.add("fog");
+    }
+    else if(raw.includes("cloud") || raw.includes("overcast")){
+      desc="흐림";
+      banner.classList.add("cloudy");
+    }
+    else{
+      desc="맑음";
+      banner.classList.add("sunny");
+    }
 
-  "Patchy rain possible":"비 가능성",
-  "Patchy light rain":"약한 비",
-  "Patchy moderate rain":"비",
+    if(wind >= 28){
+      banner.classList.add("wind");
+    }
 
-  "Snow":"눈",
-  "Light snow":"약한 눈",
-  "Heavy snow":"폭설",
-
-  "Thunderstorm":"천둥번개"
-};
-
-desc = map[desc] || "날씨 정보";
-
-if(desc.includes("천둥") || desc.includes("번개")){
-  banner.classList.add("thunder");
-}
-else if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
-  banner.classList.add("rain");
-}
-else if(desc.includes("눈") || desc.includes("폭설")){
-  banner.classList.add("snow");
-}
-else if(current.windspeedKmph > 20){
-  banner.classList.add("wind");
-}
-
-// 출력
-box.innerHTML = `
-  <div>
-    연변조선족자치주 ${temp}°C
-    <div style="font-size:11px;color:#ddd;">
-      체감 ${feels}°C · ${desc}
-    </div>
-  </div>
-`;
+    box.innerHTML = `
+      <div>
+        연변조선족자치주 ${temp}°C
+        <div style="font-size:11px;color:#ddd;">
+          체감 ${feels}°C · ${desc}
+        </div>
+      </div>
+    `;
 
   }catch(e){
-    box.innerText="날씨 오류";
+    box.innerText = "날씨 오류";
   }
 }
 
