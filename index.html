@@ -101,30 +101,33 @@
   border-radius:10px;
 }
 
-/* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
 .video-modal-box{
   width:90%;
-  max-width:600px;
-  max-height:80vh;
+  max-width:520px;
+  background:#fff;
+  border-radius:14px;
+  padding:12px;
   overflow:hidden;
-  padding:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
 }
 
 .video-container{
-  width:100%;
-  height:100%;
   position:relative;
+  width:100%;
+  aspect-ratio:1 / 1;   /* 정방형 핵심 */
+  border-radius:12px;
+  overflow:hidden;
+  background:#000;
 }
 
 .video-container iframe,
 .video-container video{
+  position:absolute;
+  inset:0;
   width:100%;
   height:100%;
-  border-radius:10px;
-  object-fit:contain; /* 원본 비율 유지, 카드 밖 튀어나오지 않음 */
+  border:0;
+  object-fit:cover;     /* 화면 꽉차게 */
+  border-radius:12px;
 }
 
 .image-modal-box{
@@ -2115,7 +2118,7 @@ async function loadWeather(){
       "Mist":"안개",
       "Fog":"안개",
 
-      "Patchy rain nearby":"근처에 비",
+      "Patchy rain nearby":"비 가능성",
       "Patchy light rain":"약한 비",
       "Light rain":"약한 비",
       "Moderate rain":"비",
@@ -2123,7 +2126,7 @@ async function loadWeather(){
       "Patchy rain possible":"비 가능성",
       "Drizzle":"이슬비",
 
-      "Patchy snow nearby":"근처에 눈",
+      "Patchy snow nearby":"눈 가능성",
       "Light snow":"약한 눈",
       "Moderate snow":"눈",
       "Heavy snow":"폭설",
