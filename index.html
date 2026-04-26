@@ -2093,7 +2093,7 @@ async function loadWeather(){
 
   if(!box || !banner) return;
 
-  banner.className = "top-banner"; // 효과 완전 제거
+  banner.className = "top-banner";
 
   try{
     const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
@@ -2103,7 +2103,36 @@ async function loadWeather(){
 
     const temp  = current.temp_C;
     const feels = current.FeelsLikeC;
-    const desc  = current.weatherDesc[0].value;
+
+    const raw = current.weatherDesc[0].value;
+
+    const weatherMap = {
+      "Sunny":"맑음",
+      "Clear":"맑음",
+      "Partly cloudy":"구름 조금",
+      "Cloudy":"흐림",
+      "Overcast":"흐림",
+      "Mist":"안개",
+      "Fog":"안개",
+
+      "Patchy rain nearby":"근처에 비",
+      "Patchy light rain":"약한 비",
+      "Light rain":"약한 비",
+      "Moderate rain":"비",
+      "Heavy rain":"폭우",
+      "Patchy rain possible":"비 가능성",
+      "Drizzle":"이슬비",
+
+      "Patchy snow nearby":"근처에 눈",
+      "Light snow":"약한 눈",
+      "Moderate snow":"눈",
+      "Heavy snow":"폭설",
+
+      "Thundery outbreaks nearby":"천둥 가능성",
+      "Thunderstorm":"천둥번개"
+    };
+
+    const desc = weatherMap[raw] || raw;
 
     box.innerHTML = `
       <div>
