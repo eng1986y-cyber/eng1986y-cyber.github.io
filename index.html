@@ -1179,6 +1179,34 @@ body{
   color:#fff;
 }
 
+/* ===== 게시판 내용 길어지면 내부 스크롤 ===== */
+
+/* 공지사항 / 지역정보 리스트 영역 */
+.board-list{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:4px;
+}
+
+/* 팝업 내용도 길면 스크롤 */
+#modalContent{
+  max-height:60vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  white-space:pre-wrap;
+  line-height:1.6;
+  padding-right:6px;
+}
+
+/* 모바일 팝업 */
+@media(max-width:768px){
+  #modalContent{
+    max-height:55vh;
+  }
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
