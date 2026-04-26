@@ -102,8 +102,8 @@
 }
 
 .video-modal-box{
-  width:90%;
-  max-width:520px;
+  width:90vw;
+  max-width:500px;
   background:#fff;
   border-radius:14px;
   padding:12px;
@@ -424,8 +424,8 @@ body{
 .top-banner{
   position:relative;
   width:100%;
-  max-width:420px;
-  aspect-ratio:1/1;
+  max-width:1200px;
+  height:240px;
   margin:20px auto 30px;
   border-radius:14px;
   overflow:hidden;
@@ -457,7 +457,7 @@ body{
 
 /* 일반 이미지 광고 */
 .img-ad{
-  aspect-ratio:1/1;
+  height:100px;
   border-radius:12px;
   overflow:hidden;
   border:1px solid #ddd;
@@ -467,6 +467,12 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
+}
+
+@media(max-width:768px){
+  .img-ad{
+    height:90px;
+  }
 }
 
 /* 텍스트 광고 */
@@ -501,7 +507,7 @@ body{
 }
 
 .sns-video{
-  aspect-ratio:1/1;
+  aspect-ratio:4/5;
   border-radius:12px;
   overflow:hidden;
   border:1px solid #ddd;
@@ -510,7 +516,7 @@ body{
 .sns-video img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
 }
 
 /* ===== 소유자 영역 ===== */
@@ -566,14 +572,12 @@ body{
 /* ================= 모바일 전용 ================= */
 
 @media (max-width:768px){
-
   .top-banner{
-    width:100%;
-    max-width:100%;
-    aspect-ratio:1/1;
+    height:90px;
     margin:15px auto 25px;
-    display:block;
+    display:none;
   }
+}
 
   body{
     padding:15px;
