@@ -1910,24 +1910,29 @@ const end = start + pageSize;
     const div = document.createElement("div");
     div.innerText = `[${post.category}] ${post.title}`;
 
-    div.onclick = () => {
-      const date = new Date(post.created_at)
-        .toLocaleDateString("ko-KR");
+div.onclick = async () => {
 
-      supabaseClient.rpc('increment_views', {
-        post_id: post.id
-      });
+  const date = new Date(post.created_at)
+    .toLocaleDateString("ko-KR");
 
-      openModal(
-        post.title,
-        post.content,
-        date,
-        (post.views || 0) + 1
-      );
-    };
+  const { data, error } = await supabaseClient
+    .rpc("increment_views", { post_id: post.id });
 
-    target.appendChild(div);
-  });
+  let newViews = (post.views || 0) + 1;
+
+  if (!error) {
+    newViews = data || newViews;
+  }
+
+  openModal(
+    post.title,
+    post.content,
+    date,
+    newViews
+  );
+
+  loadBoard(); // 목록 새로고침
+};
 
 renderBoardPagination(list.length, type, list, target);
 }
