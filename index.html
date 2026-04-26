@@ -984,119 +984,22 @@ body{
   z-index:10;
 }
 
-/* ===== 배너 날씨효과 개선판 ===== */
-.top-banner{
-  position:relative;
-  overflow:hidden;
-}
-
-/* 공통 */
 .top-banner::before,
 .top-banner::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:2;
+  content:none !important;
+  animation:none !important;
+  background:none !important;
 }
 
-/* 맑음 */
-.top-banner.sunny::before{
-  background:
-    radial-gradient(circle at 12% 18%,
-    rgba(255,255,255,.95) 0%,
-    rgba(255,245,180,.75) 18%,
-    rgba(255,255,255,0) 42%);
-}
-
-/* 흐림 */
-.top-banner.cloudy::before{
-  background:
-    linear-gradient(rgba(120,120,120,.18),rgba(80,80,80,.28));
-}
-
-/* 안개 */
-.top-banner.fog::before{
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,.08) 0px,
-      rgba(255,255,255,.14) 24px,
-      rgba(255,255,255,.05) 48px
-    );
-  animation:fogMove 12s linear infinite;
-}
-
-/* 비 */
-.top-banner.rain::after{
-  background-image:
-    repeating-linear-gradient(
-      115deg,
-      rgba(255,255,255,.0) 0px,
-      rgba(255,255,255,.0) 8px,
-      rgba(255,255,255,.45) 9px,
-      rgba(255,255,255,.0) 11px
-    );
-  background-size:240px 240px;
-  opacity:.7;
-  animation:rainMove .45s linear infinite;
-}
-
-/* 눈 */
-.top-banner.snow::after{
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,.95) 2px, transparent 3px),
-    radial-gradient(circle, rgba(255,255,255,.8) 1.5px, transparent 2.5px),
-    radial-gradient(circle, rgba(255,255,255,.7) 2px, transparent 3px);
-  background-size:80px 80px,120px 120px,160px 160px;
-  background-position:0 0, 30px 20px, 60px 40px;
-  animation:snowMove 8s linear infinite;
-}
-
-/* 천둥 */
-.top-banner.thunder{
-  animation:thunderFlash 4s infinite;
-}
-
-/* 바람 */
-.top-banner.wind::before{
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,255,255,.12),
-      transparent
-    );
-  animation:windMove 1.8s linear infinite;
-}
-
-/* 애니메이션 */
-@keyframes rainMove{
-  from{transform:translateY(-120px);}
-  to{transform:translateY(120px);}
-}
-
-@keyframes snowMove{
-  from{transform:translateY(-30px);}
-  to{transform:translateY(120px);}
-}
-
-@keyframes fogMove{
-  from{transform:translateX(-60px);}
-  to{transform:translateX(60px);}
-}
-
-@keyframes windMove{
-  from{transform:translateX(-100%);}
-  to{transform:translateX(100%);}
-}
-
-@keyframes thunderFlash{
-  0%,92%,100%{filter:brightness(1);}
-  93%{filter:brightness(2.1);}
-  94%{filter:brightness(1);}
-  95%{filter:brightness(1.7);}
-  96%{filter:brightness(1);}
+.top-banner.rain,
+.top-banner.snow,
+.top-banner.wind,
+.top-banner.thunder,
+.top-banner.cloudy,
+.top-banner.fog,
+.top-banner.sunny{
+  filter:none !important;
+  animation:none !important;
 }
 
 .board-wrapper{
@@ -2190,10 +2093,9 @@ async function loadWeather(){
 
   if(!box || !banner) return;
 
-  banner.className = "top-banner";
+  banner.className = "top-banner"; // 효과 완전 제거
 
   try{
-
     const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
     const data = await res.json();
 
@@ -2201,40 +2103,7 @@ async function loadWeather(){
 
     const temp  = current.temp_C;
     const feels = current.FeelsLikeC;
-    const wind  = Number(current.windspeedKmph || 0);
-
-    let raw = current.weatherDesc[0].value.toLowerCase();
-
-    let desc = "맑음";
-
-    if(raw.includes("thunder")){
-      desc="천둥번개";
-      banner.classList.add("thunder");
-    }
-    else if(raw.includes("snow") || raw.includes("blizzard") || raw.includes("sleet")){
-      desc="눈";
-      banner.classList.add("snow");
-    }
-    else if(raw.includes("rain") || raw.includes("drizzle") || raw.includes("shower")){
-      desc="비";
-      banner.classList.add("rain");
-    }
-    else if(raw.includes("fog") || raw.includes("mist")){
-      desc="안개";
-      banner.classList.add("fog");
-    }
-    else if(raw.includes("cloud") || raw.includes("overcast")){
-      desc="흐림";
-      banner.classList.add("cloudy");
-    }
-    else{
-      desc="맑음";
-      banner.classList.add("sunny");
-    }
-
-    if(wind >= 28){
-      banner.classList.add("wind");
-    }
+    const desc  = current.weatherDesc[0].value;
 
     box.innerHTML = `
       <div>
