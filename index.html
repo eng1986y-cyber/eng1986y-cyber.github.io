@@ -2105,18 +2105,24 @@ function search(){
   }
 }
 
-function openModal(title,content,date,views){
+let savedScrollY = 0;
+
+function openModal(title, content, date, views){
 
   document.getElementById("modalTitle").innerText = title;
   document.getElementById("modalContent").innerText = content;
   document.getElementById("modalMeta").innerText =
     date + " · 조회 " + views;
 
-  const scrollBar =
-    window.innerWidth - document.documentElement.clientWidth;
+  /* 현재 스크롤 위치 저장 */
+  savedScrollY = window.scrollY;
 
-  document.body.style.overflow = "hidden";
-  document.body.style.paddingRight = scrollBar + "px";
+  /* 배경 고정 (밀림 없음) */
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${savedScrollY}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
 
   document.getElementById("boardModal").style.display = "flex";
 }
@@ -2125,8 +2131,14 @@ function closeModal(){
 
   document.getElementById("boardModal").style.display = "none";
 
-  document.body.style.overflow = "";
-  document.body.style.paddingRight = "";
+  /* 배경 복구 */
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+
+  window.scrollTo(0, savedScrollY);
 }
 
 // 팝업 배경 클릭 시 닫기
