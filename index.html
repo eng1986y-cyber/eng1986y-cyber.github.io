@@ -2246,8 +2246,8 @@ box.innerHTML = `
 
 </script>
 
-<div class="modal" id="boardModal">
-  <div class="modal-content">
+<div class="modal" id="boardModal" onclick="closeModal()">
+  <div class="modal-content" onclick="closeModal()">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <h2 id="modalTitle"></h2>
     <div id="modalMeta" style="font-size:12px;color:#999;margin-bottom:15px;"></div>
