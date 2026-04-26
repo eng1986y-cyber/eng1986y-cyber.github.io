@@ -2106,22 +2106,15 @@ function search(){
 }
 
 function openModal(title,content,date,views){
-  document.getElementById("modalTitle").innerText = title;
-  document.getElementById("modalContent").innerText = content;
-  document.getElementById("modalMeta").innerText =
+  document.getElementById("modalTitle").innerText=title;
+  document.getElementById("modalContent").innerText=content;
+  document.getElementById("modalMeta").innerText=
     date + " · 조회 " + views;
-
-  document.getElementById("boardModal").style.display = "flex";
-
-  /* 사이트 배경 스크롤 잠금 */
-  document.body.style.overflow = "hidden";
+  document.getElementById("boardModal").style.display="flex";
 }
 
 function closeModal(){
-  document.getElementById("boardModal").style.display = "none";
-
-  /* 사이트 배경 스크롤 복구 */
-  document.body.style.overflow = "auto";
+  document.getElementById("boardModal").style.display="none";
 }
 
 // 팝업 배경 클릭 시 닫기
