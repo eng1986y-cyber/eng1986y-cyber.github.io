@@ -101,33 +101,30 @@
   border-radius:10px;
 }
 
+/* ===== 영상 모달 통합 (세로/가로 영상 모두 자연스럽게) ===== */
 .video-modal-box{
-  width:90vw;
-  max-width:500px;
-  background:#fff;
-  border-radius:14px;
-  padding:12px;
+  width:90%;
+  max-width:600px;
+  max-height:80vh;
   overflow:hidden;
+  padding:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 .video-container{
-  position:relative;
   width:100%;
-  aspect-ratio:1 / 1;   /* 정방형 핵심 */
-  border-radius:12px;
-  overflow:hidden;
-  background:#000;
+  height:100%;
+  position:relative;
 }
 
 .video-container iframe,
 .video-container video{
-  position:absolute;
-  inset:0;
   width:100%;
   height:100%;
-  border:0;
-  object-fit:cover;     /* 화면 꽉차게 */
-  border-radius:12px;
+  border-radius:10px;
+  object-fit:contain; /* 원본 비율 유지, 카드 밖 튀어나오지 않음 */
 }
 
 .image-modal-box{
@@ -469,12 +466,6 @@ body{
   object-fit:cover;
 }
 
-@media(max-width:768px){
-  .img-ad{
-    height:90px;
-  }
-}
-
 /* 텍스트 광고 */
 .text-ad{
   background:#fff;
@@ -572,12 +563,6 @@ body{
 /* ================= 모바일 전용 ================= */
 
 @media (max-width:768px){
-  .top-banner{
-    height:90px;
-    margin:15px auto 25px;
-    display:none;
-  }
-}
 
   body{
     padding:15px;
@@ -585,6 +570,11 @@ body{
 
   .board-card{
     height:85px;
+  }
+
+  .top-banner{
+    height:90px;
+    margin:15px auto 25px;
   }
 
   .search-box input,
@@ -601,6 +591,10 @@ body{
   .grid{
     grid-template-columns:repeat(2,1fr);
     gap:8px;
+  }
+
+  .img-ad{
+    height:90px;
   }
 
   .text-ad{
@@ -990,22 +984,62 @@ body{
   z-index:10;
 }
 
-.top-banner::before,
-.top-banner::after{
-  content:none !important;
-  animation:none !important;
-  background:none !important;
+/* ===== 배너 날씨 효과 ===== */
+
+.top-banner.rain::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/7Qp5ZkR.png'); /* 비 이미지 */
+  opacity:0.3;
+  pointer-events:none;
+  animation:rainMove 0.5s linear infinite;
 }
 
-.top-banner.rain,
-.top-banner.snow,
-.top-banner.wind,
-.top-banner.thunder,
-.top-banner.cloudy,
-.top-banner.fog,
-.top-banner.sunny{
-  filter:none !important;
-  animation:none !important;
+@keyframes rainMove{
+  from{ background-position:0 0; }
+  to{ background-position:-100px 200px; }
+}
+
+/* 눈 */
+.top-banner.snow::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('https://i.imgur.com/V4RclNb.png'); /* 눈 이미지 */
+  opacity:0.5;
+  pointer-events:none;
+  animation:snowMove 5s linear infinite;
+}
+
+@keyframes snowMove{
+  from{ background-position:0 0; }
+  to{ background-position:0 300px; }
+}
+
+/* 번개 */
+.top-banner.thunder{
+  animation:flash 3s infinite;
+}
+
+@keyframes flash{
+  0%,95%,100%{ filter:brightness(1); }
+  96%{ filter:brightness(2.5); }
+  97%{ filter:brightness(1); }
+}
+
+/* 바람 */
+.top-banner.wind::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation:windMove 2s linear infinite;
+}
+
+@keyframes windMove{
+  from{ transform:translateX(-100%); }
+  to{ transform:translateX(100%); }
 }
 
 .board-wrapper{
@@ -2093,13 +2127,14 @@ if(parseInt(answer) !== captchaValue){
 }
 
 async function loadWeather(){
-
   const box = document.getElementById("weatherBox");
-  const banner = document.getElementById("topBanner");
+  if(!box) return;
 
-  if(!box || !banner) return;
+const banner = document.getElementById("topBanner");
+if(!banner) return;
 
-  banner.className = "top-banner";
+// 기존 효과 제거
+banner.classList.remove("rain","snow","thunder","wind");
 
   try{
     const res = await fetch("https://wttr.in/42.88,129.51?format=j1");
@@ -2107,50 +2142,67 @@ async function loadWeather(){
 
     const current = data.current_condition[0];
 
-    const temp  = current.temp_C;
+    const temp = current.temp_C;
     const feels = current.FeelsLikeC;
+    let desc = current.weatherDesc[0].value;
 
-    const raw = current.weatherDesc[0].value;
+const map = {
+  "Sunny":"맑음",
+  "Clear":"맑음",
+  "Partly cloudy":"구름 조금",
+  "Cloudy":"흐림",
+  "Overcast":"흐림",
+  "Mist":"안개",
+  "Fog":"안개",
 
-    const weatherMap = {
-      "Sunny":"맑음",
-      "Clear":"맑음",
-      "Partly cloudy":"구름 조금",
-      "Cloudy":"흐림",
-      "Overcast":"흐림",
-      "Mist":"안개",
-      "Fog":"안개",
+  "Rain":"비",
+  "Light rain":"약한 비",
+  "Moderate rain":"비",
+  "Heavy rain":"폭우",
 
-      "Patchy rain nearby":"비 가능성",
-      "Patchy light rain":"약한 비",
-      "Light rain":"약한 비",
-      "Moderate rain":"비",
-      "Heavy rain":"폭우",
-      "Patchy rain possible":"비 가능성",
-      "Drizzle":"이슬비",
+  "Drizzle":"이슬비",
+  "Light drizzle":"약한 이슬비",
+  "Patchy light drizzle":"약한 이슬비",
+  "Freezing drizzle":"어는 이슬비",
 
-      "Patchy snow nearby":"눈 가능성",
-      "Light snow":"약한 눈",
-      "Moderate snow":"눈",
-      "Heavy snow":"폭설",
+  "Patchy rain possible":"비 가능성",
+  "Patchy light rain":"약한 비",
+  "Patchy moderate rain":"비",
 
-      "Thundery outbreaks nearby":"천둥 가능성",
-      "Thunderstorm":"천둥번개"
-    };
+  "Snow":"눈",
+  "Light snow":"약한 눈",
+  "Heavy snow":"폭설",
 
-    const desc = weatherMap[raw] || raw;
+  "Thunderstorm":"천둥번개"
+};
 
-    box.innerHTML = `
-      <div>
-        연변조선족자치주 ${temp}°C
-        <div style="font-size:11px;color:#ddd;">
-          체감 ${feels}°C · ${desc}
-        </div>
-      </div>
-    `;
+desc = map[desc] || "날씨 정보";
+
+if(desc.includes("천둥") || desc.includes("번개")){
+  banner.classList.add("thunder");
+}
+else if(desc.includes("비") || desc.includes("폭우") || desc.includes("소나기")){
+  banner.classList.add("rain");
+}
+else if(desc.includes("눈") || desc.includes("폭설")){
+  banner.classList.add("snow");
+}
+else if(current.windspeedKmph > 20){
+  banner.classList.add("wind");
+}
+
+// 출력
+box.innerHTML = `
+  <div>
+    연변조선족자치주 ${temp}°C
+    <div style="font-size:11px;color:#ddd;">
+      체감 ${feels}°C · ${desc}
+    </div>
+  </div>
+`;
 
   }catch(e){
-    box.innerText = "날씨 오류";
+    box.innerText="날씨 오류";
   }
 }
 
