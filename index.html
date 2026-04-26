@@ -2106,22 +2106,27 @@ function search(){
 }
 
 function openModal(title,content,date,views){
+
   document.getElementById("modalTitle").innerText = title;
   document.getElementById("modalContent").innerText = content;
   document.getElementById("modalMeta").innerText =
     date + " · 조회 " + views;
 
-  document.getElementById("boardModal").style.display = "flex";
+  /* 스크롤바 너비 보정 */
+  const scrollBar =
+    window.innerWidth - document.documentElement.clientWidth;
 
-  /* 사이트 배경 스크롤 잠금 */
   document.body.style.overflow = "hidden";
+  document.body.style.paddingRight = scrollBar + "px";
+
+  document.getElementById("boardModal").style.display = "flex";
 }
 
 function closeModal(){
   document.getElementById("boardModal").style.display = "none";
 
-  /* 사이트 배경 스크롤 복구 */
   document.body.style.overflow = "auto";
+  document.body.style.paddingRight = "0";
 }
 
 // 팝업 배경 클릭 시 닫기
