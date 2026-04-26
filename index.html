@@ -2091,13 +2091,8 @@ function closeModal(){
 
 // 팝업 배경 클릭 시 닫기
 document.getElementById("boardModal")
-  .addEventListener("click", function(e){
-
-    // 배경을 클릭한 경우만 닫기
-    if(e.target === this){
-      closeModal();
-    }
-
+  .addEventListener("click", function(){
+    closeModal();
 });
 
 function outsideClose(e){
@@ -2248,11 +2243,6 @@ box.innerHTML = `
     box.innerText="날씨 오류";
   }
 }
-
-/* ===== 게시판 팝업 아무데나 클릭하면 닫기 ===== */
-document.getElementById("boardModal").addEventListener("click", function () {
-  closeModal();
-});
 
 </script>
 
