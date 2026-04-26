@@ -2112,7 +2112,6 @@ function openModal(title,content,date,views){
   document.getElementById("modalMeta").innerText =
     date + " · 조회 " + views;
 
-  /* 스크롤바 너비 보정 */
   const scrollBar =
     window.innerWidth - document.documentElement.clientWidth;
 
@@ -2123,10 +2122,11 @@ function openModal(title,content,date,views){
 }
 
 function closeModal(){
+
   document.getElementById("boardModal").style.display = "none";
 
-  document.body.style.overflow = "auto";
-  document.body.style.paddingRight = "0";
+  document.body.style.overflow = "";
+  document.body.style.paddingRight = "";
 }
 
 // 팝업 배경 클릭 시 닫기
