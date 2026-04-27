@@ -1922,8 +1922,8 @@ div.onclick = async (e) => {
 
     // 1. 조회수 +1
     await supabaseClient.rpc("increment_views", {
-      post_id: post.id
-    });
+  post_id: Number(post.id)
+});
 
     // 2. 최신 조회수 다시 가져오기
     const { data, error } = await supabaseClient
