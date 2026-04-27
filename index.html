@@ -1916,31 +1916,36 @@ div.onclick = async (e) => {
   const date = new Date(post.created_at)
     .toLocaleDateString("ko-KR");
 
-  let nextViews = (post.views || 0) + 1;
+  let finalViews = post.views || 0;
 
   try {
-    const { error } = await supabaseClient.rpc(
-      'increment_views',
-      { post_id: post.id }
-    );
 
-    if (error) {
-      console.error("조회수 증가 실패:", error);
-      nextViews = post.views || 0;
-    } else {
-      post.views = nextViews;
+    // 1. 조회수 +1
+    await supabaseClient.rpc("increment_views", {
+      post_id: post.id
+    });
+
+    // 2. 최신 조회수 다시 가져오기
+    const { data, error } = await supabaseClient
+      .from("board_posts")
+      .select("views")
+      .eq("id", post.id)
+      .single();
+
+    if (!error && data) {
+      finalViews = data.views || 0;
+      post.views = finalViews;
     }
 
-  } catch(err){
-    console.error(err);
-    nextViews = post.views || 0;
+  } catch (err) {
+    console.error("조회수 오류:", err);
   }
 
   openModal(
     post.title,
     post.content,
     date,
-    nextViews
+    finalViews
   );
 };
 
