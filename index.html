@@ -1207,6 +1207,35 @@ body{
   }
 }
 
+.ai-popup{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  z-index:999;
+}
+
+.ai-popup-content{
+  background:#fff;
+  width:400px;
+  padding:20px;
+  border-radius:10px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+.close{
+  float:right;
+  cursor:pointer;
+  font-size:20px;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1231,14 +1260,18 @@ body{
 <div class="container">
 
 <div class="search-box">
-
-  <img id="searchLogo" class="search-logo" src="">
-
-  <input id="searchInput"
-       placeholder="검색어 입력 / 输入关键词"
-       onkeydown="if(event.key==='Enter'){search();}">
+  <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
+  <button onclick="openAiPopup()">AI검색</button>
+</div>
 
+<!-- AI 팝업 -->
+<div id="aiPopup" class="ai-popup">
+  <div class="ai-popup-content">
+    <span class="close" onclick="closeAiPopup()">×</span>
+    <h3>AI 검색 결과</h3>
+    <div id="aiResult">AI가 분석중...</div>
+  </div>
 </div>
 
 <div id="adsenseArea"></div>
@@ -2293,6 +2326,23 @@ box.innerHTML = `
   }catch(e){
     box.innerText="날씨 오류";
   }
+}
+
+/* AI 팝업 */
+function openAiPopup(){
+  const q = document.getElementById("searchInput").value;
+
+  document.getElementById("aiPopup").style.display="block";
+  document.getElementById("aiResult").innerHTML="AI 분석중...";
+
+  setTimeout(()=>{
+    document.getElementById("aiResult").innerHTML =
+      "AI가 '" + q + "' 에 대한 추천 결과를 생성했습니다.";
+  },1000);
+}
+
+function closeAiPopup(){
+  document.getElementById("aiPopup").style.display="none";
 }
 
 </script>
