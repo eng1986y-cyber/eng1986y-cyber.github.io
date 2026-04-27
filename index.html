@@ -1910,21 +1910,39 @@ const end = start + pageSize;
     const div = document.createElement("div");
     div.innerText = `[${post.category}] ${post.title}`;
 
-    div.onclick = () => {
-      const date = new Date(post.created_at)
-        .toLocaleDateString("ko-KR");
+div.onclick = async (e) => {
+  e.stopPropagation();
 
-      supabaseClient.rpc('increment_views', {
-        post_id: post.id
-      });
+  const date = new Date(post.created_at)
+    .toLocaleDateString("ko-KR");
 
-      openModal(
-        post.title,
-        post.content,
-        date,
-        (post.views || 0) + 1
-      );
-    };
+  let nextViews = (post.views || 0) + 1;
+
+  try {
+    const { error } = await supabaseClient.rpc(
+      'increment_views',
+      { post_id: post.id }
+    );
+
+    if (error) {
+      console.error("조회수 증가 실패:", error);
+      nextViews = post.views || 0;
+    } else {
+      post.views = nextViews;
+    }
+
+  } catch(err){
+    console.error(err);
+    nextViews = post.views || 0;
+  }
+
+  openModal(
+    post.title,
+    post.content,
+    date,
+    nextViews
+  );
+};
 
     target.appendChild(div);
   });
