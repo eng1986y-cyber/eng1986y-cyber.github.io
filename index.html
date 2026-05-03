@@ -2347,7 +2347,8 @@ function closeAiPopup(){
 document.getElementById("searchInput")
   .addEventListener("keydown", function(e){
     if(e.key === "Enter"){
-      search();
+      e.preventDefault();   // 🔥 핵심 (이거 없으면 꼬임)
+      search();             // 일반 검색만 실행
     }
 });
 
