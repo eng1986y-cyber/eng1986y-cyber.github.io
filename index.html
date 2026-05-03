@@ -2328,16 +2328,23 @@ box.innerHTML = `
 }
 
 /* AI 팝업 */
-function openAiPopup(){
-  const q = document.getElementById("searchInput").value;
+async function openAiPopup(){
+
+  const q = document.getElementById("searchInput").value.trim();
+  if(!q) return;
 
   document.getElementById("aiPopup").style.display="block";
   document.getElementById("aiResult").innerHTML="AI 분석중...";
 
-  setTimeout(()=>{
-    document.getElementById("aiResult").innerHTML =
-      "AI가 '" + q + "' 에 대한 추천 결과를 생성했습니다.";
-  },1000);
+  const res = await fetch("/api/ai", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ query:q })
+  });
+
+  const data = await res.json();
+
+  document.getElementById("aiResult").innerHTML = data.result;
 }
 
 function closeAiPopup(){
