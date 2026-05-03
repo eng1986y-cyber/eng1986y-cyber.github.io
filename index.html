@@ -1207,6 +1207,35 @@ body{
   }
 }
 
+.ai-popup{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  z-index:999;
+}
+
+.ai-popup-content{
+  background:#fff;
+  width:400px;
+  padding:20px;
+  border-radius:10px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+.close{
+  float:right;
+  cursor:pointer;
+  font-size:20px;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1231,14 +1260,18 @@ body{
 <div class="container">
 
 <div class="search-box">
-
-  <img id="searchLogo" class="search-logo" src="">
-
-  <input id="searchInput"
-       placeholder="검색어 입력 / 输入关键词"
-       onkeydown="if(event.key==='Enter'){search();}">
+  <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
+  <button onclick="openAiPopup()">AI검색</button>
+</div>
 
+<!-- AI 팝업 -->
+<div id="aiPopup" class="ai-popup">
+  <div class="ai-popup-content">
+    <span class="close" onclick="closeAiPopup()">×</span>
+    <h3>AI 검색 결과</h3>
+    <div id="aiResult">AI가 분석중...</div>
+  </div>
 </div>
 
 <div id="adsenseArea"></div>
@@ -1392,6 +1425,15 @@ let regionPage = 1;
 const boardPageSize = 17;
 
 let captchaValue = 0;
+
+function openPayModal(img){
+  document.getElementById("payQR").src = img;
+  document.getElementById("payModal").style.display = "flex";
+}
+
+function closePayModal(){
+  document.getElementById("payModal").style.display = "none";
+}
 
 function generateCaptcha(){
   const a = Math.floor(Math.random()*9)+1;
@@ -1678,7 +1720,7 @@ const link = ad.link_url
      </a>`
   : ad.video_url
   ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+  : `<img src="${ad.image_url}" onclick="openPayModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
@@ -2295,6 +2337,23 @@ box.innerHTML = `
   }
 }
 
+/* AI 팝업 */
+function openAiPopup(){
+  const q = document.getElementById("searchInput").value;
+
+  document.getElementById("aiPopup").style.display="block";
+  document.getElementById("aiResult").innerHTML="AI 분석중...";
+
+  setTimeout(()=>{
+    document.getElementById("aiResult").innerHTML =
+      "AI가 '" + q + "' 에 대한 추천 결과를 생성했습니다.";
+  },1000);
+}
+
+function closeAiPopup(){
+  document.getElementById("aiPopup").style.display="none";
+}
+
 </script>
 
 <div class="modal" id="boardModal" onclick="closeModal()">
@@ -2343,6 +2402,36 @@ box.innerHTML = `
   <button onclick="scrollToBottom()">
     ▼
   </button>
+
+</div>
+
+<!-- 결제 QR 팝업 -->
+<div id="payModal" style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.7);
+z-index:9999;
+justify-content:center;
+align-items:center;
+">
+
+  <div style="
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  max-width:300px;
+  width:90%;
+  ">
+
+    <h3>결제하기</h3>
+
+    <img id="payQR" src="" style="width:100%; margin:15px 0;">
+
+    <button onclick="closePayModal()">닫기</button>
+
+  </div>
 
 </div>
 </body>
