@@ -1719,8 +1719,8 @@ const link = ad.link_url
        <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
      </a>`
   : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openPayModal('${ad.video_url}')">`
-  : `<img src="${ad.image_url}" onclick="openPayModal('${ad.image_url}')">`;
+  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
@@ -1750,7 +1750,7 @@ const link = ad.link_url
        <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
      </a>`
   : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  ? `<img src="${ad.image_url}" onclick="openPayModal('${ad.video_url}')">`
   : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
         wrap.innerHTML=`
