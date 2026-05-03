@@ -2108,11 +2108,11 @@ function boardSearch(){
     .trim()
     .toLowerCase();
 
-  const boards=document.querySelectorAll(".board-list div");
+  const boards = document.querySelectorAll(".board-list div");
 
   let found = false;
 
-  items.forEach(item => {
+  boards.forEach(item => {   // ✅ 여기 수정
 
     const text = item.innerText.toLowerCase();
 
@@ -2125,6 +2125,9 @@ function boardSearch(){
 
   });
 
+  if(!found){
+    alert("검색 결과 없음");
+  }
 }
 
 function search(){
