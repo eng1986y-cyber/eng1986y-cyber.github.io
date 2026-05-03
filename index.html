@@ -2328,23 +2328,24 @@ box.innerHTML = `
 }
 
 /* AI 팝업 */
-async function openAiPopup(){
+function openAiPopup(){
 
-  const q = document.getElementById("searchInput").value.trim();
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
   if(!q) return;
 
   document.getElementById("aiPopup").style.display="block";
-  document.getElementById("aiResult").innerHTML="AI 분석중...";
 
-  const res = await fetch("/api/ai", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({ query:q })
-  });
+  let result = "";
 
-  const data = await res.json();
+  document.querySelectorAll(".ad-item, .board-list div")
+    .forEach(el=>{
+      if(el.innerText.toLowerCase().includes(q)){
+        result += "• " + el.innerText + "<br>";
+      }
+    });
 
-  document.getElementById("aiResult").innerHTML = data.result;
+  document.getElementById("aiResult").innerHTML =
+    result || "추천 결과 없음";
 }
 
 function closeAiPopup(){
