@@ -1719,7 +1719,7 @@ const link = ad.link_url
        <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
      </a>`
   : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
+  ? `<img src="${ad.image_url}" onclick="openPayModal('${ad.video_url}')">`
   : `<img src="${ad.image_url}" onclick="openPayModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
