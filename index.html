@@ -2100,34 +2100,20 @@ const totalPages = Math.ceil(totalCount / pageSize);
   }
 }
 
-function boardSearch(){
+async function boardSearch(){
 
   const keyword = document
     .getElementById("boardSearchInput")
-    .value
-    .trim()
-    .toLowerCase();
+    .value.trim();
 
-  const boards = document.querySelectorAll(".board-list div");
+  if(!keyword) return;
 
-  let found = false;
+  const { data } = await supabaseClient
+    .from("board_posts")
+    .select("*")
+    .ilike("title", `%${keyword}%`);
 
-  boards.forEach(item => {   // ✅ 여기 수정
-
-    const text = item.innerText.toLowerCase();
-
-    if(keyword === "" || text.includes(keyword)){
-      item.style.display = "block";
-      found = true;
-    } else {
-      item.style.display = "none";
-    }
-
-  });
-
-  if(!found){
-    alert("검색 결과 없음");
-  }
+  renderBoardList(data || [], document.getElementById("regionList"), 1, "region");
 }
 
 function search(){
