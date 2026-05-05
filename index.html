@@ -1262,7 +1262,7 @@ body{
 <div class="search-box">
   <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
-  <button onclick="openAiPopup()">AI검색</button>
+  <button onclick="aiSearch(); openAiPopup();">AI검색</button>
 </div>
 
 <!-- AI 팝업 -->
@@ -1418,6 +1418,28 @@ margin:0 auto;">
 <script src="supabase.js"></script>
 
 <script>
+
+async function aiSearch(){
+
+  const query = document.getElementById("searchInput").value;
+
+  if(!query){
+    alert("검색어 입력해라");
+    return;
+  }
+
+  const res = await fetch("https://ai-server-yb365.onrender.com/ai-search", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ query })
+  });
+
+  const data = await res.json();
+
+  document.getElementById("aiResult").innerText = data.result;
+}
 
 let noticePage = 1;
 let regionPage = 1;
@@ -2329,23 +2351,8 @@ box.innerHTML = `
 
 /* AI 팝업 */
 function openAiPopup(){
-
-  const q = document.getElementById("searchInput").value.trim().toLowerCase();
-  if(!q) return;
-
   document.getElementById("aiPopup").style.display="block";
-
-  let result = "";
-
-  document.querySelectorAll(".ad-item, .board-list div")
-    .forEach(el=>{
-      if(el.innerText.toLowerCase().includes(q)){
-        result += "• " + el.innerText + "<br>";
-      }
-    });
-
-  document.getElementById("aiResult").innerHTML =
-    result || "추천 결과 없음";
+  document.getElementById("aiResult").innerText = "AI 분석중...";
 }
 
 function closeAiPopup(){
