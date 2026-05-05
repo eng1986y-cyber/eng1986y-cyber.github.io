@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
+
 import express from "express";
-import fetch from "node-fetch";
 import cors from "cors";
 
 const app = express();
@@ -13,7 +13,7 @@ app.post("/ai-search", async (req, res) => {
 
   const { query } = req.body;
 
-  if(!query){
+  if (!query) {
     return res.json({ result: "검색어 없음" });
   }
 
@@ -26,15 +26,14 @@ app.post("/ai-search", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4.1-mini",
+        model: "gpt-4o-mini",
         input: query
       })
     });
 
     const data = await response.json();
 
-    const result =
-      data?.output?.[0]?.content?.[0]?.text || "AI 결과 없음";
+    const result = data.output_text || "AI 결과 없음";
 
     res.json({ result });
 
@@ -45,6 +44,8 @@ app.post("/ai-search", async (req, res) => {
 
 });
 
-app.listen(3000, () => {
-  console.log("서버 실행됨: http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("서버 실행됨");
 });
