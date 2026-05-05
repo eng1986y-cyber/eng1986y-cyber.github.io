@@ -1419,35 +1419,35 @@ margin:0 auto;">
 
 <script>
 
-async function aiSearch(){
+async function openAiPopup(){
 
-  const query = document.getElementById("searchInput").value;
+  const q = document.getElementById("searchInput").value.trim();
 
-  if(!query){
+  if(!q){
     alert("검색어 입력해라");
     return;
   }
 
   document.getElementById("aiPopup").style.display="block";
-  document.getElementById("aiResult").innerText = "서버 깨우는중...";
+  document.getElementById("aiResult").innerHTML="AI 분석중...";
 
   try{
-
-    const res = await fetch("https://ai-server-yb365.onrender.com/ai-search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
+    const res = await fetch("https://ai-server-yb365.onrender.com/api/ai", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
       },
-      body: JSON.stringify({ query })
+      body: JSON.stringify({ query:q })
     });
 
     const data = await res.json();
 
-    document.getElementById("aiResult").innerText =
-  data.result || "AI 응답 없음";
+    document.getElementById("aiResult").innerHTML =
+      data.result;
 
-  }catch(err){
-    document.getElementById("aiResult").innerText = "AI 오류 발생";
+  }catch(e){
+    document.getElementById("aiResult").innerHTML =
+      "AI 서버 연결 실패";
   }
 }
 
