@@ -1262,7 +1262,7 @@ body{
 <div class="search-box">
   <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
-  <button onclick="aiSearch(); openAiPopup();">AI검색</button>
+  <button onclick="openAiPopup(); aiSearch();">AI검색</button>
 </div>
 
 <!-- AI 팝업 -->
@@ -1429,7 +1429,7 @@ async function aiSearch(){
   }
 
   document.getElementById("aiPopup").style.display="block";
-  document.getElementById("aiResult").innerText="AI가 분석중...";
+  document.getElementById("aiResult").innerText = "서버 깨우는중...";
 
   try{
 
@@ -1443,7 +1443,8 @@ async function aiSearch(){
 
     const data = await res.json();
 
-    document.getElementById("aiResult").innerText = data.result;
+    document.getElementById("aiResult").innerText =
+  data.result || "AI 응답 없음";
 
   }catch(err){
     document.getElementById("aiResult").innerText = "AI 오류 발생";
