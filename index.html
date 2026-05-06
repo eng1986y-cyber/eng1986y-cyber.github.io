@@ -1191,6 +1191,9 @@ img{
   -webkit-touch-callout:default !important;
   -webkit-user-select:auto !important;
   user-select:auto !important;
+
+  pointer-events:auto !important;
+  touch-action:auto !important;
 }
 
 </style>
@@ -2288,12 +2291,24 @@ document.addEventListener("contextmenu", function(e){
   e.preventDefault();
 });
 
-/* 모바일 길게누르기 방지 */
+/* 모바일 길게누르기 방지 (QR 제외) */
 document.addEventListener("selectstart", function(e){
+
+  // QR 이미지는 허용
+  if(e.target.id === "payQR"){
+    return;
+  }
+
   e.preventDefault();
 });
 
 document.addEventListener("dragstart", function(e){
+
+  // QR 이미지는 허용
+  if(e.target.id === "payQR"){
+    return;
+  }
+
   e.preventDefault();
 });
 
