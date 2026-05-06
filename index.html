@@ -1187,14 +1187,12 @@ a{
   user-drag:none;
 }
 
-/* 일반 이미지 길게누르기 방지 */
 .img-ad img,
 .square-ad img,
 .sns-video img{
   -webkit-touch-callout:none;
 }
 
-/* 팝업 QR 이미지는 허용 */
 #payQR{
   -webkit-touch-callout:default !important;
   -webkit-user-select:auto !important;
@@ -2294,11 +2292,12 @@ box.innerHTML = `
   }
 }
 
-/* 전체 우클릭 방지 */
 window.addEventListener("contextmenu", function(e){
 
-  // QR 이미지는 허용
-  if(e.target.id === "payQR"){
+  if(
+    e.target.id === "payQR" ||
+    e.target.closest("#payModal")
+  ){
     return;
   }
 
@@ -2306,10 +2305,12 @@ window.addEventListener("contextmenu", function(e){
 
 }, { passive:false });
 
-/* 모바일 길게누르기 방지 (QR 제외) */
 window.addEventListener("selectstart", function(e){
 
-  if(e.target.id === "payQR"){
+  if(
+    e.target.id === "payQR" ||
+    e.target.closest("#payModal")
+  ){
     return;
   }
 
