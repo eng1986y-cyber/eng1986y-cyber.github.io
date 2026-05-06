@@ -1173,6 +1173,13 @@ body{
   padding-bottom:6px;
 }
 
+img{
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
+  pointer-events:auto;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1192,6 +1199,20 @@ body{
    "query-input":"required name=search_term_string"
  }
 }
+
+/* 우클릭 방지 */
+document.addEventListener("contextmenu", function(e){
+  e.preventDefault();
+});
+
+/* 모바일 길게누르기 방지 */
+document.addEventListener("selectstart", function(e){
+  e.preventDefault();
+});
+
+document.addEventListener("dragstart", function(e){
+  e.preventDefault();
+});
 </script>
 </head>
 
