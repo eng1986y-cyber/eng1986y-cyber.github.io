@@ -1233,8 +1233,8 @@ body{
 <form class="search-box" onsubmit="search(); return false;">
 
 <img id="searchLogo" class="search-logo"
-     src="https://via.placeholder.com/150x46?text=Logo"
-     alt="logo">
+     src=""
+     style="display:none;">
 
   <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
@@ -1760,7 +1760,14 @@ if(ad.type==="sns"){
 
 if(s.search_logo){
   const el = document.getElementById("searchLogo");
-  if(el) el.src = s.search_logo;
+
+  if(el){
+    el.onload = () => {
+      el.style.display = "block";  // 로딩 완료되면 보여줌
+    };
+
+    el.src = s.search_logo;
+  }
 }
 
 if(s.banner_img){
