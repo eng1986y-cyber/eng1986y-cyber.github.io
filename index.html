@@ -1207,6 +1207,15 @@ body{
   }
 }
 
+.search-logo{
+  height:46px;
+  width:auto;
+  border-radius:6px;
+
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1232,9 +1241,7 @@ body{
 
 <form class="search-box" onsubmit="search(); return false;">
 
-<img id="searchLogo" class="search-logo"
-     src=""
-     style="display:none;">
+<img id="searchLogo" class="search-logo" style="display:none;">
 
   <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
@@ -1763,7 +1770,10 @@ if(s.search_logo){
 
   if(el){
     el.onload = () => {
-      el.style.display = "block";  // 로딩 완료되면 보여줌
+      el.style.display = "block";
+      setTimeout(()=>{
+        el.style.opacity = "1";
+      }, 10);
     };
 
     el.src = s.search_logo;
