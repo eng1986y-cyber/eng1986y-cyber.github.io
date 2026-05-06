@@ -1265,17 +1265,7 @@ body{
 
   <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
-  <button onclick="openAiPopup(); aiSearch();">AI검색</button>
 
-</div>
-
-<!-- AI 팝업 -->
-<div id="aiPopup" class="ai-popup">
-  <div class="ai-popup-content">
-    <span class="close" onclick="closeAiPopup()">×</span>
-    <h3>AI 검색 결과</h3>
-    <div id="aiResult">AI가 분석중...</div>
-  </div>
 </div>
 
 <div id="adsenseArea"></div>
@@ -2329,16 +2319,6 @@ box.innerHTML = `
   }catch(e){
     box.innerText="날씨 오류";
   }
-}
-
-/* AI 팝업 */
-function openAiPopup(){
-  document.getElementById("aiPopup").style.display="block";
-  document.getElementById("aiResult").innerText = "AI 분석중...";
-}
-
-function closeAiPopup(){
-  document.getElementById("aiPopup").style.display="none";
 }
 
 document.getElementById("searchInput")
