@@ -1260,9 +1260,13 @@ body{
 <div class="container">
 
 <div class="search-box">
+
+  <img id="searchLogo" class="search-logo" src="" alt="logo">
+
   <input type="text" id="searchInput" placeholder="검색어 입력">
   <button onclick="search()">검색</button>
   <button onclick="openAiPopup(); aiSearch();">AI검색</button>
+
 </div>
 
 <!-- AI 팝업 -->
@@ -1418,38 +1422,6 @@ margin:0 auto;">
 <script src="supabase.js"></script>
 
 <script>
-
-async function openAiPopup(){
-
-  const q = document.getElementById("searchInput").value.trim();
-
-  if(!q){
-    alert("검색어 입력해라");
-    return;
-  }
-
-  document.getElementById("aiPopup").style.display="block";
-  document.getElementById("aiResult").innerHTML="AI 분석중...";
-
-  try{
-    const res = await fetch("https://ai-server-yb365.onrender.com/ai-search", {
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({ query:q })
-    });
-
-    const data = await res.json();
-
-    document.getElementById("aiResult").innerHTML =
-      data.result;
-
-  }catch(e){
-    document.getElementById("aiResult").innerHTML =
-      "AI 서버 연결 실패";
-  }
-}
 
 let noticePage = 1;
 let regionPage = 1;
