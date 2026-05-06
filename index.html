@@ -1174,10 +1174,23 @@ body{
 }
 
 img{
-  -webkit-touch-callout:none;
   -webkit-user-select:none;
   user-select:none;
   pointer-events:auto;
+}
+
+/* 일반 이미지 길게누르기 방지 */
+.img-ad img,
+.square-ad img,
+.sns-video img{
+  -webkit-touch-callout:none;
+}
+
+/* 팝업 QR 이미지는 허용 */
+#payQR{
+  -webkit-touch-callout:default !important;
+  -webkit-user-select:auto !important;
+  user-select:auto !important;
 }
 
 </style>
@@ -1200,19 +1213,6 @@ img{
  }
 }
 
-/* 우클릭 방지 */
-document.addEventListener("contextmenu", function(e){
-  e.preventDefault();
-});
-
-/* 모바일 길게누르기 방지 */
-document.addEventListener("selectstart", function(e){
-  e.preventDefault();
-});
-
-document.addEventListener("dragstart", function(e){
-  e.preventDefault();
-});
 </script>
 </head>
 
@@ -2283,6 +2283,20 @@ box.innerHTML = `
   }
 }
 
+/* 우클릭 방지 */
+document.addEventListener("contextmenu", function(e){
+  e.preventDefault();
+});
+
+/* 모바일 길게누르기 방지 */
+document.addEventListener("selectstart", function(e){
+  e.preventDefault();
+});
+
+document.addEventListener("dragstart", function(e){
+  e.preventDefault();
+});
+
 </script>
 
 <div class="modal" id="boardModal" onclick="closeModal()">
@@ -2356,7 +2370,14 @@ align-items:center;
 
     <h3>결제하기</h3>
 
-    <img id="payQR" src="" style="width:100%; margin:15px 0;">
+    <img id="payQR"
+     src=""
+     draggable="false"
+     style="
+     width:100%;
+     margin:15px 0;
+     touch-action:manipulation;
+     ">
 
     <button onclick="closePayModal()">닫기</button>
 
