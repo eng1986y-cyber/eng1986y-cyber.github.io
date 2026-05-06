@@ -1432,7 +1432,7 @@ async function openAiPopup(){
   document.getElementById("aiResult").innerHTML="AI 분석중...";
 
   try{
-    const res = await fetch("https://ai-server-yb365.onrender.com/api/ai", {
+    const res = await fetch("https://ai-server-yb365.onrender.com/ai-search", {
       method:"POST",
       headers:{
         "Content-Type":"application/json"
