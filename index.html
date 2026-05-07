@@ -2181,11 +2181,13 @@ function closeModal(){
   document.getElementById("boardModal").style.display="none";
 }
 
-// 팝업 배경 클릭 시 닫기
-document.getElementById("boardModal")
-  .addEventListener("click", function(){
+const boardModal = document.getElementById("boardModal");
+
+if(boardModal){
+  boardModal.addEventListener("click", function(){
     closeModal();
-});
+  });
+}
 
 function outsideClose(e){
   if(e.target.classList.contains("modal")){
@@ -2419,5 +2421,20 @@ align-items:center;
   </div>
 
 </div>
+
+<script>
+document.addEventListener("contextmenu", function(e){
+  e.preventDefault();
+});
+
+document.addEventListener("selectstart", function(e){
+  e.preventDefault();
+});
+
+document.addEventListener("dragstart", function(e){
+  e.preventDefault();
+});
+</script>
+
 </body>
 </html>
