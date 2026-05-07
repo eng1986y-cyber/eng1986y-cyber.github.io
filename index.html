@@ -2321,39 +2321,15 @@ box.innerHTML = `
 }
 
 window.addEventListener("contextmenu", function(e){
-
-  if(
-    e.target.id === "payQR" ||
-    e.target.closest("#payModal")
-  ){
-    return;
-  }
-
   e.preventDefault();
-
 }, { passive:false });
 
 window.addEventListener("selectstart", function(e){
-
-  if(
-    e.target.id === "payQR" ||
-    e.target.closest("#payModal")
-  ){
-    return;
-  }
-
   e.preventDefault();
-
 }, { passive:false });
 
 window.addEventListener("dragstart", function(e){
-
-  if(e.target.id === "payQR"){
-    return;
-  }
-
   e.preventDefault();
-
 }, { passive:false });
 
 </script>
