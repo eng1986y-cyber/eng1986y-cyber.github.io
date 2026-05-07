@@ -1685,13 +1685,41 @@ if(ad.type==="image"){
   wrap.className="ad-item";
   wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
-const link = ad.link_url 
-  ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
-     </a>`
-  : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openVideoModal('${ad.video_url}')">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+let link = "";
+
+if(ad.video_url){
+
+  // QR 팝업 우선
+  link = `
+    <img
+      src="${ad.image_url}"
+      alt="${ad.main_title||'延边广告'}"
+      onclick="openPayModal('${ad.video_url}')"
+    >
+  `;
+
+}else if(ad.link_url){
+
+  // 일반 링크
+  link = `
+    <a href="${ad.link_url}" target="_blank">
+      <img
+        src="${ad.image_url}"
+        alt="${ad.main_title||'延边广告'}"
+      >
+    </a>
+  `;
+
+}else{
+
+  // 일반 이미지 팝업
+  link = `
+    <img
+      src="${ad.image_url}"
+      onclick="openImageModal('${ad.image_url}')"
+    >
+  `;
+}
 
   wrap.innerHTML=`
     <div class="img-ad">${link}</div>
