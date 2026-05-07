@@ -788,10 +788,24 @@ function rebuildSquarePages(){
 
   }
 
-  adminSquarePage = 0;
+const wrapper =
+  document.querySelector(".admin-square-wrapper");
 
-  squareAdmin.style.transform = "translateX(0)";
+const pageWidth = wrapper.clientWidth;
+
+const totalPages =
+  squareAdmin.querySelectorAll(".square-page").length;
+
+if(adminSquarePage >= totalPages){
+  adminSquarePage = totalPages - 1;
 }
+
+if(adminSquarePage < 0){
+  adminSquarePage = 0;
+}
+
+squareAdmin.style.transform =
+  `translateX(-${adminSquarePage * pageWidth}px)`;
 
 function addSnsVideo(title="", thumb="", video=""){
   snsVideoAdmin.appendChild(
