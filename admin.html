@@ -276,6 +276,60 @@ textarea{
   font-family:Arial;
 }
 
+/* 관리자 정방형 슬라이드 */
+
+.admin-square-slider{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.admin-square-wrapper{
+  overflow:hidden;
+  width:100%;
+}
+
+#squareAdmin{
+  display:flex;
+  gap:14px;
+  transition:transform .45s ease;
+  will-change:transform;
+}
+
+#squareAdmin .card{
+  min-width:calc((100% - 28px) / 3);
+  flex-shrink:0;
+}
+
+/* 버튼 */
+
+.admin-slide-btn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:white;
+  color:#333;
+  font-size:28px;
+  border:1px solid #ddd;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.admin-slide-btn:hover{
+  background:#87CEEB;
+  color:white;
+}
+
+/* 모바일 */
+
+@media (max-width:768px){
+
+  #squareAdmin .card{
+    min-width:100%;
+  }
+
+}
+
 </style>
 
 </head>
@@ -468,7 +522,21 @@ style="width:100%; height:120px; padding:10px; box-sizing:border-box;">
 <button class="add-btn" onclick="addSquareAd()">+ 추가</button>
 </div>
 
-<div class="grid" id="squareAdmin"></div>
+<div class="admin-square-slider">
+
+<button class="admin-slide-btn prev"
+onclick="slideAdminSquare(-1)">
+‹
+</button>
+
+<div class="admin-square-wrapper">
+  <div class="grid" id="squareAdmin"></div>
+</div>
+
+<button class="admin-slide-btn next"
+onclick="slideAdminSquare(1)">
+›
+</button>
 
 </div>
 
@@ -1347,6 +1415,41 @@ async function loadVisitStats(){
 }
 
 loadVisitStats();
+
+/* ================= 관리자 정방형 슬라이드 ================= */
+
+let adminSquareIndex = 0;
+
+function slideAdminSquare(direction){
+
+  const slider = document.getElementById("squareAdmin");
+  const cards = slider.querySelectorAll(".card");
+
+  if(cards.length === 0) return;
+
+  const visibleCount =
+    window.innerWidth <= 768 ? 1 : 3;
+
+  const maxIndex =
+    Math.max(0, cards.length - visibleCount);
+
+  adminSquareIndex += direction;
+
+  if(adminSquareIndex < 0){
+    adminSquareIndex = 0;
+  }
+
+  if(adminSquareIndex > maxIndex){
+    adminSquareIndex = maxIndex;
+  }
+
+  const cardWidth =
+    cards[0].offsetWidth + 14;
+
+  slider.style.transform =
+    `translateX(-${adminSquareIndex * cardWidth}px)`;
+
+}
 
 </script>
 
