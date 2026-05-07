@@ -2486,6 +2486,64 @@ function slideProducts(direction){
 
 }
 
+let autoSlideInterval;
+
+function startProductAutoSlide(){
+
+  const slider =
+    document.getElementById("bottomImageAds");
+
+  if(!slider) return;
+
+  autoSlideInterval = setInterval(()=>{
+
+    const maxScroll =
+      slider.scrollWidth - slider.clientWidth;
+
+    /* 끝까지 갔으면 처음으로 */
+    if(slider.scrollLeft >= maxScroll - 5){
+
+      slider.scrollTo({
+        left:0,
+        behavior:"smooth"
+      });
+
+    }else{
+
+      slider.scrollBy({
+        left:slider.clientWidth,
+        behavior:"smooth"
+      });
+
+    }
+
+  }, 3000); // 3초마다
+}
+
+/* 자동 실행 */
+window.addEventListener("load", ()=>{
+
+  startProductAutoSlide();
+
+});
+
+window.addEventListener("load", ()=>{
+
+  const slider =
+    document.getElementById("bottomImageAds");
+
+  if(!slider) return;
+
+  slider.addEventListener("mouseenter", ()=>{
+    clearInterval(autoSlideInterval);
+  });
+
+  slider.addEventListener("mouseleave", ()=>{
+    startProductAutoSlide();
+  });
+
+});
+
 </script>
 
 <div class="modal" id="boardModal" onclick="closeModal()">
