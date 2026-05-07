@@ -279,9 +279,8 @@ textarea{
 /* 관리자 정방형 슬라이드 */
 
 .admin-square-slider{
-  position:relative;
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   gap:10px;
 }
 
@@ -291,41 +290,52 @@ textarea{
 }
 
 #squareAdmin{
-  display:flex;
-  gap:14px;
-  transition:transform .45s ease;
-  will-change:transform;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+  min-width:100%;
+  transition:transform .35s ease;
 }
 
+/* 카드 높이 */
+
 #squareAdmin .card{
-  min-width:calc((100% - 28px) / 3);
+  min-height:210px;
+}
+
+/* 간단 버튼 */
+
+.simple-slide-btn{
+  width:34px;
+  height:34px;
+  background:#e5e5e5;
+  color:#333;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
   flex-shrink:0;
 }
 
-/* 버튼 */
-
-.admin-slide-btn{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:white;
-  color:#333;
-  font-size:28px;
-  border:1px solid #ddd;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+.simple-slide-btn:hover{
+  background:#d5d5d5;
 }
 
-.admin-slide-btn:hover{
-  background:#87CEEB;
-  color:white;
+/* 태블릿 */
+
+@media (max-width:1200px){
+
+  #squareAdmin{
+    grid-template-columns:repeat(4,1fr);
+  }
+
 }
 
 /* 모바일 */
 
 @media (max-width:768px){
 
-  #squareAdmin .card{
-    min-width:100%;
+  #squareAdmin{
+    grid-template-columns:repeat(2,1fr);
   }
 
 }
@@ -524,18 +534,18 @@ style="width:100%; height:120px; padding:10px; box-sizing:border-box;">
 
 <div class="admin-square-slider">
 
-<button class="admin-slide-btn prev"
+<button class="simple-slide-btn"
 onclick="slideAdminSquare(-1)">
-‹
+◀
 </button>
 
 <div class="admin-square-wrapper">
-  <div class="grid" id="squareAdmin"></div>
+  <div id="squareAdmin"></div>
 </div>
 
-<button class="admin-slide-btn next"
+<button class="simple-slide-btn"
 onclick="slideAdminSquare(1)">
-›
+▶
 </button>
 
 </div>
@@ -1416,38 +1426,35 @@ async function loadVisitStats(){
 
 loadVisitStats();
 
-/* ================= 관리자 정방형 슬라이드 ================= */
-
-let adminSquareIndex = 0;
+let adminSquarePage = 0;
 
 function slideAdminSquare(direction){
 
-  const slider = document.getElementById("squareAdmin");
-  const cards = slider.querySelectorAll(".card");
+  const wrapper =
+    document.querySelector(".admin-square-wrapper");
 
-  if(cards.length === 0) return;
+  const slider =
+    document.getElementById("squareAdmin");
 
-  const visibleCount =
-    window.innerWidth <= 768 ? 1 : 3;
+  const pageWidth = wrapper.clientWidth;
 
-  const maxIndex =
-    Math.max(0, cards.length - visibleCount);
+  const totalWidth = slider.scrollWidth;
 
-  adminSquareIndex += direction;
+  const maxPage =
+    Math.ceil(totalWidth / pageWidth) - 1;
 
-  if(adminSquareIndex < 0){
-    adminSquareIndex = 0;
+  adminSquarePage += direction;
+
+  if(adminSquarePage < 0){
+    adminSquarePage = 0;
   }
 
-  if(adminSquareIndex > maxIndex){
-    adminSquareIndex = maxIndex;
+  if(adminSquarePage > maxPage){
+    adminSquarePage = maxPage;
   }
-
-  const cardWidth =
-    cards[0].offsetWidth + 14;
 
   slider.style.transform =
-    `translateX(-${adminSquareIndex * cardWidth}px)`;
+    `translateX(-${adminSquarePage * pageWidth}px)`;
 
 }
 
