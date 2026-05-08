@@ -2471,21 +2471,6 @@ window.addEventListener("dragstart", function(e){
   e.preventDefault();
 }, { passive:false });
 
-function slideProducts(direction){
-
-  const slider =
-    document.getElementById("bottomImageAds");
-
-  const move =
-    slider.clientWidth;
-
-  slider.scrollBy({
-    left: direction * move,
-    behavior:"smooth"
-  });
-
-}
-
 let autoSlideInterval;
 let currentProductPage = 0;
 
@@ -2496,24 +2481,41 @@ function slideProducts(direction){
 
   if(!slider) return;
 
-  const pageWidth = slider.clientWidth;
+  // 카드 하나 크기 계산
+  const firstItem =
+    slider.querySelector(".ad-item");
 
-  const totalPages =
-    Math.ceil(slider.scrollWidth / pageWidth);
+  if(!firstItem) return;
 
-  currentProductPage += direction;
+  const itemWidth =
+    firstItem.offsetWidth + 10; // gap 포함
 
-  /* 처음/끝 처리 */
-  if(currentProductPage < 0){
-    currentProductPage = totalPages - 1;
+  // 한 화면당 카드 개수
+  const visibleCount =
+    window.innerWidth <= 768 ? 2 : 6;
+
+  // 한번 이동 거리
+  const moveWidth =
+    itemWidth * visibleCount;
+
+  const maxScroll =
+    slider.scrollWidth - slider.clientWidth;
+
+  let next =
+    slider.scrollLeft + (direction * moveWidth);
+
+  // 끝 → 처음
+  if(next > maxScroll){
+    next = 0;
   }
 
-  if(currentProductPage >= totalPages){
-    currentProductPage = 0;
+  // 처음 → 끝
+  if(next < 0){
+    next = maxScroll;
   }
 
   slider.scrollTo({
-    left: currentProductPage * pageWidth,
+    left: next,
     behavior:"smooth"
   });
 
