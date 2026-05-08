@@ -2532,7 +2532,6 @@ function startProductAutoSlide(){
 
 }
 
-/* 실행 */
 window.addEventListener("load", ()=>{
 
   const slider =
@@ -2540,16 +2539,21 @@ window.addEventListener("load", ()=>{
 
   if(!slider) return;
 
-  startProductAutoSlide();
+  /* PC에서만 자동 슬라이드 */
+  if(window.innerWidth > 768){
 
-  /* PC hover 멈춤 */
-  slider.addEventListener("mouseenter", ()=>{
-    clearInterval(autoSlideInterval);
-  });
-
-  slider.addEventListener("mouseleave", ()=>{
     startProductAutoSlide();
-  });
+
+    /* PC hover 멈춤 */
+    slider.addEventListener("mouseenter", ()=>{
+      clearInterval(autoSlideInterval);
+    });
+
+    slider.addEventListener("mouseleave", ()=>{
+      startProductAutoSlide();
+    });
+
+  }
 
 });
 
