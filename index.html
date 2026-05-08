@@ -2471,21 +2471,6 @@ window.addEventListener("dragstart", function(e){
   e.preventDefault();
 }, { passive:false });
 
-function slideProducts(direction){
-
-  const slider =
-    document.getElementById("bottomImageAds");
-
-  const move =
-    slider.clientWidth;
-
-  slider.scrollBy({
-    left: direction * move,
-    behavior:"smooth"
-  });
-
-}
-
 let autoSlideInterval;
 let currentProductPage = 0;
 
