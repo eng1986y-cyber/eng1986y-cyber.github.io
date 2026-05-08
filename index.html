@@ -2472,7 +2472,6 @@ window.addEventListener("dragstart", function(e){
 }, { passive:false });
 
 let autoSlideInterval;
-let currentProductPage = 0;
 
 function slideProducts(direction){
 
@@ -2505,47 +2504,23 @@ function slideProducts(direction){
   const maxScroll =
     slider.scrollWidth - slider.clientWidth;
 
-  /* 다음 */
-  if(direction > 0){
+  let nextScroll =
+    slider.scrollLeft + (direction * moveWidth);
 
-    if(slider.scrollLeft + moveWidth >= maxScroll){
-
-      slider.scrollTo({
-        left:0,
-        behavior:"smooth"
-      });
-
-    }else{
-
-      slider.scrollBy({
-        left:moveWidth,
-        behavior:"smooth"
-      });
-
-    }
-
+  /* 끝 도달 → 처음으로 */
+  if(nextScroll >= maxScroll){
+    nextScroll = 0;
   }
 
-  /* 이전 */
-  else{
-
-    if(slider.scrollLeft - moveWidth <= 0){
-
-      slider.scrollTo({
-        left:maxScroll,
-        behavior:"smooth"
-      });
-
-    }else{
-
-      slider.scrollBy({
-        left:-moveWidth,
-        behavior:"smooth"
-      });
-
-    }
-
+  /* 처음 도달 → 끝으로 */
+  if(nextScroll < 0){
+    nextScroll = maxScroll;
   }
+
+  slider.scrollTo({
+    left: nextScroll,
+    behavior:"smooth"
+  });
 
 }
 
@@ -2569,12 +2544,10 @@ window.addEventListener("load", ()=>{
 
   if(!slider) return;
 
-  /* PC에서만 자동 슬라이드 */
   if(window.innerWidth > 768){
 
     startProductAutoSlide();
 
-    /* PC hover 멈춤 */
     slider.addEventListener("mouseenter", ()=>{
       clearInterval(autoSlideInterval);
     });
