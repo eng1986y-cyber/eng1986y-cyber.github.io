@@ -2496,13 +2496,13 @@ function slideProducts(direction){
 
   if(!slider) return;
 
-  /* 카드 한칸 너비 계산 */
   const card =
     slider.querySelector(".ad-item");
 
   if(!card) return;
 
-  const style = getComputedStyle(slider);
+  const style =
+    getComputedStyle(slider);
 
   const gap =
     parseInt(style.columnGap || style.gap || 10);
@@ -2510,17 +2510,57 @@ function slideProducts(direction){
   const cardWidth =
     card.offsetWidth + gap;
 
-  /* PC는 6칸씩 */
+  /* PC 6칸 / 모바일 2칸 */
   const visibleCount =
     window.innerWidth <= 768 ? 2 : 6;
 
   const moveWidth =
     cardWidth * visibleCount;
 
-  slider.scrollBy({
-    left: direction * moveWidth,
-    behavior:"smooth"
-  });
+  const maxScroll =
+    slider.scrollWidth - slider.clientWidth;
+
+  /* 다음 */
+  if(direction > 0){
+
+    if(slider.scrollLeft + moveWidth >= maxScroll){
+
+      slider.scrollTo({
+        left:0,
+        behavior:"smooth"
+      });
+
+    }else{
+
+      slider.scrollBy({
+        left:moveWidth,
+        behavior:"smooth"
+      });
+
+    }
+
+  }
+
+  /* 이전 */
+  else{
+
+    if(slider.scrollLeft - moveWidth <= 0){
+
+      slider.scrollTo({
+        left:maxScroll,
+        behavior:"smooth"
+      });
+
+    }else{
+
+      slider.scrollBy({
+        left:-moveWidth,
+        behavior:"smooth"
+      });
+
+    }
+
+  }
 
 }
 
