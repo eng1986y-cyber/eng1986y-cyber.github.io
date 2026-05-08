@@ -2496,24 +2496,29 @@ function slideProducts(direction){
 
   if(!slider) return;
 
-  const pageWidth = slider.clientWidth;
+  /* 카드 한칸 너비 계산 */
+  const card =
+    slider.querySelector(".ad-item");
 
-  const totalPages =
-    Math.ceil(slider.scrollWidth / pageWidth);
+  if(!card) return;
 
-  currentProductPage += direction;
+  const style = getComputedStyle(slider);
 
-  /* 처음/끝 처리 */
-  if(currentProductPage < 0){
-    currentProductPage = totalPages - 1;
-  }
+  const gap =
+    parseInt(style.columnGap || style.gap || 10);
 
-  if(currentProductPage >= totalPages){
-    currentProductPage = 0;
-  }
+  const cardWidth =
+    card.offsetWidth + gap;
 
-  slider.scrollTo({
-    left: currentProductPage * pageWidth,
+  /* PC는 6칸씩 */
+  const visibleCount =
+    window.innerWidth <= 768 ? 2 : 6;
+
+  const moveWidth =
+    cardWidth * visibleCount;
+
+  slider.scrollBy({
+    left: direction * moveWidth,
     behavior:"smooth"
   });
 
