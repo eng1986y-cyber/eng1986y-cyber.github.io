@@ -2537,7 +2537,74 @@ function startProductAutoSlide(){
 
 }
 
-window.addEventListener("load", ()=>{
+let autoSlideInterval;
+
+function slideProducts(direction){
+
+  const slider =
+    document.getElementById("bottomImageAds");
+
+  if(!slider) return;
+
+  const card =
+    slider.querySelector(".ad-item");
+
+  if(!card) return;
+
+  const style =
+    getComputedStyle(slider);
+
+  const gap =
+    parseInt(style.columnGap || style.gap || 10);
+
+  const cardWidth =
+    card.offsetWidth + gap;
+
+  /* PC 6칸 / 모바일 2칸 */
+  const visibleCount =
+    window.innerWidth <= 768 ? 2 : 6;
+
+  const moveWidth =
+    cardWidth * visibleCount;
+
+  const maxScroll =
+    slider.scrollWidth - slider.clientWidth;
+
+  let nextScroll =
+    slider.scrollLeft + (direction * moveWidth);
+
+  /* 끝 도달 → 처음 */
+  if(nextScroll >= maxScroll - 5){
+    nextScroll = 0;
+  }
+
+  /* 처음보다 작으면 끝 */
+  if(nextScroll < 0){
+    nextScroll = maxScroll;
+  }
+
+  slider.scrollTo({
+    left: nextScroll,
+    behavior:"smooth"
+  });
+
+}
+
+/* 자동 슬라이드 */
+function startProductAutoSlide(){
+
+  clearInterval(autoSlideInterval);
+
+  autoSlideInterval = setInterval(()=>{
+
+    slideProducts(1);
+
+  }, 3500);
+
+}
+
+/* 광고 로딩 끝난 뒤 실행 */
+setTimeout(()=>{
 
   const slider =
     document.getElementById("bottomImageAds");
@@ -2558,7 +2625,7 @@ window.addEventListener("load", ()=>{
 
   }
 
-});
+}, 1500);
 
 </script>
 
