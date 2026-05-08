@@ -748,7 +748,7 @@ function addTextAd(title="",link=""){
 
 function addSquareAd(main="", img="", link="", video=""){
 
-  squareAdmin.appendChild(
+  squareAdmin.prepend(
     createCard(`
       <input value="${main}" placeholder="메인 명칭">
 
