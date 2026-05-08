@@ -911,9 +911,12 @@ for(const [index, block] of [...textAdmin.children].entries()){
   }
 }
 
-for(const [index, block] of [...squareAdmin.children].entries()){
+const squareCards =
+  [...squareAdmin.querySelectorAll(".card")];
 
-  const i=block.querySelectorAll("input");
+for(const [index, block] of squareCards.entries()){
+
+  const i = block.querySelectorAll("input");
 
   if(i[1].value.trim()){
 
