@@ -1238,6 +1238,18 @@ a{
   display:none;
 }
 
+.product-page{
+  min-width:100%;
+
+  display:grid;
+
+  grid-template-columns:repeat(6,1fr);
+
+  gap:10px;
+
+  box-sizing:border-box;
+}
+
 /* 광고 카드 */
 .product-slider .ad-item{
   width:100%;
@@ -1789,6 +1801,8 @@ async function loadSite(){
   const snsBox=document.getElementById("snsVideoAds");
   const bannerBox=document.getElementById("topBanner");
 
+  const squareAds = [];
+
   // 🔥 전체 초기화
   boardSection.innerHTML="";
   imgBox.innerHTML="";
@@ -1866,26 +1880,36 @@ if(ad.video_url){
         txtBox.appendChild(a);
       }
 
-      if(ad.type==="square"){
-        const wrap=document.createElement("div");
-        wrap.className="ad-item";
-        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
+if(ad.type==="square"){
 
-const link = ad.link_url 
-  ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
-     </a>`
-  : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openPayModal(&quot;${ad.video_url}&quot;)">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute(
+    "data-title",
+    (ad.main_title||"").toLowerCase()
+  );
 
-        wrap.innerHTML=`
-          <div class="square-ad">${link}</div>
-          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
-        `;
+  const link = ad.link_url 
+    ? `<a href="${ad.link_url}" target="_blank">
+         <img src="${ad.image_url}"
+              alt="${ad.main_title||'延边广告'}">
+       </a>`
+    : ad.video_url
+    ? `<img src="${ad.image_url}"
+        onclick="openPayModal(&quot;${ad.video_url}&quot;)">`
+    : `<img src="${ad.image_url}"
+        onclick="openImageModal('${ad.image_url}')">`;
 
-        bottomBox.appendChild(wrap);
-      }
+  wrap.innerHTML=`
+    <div class="square-ad">${link}</div>
+    <div class="ad-title">
+      ${escapeHTML(ad.main_title||"")}
+    </div>
+  `;
+
+  squareAds.push(wrap);
+
+}
 
 if(ad.type==="sns"){
   const wrap=document.createElement("div");
@@ -1905,6 +1929,24 @@ if(ad.type==="sns"){
 
     });
   }
+
+const pageSize = 18;
+
+for(let i=0; i<squareAds.length; i+=pageSize){
+
+  const page = document.createElement("div");
+
+  page.className = "product-page";
+
+  squareAds
+    .slice(i, i+pageSize)
+    .forEach(item=>{
+      page.appendChild(item);
+    });
+
+  bottomBox.appendChild(page);
+
+}
 
   /* ================= 설정 ================= */
 
