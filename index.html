@@ -1222,14 +1222,10 @@ a{
 .product-slider{
   display:grid !important;
 
-  /* 세로 3줄 */
+  grid-template-columns:repeat(6, 1fr);
   grid-template-rows:repeat(3, auto);
 
-  /* 가로 방향 생성 */
   grid-auto-flow:row;
-
-  /* 한칸 크기 */
-  grid-auto-columns:calc((100% - 50px) / 6);
 
   gap:10px;
 
@@ -1255,14 +1251,10 @@ a{
   align-items:center;
 }
 
-/* 모바일 */
 @media(max-width:768px){
 
   .product-slider{
-
-    grid-auto-columns:
-      calc((100% - 10px) / 2);
-
+    grid-template-columns:repeat(2, 1fr);
   }
 
 }
