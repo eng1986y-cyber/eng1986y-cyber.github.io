@@ -1214,17 +1214,13 @@ a{
   width:100%;
 }
 
-/* 핵심 */
 .product-slider{
   display:grid !important;
 
-  grid-auto-flow:column;
+  grid-template-columns:
+    repeat(6, 1fr);
 
-  grid-template-rows:
-    repeat(3, auto);
-
-  grid-auto-columns:
-    calc((100% - 50px) / 6);
+  grid-auto-rows:auto;
 
   gap:10px;
 
