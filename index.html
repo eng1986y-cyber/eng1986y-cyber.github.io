@@ -669,7 +669,10 @@ body{
   color: #222;
   text-align: center;
   width:100%;
-  display:block;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
 }
 
 @keyframes glow{
@@ -1244,9 +1247,12 @@ a{
   display:none;
 }
 
-/* 광고 카드 */
 .product-slider .ad-item{
   width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  height:100%;
 }
 
 /* ===== 고급 버튼 ===== */
@@ -2638,6 +2644,8 @@ align-items:center;
 
 </div>
 
+<script>
+
 document.addEventListener("contextmenu", function(e){
 
   if(e.target.id === "payQR"){
@@ -2664,7 +2672,6 @@ document.addEventListener("dragstart", function(e){
 
   e.preventDefault();
 });
-
 
 </script>
 
