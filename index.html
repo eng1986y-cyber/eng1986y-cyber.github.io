@@ -2638,7 +2638,6 @@ align-items:center;
 
 </div>
 
-// QR 이미지는 예외 처리
 document.addEventListener("contextmenu", function(e){
 
   if(e.target.id === "payQR"){
@@ -2646,7 +2645,7 @@ document.addEventListener("contextmenu", function(e){
   }
 
   e.preventDefault();
-}, { passive:false });
+});
 
 document.addEventListener("selectstart", function(e){
 
@@ -2655,7 +2654,7 @@ document.addEventListener("selectstart", function(e){
   }
 
   e.preventDefault();
-}, { passive:false });
+});
 
 document.addEventListener("dragstart", function(e){
 
@@ -2664,7 +2663,9 @@ document.addEventListener("dragstart", function(e){
   }
 
   e.preventDefault();
-}, { passive:false });
+});
+
+
 </script>
 
 </body>
