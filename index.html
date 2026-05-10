@@ -1220,7 +1220,16 @@ a{
 }
 
 .product-slider{
-  display:flex;
+  display:grid !important;
+
+  /* 세로 3줄 */
+  grid-template-rows:repeat(3, auto);
+
+  /* 가로 방향 생성 */
+  grid-auto-flow:column;
+
+  /* 한칸 크기 */
+  grid-auto-columns:calc((100% - 50px) / 6);
 
   gap:10px;
 
@@ -1238,9 +1247,9 @@ a{
   display:none;
 }
 
-/* 카드 크기 */
+/* 카드 */
 .product-slider .ad-item{
-  flex:0 0 calc((100% - 50px) / 6);
+  width:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -1249,8 +1258,11 @@ a{
 /* 모바일 */
 @media(max-width:768px){
 
-  .product-slider .ad-item{
-    flex:0 0 calc((100% - 10px) / 2.2);
+  .product-slider{
+
+    grid-auto-columns:
+      calc((100% - 10px) / 2);
+
   }
 
 }
