@@ -1810,9 +1810,9 @@ async function loadSite(){
   /* ================= 광고 ================= */
 
   const { data: ads } = await supabaseClient
-    .from("ads")
-    .select("*")
-    .order("id",{ascending:true});
+  .from("ads")
+  .select("*")
+  .order("sort",{ascending:true});
 
   if(ads){
     ads.forEach(ad=>{
