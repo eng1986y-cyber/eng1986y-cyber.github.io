@@ -1214,17 +1214,17 @@ a{
   width:100%;
 }
 
-/* 핵심 */
 .product-slider{
   display:grid !important;
 
-  grid-auto-flow:column;
+  /* 가로 순서로 채우기 */
+  grid-auto-flow:row;
 
-  grid-template-rows:
-    repeat(3, auto);
+  /* 한 페이지 6칸 */
+  grid-template-columns:repeat(6, 1fr);
 
-  grid-auto-columns:
-    calc((100% - 50px) / 6);
+  /* 3줄 */
+  grid-template-rows:repeat(3, auto);
 
   gap:10px;
 
@@ -1303,16 +1303,13 @@ a{
   right:8px;
 }
 
-/* 모바일 */
 @media(max-width:768px){
 
   .product-slider{
 
-    grid-template-rows:
-      repeat(3, auto);
+    grid-template-columns:repeat(2, 1fr);
 
-    grid-auto-columns:
-      calc((100% - 10px) / 2.2);
+    grid-template-rows:repeat(3, auto);
 
   }
 
