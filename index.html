@@ -1218,13 +1218,13 @@ a{
   display:grid !important;
 
   /* 가로 우선 배치 */
-  grid-auto-flow:column;
+  grid-auto-flow:row;
+
+  /* 6칸 */
+  grid-template-columns:repeat(6, 1fr);
 
   /* 3줄 */
   grid-template-rows:repeat(3, auto);
-
-  /* 한 칸 너비 = 페이지의 1/6 */
-  grid-auto-columns:calc((100% - 50px) / 6);
 
   gap:10px;
 
@@ -1307,15 +1307,17 @@ a{
 
   .product-slider{
 
-    grid-auto-flow:column;
+    /* 모바일 2칸 */
+    grid-template-columns:repeat(2, 1fr);
 
-    /* 모바일 3줄 */
-    grid-template-rows:repeat(3, auto);
+    /* 2줄 */
+    grid-template-rows:repeat(2, auto);
 
-    /* 모바일 한 페이지 2열 × 3줄 = 6개 */
-    grid-auto-columns:calc((100% - 10px) / 2);
+    grid-auto-flow:row;
 
   }
+
+}
 
   .product-slider-btn{
     width:40px;
