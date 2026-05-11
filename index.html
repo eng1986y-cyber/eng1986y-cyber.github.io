@@ -1217,27 +1217,24 @@ a{
 .product-slider{
   display:grid !important;
 
-  /* 6칸 고정 */
+  /* 가로 6칸 */
   grid-template-columns:repeat(6, 1fr);
-
-  /* 가로 순서 */
-  grid-auto-flow:row;
 
   /* 3줄 */
   grid-template-rows:repeat(3, auto);
 
+  /* 가로 순서 */
+  grid-auto-flow:row;
+
   gap:10px;
 
-  overflow-x:auto;
-  overflow-y:hidden;
+  width:100%;
 
-  scroll-behavior:smooth;
+  overflow:hidden;
 
   padding:5px 2px 10px;
 
-  scrollbar-width:none;
-
-  width:max-content;
+  box-sizing:border-box;
 }
 
 @media(max-width:768px){
