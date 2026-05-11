@@ -1307,6 +1307,36 @@ a{
   right:8px;
 }
 
+.product-slider{
+  display:flex;
+  overflow:hidden;
+  width:100%;
+}
+
+.product-page{
+  min-width:100%;
+  display:grid;
+
+  grid-template-columns:repeat(6,1fr);
+  grid-template-rows:repeat(3,auto);
+
+  gap:10px;
+
+  flex-shrink:0;
+}
+
+@media(max-width:768px){
+
+  .product-page{
+
+    grid-template-columns:repeat(2,1fr);
+    grid-template-rows:repeat(3,auto);
+
+    gap:8px;
+  }
+
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1859,45 +1889,57 @@ if(ad.video_url){
         txtBox.appendChild(a);
       }
 
-      if(ad.type==="square"){
-        const wrap=document.createElement("div");
-        wrap.className="ad-item";
-        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
+if(ad.type==="square"){
 
-const link = ad.link_url 
-  ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
-     </a>`
-  : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openPayModal(&quot;${ad.video_url}&quot;)">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+  const perPage =
+    window.innerWidth <= 768 ? 6 : 18;
 
-        wrap.innerHTML=`
-          <div class="square-ad">${link}</div>
-          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
-        `;
+  let pages =
+    bottomBox.querySelectorAll(".product-page");
 
-        bottomBox.appendChild(wrap);
-      }
+  let currentPageEl =
+    pages[pages.length - 1];
 
-if(ad.type==="sns"){
-  const wrap=document.createElement("div");
-  wrap.className="ad-item";
-  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
+  /* 페이지 없거나 꽉찼으면 새 페이지 생성 */
+  if(
+    !currentPageEl ||
+    currentPageEl.children.length >= perPage
+  ){
 
-  wrap.innerHTML=`
-    <div class="sns-video">
-      <img src="${ad.image_url}"
-      onclick="openVideoModal('${ad.video_url}')">
+    currentPageEl = document.createElement("div");
+    currentPageEl.className = "product-page";
+
+    bottomBox.appendChild(currentPageEl);
+  }
+
+  const wrap = document.createElement("div");
+
+  wrap.className = "ad-item";
+
+  wrap.setAttribute(
+    "data-title",
+    (ad.main_title||"").toLowerCase()
+  );
+
+  const link = ad.link_url
+    ? `<a href="${ad.link_url}" target="_blank">
+         <img src="${ad.image_url}">
+       </a>`
+    : ad.video_url
+    ? `<img src="${ad.image_url}"
+         onclick="openPayModal('${ad.video_url}')">`
+    : `<img src="${ad.image_url}"
+         onclick="openImageModal('${ad.image_url}')">`;
+
+  wrap.innerHTML = `
+    <div class="square-ad">${link}</div>
+    <div class="ad-title">
+      ${escapeHTML(ad.main_title||"")}
     </div>
-    <div class="ad-title">${ad.title||""}</div>
   `;
 
-  snsBox.appendChild(wrap);
+  currentPageEl.appendChild(wrap);
 }
-
-    });
-  }
 
   /* ================= 설정 ================= */
 
