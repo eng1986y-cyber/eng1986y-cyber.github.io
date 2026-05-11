@@ -1307,9 +1307,15 @@ a{
 
   .product-slider{
 
+    /* 모바일 2x2 = 페이지당 4개 */
     grid-template-columns:repeat(2, 1fr);
+    grid-template-rows:repeat(2, auto);
 
-    grid-template-rows:repeat(3, auto);
+    /* 페이지 단위 가로 슬라이드 */
+    grid-auto-flow:column;
+
+    /* 한 페이지 너비 */
+    grid-auto-columns:calc((100% - 8px) / 2);
 
   }
 
@@ -2516,19 +2522,6 @@ function slideProducts(direction){
 
 }
 
-/* 자동 슬라이드 */
-function startProductAutoSlide(){
-
-  clearInterval(autoSlideInterval);
-
-  autoSlideInterval = setInterval(()=>{
-
-    slideProducts(1);
-
-  }, 4000);
-
-}
-
 /* 실행 */
 window.addEventListener("load", ()=>{
 
@@ -2537,16 +2530,20 @@ window.addEventListener("load", ()=>{
 
   if(!slider) return;
 
-  startProductAutoSlide();
+  /* PC만 자동슬라이드 */
+  if(window.innerWidth > 768){
 
-  /* PC hover 멈춤 */
-  slider.addEventListener("mouseenter", ()=>{
-    clearInterval(autoSlideInterval);
-  });
-
-  slider.addEventListener("mouseleave", ()=>{
     startProductAutoSlide();
-  });
+
+    slider.addEventListener("mouseenter", ()=>{
+      clearInterval(autoSlideInterval);
+    });
+
+    slider.addEventListener("mouseleave", ()=>{
+      startProductAutoSlide();
+    });
+
+  }
 
 });
 
