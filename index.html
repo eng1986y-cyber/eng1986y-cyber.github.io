@@ -1309,12 +1309,14 @@ a{
 
 .product-slider{
   display:flex;
-  overflow:hidden;
   width:100%;
+  transition:transform 0.45s ease;
 }
 
 .product-page{
   min-width:100%;
+  flex-shrink:0;
+
   display:grid;
 
   grid-template-columns:repeat(6,1fr);
@@ -1322,7 +1324,18 @@ a{
 
   gap:10px;
 
-  flex-shrink:0;
+  box-sizing:border-box;
+}
+
+.product-page .square-ad{
+  width:100%;
+  aspect-ratio:1/1;
+}
+
+.product-page img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 @media(max-width:768px){
@@ -2496,23 +2509,6 @@ window.addEventListener("dragstart", function(e){
   e.preventDefault();
 }, { passive:false });
 
-function slideProducts(direction){
-
-  const slider =
-    document.getElementById("bottomImageAds");
-
-  if(!slider) return;
-
-  const move =
-    slider.clientWidth;
-
-  slider.scrollBy({
-    left: direction * move,
-    behavior:"smooth"
-  });
-
-}
-
 let currentProductPage = 0;
 
 function slideProducts(direction){
@@ -2520,16 +2516,10 @@ function slideProducts(direction){
   const slider =
     document.getElementById("bottomImageAds");
 
-  if(!slider) return;
+  const pages =
+    slider.querySelectorAll(".product-page");
 
-  const items =
-    slider.querySelectorAll(".ad-item");
-
-  const perPage =
-    window.innerWidth <= 768 ? 6 : 18;
-
-  const totalPages =
-    Math.ceil(items.length / perPage);
+  const totalPages = pages.length;
 
   currentProductPage += direction;
 
@@ -2543,7 +2533,6 @@ function slideProducts(direction){
 
   slider.style.transform =
     `translateX(-${currentProductPage * 100}%)`;
-
 }
 
 /* 실행 */
