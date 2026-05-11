@@ -1217,13 +1217,13 @@ a{
 .product-slider{
   display:grid !important;
 
-  /* 가로 순서로 채우기 */
-  grid-auto-flow:row;
+  /* PC도 페이지 단위 가로 슬라이드 */
+  grid-auto-flow:column;
 
   /* 한 페이지 6칸 */
   grid-template-columns:repeat(6, 1fr);
 
-  /* 3줄 */
+  /* 3줄 = 총 18개 */
   grid-template-rows:repeat(3, auto);
 
   gap:10px;
@@ -1236,6 +1236,9 @@ a{
   padding:5px 2px 10px;
 
   scrollbar-width:none;
+
+  /* 한 페이지 너비 */
+  grid-auto-columns:calc((100% - 50px) / 6);
 }
 
 .product-slider::-webkit-scrollbar{
