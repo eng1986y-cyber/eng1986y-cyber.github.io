@@ -1215,46 +1215,29 @@ a{
 }
 
 .product-slider{
+  display:flex;
+  overflow:hidden;
+  scroll-behavior:smooth;
+}
+
+.product-page{
+  min-width:100%;
+
   display:grid;
 
-  /* PC 6칸 */
-  grid-template-columns:repeat(6, 1fr);
-
-  /* 3줄 */
-  grid-template-rows:repeat(3, auto);
+  grid-template-columns:repeat(6,1fr);
+  grid-template-rows:repeat(3,auto);
 
   gap:10px;
 
-  overflow-x:auto;
-  overflow-y:hidden;
-
-  scroll-behavior:smooth;
-
-  padding:5px 2px 10px;
-
-  scrollbar-width:none;
+  flex-shrink:0;
 }
 
-.product-slider::-webkit-scrollbar{
-  display:none;
-}
-
-.product-slider .ad-item{
-  width:100%;
-  min-width:0;
-}
-
-/* 모바일 */
 @media(max-width:768px){
 
-  .product-slider{
-
-    /* 모바일 2칸 */
-    grid-template-columns:repeat(2, 1fr);
-
-    /* 3줄 */
-    grid-template-rows:repeat(3, auto);
-
+  .product-page{
+    grid-template-columns:repeat(2,1fr);
+    grid-template-rows:repeat(3,auto);
   }
 
 }
@@ -1872,44 +1855,59 @@ if(ad.video_url){
       }
 
       if(ad.type==="square"){
-        const wrap=document.createElement("div");
-        wrap.className="ad-item";
-        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
-const link = ad.link_url 
-  ? `<a href="${ad.link_url}" target="_blank">
-       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
-     </a>`
-  : ad.video_url
-  ? `<img src="${ad.image_url}" onclick="openPayModal(&quot;${ad.video_url}&quot;)">`
-  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
+  // 페이지 없으면 생성
+  if(!window.productPages){
+    window.productPages = [];
+  }
 
-        wrap.innerHTML=`
-          <div class="square-ad">${link}</div>
-          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
-        `;
+  let currentPage =
+    window.productPages[
+      window.productPages.length - 1
+    ];
 
-        bottomBox.appendChild(wrap);
-      }
+  // 18개마다 새 페이지
+  if(
+    !currentPage ||
+    currentPage.childElementCount >=
+      (window.innerWidth <= 768 ? 6 : 18)
+  ){
 
-if(ad.type==="sns"){
+    currentPage = document.createElement("div");
+    currentPage.className = "product-page";
+
+    bottomBox.appendChild(currentPage);
+
+    window.productPages.push(currentPage);
+  }
+
   const wrap=document.createElement("div");
   wrap.className="ad-item";
-  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
+
+  wrap.setAttribute(
+    "data-title",
+    (ad.main_title||"").toLowerCase()
+  );
+
+  const link = ad.link_url
+    ? `<a href="${ad.link_url}" target="_blank">
+         <img src="${ad.image_url}">
+       </a>`
+    : ad.video_url
+    ? `<img src="${ad.image_url}"
+       onclick="openPayModal('${ad.video_url}')">`
+    : `<img src="${ad.image_url}"
+       onclick="openImageModal('${ad.image_url}')">`;
 
   wrap.innerHTML=`
-    <div class="sns-video">
-      <img src="${ad.image_url}"
-      onclick="openVideoModal('${ad.video_url}')">
+    <div class="square-ad">${link}</div>
+    <div class="ad-title">
+      ${escapeHTML(ad.main_title||"")}
     </div>
-    <div class="ad-title">${ad.title||""}</div>
   `;
 
-  snsBox.appendChild(wrap);
+  currentPage.appendChild(wrap);
 }
-
-    });
-  }
 
   /* ================= 설정 ================= */
 
