@@ -1217,38 +1217,34 @@ a{
 .product-slider{
   display:grid !important;
 
-  /* 가로 6칸 */
+  /* 가로 순서로 채우기 */
+  grid-auto-flow:row;
+
+  /* 한 페이지 6칸 */
   grid-template-columns:repeat(6, 1fr);
 
   /* 3줄 */
   grid-template-rows:repeat(3, auto);
 
-  /* 가로 순서 */
-  grid-auto-flow:row;
-
   gap:10px;
 
-  width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
 
-  overflow:hidden;
+  scroll-behavior:smooth;
 
   padding:5px 2px 10px;
 
-  box-sizing:border-box;
+  scrollbar-width:none;
 }
 
-@media(max-width:768px){
+.product-slider::-webkit-scrollbar{
+  display:none;
+}
 
-  .product-slider{
-
-    grid-template-columns:repeat(2, 1fr);
-
-    grid-template-rows:repeat(3, auto);
-
-    gap:8px;
-
-  }
-
+/* 광고 카드 */
+.product-slider .ad-item{
+  width:100%;
 }
 
 /* ===== 고급 버튼 ===== */
@@ -1307,45 +1303,20 @@ a{
   right:8px;
 }
 
-.product-slider{
-  display:flex;
-  width:100%;
-  transition:transform 0.45s ease;
-}
-
-.product-page{
-  min-width:100%;
-  flex-shrink:0;
-
-  display:grid;
-
-  grid-template-columns:repeat(6,1fr);
-  grid-template-rows:repeat(3,auto);
-
-  gap:10px;
-
-  box-sizing:border-box;
-}
-
-.product-page .square-ad{
-  width:100%;
-  aspect-ratio:1/1;
-}
-
-.product-page img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
 @media(max-width:768px){
 
-  .product-page{
+  .product-slider{
 
-    grid-template-columns:repeat(2,1fr);
-    grid-template-rows:repeat(3,auto);
+    grid-template-columns:repeat(2, 1fr);
 
-    gap:8px;
+    grid-template-rows:repeat(3, auto);
+
+  }
+
+  .product-slider-btn{
+    width:40px;
+    height:40px;
+    font-size:14px;
   }
 
 }
@@ -1902,57 +1873,45 @@ if(ad.video_url){
         txtBox.appendChild(a);
       }
 
-if(ad.type==="square"){
+      if(ad.type==="square"){
+        const wrap=document.createElement("div");
+        wrap.className="ad-item";
+        wrap.setAttribute("data-title",(ad.main_title||"").toLowerCase());
 
-  const perPage =
-    window.innerWidth <= 768 ? 6 : 18;
+const link = ad.link_url 
+  ? `<a href="${ad.link_url}" target="_blank">
+       <img src="${ad.image_url}" alt="${ad.main_title||'延边广告'}">
+     </a>`
+  : ad.video_url
+  ? `<img src="${ad.image_url}" onclick="openPayModal(&quot;${ad.video_url}&quot;)">`
+  : `<img src="${ad.image_url}" onclick="openImageModal('${ad.image_url}')">`;
 
-  let pages =
-    bottomBox.querySelectorAll(".product-page");
+        wrap.innerHTML=`
+          <div class="square-ad">${link}</div>
+          <div class="ad-title">${escapeHTML(ad.main_title||"")}</div>
+        `;
 
-  let currentPageEl =
-    pages[pages.length - 1];
+        bottomBox.appendChild(wrap);
+      }
 
-  /* 페이지 없거나 꽉찼으면 새 페이지 생성 */
-  if(
-    !currentPageEl ||
-    currentPageEl.children.length >= perPage
-  ){
+if(ad.type==="sns"){
+  const wrap=document.createElement("div");
+  wrap.className="ad-item";
+  wrap.setAttribute("data-title",(ad.title||"").toLowerCase());
 
-    currentPageEl = document.createElement("div");
-    currentPageEl.className = "product-page";
-
-    bottomBox.appendChild(currentPageEl);
-  }
-
-  const wrap = document.createElement("div");
-
-  wrap.className = "ad-item";
-
-  wrap.setAttribute(
-    "data-title",
-    (ad.main_title||"").toLowerCase()
-  );
-
-  const link = ad.link_url
-    ? `<a href="${ad.link_url}" target="_blank">
-         <img src="${ad.image_url}">
-       </a>`
-    : ad.video_url
-    ? `<img src="${ad.image_url}"
-         onclick="openPayModal('${ad.video_url}')">`
-    : `<img src="${ad.image_url}"
-         onclick="openImageModal('${ad.image_url}')">`;
-
-  wrap.innerHTML = `
-    <div class="square-ad">${link}</div>
-    <div class="ad-title">
-      ${escapeHTML(ad.main_title||"")}
+  wrap.innerHTML=`
+    <div class="sns-video">
+      <img src="${ad.image_url}"
+      onclick="openVideoModal('${ad.video_url}')">
     </div>
+    <div class="ad-title">${ad.title||""}</div>
   `;
 
-  currentPageEl.appendChild(wrap);
+  snsBox.appendChild(wrap);
 }
+
+    });
+  }
 
   /* ================= 설정 ================= */
 
@@ -2509,6 +2468,22 @@ window.addEventListener("dragstart", function(e){
   e.preventDefault();
 }, { passive:false });
 
+function slideProducts(direction){
+
+  const slider =
+    document.getElementById("bottomImageAds");
+
+  const move =
+    slider.clientWidth;
+
+  slider.scrollBy({
+    left: direction * move,
+    behavior:"smooth"
+  });
+
+}
+
+let autoSlideInterval;
 let currentProductPage = 0;
 
 function slideProducts(direction){
@@ -2516,13 +2491,16 @@ function slideProducts(direction){
   const slider =
     document.getElementById("bottomImageAds");
 
-  const pages =
-    slider.querySelectorAll(".product-page");
+  if(!slider) return;
 
-  const totalPages = pages.length;
+  const pageWidth = slider.clientWidth;
+
+  const totalPages =
+    Math.ceil(slider.scrollWidth / pageWidth);
 
   currentProductPage += direction;
 
+  /* 처음/끝 처리 */
   if(currentProductPage < 0){
     currentProductPage = totalPages - 1;
   }
@@ -2531,8 +2509,24 @@ function slideProducts(direction){
     currentProductPage = 0;
   }
 
-  slider.style.transform =
-    `translateX(-${currentProductPage * 100}%)`;
+  slider.scrollTo({
+    left: currentProductPage * pageWidth,
+    behavior:"smooth"
+  });
+
+}
+
+/* 자동 슬라이드 */
+function startProductAutoSlide(){
+
+  clearInterval(autoSlideInterval);
+
+  autoSlideInterval = setInterval(()=>{
+
+    slideProducts(1);
+
+  }, 4000);
+
 }
 
 /* 실행 */
@@ -2543,20 +2537,16 @@ window.addEventListener("load", ()=>{
 
   if(!slider) return;
 
-  /* PC만 자동슬라이드 */
-  if(window.innerWidth > 768){
+  startProductAutoSlide();
 
+  /* PC hover 멈춤 */
+  slider.addEventListener("mouseenter", ()=>{
+    clearInterval(autoSlideInterval);
+  });
+
+  slider.addEventListener("mouseleave", ()=>{
     startProductAutoSlide();
-
-    slider.addEventListener("mouseenter", ()=>{
-      clearInterval(autoSlideInterval);
-    });
-
-    slider.addEventListener("mouseleave", ()=>{
-      startProductAutoSlide();
-    });
-
-  }
+  });
 
 });
 
@@ -2661,18 +2651,6 @@ document.addEventListener("selectstart", function(e){
 document.addEventListener("dragstart", function(e){
   e.preventDefault();
 });
-
-function startProductAutoSlide(){
-
-  clearInterval(autoSlideInterval);
-
-  autoSlideInterval = setInterval(()=>{
-
-    slideProducts(1);
-
-  }, 4000);
-
-}
 </script>
 
 </body>
