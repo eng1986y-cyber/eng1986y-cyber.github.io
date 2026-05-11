@@ -1216,12 +1216,14 @@ a{
 
 .product-slider{
   display:flex;
+  width:100%;
   overflow:hidden;
   scroll-behavior:smooth;
 }
 
 .product-page{
   min-width:100%;
+  flex-shrink:0;
 
   display:grid;
 
@@ -1229,8 +1231,6 @@ a{
   grid-template-rows:repeat(3,auto);
 
   gap:10px;
-
-  flex-shrink:0;
 }
 
 @media(max-width:768px){
@@ -1296,10 +1296,6 @@ a{
 
 .product-slider-btn.next{
   right:8px;
-}
-
-.product-slider > .ad-item:nth-child(n+19){
-  display:none;
 }
 
 </style>
