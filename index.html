@@ -1220,9 +1220,10 @@ a{
   /* 가로 순서 */
   grid-auto-flow:column;
 
-  /* 한 페이지 = 6칸 × 3줄 = 18개 */
+  /* 3줄 */
   grid-template-rows:repeat(3, auto);
 
+  /* 한줄 6개 = 총 18개 */
   grid-auto-columns:calc((100% - 50px) / 6);
 
   gap:10px;
@@ -1235,15 +1236,6 @@ a{
   padding:5px 2px 10px;
 
   scrollbar-width:none;
-}
-
-  /* 페이지 단위 */
-  grid-auto-columns:100%;
-}
-
-/* 광고 카드 */
-.product-slider .ad-item{
-  width:100%;
 }
 
 /* ===== 고급 버튼 ===== */
