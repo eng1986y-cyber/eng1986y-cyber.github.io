@@ -1227,17 +1227,75 @@ a{
 
   display:grid;
 
-  grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(2,auto);
+  /* PC 6개 */
+  grid-template-columns:repeat(3, 1fr);
+  grid-template-rows:repeat(2, auto);
 
-  gap:10px;
+  gap:16px;
+
+  padding:0 8px;
+
+  box-sizing:border-box;
+
+  align-items:start;
 }
 
+/* 카드 사이즈 균일 */
+.product-page .ad-item{
+  width:100%;
+}
+
+/* 정방형 광고 */
+.product-page .square-ad{
+  width:100%;
+  aspect-ratio:1/1;
+
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid #ddd;
+
+  background:#fff;
+}
+
+/* 이미지 */
+.product-page .square-ad img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* 제목 */
+.product-page .ad-title{
+  margin-top:10px;
+  font-size:14px;
+  line-height:1.4;
+
+  width:100%;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  text-align:center;
+}
+
+/* 모바일 */
 @media(max-width:768px){
 
   .product-page{
-    grid-template-columns:repeat(2,1fr);
-    grid-template-rows:repeat(2,auto);
+
+    /* 모바일 4개 */
+    grid-template-columns:repeat(2, 1fr);
+    grid-template-rows:repeat(2, auto);
+
+    gap:12px;
+
+    padding:0 6px;
+  }
+
+  .product-page .ad-title{
+    font-size:13px;
   }
 
 }
