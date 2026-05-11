@@ -2471,7 +2471,6 @@ function slideProducts(direction){
 
 }
 
-let autoSlideInterval;
 let currentProductPage = 0;
 
 function slideProducts(direction){
@@ -2481,15 +2480,17 @@ function slideProducts(direction){
 
   if(!slider) return;
 
-  const pageWidth =
-  slider.querySelector(".ad-item").offsetWidth * 6 + 50;
+  const items =
+    slider.querySelectorAll(".ad-item");
+
+  const perPage =
+    window.innerWidth <= 768 ? 6 : 18;
 
   const totalPages =
-    Math.ceil(slider.scrollWidth / pageWidth);
+    Math.ceil(items.length / perPage);
 
   currentProductPage += direction;
 
-  /* 처음/끝 처리 */
   if(currentProductPage < 0){
     currentProductPage = totalPages - 1;
   }
@@ -2498,10 +2499,8 @@ function slideProducts(direction){
     currentProductPage = 0;
   }
 
-  slider.scrollTo({
-    left: currentProductPage * pageWidth,
-    behavior:"smooth"
-  });
+  slider.style.transform =
+    `translateX(-${currentProductPage * 100}%)`;
 
 }
 
