@@ -2498,7 +2498,8 @@ function slideProducts(direction){
 
   if(!slider) return;
 
-  const pageWidth = slider.clientWidth;
+  const pageWidth =
+  slider.querySelector(".ad-item").offsetWidth * 6 + 50;
 
   const totalPages =
     Math.ceil(slider.scrollWidth / pageWidth);
