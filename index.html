@@ -2483,12 +2483,8 @@ function slideProducts(direction){
   const slider =
     document.getElementById("bottomImageAds");
 
-  if(!slider) return;
-
-  const pageWidth = slider.clientWidth;
-
   const totalPages =
-    Math.ceil(slider.scrollWidth / pageWidth);
+    slider.querySelectorAll(".product-page").length;
 
   currentProductPage += direction;
 
@@ -2501,7 +2497,7 @@ function slideProducts(direction){
   }
 
   slider.scrollTo({
-    left: currentProductPage * pageWidth,
+    left: slider.clientWidth * currentProductPage,
     behavior:"smooth"
   });
 
