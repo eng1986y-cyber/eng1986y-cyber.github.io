@@ -1227,7 +1227,7 @@ a{
 
   display:grid;
 
-  grid-template-columns:repeat(6,1fr);
+  grid-template-columns:repeat(3,1fr);
   grid-template-rows:repeat(2,auto);
 
   gap:10px;
@@ -1862,11 +1862,10 @@ if(ad.video_url){
       window.productPages.length - 1
     ];
 
-  // 18개마다 새 페이지
   if(
     !currentPage ||
     currentPage.childElementCount >=
-      (window.innerWidth <= 768 ? 6 : 18)
+      (window.innerWidth <= 768 ? 4 : 6)
   ){
 
     currentPage = document.createElement("div");
