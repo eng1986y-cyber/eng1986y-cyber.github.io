@@ -1317,6 +1317,40 @@ a{
   right:0;
 }
 
+/* ===== 슬라이드 점(dot) ===== */
+
+.product-dots{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+
+  margin-top:14px;
+}
+
+.product-dot{
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:#d0d0d0;
+
+  cursor:pointer;
+
+  transition:all 0.25s ease;
+}
+
+.product-dot:hover{
+  transform:scale(1.15);
+}
+
+.product-dot.active{
+  background:#87CEEB;
+  width:26px;
+  border-radius:20px;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
@@ -1369,8 +1403,22 @@ a{
 
 <div class="product-slider-wrap">
 
+  <!-- 이전 -->
+  <button class="product-slider-btn prev"
+          onclick="moveProductSlide(-1)">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+  <!-- 슬라이드 -->
   <div class="product-slider" id="bottomImageAds"></div>
 
+  <!-- 다음 -->
+  <button class="product-slider-btn next"
+          onclick="moveProductSlide(1)">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+
+  <!-- 점 -->
   <div class="product-dots" id="productDots"></div>
 
 </div>
@@ -2637,6 +2685,32 @@ window.addEventListener("load", ()=>{
   startProductAutoSlide();
 
 });
+
+function moveProductSlide(direction){
+
+  const slider =
+    document.getElementById("bottomImageAds");
+
+  const totalPages =
+    slider.querySelectorAll(".product-page").length;
+
+  currentProductPage += direction;
+
+  if(currentProductPage < 0){
+    currentProductPage = totalPages - 1;
+  }
+
+  if(currentProductPage >= totalPages){
+    currentProductPage = 0;
+  }
+
+  slider.scrollTo({
+    left: slider.offsetWidth * currentProductPage,
+    behavior:"smooth"
+  });
+
+  updateProductDots();
+}
 
 </script>
 
