@@ -1245,14 +1245,13 @@ a{
   transform-origin:center;
 }
 
-/* 모바일 */
 @media(max-width:768px){
 
   .product-page{
-    grid-template-columns:repeat(2, minmax(0, 0.96fr));
-    grid-template-rows:repeat(2,auto);
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    grid-template-rows:repeat(1,auto);
 
-    gap:7px;
+    gap:6px;
   }
 
   .product-page .ad-item{
@@ -2614,7 +2613,10 @@ window.addEventListener("load", ()=>{
 
   updateProductDots();
 
-  startProductAutoSlide();
+  // PC만 자동슬라이드
+  if(window.innerWidth > 768){
+    startProductAutoSlide();
+  }
 
 });
 
