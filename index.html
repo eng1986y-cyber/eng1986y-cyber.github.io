@@ -1220,8 +1220,19 @@ a{
 
 .product-slider{
   display:flex;
-  overflow:hidden;
+  overflow-x:auto;
+  overflow-y:hidden;
   scroll-behavior:smooth;
+
+  -webkit-overflow-scrolling:touch;
+
+  scroll-snap-type:x mandatory;
+
+  scrollbar-width:none;
+}
+
+.product-slider::-webkit-scrollbar{
+  display:none;
 }
 
 .product-page{
@@ -1248,10 +1259,15 @@ a{
 @media(max-width:768px){
 
   .product-page{
-    grid-template-columns:repeat(4, minmax(0, 1fr));
-    grid-template-rows:repeat(1,auto);
+
+    min-width:100%;
+
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:1fr;
 
     gap:6px;
+
+    scroll-snap-align:start;
   }
 
   .product-page .ad-item{
@@ -1292,6 +1308,30 @@ a{
   background:#87CEEB;
   width:26px;
   border-radius:20px;
+}
+
+const productSlider =
+  document.getElementById("bottomImageAds");
+
+if(productSlider){
+
+  productSlider.addEventListener("scroll", ()=>{
+
+    const page =
+      Math.round(
+        productSlider.scrollLeft /
+        productSlider.offsetWidth
+      );
+
+    if(page !== currentProductPage){
+
+      currentProductPage = page;
+
+      updateProductDots();
+    }
+
+  });
+
 }
 
 </style>
