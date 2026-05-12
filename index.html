@@ -36,6 +36,27 @@
 
 <style>
 
+:root{
+
+  /* 메인 컬러 */
+  --main-color:#C89B1D;
+  --main-hover:#A67C00;
+
+  /* 밝은 효과 */
+  --main-light:rgba(200,155,29,0.2);
+  --main-glow:rgba(200,155,29,0.55);
+
+  /* 서브 컬러 */
+  --sub-color:#E2C65C;
+  --sub-border:#C9A227;
+
+  /* 기본 */
+  --white:#ffffff;
+  --black:#111111;
+  --gray:#dddddd;
+
+}
+
 .video-modal-box .modal-close{
   position:absolute;
   top:10px;
@@ -75,14 +96,14 @@
 }
 
 .board-category button:hover{
-  background:#87CEEB;
+  background:var(--main-color);
   color:white;
 }
 
 .board-category button.active{
-  background:#87CEEB;
+  background:var(--main-color);
   color:white;
-  border-color:#87CEEB;
+  border-color:var(--main-color);
 }
 
 .video-modal-box{
@@ -239,7 +260,7 @@
 }
 
 #pagination button:hover{
-  background:#87CEEB;
+  background:var(--main-color);
   color:#fff;
 }
 
@@ -411,13 +432,13 @@ body{
   height:46px;
   border:none;
   border-radius:6px;
-  background:#87CEEB;
+  background:var(--main-color);
   color:#fff;
   cursor:pointer;
 }
 
 .search-box button:hover{
-  background:#6bbfe0;
+  background:var(--main-hover);
 }
 
 @media(max-width:768px){
@@ -500,7 +521,7 @@ body{
 }
 
 .text-ad:hover{
-  background:#87CEEB;
+  background:var(--main-color);
   color:#fff;
 }
 
@@ -575,7 +596,7 @@ body{
 }
 
 .owner-sns a:hover{
-  background:#87CEEB;
+  background:var(--main-color);
   color:#fff;
   transform:translateY(-4px);
   box-shadow:0 8px 18px rgba(0,0,0,0.15);
@@ -674,7 +695,7 @@ body{
 
 @keyframes glow{
   from{ box-shadow:0 0 0px rgba(135,206,235,0); }
-  to{ box-shadow:0 0 20px rgba(135,206,235,0.6); }
+  to{ box-shadow:0 0 20px var(--main-glow); }
 }
 
 .ad-title{
@@ -756,7 +777,7 @@ body{
   padding:0 10px;
   border:none;
   border-radius:6px;
-  background:#87CEEB;
+  background:var(--main-color);
   color:#fff;
   cursor:pointer;
   font-size:13px;
@@ -773,7 +794,7 @@ body{
 .write-btn{
   margin:10px 0;
   padding:8px 16px;
-  background:#87CEEB;
+  background:var(--main-color);
   border:none;
   border-radius:6px;
   cursor:pointer;
@@ -933,8 +954,8 @@ body{
 .write-body input:focus,
 .write-body textarea:focus,
 .write-body select:focus{
-  border-color:#87CEEB;
-  box-shadow:0 0 0 3px rgba(135,206,235,0.2);
+  border-color:var(--main-color);
+  box-shadow:0 0 0 3px var(--main-light);
   outline:none;
 }
 
@@ -963,7 +984,7 @@ body{
 }
 
 .submit-btn{
-  background:#87CEEB;
+  background:var(--main-color);
   color:#fff;
   border:none;
   padding:8px 18px;
@@ -974,7 +995,7 @@ body{
 
 /* 버튼 hover */
 .submit-btn:hover{
-  background:#6bbfe0;
+  background:var(--main-hover);
   transform:translateY(-1px);
 }
 
@@ -1095,7 +1116,7 @@ body{
 
 #noticePagination button:hover,
 #regionPagination button:hover{
-  background:#87CEEB;
+  background:var(--main-color);
   color:#fff;
 }
 
@@ -1329,7 +1350,7 @@ a{
 }
 
 .product-dot.active{
-  background:#87CEEB;
+  background:var(--main-color);
   width:26px;
   border-radius:20px;
 }
