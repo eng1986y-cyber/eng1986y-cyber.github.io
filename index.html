@@ -1272,7 +1272,8 @@ a{
     /* 모바일 2열 */
     grid-template-columns:repeat(2, 1fr);
 
-    gap:10px;
+    gap:6px;
+    padding:0 4px;
 
     box-sizing:border-box;
 
@@ -1331,30 +1332,6 @@ a{
   background:#87CEEB;
   width:26px;
   border-radius:20px;
-}
-
-const productSlider =
-  document.getElementById("bottomImageAds");
-
-if(productSlider){
-
-  productSlider.addEventListener("scroll", ()=>{
-
-    const page =
-      Math.round(
-        productSlider.scrollLeft /
-        productSlider.offsetWidth
-      );
-
-    if(page !== currentProductPage){
-
-      currentProductPage = page;
-
-      updateProductDots();
-    }
-
-  });
-
 }
 
 </style>
@@ -2664,6 +2641,30 @@ function startProductAutoSlide(){
     updateProductDots();
 
   }, 4000);
+
+}
+
+const productSlider =
+  document.getElementById("bottomImageAds");
+
+if(productSlider){
+
+  productSlider.addEventListener("scroll", ()=>{
+
+    const page =
+      Math.round(
+        productSlider.scrollLeft /
+        productSlider.offsetWidth
+      );
+
+    if(page !== currentProductPage){
+
+      currentProductPage = page;
+      updateProductDots();
+
+    }
+
+  });
 
 }
 
