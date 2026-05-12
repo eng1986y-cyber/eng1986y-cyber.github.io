@@ -2700,6 +2700,24 @@ if(productSlider){
 
   });
 
+  /* ===== 마우스 올리면 자동슬라이드 정지 ===== */
+
+  productSlider.addEventListener("mouseenter", ()=>{
+
+    clearInterval(autoSlideInterval);
+
+  });
+
+  /* ===== 마우스 나가면 다시 시작 ===== */
+
+  productSlider.addEventListener("mouseleave", ()=>{
+
+    if(window.innerWidth > 768){
+      startProductAutoSlide();
+    }
+
+  });
+
 }
 
 window.addEventListener("load", ()=>{
