@@ -1263,17 +1263,16 @@ a{
   }
 
   .product-page{
-
     flex:0 0 100%;
     width:100%;
     min-width:100%;
 
     display:grid;
 
-    /* 모바일 4개 */
-    grid-template-columns:repeat(4, 1fr);
+    /* 모바일 2열 */
+    grid-template-columns:repeat(2, 1fr);
 
-    gap:6px;
+    gap:10px;
 
     box-sizing:border-box;
 
@@ -1282,7 +1281,20 @@ a{
   }
 
   .product-page .ad-item{
+    width:100%;
     transform:none;
+  }
+
+  .square-ad{
+    width:100%;
+    aspect-ratio:1/1;
+  }
+
+  .square-ad img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
   }
 
 }
