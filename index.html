@@ -1258,20 +1258,31 @@ a{
 
 @media(max-width:768px){
 
+  .product-slider{
+    scroll-snap-type:x mandatory;
+  }
+
   .product-page{
 
+    flex:0 0 100%;
+    width:100%;
     min-width:100%;
 
+    display:grid;
+
+    /* 모바일 4개 */
     grid-template-columns:repeat(4, 1fr);
-    grid-template-rows:1fr;
 
     gap:6px;
 
+    box-sizing:border-box;
+
     scroll-snap-align:start;
+    scroll-snap-stop:always;
   }
 
   .product-page .ad-item{
-    transform:scale(0.95);
+    transform:none;
   }
 
 }
