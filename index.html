@@ -1211,6 +1211,11 @@ a{
 .product-slider-wrap{
   width:100%;
   overflow:hidden;
+
+  position:relative;
+
+  padding:0 6px;   /* 양쪽 여백 */
+  box-sizing:border-box;
 }
 
 .product-slider{
@@ -1225,46 +1230,33 @@ a{
 
   display:grid;
 
-  grid-template-columns:repeat(3,1fr);
+  /* PC 3열 */
+  grid-template-columns:repeat(3, minmax(0, 0.94fr));
   grid-template-rows:repeat(2,auto);
 
-  gap:10px;
-}
-
-/* 점 네비 */
-.product-dots{
-  display:flex;
   justify-content:center;
-  align-items:center;
-  gap:8px;
 
-  margin-top:18px;
+  gap:8px;   /* 카드 간격 통일 */
 }
 
-.product-dot{
-  width:10px;
-  height:10px;
-
-  border-radius:50%;
-
-  background:#d0d0d0;
-
-  cursor:pointer;
-
-  transition:0.25s;
-}
-
-.product-dot.active{
-  background:#87CEEB;
-  transform:scale(1.15);
+/* 카드 자체 살짝 축소 */
+.product-page .ad-item{
+  transform:scale(0.96);
+  transform-origin:center;
 }
 
 /* 모바일 */
 @media(max-width:768px){
 
   .product-page{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2, minmax(0, 0.96fr));
     grid-template-rows:repeat(2,auto);
+
+    gap:7px;
+  }
+
+  .product-page .ad-item{
+    transform:scale(0.95);
   }
 
 }
