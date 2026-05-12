@@ -300,7 +300,7 @@ textarea{
 .square-page{
   min-width:100%;
   display:grid;
-  grid-template-columns:repeat(6,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
   box-sizing:border-box;
 }
@@ -773,7 +773,7 @@ function rebuildSquarePages(){
 
   squareAdmin.innerHTML = "";
 
-  const pageSize = 18;
+  const pageSize = 6;
 
   for(let i=0; i<cards.length; i+=pageSize){
 
