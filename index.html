@@ -39,25 +39,25 @@
 :root{
 
   /* 메인 컬러 */
-  --main-color:#FFF3A6;
-  --main-hover:#f5e37a;
+  --main-color:#FFE75A;
+  --main-hover:#f2d93f;
 
   /* 밝은 효과 */
-  --main-light:rgba(255,243,166,0.25);
-  --main-glow:rgba(255,243,166,0.45);
+  --main-light:rgba(255,231,90,0.22);
+  --main-glow:rgba(255,231,90,0.38);
 
   /* 서브 컬러 */
-  --sub-color:#fff7c9;
-  --sub-border:#eadb88;
+  --sub-color:#fff09a;
+  --sub-border:#e0c93e;
 
   /* 배경 */
   --bg-color:#fffdf7;
   --card-bg:#ffffff;
 
   /* 텍스트 */
-  --white:#ffffff;
-  --black:#1a1a1a;
-  --gray:#ece7c9;
+  --white:#111111;
+  --black:#111111;
+  --gray:#d9d39f;
 
 }
 
@@ -65,9 +65,23 @@ body{
   background:
     linear-gradient(
       to bottom,
-      #ffffff,
-      #fffdf5
+      #fffef9,
+      #fff7cf
     );
+}
+
+button,
+.text-ad,
+.board-category button.active,
+.submit-btn,
+.search-box button{
+  color:#111 !important;
+  font-weight:700;
+}
+
+.text-ad:hover,
+.board-category button:hover{
+  color:#111 !important;
 }
 
 .video-modal-box .modal-close{
