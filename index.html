@@ -2740,6 +2740,12 @@ box.innerHTML = `
   </div>
 `;
 
+  } catch(err){
+    box.innerHTML = "날씨 불러오기 실패";
+  }
+
+}
+
 window.addEventListener("contextmenu", function(e){
   e.preventDefault();
 }, { passive:false });
