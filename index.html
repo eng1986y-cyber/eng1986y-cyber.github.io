@@ -1153,61 +1153,64 @@ body{
 
 .weather-box{
   position:absolute;
-  top:8px;
-  right:10px;
-  background:rgba(0,0,0,0.55);
+  top:10px;
+  right:12px;
+
+  min-width:150px;
+
+  padding:10px 18px;
+
+  border-radius:40px;
+
+  background:linear-gradient(
+    to bottom,
+    #bfe8ff,
+    #8fd3ff
+  );
+
   color:#fff;
-  padding:4px 8px;
-  border-radius:6px;
+
   font-size:12px;
+  font-weight:600;
+
   z-index:10;
-}
-
-.board-wrapper{
-  display:flex;
-  gap:12px;
-  margin-top:60px;
-  align-items:stretch;
-}
-
-.board-box{
-  flex:1;
-  background:var(--card-bg);
-  border:1px solid #ececec;
-  border-radius:12px;
-  padding:12px;
-  height:600px;
 
   display:flex;
-  flex-direction:column;
-}
+  align-items:center;
+  justify-content:center;
 
-.board-list{
-  min-height:0;
-  flex-grow:1;
-  overflow-y:auto;
-}
+  text-align:center;
 
-.board-box h3{
-  margin:0 0 10px;
-  font-size:14px;
-  border-bottom:1px solid #eee;
-  padding-bottom:6px;
-}
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.12),
+    inset 0 2px 6px rgba(255,255,255,0.35);
 
-/* 텍스트 리스트 */
-.board-list div{
-  padding:6px 0;
-  border-bottom:1px solid #f1f1f1;
-  font-size:13px;
-  cursor:pointer;
-  white-space:nowrap;
+  backdrop-filter:blur(6px);
+
   overflow:hidden;
-  text-overflow:ellipsis;
 }
 
-.board-list div:hover{
-  color:var(--main-color);
+/* 구름 모양 */
+.weather-box::before,
+.weather-box::after{
+  content:"";
+  position:absolute;
+  background:rgba(255,255,255,0.35);
+  border-radius:50%;
+}
+
+.weather-box::before{
+  width:42px;
+  height:42px;
+  left:12px;
+  top:-10px;
+}
+
+.weather-box::after{
+  width:30px;
+  height:30px;
+  right:18px;
+  top:-6px;
 }
 
 /* 모바일 */
@@ -2716,18 +2719,26 @@ desc = map[desc] || "날씨 정보";
 
 // 출력
 box.innerHTML = `
-  <div>
-    연변조선족자치주 ${temp}°C
-    <div style="font-size:11px;color:#ddd;">
+  <div style="line-height:1.4">
+
+    <div style="
+      font-size:11px;
+      color:#eef8ff;
+      margin-bottom:2px;
+    ">
       체감 ${feels}°C · ${desc}
     </div>
+
+    <div style="
+      font-size:16px;
+      font-weight:700;
+      color:#fff;
+    ">
+      연변조선족자치주 ${temp}°C
+    </div>
+
   </div>
 `;
-
-  }catch(e){
-    box.innerText="날씨 오류";
-  }
-}
 
 window.addEventListener("contextmenu", function(e){
   e.preventDefault();
