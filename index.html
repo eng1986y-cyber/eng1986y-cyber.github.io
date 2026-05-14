@@ -427,27 +427,18 @@ body{
   width:100%;
 }
 
-/* ===== 사이트 톤 맞춘 검색창 ===== */
+/* ===== 검색창 ===== */
 
 .search-box{
   display:flex;
-  align-items:center;
   justify-content:center;
-  gap:12px;
   margin:30px auto 40px;
-  max-width:720px;
-}
-
-/* 로고 */
-.search-logo{
-  height:52px;
-  width:auto;
-  border-radius:10px;
+  max-width:760px;
 }
 
 /* 검색바 */
 .search-box-inner{
-  flex:1;
+  width:100%;
 
   display:flex;
   align-items:center;
@@ -459,14 +450,41 @@ body{
 
   overflow:hidden;
 
-  height:58px;
+  height:60px;
 
   box-shadow:
     0 4px 14px rgba(0,0,0,0.05),
     0 0 0 4px var(--main-light);
+
+  transition:0.25s;
 }
 
-/* 입력창 */
+/* 포커스 */
+.search-box-inner:focus-within{
+  border-color:#d9bb55;
+
+  box-shadow:
+    0 0 0 5px rgba(246,232,166,0.25),
+    0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* 검색창 안 로고 */
+.search-logo-inside{
+  height:38px;
+  width:auto;
+
+  margin-left:18px;
+  margin-right:10px;
+
+  border-radius:8px;
+
+  object-fit:contain;
+
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+/* 입력 */
 .search-box input{
   flex:1;
   height:100%;
@@ -474,19 +492,19 @@ body{
   border:none;
   outline:none;
 
-  padding:0 22px;
+  background:transparent;
 
   font-size:17px;
-
-  background:transparent;
   color:#333;
+
+  padding-right:10px;
 }
 
 .search-box input::placeholder{
   color:#9b9272;
 }
 
-/* 검색 버튼 */
+/* 버튼 */
 .search-box button{
   width:72px;
   height:100%;
@@ -507,31 +525,28 @@ body{
   transition:0.25s;
 }
 
-/* hover */
 .search-box button:hover{
   filter:brightness(0.97);
-}
-
-/* focus 효과 */
-.search-box-inner:focus-within{
-  border-color:#d9bb55;
-
-  box-shadow:
-    0 0 0 5px rgba(246,232,166,0.28),
-    0 6px 18px rgba(0,0,0,0.06);
 }
 
 /* 모바일 */
 @media(max-width:768px){
 
   .search-box{
-    flex-direction:column;
-    gap:10px;
+    margin:20px auto 30px;
   }
 
   .search-box-inner{
-    width:100%;
     height:54px;
+  }
+
+  .search-logo-inside{
+    height:30px;
+    margin-left:14px;
+  }
+
+  .search-box input{
+    font-size:16px;
   }
 
   .search-box button{
@@ -1477,17 +1492,20 @@ a{
 
 <form class="search-box" onsubmit="search(); return false;">
 
-  <img id="searchLogo"
-       class="search-logo"
-       style="display:none;">
-
   <div class="search-box-inner">
 
+    <!-- 로고 -->
+    <img id="searchLogo"
+         class="search-logo-inside"
+         style="display:none;">
+
+    <!-- 입력 -->
     <input
       type="text"
       id="searchInput"
       placeholder="검색어를 입력하세요">
 
+    <!-- 검색버튼 -->
     <button type="submit">
       <i class="fas fa-search"></i>
     </button>
@@ -2151,7 +2169,7 @@ if(s.search_logo){
       }, 10);
     };
 
-    el.src = s.search_logo;
+    el.src = s.search-logo-inside
   }
 }
 
