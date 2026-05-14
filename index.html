@@ -427,61 +427,103 @@ body{
   width:100%;
 }
 
-/* 검색 */
+/* ===== 메인 검색창 ===== */
+
 .search-box{
   display:flex;
-  justify-content:center;
   align-items:center;
-  gap:6px;
-  margin-bottom:30px;
+  justify-content:center;
+  gap:12px;
+  margin:30px auto 40px;
+
+  max-width:720px;
 }
 
+/* 로고 */
+.search-logo{
+  height:52px;
+  width:auto;
+  border-radius:10px;
+}
+
+/* 검색영역 */
+.search-box-inner{
+  flex:1;
+
+  display:flex;
+  align-items:center;
+
+  background:#fff;
+
+  border:3px solid #03c75a;
+  border-radius:999px;
+
+  overflow:hidden;
+
+  height:58px;
+
+  box-shadow:
+    0 4px 14px rgba(0,0,0,0.06);
+}
+
+/* 입력창 */
 .search-box input{
-  width:320px;
-  height:46px;
-  padding:0 12px;
-  border:2px solid var(--main-color);
-  border-radius:6px;
-  font-size:16px;
-  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
+  flex:1;
+  height:100%;
+
+  border:none;
+  outline:none;
+
+  padding:0 22px;
+
+  font-size:17px;
+  background:transparent;
+
   color:#222;
 }
 
 .search-box input::placeholder{
-  font-family:'Microsoft YaHei','微软雅黑',sans-serif;
-  color:#888;
+  color:#999;
 }
 
+/* 버튼 */
 .search-box button{
-  width:120px;
-  font-weight:600;
-  height:46px;
+  width:72px;
+  height:100%;
+
   border:none;
-  border-radius:6px;
-  background:var(--main-color);
+  background:#03c75a;
+
   color:#fff;
+  font-size:20px;
+
   cursor:pointer;
+
+  transition:0.2s;
 }
 
 .search-box button:hover{
-  background:var(--main-hover);
+  background:#02b350;
 }
 
+/* 모바일 */
 @media(max-width:768px){
+
   .search-box{
     flex-direction:column;
+    gap:10px;
   }
 
-  .search-box input,
-  .search-box button{
+  .search-box-inner{
     width:100%;
-    height:48px;
-    box-sizing:border-box;
+    height:54px;
   }
 
   .search-box button{
-    margin-top:8px;
+    width:64px;
+    font-size:18px;
   }
+
 }
 
 /* 배너 */
@@ -1420,10 +1462,22 @@ a{
 
 <form class="search-box" onsubmit="search(); return false;">
 
-<img id="searchLogo" class="search-logo" style="display:none;">
+  <img id="searchLogo"
+       class="search-logo"
+       style="display:none;">
 
-  <input type="text" id="searchInput" placeholder="검색어 입력">
-  <button onclick="search()">검색</button>
+  <div class="search-box-inner">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="검색어를 입력하세요">
+
+    <button type="submit">
+      <i class="fas fa-search"></i>
+    </button>
+
+  </div>
 
 </form>
 
