@@ -427,7 +427,7 @@ body{
   width:100%;
 }
 
-/* ===== 메인 검색창 ===== */
+/* ===== 사이트 톤 맞춘 검색창 ===== */
 
 .search-box{
   display:flex;
@@ -435,7 +435,6 @@ body{
   justify-content:center;
   gap:12px;
   margin:30px auto 40px;
-
   max-width:720px;
 }
 
@@ -446,16 +445,16 @@ body{
   border-radius:10px;
 }
 
-/* 검색영역 */
+/* 검색바 */
 .search-box-inner{
   flex:1;
 
   display:flex;
   align-items:center;
 
-  background:#fff;
+  background:#fffdf6;
 
-  border:3px solid #03c75a;
+  border:2px solid var(--main-color);
   border-radius:999px;
 
   overflow:hidden;
@@ -463,7 +462,8 @@ body{
   height:58px;
 
   box-shadow:
-    0 4px 14px rgba(0,0,0,0.06);
+    0 4px 14px rgba(0,0,0,0.05),
+    0 0 0 4px var(--main-light);
 }
 
 /* 입력창 */
@@ -477,33 +477,48 @@ body{
   padding:0 22px;
 
   font-size:17px;
-  background:transparent;
 
-  color:#222;
+  background:transparent;
+  color:#333;
 }
 
 .search-box input::placeholder{
-  color:#999;
+  color:#9b9272;
 }
 
-/* 버튼 */
+/* 검색 버튼 */
 .search-box button{
   width:72px;
   height:100%;
 
   border:none;
-  background:#03c75a;
 
-  color:#fff;
+  background:linear-gradient(
+    to bottom,
+    var(--main-color),
+    var(--main-hover)
+  );
+
+  color:#5c4b16;
+
   font-size:20px;
-
   cursor:pointer;
 
-  transition:0.2s;
+  transition:0.25s;
 }
 
+/* hover */
 .search-box button:hover{
-  background:#02b350;
+  filter:brightness(0.97);
+}
+
+/* focus 효과 */
+.search-box-inner:focus-within{
+  border-color:#d9bb55;
+
+  box-shadow:
+    0 0 0 5px rgba(246,232,166,0.28),
+    0 6px 18px rgba(0,0,0,0.06);
 }
 
 /* 모바일 */
