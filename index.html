@@ -1153,14 +1153,78 @@ body{
 
 .weather-box{
   position:absolute;
-  top:8px;
-  right:10px;
-  background:rgba(0,0,0,0.55);
-  color:#fff;
-  padding:4px 8px;
-  border-radius:6px;
+  top:12px;
+  right:14px;
+
+  min-width:150px;
+
+  background:linear-gradient(
+    to bottom,
+    #dff4ff,
+    #bfe9ff
+  );
+
+  color:#1d4e6d;
+
+  padding:12px 16px;
+
+  border-radius:40px;
+
   font-size:12px;
+
   z-index:10;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.12),
+    inset 0 2px 6px rgba(255,255,255,0.5);
+
+  border:1px solid rgba(255,255,255,0.7);
+
+  backdrop-filter:blur(4px);
+
+  text-align:center;
+
+  overflow:visible;
+}
+
+/* 구름모양 */
+.weather-box::before,
+.weather-box::after{
+  content:"";
+  position:absolute;
+  background:#dff4ff;
+  border-radius:50%;
+  z-index:-1;
+}
+
+.weather-box::before{
+  width:42px;
+  height:42px;
+  left:12px;
+  top:-14px;
+}
+
+.weather-box::after{
+  width:30px;
+  height:30px;
+  right:18px;
+  top:-10px;
+}
+
+/* 모바일 */
+@media(max-width:768px){
+
+  .weather-box{
+    top:6px;
+    right:6px;
+
+    min-width:120px;
+
+    padding:10px 12px;
+
+    font-size:11px;
+  }
+
 }
 
 .board-wrapper{
@@ -2716,11 +2780,16 @@ desc = map[desc] || "날씨 정보";
 
 // 출력
 box.innerHTML = `
-  <div>
-    연변조선족자치주 ${temp}°C
-    <div style="font-size:11px;color:#ddd;">
-      체감 ${feels}°C · ${desc}
-    </div>
+  <div style="font-size:11px;margin-bottom:4px;">
+    체감 ${feels}°C · ${desc}
+  </div>
+
+  <div style="
+    font-size:16px;
+    font-weight:700;
+    line-height:1.2;
+  ">
+    연변 ${temp}°C
   </div>
 `;
 
