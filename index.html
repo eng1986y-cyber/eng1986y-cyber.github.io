@@ -1399,17 +1399,18 @@ a{
 
   display:grid;
 
-  /* PC 4열 × 3줄 = 12개 */
-  grid-template-columns:repeat(4, minmax(0, 1fr));
-  grid-template-rows:repeat(3,auto);
+  /* PC 3열 */
+  grid-template-columns:repeat(3, minmax(0, 0.94fr));
+  grid-template-rows:repeat(2,auto);
 
   justify-content:center;
 
-  gap:8px;
+  gap:8px;   /* 카드 간격 통일 */
 }
 
+/* 카드 자체 살짝 축소 */
 .product-page .ad-item{
-  transform:scale(0.9);
+  transform:scale(0.96);
   transform-origin:center;
 }
 
@@ -2075,10 +2076,10 @@ if(ad.video_url){
     ];
 
   if(
-  !currentPage ||
-  currentPage.childElementCount >=
-    (window.innerWidth <= 768 ? 4 : 12)
-){
+    !currentPage ||
+    currentPage.childElementCount >=
+      (window.innerWidth <= 768 ? 4 : 6)
+  ){
 
     currentPage = document.createElement("div");
     currentPage.className = "product-page";
