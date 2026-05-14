@@ -1158,71 +1158,85 @@ body{
 
   min-width:150px;
 
-  background:linear-gradient(
-    to bottom,
-    #dff4ff,
-    #bfe9ff
-  );
+  padding:16px 20px 14px;
 
-  color:#1d4e6d;
+  background:#ffffff;
+  color:#333;
 
-  padding:12px 16px;
-
-  border-radius:40px;
+  border-radius:45px;
 
   font-size:12px;
+  line-height:1.4;
 
   z-index:10;
 
   box-shadow:
-    0 4px 12px rgba(0,0,0,0.12),
-    inset 0 2px 6px rgba(255,255,255,0.5);
-
-  border:1px solid rgba(255,255,255,0.7);
-
-  backdrop-filter:blur(4px);
+    0 8px 18px rgba(0,0,0,0.10),
+    inset 0 -4px 10px rgba(255,255,255,0.7);
 
   text-align:center;
 
   overflow:visible;
 }
 
-/* 구름모양 */
+/* 구름 둥근 부분 */
 .weather-box::before,
 .weather-box::after{
   content:"";
   position:absolute;
-  background:#dff4ff;
+  background:#fff;
   border-radius:50%;
   z-index:-1;
 }
 
+/* 왼쪽 구름 */
 .weather-box::before{
-  width:42px;
-  height:42px;
-  left:12px;
-  top:-14px;
+  width:58px;
+  height:58px;
+
+  left:18px;
+  top:-18px;
+
+  box-shadow:
+    inset 0 -4px 10px rgba(255,255,255,0.8);
 }
 
+/* 오른쪽 구름 */
 .weather-box::after{
-  width:30px;
-  height:30px;
+  width:72px;
+  height:72px;
+
   right:18px;
-  top:-10px;
+  top:-28px;
+
+  box-shadow:
+    inset 0 -4px 10px rgba(255,255,255,0.8);
 }
 
 /* 모바일 */
 @media(max-width:768px){
 
   .weather-box{
-    top:6px;
-    right:6px;
+    top:8px;
+    right:8px;
 
-    min-width:120px;
+    min-width:130px;
 
-    padding:10px 12px;
+    padding:13px 16px 12px;
 
     font-size:11px;
+  }
+
+  .weather-box::before{
+    width:44px;
+    height:44px;
+    top:-12px;
+  }
+
+  .weather-box::after{
+    width:56px;
+    height:56px;
+    top:-18px;
   }
 
 }
