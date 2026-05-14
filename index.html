@@ -2076,10 +2076,10 @@ if(ad.video_url){
     ];
 
   if(
-    !currentPage ||
-    currentPage.childElementCount >=
-      (window.innerWidth <= 768 ? 4 : 6)
-  ){
+  !currentPage ||
+  currentPage.childElementCount >=
+    (window.innerWidth <= 768 ? 4 : 12)
+){
 
     currentPage = document.createElement("div");
     currentPage.className = "product-page";
