@@ -2806,7 +2806,7 @@ function moveProductSlide(direction){
   </div>
 </div>
 
-<div class="modal" id="videoModal" onclick="closeVideoModal()">
+<div class="modal" id="videoModal">
   <div class="modal-content video-modal-box">
 
     <div class="modal-close" onclick="closeVideoModal()">✕</div>
@@ -2886,6 +2886,28 @@ document.addEventListener("selectstart", function(e){
 document.addEventListener("dragstart", function(e){
   e.preventDefault();
 });
+
+const videoModal = document.getElementById("videoModal");
+
+if(videoModal){
+
+  // 우클릭 금지
+  videoModal.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+  });
+
+  // 좌클릭 차단
+  videoModal.addEventListener("click", function(e){
+
+    // 닫기 버튼 제외
+    if(e.target.closest(".modal-close")) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+  });
+
+}
 </script>
 
 </body>
