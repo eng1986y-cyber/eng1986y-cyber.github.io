@@ -746,7 +746,15 @@ function addTextAd(title="",link=""){
   );
 }
 
-function addSquareAd(main="", img="", link="", video=""){
+function addSquareAd(
+  main="",
+  img="",
+  link="",
+  video="",
+  detail=""
+)
+
+<input value="${detail}" placeholder="상품상세 이미지 링크">
 
   const card = createCard(`
       <input value="${main}" placeholder="메인 명칭">
@@ -759,6 +767,8 @@ function addSquareAd(main="", img="", link="", video=""){
       <input value="${link}" placeholder="클릭 링크">
 
       <input value="${video}" placeholder="결제QR코드 링크">
+
+<input value="" placeholder="상품상세 이미지 링크">
   `);
 
   squareAdmin.appendChild(card);
@@ -829,7 +839,13 @@ if(ads){
     if(ad.type==="text")
       addTextAd(ad.title,ad.link_url);
     if(ad.type==="square")
-      addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
+      addSquareAd(
+  ad.main_title,
+  ad.image_url,
+  ad.link_url,
+  ad.video_url,
+  ad.detail_url
+);
     if(ad.type==="sns")
       addSnsVideo(ad.title, ad.image_url, ad.video_url);
   });
@@ -926,6 +942,7 @@ for(const [index, block] of squareCards.entries()){
       image_url:i[1].value.trim(),
       link_url:i[3].value.trim(),
       video_url:i[4].value.trim(),
+      detail_url:i[5].value.trim(),
       sort:index
     }]);
 
