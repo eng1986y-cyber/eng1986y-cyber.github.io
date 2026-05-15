@@ -1156,87 +1156,46 @@ body{
   top:12px;
   right:14px;
 
-  min-width:165px;
+  min-width:180px;
 
-  padding:18px 24px;
+  padding:22px 28px;
 
   text-align:center;
 
   color:#24506a;
-
   font-size:12px;
 
   z-index:10;
 
   border:none;
 
-  /* 흰구름 + 스카이블루 */
+  /* 진짜 구름형태 */
   background:
+    radial-gradient(circle at 20% 60%, #ffffff 0 22%, transparent 23%),
+    radial-gradient(circle at 38% 38%, #ffffff 0 24%, transparent 25%),
+    radial-gradient(circle at 56% 28%, #ffffff 0 28%, transparent 29%),
+    radial-gradient(circle at 76% 45%, #f6fbff 0 22%, transparent 23%),
+    radial-gradient(circle at 88% 66%, #eef8ff 0 18%, transparent 19%),
+    radial-gradient(circle at 56% 78%, #e5f5ff 0 24%, transparent 25%),
+
     linear-gradient(
-      145deg,
+      180deg,
       #ffffff 0%,
-      #f7fcff 35%,
-      #eaf7ff 70%,
+      #f7fcff 45%,
       #dff4ff 100%
     );
 
-  border-radius:60px;
+  border-radius:999px;
 
-  overflow:visible;
-
-  /* 검정대신 그라데이션 테두리 느낌 */
-  box-shadow:
-    0 0 0 2px rgba(210,235,255,0.95),
-    0 0 18px rgba(180,220,255,0.45),
-    inset 0 2px 8px rgba(255,255,255,0.95),
-    inset 0 -4px 10px rgba(200,230,255,0.35);
-}
-
-/* 구름 덩어리 */
-.weather-box::before,
-.weather-box::after{
-  content:"";
-  position:absolute;
-  border-radius:50%;
-  z-index:-1;
-
-  background:
-    linear-gradient(
-      145deg,
-      #ffffff 0%,
-      #f5fbff 40%,
-      #dff3ff 100%
-    );
-}
-
-/* 왼쪽 */
-.weather-box::before{
-  width:78px;
-  height:78px;
-
-  left:-18px;
-  top:-24px;
+  /* 검정테두리 대신 */
+  filter:
+    drop-shadow(0 0 0 rgba(0,0,0,0))
+    drop-shadow(0 0 6px rgba(210,235,255,0.95))
+    drop-shadow(0 6px 18px rgba(170,210,255,0.28));
 
   box-shadow:
-    42px -8px 0 8px #f7fcff,
-    86px 10px 0 2px #e8f7ff,
-    0 0 0 2px rgba(215,238,255,0.9),
-    0 0 14px rgba(180,220,255,0.3);
-}
-
-/* 오른쪽 */
-.weather-box::after{
-  width:60px;
-  height:60px;
-
-  right:-14px;
-  top:-12px;
-
-  box-shadow:
-    -30px 10px 0 6px #f5fbff,
-    -64px 18px 0 2px #e7f6ff,
-    0 0 0 2px rgba(215,238,255,0.9),
-    0 0 14px rgba(180,220,255,0.3);
+    inset 0 3px 8px rgba(255,255,255,0.95),
+    inset 0 -6px 12px rgba(190,225,255,0.35);
 }
 
 /* 모바일 */
