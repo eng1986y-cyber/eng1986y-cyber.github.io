@@ -1156,46 +1156,73 @@ body{
   top:12px;
   right:14px;
 
-  min-width:180px;
+  min-width:150px;
 
-  padding:22px 28px;
+  /* 배경 제거 */
+  background:transparent;
 
-  text-align:center;
+  color:#1d4e6d;
 
-  color:#24506a;
+  padding:14px 18px;
+
+  border-radius:50px;
+
   font-size:12px;
 
   z-index:10;
 
+  /* 테두리 제거 */
   border:none;
 
-  /* 진짜 구름형태 */
-  background:
-    radial-gradient(circle at 20% 60%, #ffffff 0 22%, transparent 23%),
-    radial-gradient(circle at 38% 38%, #ffffff 0 24%, transparent 25%),
-    radial-gradient(circle at 56% 28%, #ffffff 0 28%, transparent 29%),
-    radial-gradient(circle at 76% 45%, #f6fbff 0 22%, transparent 23%),
-    radial-gradient(circle at 88% 66%, #eef8ff 0 18%, transparent 19%),
-    radial-gradient(circle at 56% 78%, #e5f5ff 0 24%, transparent 25%),
+  text-align:center;
 
-    linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #f7fcff 45%,
-      #dff4ff 100%
-    );
+  overflow:visible;
 
-  border-radius:999px;
+  /* 그림자만 살림 */
+  box-shadow:none;
+}
 
-  /* 검정테두리 대신 */
-  filter:
-    drop-shadow(0 0 0 rgba(0,0,0,0))
-    drop-shadow(0 0 6px rgba(210,235,255,0.95))
-    drop-shadow(0 6px 18px rgba(170,210,255,0.28));
+/* 메인 구름 */
+.weather-box::before,
+.weather-box::after{
+  content:"";
+  position:absolute;
+
+  background:linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.95),
+    rgba(225,245,255,0.92)
+  );
+
+  border-radius:50%;
+  z-index:-1;
+}
+
+/* 왼쪽 큰구름 */
+.weather-box::before{
+  width:58px;
+  height:58px;
+
+  left:6px;
+  top:-24px;
 
   box-shadow:
-    inset 0 3px 8px rgba(255,255,255,0.95),
-    inset 0 -6px 12px rgba(190,225,255,0.35);
+    -18px 10px 0 6px rgba(245,252,255,0.95),
+    18px 14px 0 2px rgba(235,248,255,0.92),
+    42px 8px 0 -4px rgba(255,255,255,0.95);
+}
+
+/* 오른쪽 작은구름 */
+.weather-box::after{
+  width:42px;
+  height:42px;
+
+  right:12px;
+  top:-16px;
+
+  box-shadow:
+    -16px 10px 0 4px rgba(247,252,255,0.95),
+    12px 12px 0 0 rgba(235,248,255,0.92);
 }
 
 /* 모바일 */
@@ -1205,23 +1232,21 @@ body{
     top:6px;
     right:6px;
 
-    min-width:125px;
+    min-width:120px;
 
-    padding:12px 14px;
+    padding:10px 12px;
 
     font-size:11px;
   }
 
   .weather-box::before{
-    transform:scale(0.78);
-    left:-14px;
-    top:-20px;
+    transform:scale(0.85);
+    left:2px;
   }
 
   .weather-box::after{
-    transform:scale(0.74);
-    right:-10px;
-    top:-10px;
+    transform:scale(0.8);
+    right:6px;
   }
 
 }
