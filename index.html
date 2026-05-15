@@ -1539,6 +1539,21 @@ a{
   box-shadow:0 2px 8px rgba(0,0,0,0.03);
 }
 
+/* 검색창 자동완성 배경 제거 */
+.search-box input:-webkit-autofill,
+.search-box input:-webkit-autofill:hover,
+.search-box input:-webkit-autofill:focus,
+.search-box input:-webkit-autofill:active{
+
+  -webkit-box-shadow:0 0 0 1000px #fffdf6 inset !important;
+
+  -webkit-text-fill-color:#333 !important;
+
+  transition:background-color 9999s ease-in-out 0s;
+
+  caret-color:#333;
+}
+
 </style>
 <meta name="mobile-agent" content="format=html5; url=https://yb365.info">
 <link rel="canonical" href="https://yb365.info">
