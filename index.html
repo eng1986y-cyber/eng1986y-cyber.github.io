@@ -1158,71 +1158,30 @@ body{
 
   min-width:150px;
 
-  /* 배경 제거 */
-  background:transparent;
+  /* 완전 제거 */
+  background:none;
+  border:none;
+  box-shadow:none;
 
   color:#1d4e6d;
 
-  padding:14px 18px;
+  padding:0;
 
-  border-radius:50px;
+  border-radius:0;
 
   font-size:12px;
 
   z-index:10;
 
-  /* 테두리 제거 */
-  border:none;
-
   text-align:center;
 
   overflow:visible;
-
-  /* 그림자만 살림 */
-  box-shadow:none;
 }
 
-/* 메인 구름 */
+/* 구름 제거 */
 .weather-box::before,
 .weather-box::after{
-  content:"";
-  position:absolute;
-
-  background:linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.95),
-    rgba(225,245,255,0.92)
-  );
-
-  border-radius:50%;
-  z-index:-1;
-}
-
-/* 왼쪽 큰구름 */
-.weather-box::before{
-  width:58px;
-  height:58px;
-
-  left:6px;
-  top:-24px;
-
-  box-shadow:
-    -18px 10px 0 6px rgba(245,252,255,0.95),
-    18px 14px 0 2px rgba(235,248,255,0.92),
-    42px 8px 0 -4px rgba(255,255,255,0.95);
-}
-
-/* 오른쪽 작은구름 */
-.weather-box::after{
-  width:42px;
-  height:42px;
-
-  right:12px;
-  top:-16px;
-
-  box-shadow:
-    -16px 10px 0 4px rgba(247,252,255,0.95),
-    12px 12px 0 0 rgba(235,248,255,0.92);
+  display:none;
 }
 
 /* 모바일 */
@@ -1232,21 +1191,11 @@ body{
     top:6px;
     right:6px;
 
-    min-width:120px;
+    min-width:auto;
 
-    padding:10px 12px;
+    padding:0;
 
     font-size:11px;
-  }
-
-  .weather-box::before{
-    transform:scale(0.85);
-    left:2px;
-  }
-
-  .weather-box::after{
-    transform:scale(0.8);
-    right:6px;
   }
 
 }
