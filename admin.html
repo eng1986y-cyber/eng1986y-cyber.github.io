@@ -746,7 +746,13 @@ function addTextAd(title="",link=""){
   );
 }
 
-function addSquareAd(main="", img="", link="", video=""){
+function addSquareAd(
+  main="",
+  img="",
+  link="",
+  video="",
+  detail=""
+){
 
   const card = createCard(`
       <input value="${main}" placeholder="메인 명칭">
@@ -760,14 +766,12 @@ function addSquareAd(main="", img="", link="", video=""){
 
       <input value="${video}" placeholder="결제QR코드 링크">
 
-      <input value="" placeholder="상품상세 이미지 링크">
+      <input value="${detail}" placeholder="상품상세 이미지 링크">
   `);
 
-  /* 기존 카드들 추출 */
   const oldCards =
     [...squareAdmin.querySelectorAll(".card")];
 
-  /* 새 카드 맨 앞 추가 */
   const allCards = [card, ...oldCards];
 
   rebuildSquarePages(allCards);
