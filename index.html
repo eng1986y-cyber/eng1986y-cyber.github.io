@@ -2105,7 +2105,7 @@ if(ad.video_url){
   link = `
     <img
       src="${ad.image_url}"
-      onclick="openImageModal('${ad.detail_image_url || ad.image_url}')"
+      onclick="openImageModal('${ad.detail_image_url ? ad.detail_image_url : ad.image_url}')"
     >
   `;
 }
@@ -2170,7 +2170,7 @@ if(ad.video_url){
     ? `<img src="${ad.image_url}"
        onclick="openPayModal('${ad.video_url}')">`
     : `<img src="${ad.image_url}"
-       onclick="openImageModal('${ad.detail_image_url || ad.image_url}')">`;
+       onclick="openImageModal('${ad.detail_image_url ? ad.detail_image_url : ad.image_url}')">`;
 
   wrap.innerHTML=`
     <div class="square-ad">${link}</div>
@@ -2224,7 +2224,7 @@ if(ad.type==="sns"){
     content = `
       <img
         src="${ad.image_url}"
-        onclick="openImageModal('${ad.detail_image_url || ad.image_url}')"
+        onclick="openImageModal('${ad.detail_image_url ? ad.detail_image_url : ad.image_url}')"
       >
     `;
 
