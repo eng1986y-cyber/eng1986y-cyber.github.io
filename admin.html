@@ -300,7 +300,7 @@ textarea{
 .square-page{
   min-width:100%;
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(6,1fr);
   gap:10px;
   box-sizing:border-box;
 }
@@ -759,6 +759,8 @@ function addSquareAd(main="", img="", link="", video=""){
       <input value="${link}" placeholder="클릭 링크">
 
       <input value="${video}" placeholder="결제QR코드 링크">
+
+<input value="" placeholder="상품상세 이미지 링크">
   `);
 
   squareAdmin.appendChild(card);
@@ -773,7 +775,7 @@ function rebuildSquarePages(){
 
   squareAdmin.innerHTML = "";
 
-  const pageSize = 6;
+  const pageSize = 18;
 
   for(let i=0; i<cards.length; i+=pageSize){
 
@@ -829,7 +831,13 @@ if(ads){
     if(ad.type==="text")
       addTextAd(ad.title,ad.link_url);
     if(ad.type==="square")
-      addSquareAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
+      addSquareAd(
+  ad.main_title,
+  ad.image_url,
+  ad.link_url,
+  ad.video_url,
+  ad.detail_url
+);
     if(ad.type==="sns")
       addSnsVideo(ad.title, ad.image_url, ad.video_url);
   });
@@ -926,6 +934,7 @@ for(const [index, block] of squareCards.entries()){
       image_url:i[1].value.trim(),
       link_url:i[3].value.trim(),
       video_url:i[4].value.trim(),
+      detail_url:i[5].value.trim(),
       sort:index
     }]);
 
