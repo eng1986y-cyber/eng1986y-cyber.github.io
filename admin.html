@@ -832,22 +832,56 @@ const { data: ads } = await supabaseClient
   .order("sort",{ascending:true});
 
 if(ads){
+
   ads.forEach(ad=>{
+
     if(ad.type==="image")
-      addImageAd(ad.main_title, ad.image_url, ad.link_url, ad.video_url);
+      addImageAd(
+        ad.main_title,
+        ad.image_url,
+        ad.link_url,
+        ad.video_url
+      );
+
     if(ad.type==="text")
-      addTextAd(ad.title,ad.link_url);
-    if(ad.type==="square")
-      addSquareAd(
-  ad.main_title,
-  ad.image_url,
-  ad.link_url,
-  ad.video_url,
-  ad.detail_url
-);
+      addTextAd(
+        ad.title,
+        ad.link_url
+      );
+
+    if(ad.type==="square"){
+
+      const card = createCard(`
+        <input value="${ad.main_title || ""}" placeholder="메인 명칭">
+
+        <input value="${ad.image_url || ""}" placeholder="이미지 URL">
+
+        <input type="file" accept="image/*"
+          onchange="uploadImage(this)">
+
+        <input value="${ad.link_url || ""}" placeholder="클릭 링크">
+
+        <input value="${ad.video_url || ""}" placeholder="결제QR코드 링크">
+
+        <input value="${ad.detail_url || ""}" placeholder="상품상세 이미지 링크">
+      `);
+
+      squareAdmin.appendChild(card);
+
+    }
+
     if(ad.type==="sns")
-      addSnsVideo(ad.title, ad.image_url, ad.video_url);
+      addSnsVideo(
+        ad.title,
+        ad.image_url,
+        ad.video_url
+      );
+
   });
+
+  /* 마지막에 딱 한번만 */
+  rebuildSquarePages();
+
 }
 
 const { data: settings } = await supabaseClient
