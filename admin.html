@@ -760,10 +760,19 @@ function addSquareAd(main="", img="", link="", video=""){
 
       <input value="${video}" placeholder="결제QR코드 링크">
 
-<input value="" placeholder="상품상세 이미지 링크">
+      <input value="" placeholder="상품상세 이미지 링크">
   `);
 
+  const oldCards =
+    [...squareAdmin.querySelectorAll(".card")];
+
+  squareAdmin.innerHTML = "";
+
   squareAdmin.appendChild(card);
+
+  oldCards.forEach(c=>{
+    squareAdmin.appendChild(c);
+  });
 
   rebuildSquarePages();
 
