@@ -763,24 +763,22 @@ function addSquareAd(main="", img="", link="", video=""){
       <input value="" placeholder="상품상세 이미지 링크">
   `);
 
+  /* 기존 카드들 추출 */
   const oldCards =
     [...squareAdmin.querySelectorAll(".card")];
 
-  squareAdmin.innerHTML = "";
+  /* 새 카드 맨 앞 추가 */
+  const allCards = [card, ...oldCards];
 
-  squareAdmin.appendChild(card);
-
-  oldCards.forEach(c=>{
-    squareAdmin.appendChild(c);
-  });
-
-  rebuildSquarePages();
+  rebuildSquarePages(allCards);
 
 }
 
-function rebuildSquarePages(){
+function rebuildSquarePages(cards = null){
 
-  const cards = [...squareAdmin.querySelectorAll(".card")];
+  if(!cards){
+    cards = [...squareAdmin.querySelectorAll(".card")];
+  }
 
   squareAdmin.innerHTML = "";
 
