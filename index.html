@@ -1831,15 +1831,18 @@ function filterCategory(cat, el){
   loadBoard();
 }
 
-function openImageModal(url){
+function openImageModal(url, width = 900){
+
   const modal = document.getElementById("imageModal");
   const content = modal.querySelector(".modal-content");
 
   document.getElementById("modalAdImage").src = url;
 
-  // 화면 높이에 맞춰 높이 조정
+  content.style.maxWidth = width + "px";
+
   const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
+
+  content.style.maxHeight = vh * 0.9 + "px";
   content.style.overflow = "hidden";
 
   modal.style.display="flex";
@@ -2170,7 +2173,7 @@ if(ad.video_url){
     ? `<img src="${ad.image_url}"
        onclick="openPayModal('${ad.video_url}')">`
     : `<img src="${ad.image_url}"
-      onclick="openImageModal('${ad.detail_url ? ad.detail_url : ad.image_url}')">`;
+      onclick="openImageModal('${ad.detail_url ? ad.detail_url : ad.image_url}', 800)"
 
   wrap.innerHTML=`
     <div class="square-ad">${link}</div>
