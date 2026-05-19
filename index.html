@@ -2170,7 +2170,7 @@ if(ad.video_url){
     ? `<img src="${ad.image_url}"
        onclick="openPayModal('${ad.video_url}')">`
     : `<img src="${ad.image_url}"
-       onclick="openImageModal('${ad.detail_image_url ? ad.detail_image_url : ad.image_url}')">`;
+      onclick="openImageModal('${ad.detail_url ? ad.detail_url : ad.image_url}')">`;
 
   wrap.innerHTML=`
     <div class="square-ad">${link}</div>
