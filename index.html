@@ -2175,8 +2175,7 @@ if(ad.detail_image_url){
     <img
       src="${ad.image_url}"
       alt="${ad.main_title || '상품광고'}"
-      data-detail="${detailImg}"
-      onclick="openImageModal(this.dataset.detail)">
+      onclick="openImageModal('${detailImg}')">
   `;
 
 }
