@@ -2217,6 +2217,18 @@ else{
 
 }
 
+wrap.innerHTML = `
+  <div class="square-ad">
+    ${link}
+  </div>
+
+  <div class="ad-title">
+    ${escapeHTML(ad.main_title || "")}
+  </div>
+`;
+
+currentPage.appendChild(wrap);
+
 /* ===== 업체정보 SNS ===== */
 if(ad.type==="sns"){
 
