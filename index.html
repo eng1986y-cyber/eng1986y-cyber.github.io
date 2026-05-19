@@ -1851,15 +1851,19 @@ function filterCategory(cat, el){
 }
 
 function openImageModal(url){
+
   const modal = document.getElementById("imageModal");
   const content = modal.querySelector(".modal-content");
 
   document.getElementById("modalAdImage").src = url;
 
-  // 화면 높이에 맞춰 높이 조정
+  // 화면 높이에 맞춤
   const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
-  content.style.overflow = "hidden";
+
+  content.style.maxHeight = vh * 0.9 + "px";
+
+  /* 스크롤 허용 */
+  content.style.overflowY = "auto";
 
   modal.style.display="flex";
 }
@@ -2182,15 +2186,10 @@ if(ad.video_url){
   );
 
 let popupImage =
-  ad.detail_url &&
-  ad.detail_url.trim() !== ""
-    ? ad.detail_url
-    : (
-        ad.detail_image_url &&
-        ad.detail_image_url.trim() !== ""
-      )
-        ? ad.detail_image_url
-        : ad.image_url;
+  ad.detail_image_url &&
+  ad.detail_image_url.trim() !== ""
+    ? ad.detail_image_url
+    : ad.image_url;
 
 let link = "";
 
@@ -3064,11 +3063,11 @@ function moveProductSlide(direction){
 
     <div class="modal-close" onclick="closeImageModal()">✕</div>
 
-    <img
+<img
   id="modalAdImage"
   style="
-    max-width:100%;
-    max-height:85vh;
+    width:100%;
+    height:auto;
     object-fit:contain;
     display:block;
     margin:auto;
