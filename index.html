@@ -393,13 +393,18 @@ button,
 
 .modal-content{
   background:var(--card-bg);
-  width:90%;            /* PC/태블릿 공통 */
-  max-width:600px;
-  height:auto;          /* 높이 자동 */
-  max-height:90vh;      /* 화면 90%까지만 */
-  overflow:hidden;      /* 스크롤 제거 */
+  width:90%;
+  max-width:900px;
+
+  max-height:90vh;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
   border-radius:14px;
-  padding:25px;
+
+  padding:15px;
+
   position:relative;
 }
 
