@@ -3060,21 +3060,19 @@ function moveProductSlide(direction){
 </div>
 
 <div class="modal" id="imageModal" onclick="closeImageModal()">
-  <div class="modal-content image-modal-box">
 
-    <div class="modal-close" onclick="closeImageModal()">✕</div>
+<div class="modal-content image-modal-box">
+
+  <div class="modal-close" onclick="closeImageModal()">✕</div>
+
+  <div class="image-scroll-area">
 
     <img
-  id="modalAdImage"
-  style="
-    max-width:100%;
-    max-height:85vh;
-    object-fit:contain;
-    display:block;
-    margin:auto;
-  ">
+      id="modalAdImage"
+      draggable="false">
 
   </div>
+
 </div>
 
 <div class="modal" id="videoModal" onclick="closeVideoModal()">
