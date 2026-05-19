@@ -2162,15 +2162,29 @@ if(ad.video_url){
     (ad.main_title||"").toLowerCase()
   );
 
-  const link = ad.link_url
-    ? `<a href="${ad.link_url}" target="_blank">
-         <img src="${ad.image_url}">
-       </a>`
-    : ad.video_url
-    ? `<img src="${ad.image_url}"
-       onclick="openPayModal('${ad.video_url}')">`
-    : `<img src="${ad.image_url}"
-       onclick="openImageModal('${ad.detail_image_url ? ad.detail_image_url : ad.image_url}')">`;
+const detailImg =
+  ad.detail_image_url || ad.image_url;
+
+const link = ad.link_url
+  ? `<a href="${ad.link_url}" target="_blank">
+       <img
+         src="${ad.image_url}"
+         alt="${ad.main_title || '상품광고'}">
+     </a>`
+
+  : ad.video_url
+
+  ? `<img
+       src="${ad.image_url}"
+       alt="${ad.main_title || '상품광고'}"
+       data-detail="${detailImg}"
+       onclick="openImageModal(this.dataset.detail)">`
+
+  : `<img
+       src="${ad.image_url}"
+       alt="${ad.main_title || '상품광고'}"
+       data-detail="${detailImg}"
+       onclick="openImageModal(this.dataset.detail)">`;
 
   wrap.innerHTML=`
     <div class="square-ad">${link}</div>
