@@ -204,37 +204,23 @@ button,
 
 #modalAdImage{
   width:100%;
-  height:auto;
-
   max-width:100%;
   max-height:none;
-
-  object-fit:unset;
-
+  object-fit:contain;
   border-radius:10px;
-
   display:block;
-  margin:auto;
 }
 
 .image-modal-box{
   position:relative;
-
   width:95%;
   max-width:900px;
 
   max-height:90vh;
-
   overflow-y:auto;
-  overflow-x:hidden;
 
   background:#fff;
-
   border-radius:12px;
-
-  padding:20px;
-
-  box-sizing:border-box;
 }
 
 .image-modal-box .modal-close{
@@ -393,18 +379,13 @@ button,
 
 .modal-content{
   background:var(--card-bg);
-  width:90%;
-  max-width:900px;
-
-  max-height:90vh;
-
-  overflow-y:auto;
-  overflow-x:hidden;
-
+  width:90%;            /* PC/태블릿 공통 */
+  max-width:600px;
+  height:auto;          /* 높이 자동 */
+  max-height:90vh;      /* 화면 90%까지만 */
+  overflow:hidden;      /* 스크롤 제거 */
   border-radius:14px;
-
-  padding:15px;
-
+  padding:25px;
   position:relative;
 }
 
@@ -1254,9 +1235,7 @@ body{
 .board-list{
   min-height:0;
   flex-grow:1;
-
-  overflow-y:visible;
-  overflow-x:hidden;
+  overflow-y:auto;
 }
 
 .board-box h3{
@@ -1295,12 +1274,12 @@ body{
     max-height:250px;
   }
 
-/* 지역정보 */
-.board-box:last-child{
-  height:auto;
-  min-height:auto;
-  max-height:none;
-}
+  /* 지역정보 */
+  .board-box:last-child{
+    height:420px;
+    min-height:420px;
+    max-height:420px;
+  }
 
 }
 
@@ -1586,64 +1565,6 @@ a{
   transition:background-color 9999s ease-in-out 0s;
 
   caret-color:#333;
-}
-
-/* ===== 정방형 이미지광고 팝업 전용 ===== */
-
-.image-modal-box{
-  width:92vw;
-  max-width:900px;
-  height:92vh;
-
-  background:#fff;
-
-  border-radius:18px;
-
-  padding:5mm;   /* 테두리 여백 */
-
-  box-sizing:border-box;
-
-  overflow-y:auto;
-  overflow-x:hidden;
-
-  position:relative;
-}
-
-/* 이미지 꽉 채우기 */
-#modalAdImage{
-  width:100%;
-  height:auto;
-
-  display:block;
-
-  border-radius:12px;
-
-  object-fit:cover;
-}
-
-/* 닫기 버튼 */
-.image-modal-box .modal-close{
-  position:sticky;
-  top:0;
-
-  margin-left:auto;
-
-  width:38px;
-  height:38px;
-
-  border-radius:50%;
-
-  background:rgba(255,255,255,0.92);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size:22px;
-
-  z-index:20;
-
-  box-shadow:0 2px 10px rgba(0,0,0,0.18);
 }
 
 </style>
@@ -2241,68 +2162,24 @@ if(ad.video_url){
     (ad.main_title||"").toLowerCase()
   );
 
-let popupImage =
-  ad.detail_url &&
-  ad.detail_url.trim() !== ""
-    ? ad.detail_url
-    : (
-        ad.detail_image_url &&
-        ad.detail_image_url.trim() !== ""
-      )
-        ? ad.detail_image_url
-        : ad.image_url;
+  const link = ad.link_url
+    ? `<a href="${ad.link_url}" target="_blank">
+         <img src="${ad.image_url}">
+       </a>`
+    : ad.video_url
+    ? `<img src="${ad.image_url}"
+       onclick="openPayModal('${ad.video_url}')">`
+    : `<img src="${ad.image_url}"
+       onclick="openImageModal('${ad.detail_image_url ? ad.detail_image_url : ad.image_url}')">`;
 
-let link = "";
-
-/* QR */
-if(ad.video_url){
-
-  link = `
-    <img
-      src="${ad.image_url}"
-      alt="${ad.main_title || '상품광고'}"
-      onclick="openPayModal('${ad.video_url}')">
+  wrap.innerHTML=`
+    <div class="square-ad">${link}</div>
+    <div class="ad-title">
+      ${escapeHTML(ad.main_title||"")}
+    </div>
   `;
 
-}
-
-/* 외부링크 */
-else if(ad.link_url){
-
-  link = `
-    <a href="${ad.link_url}" target="_blank">
-      <img
-        src="${ad.image_url}"
-        alt="${ad.main_title || '상품광고'}">
-    </a>
-  `;
-
-}
-
-/* 상세팝업 */
-else{
-
-  link = `
-    <img
-      src="${ad.image_url}"
-      alt="${ad.main_title || '상품광고'}"
-      onclick="openImageModal('${popupImage}')">
-  `;
-
-}
-
-wrap.innerHTML = `
-  <div class="square-ad">
-    ${link}
-  </div>
-
-  <div class="ad-title">
-    ${escapeHTML(ad.main_title || "")}
-  </div>
-`;
-
-currentPage.appendChild(wrap);
-
+  currentPage.appendChild(wrap);
 }
 
 /* ===== 업체정보 SNS ===== */
@@ -3124,15 +3001,7 @@ function moveProductSlide(direction){
 
     <div class="modal-close" onclick="closeImageModal()">✕</div>
 
-    <img
-  id="modalAdImage"
-  style="
-    max-width:100%;
-    max-height:85vh;
-    object-fit:contain;
-    display:block;
-    margin:auto;
-  ">
+    <img id="modalAdImage">
 
   </div>
 </div>
