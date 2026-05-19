@@ -1843,8 +1843,8 @@ function openImageModal(url){
 
   // 화면 높이에 맞춰 높이 조정
   const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px";
-  content.style.overflowY = "auto";
+  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
+  content.style.overflow = "hidden";
 
   modal.style.display="flex";
 }
