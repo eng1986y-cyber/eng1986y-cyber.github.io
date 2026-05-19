@@ -1851,19 +1851,15 @@ function filterCategory(cat, el){
 }
 
 function openImageModal(url){
-
   const modal = document.getElementById("imageModal");
   const content = modal.querySelector(".modal-content");
 
   document.getElementById("modalAdImage").src = url;
 
-  // 화면 높이에 맞춤
+  // 화면 높이에 맞춰 높이 조정
   const vh = window.innerHeight;
-
-  content.style.maxHeight = vh * 0.9 + "px";
-
-  /* 스크롤 허용 */
-  content.style.overflowY = "auto";
+  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
+  content.style.overflow = "hidden";
 
   modal.style.display="flex";
 }
@@ -2186,10 +2182,15 @@ if(ad.video_url){
   );
 
 let popupImage =
-  ad.detail_image_url &&
-  ad.detail_image_url.trim() !== ""
-    ? ad.detail_image_url
-    : ad.image_url;
+  ad.detail_url &&
+  ad.detail_url.trim() !== ""
+    ? ad.detail_url
+    : (
+        ad.detail_image_url &&
+        ad.detail_image_url.trim() !== ""
+      )
+        ? ad.detail_image_url
+        : ad.image_url;
 
 let link = "";
 
