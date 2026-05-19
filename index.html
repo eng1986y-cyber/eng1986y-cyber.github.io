@@ -2164,10 +2164,15 @@ if(ad.video_url){
   );
 
 let popupImage =
-  ad.detail_image_url &&
-  ad.detail_image_url.trim() !== ""
-    ? ad.detail_image_url
-    : ad.image_url;
+  ad.detail_url &&
+  ad.detail_url.trim() !== ""
+    ? ad.detail_url
+    : (
+        ad.detail_image_url &&
+        ad.detail_image_url.trim() !== ""
+      )
+        ? ad.detail_image_url
+        : ad.image_url;
 
 let link = "";
 
