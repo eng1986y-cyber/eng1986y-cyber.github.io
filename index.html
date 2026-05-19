@@ -2165,35 +2165,59 @@ if(ad.video_url){
 const detailImg =
   ad.detail_image_url || ad.image_url;
 
-const link = ad.link_url
-  ? `<a href="${ad.link_url}" target="_blank">
-       <img
-         src="${ad.image_url}"
-         alt="${ad.main_title || '상품광고'}">
-     </a>`
+const detailImg =
+  ad.detail_image_url || ad.image_url;
 
-  : ad.video_url
+let link = "";
 
-  ? `<img
-       src="${ad.image_url}"
-       alt="${ad.main_title || '상품광고'}"
-       data-detail="${detailImg}"
-       onclick="openImageModal(this.dataset.detail)">`
+/* 상품상세 이미지 있으면 팝업 우선 */
+if(ad.detail_image_url){
 
-  : `<img
-       src="${ad.image_url}"
-       alt="${ad.main_title || '상품광고'}"
-       data-detail="${detailImg}"
-       onclick="openImageModal(this.dataset.detail)">`;
-
-  wrap.innerHTML=`
-    <div class="square-ad">${link}</div>
-    <div class="ad-title">
-      ${escapeHTML(ad.main_title||"")}
-    </div>
+  link = `
+    <img
+      src="${ad.image_url}"
+      alt="${ad.main_title || '상품광고'}"
+      data-detail="${detailImg}"
+      onclick="openImageModal(this.dataset.detail)">
   `;
 
-  currentPage.appendChild(wrap);
+}
+
+/* 결제 QR */
+else if(ad.video_url){
+
+  link = `
+    <img
+      src="${ad.image_url}"
+      alt="${ad.main_title || '상품광고'}"
+      onclick="openPayModal('${ad.video_url}')">
+  `;
+
+}
+
+/* 일반 링크 */
+else if(ad.link_url){
+
+  link = `
+    <a href="${ad.link_url}" target="_blank">
+      <img
+        src="${ad.image_url}"
+        alt="${ad.main_title || '상품광고'}">
+    </a>
+  `;
+
+}
+
+/* 기본 이미지 팝업 */
+else{
+
+  link = `
+    <img
+      src="${ad.image_url}"
+      alt="${ad.main_title || '상품광고'}"
+      onclick="openImageModal('${detailImg}')">
+  `;
+
 }
 
 /* ===== 업체정보 SNS ===== */
