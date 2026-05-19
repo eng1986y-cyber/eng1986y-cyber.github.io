@@ -1254,7 +1254,9 @@ body{
 .board-list{
   min-height:0;
   flex-grow:1;
-  overflow-y:auto;
+
+  overflow-y:visible;
+  overflow-x:hidden;
 }
 
 .board-box h3{
@@ -1293,12 +1295,12 @@ body{
     max-height:250px;
   }
 
-  /* 지역정보 */
-  .board-box:last-child{
-    height:420px;
-    min-height:420px;
-    max-height:420px;
-  }
+/* 지역정보 */
+.board-box:last-child{
+  height:auto;
+  min-height:auto;
+  max-height:none;
+}
 
 }
 
