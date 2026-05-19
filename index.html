@@ -198,21 +198,6 @@ button,
 
 .image-modal-box{
   position:relative;
-  max-width:800px;
-  text-align:center;
-}
-
-#modalAdImage{
-  width:100%;
-  max-width:100%;
-  max-height:none;
-  object-fit:contain;
-  border-radius:10px;
-  display:block;
-}
-
-.image-modal-box{
-  position:relative;
   width:95%;
   max-width:900px;
 
@@ -221,6 +206,25 @@ button,
 
   background:#fff;
   border-radius:12px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:10px;
+}
+
+#modalAdImage{
+  width:auto;
+  max-width:100%;
+  height:auto;
+  max-height:none;
+
+  object-fit:contain;
+
+  border-radius:10px;
+  display:block;
+  margin:auto;
 }
 
 .image-modal-box .modal-close{
@@ -1839,8 +1843,8 @@ function openImageModal(url){
 
   // 화면 높이에 맞춰 높이 조정
   const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
-  content.style.overflow = "hidden";
+  content.style.maxHeight = vh * 0.9 + "px";
+  content.style.overflowY = "auto";
 
   modal.style.display="flex";
 }
@@ -3050,7 +3054,15 @@ function moveProductSlide(direction){
 
     <div class="modal-close" onclick="closeImageModal()">✕</div>
 
-    <img id="modalAdImage">
+    <img
+  id="modalAdImage"
+  style="
+    max-width:100%;
+    max-height:85vh;
+    object-fit:contain;
+    display:block;
+    margin:auto;
+  ">
 
   </div>
 </div>
