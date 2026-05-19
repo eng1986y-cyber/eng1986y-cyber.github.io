@@ -2163,25 +2163,16 @@ if(ad.video_url){
     (ad.main_title||"").toLowerCase()
   );
 
-const detailImg =
-  ad.detail_image_url || ad.image_url;
+let popupImage =
+  ad.detail_image_url &&
+  ad.detail_image_url.trim() !== ""
+    ? ad.detail_image_url
+    : ad.image_url;
 
 let link = "";
 
-/* 상품상세 이미지 있으면 팝업 우선 */
-if(ad.detail_image_url){
-
-  link = `
-    <img
-      src="${ad.image_url}"
-      alt="${ad.main_title || '상품광고'}"
-      onclick="openImageModal('${detailImg}')">
-  `;
-
-}
-
-/* 결제 QR */
-else if(ad.video_url){
+/* QR */
+if(ad.video_url){
 
   link = `
     <img
@@ -2192,7 +2183,7 @@ else if(ad.video_url){
 
 }
 
-/* 일반 링크 */
+/* 외부링크 */
 else if(ad.link_url){
 
   link = `
@@ -2205,14 +2196,14 @@ else if(ad.link_url){
 
 }
 
-/* 기본 이미지 팝업 */
+/* 상세팝업 */
 else{
 
   link = `
     <img
       src="${ad.image_url}"
       alt="${ad.main_title || '상품광고'}"
-      onclick="openImageModal('${detailImg}')">
+      onclick="openImageModal('${popupImage}')">
   `;
 
 }
