@@ -198,17 +198,45 @@ button,
 
 .image-modal-box{
   position:relative;
+
+  width:95%;
   max-width:800px;
-  text-align:center;
+
+  max-height:90vh;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  background:#fff;
+
+  border-radius:12px;
+
+  padding:20px;
+
+  box-sizing:border-box;
 }
 
+/* 상세 이미지 */
 #modalAdImage{
   width:100%;
-  max-width:100%;
-  max-height:none;
-  object-fit:contain;
-  border-radius:10px;
+  height:auto;
+
   display:block;
+
+  border-radius:10px;
+}
+
+.image-modal-box::-webkit-scrollbar{
+  width:8px;
+}
+
+.image-modal-box::-webkit-scrollbar-thumb{
+  background:#d8c67a;
+  border-radius:10px;
+}
+
+.image-modal-box::-webkit-scrollbar-track{
+  background:#f3f3f3;
 }
 
 .image-modal-box{
