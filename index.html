@@ -1871,9 +1871,12 @@ function openImageModal(url, width = 777){
   const vh = window.innerHeight;
 
   content.style.maxHeight = vh * 0.9 + "px";
-  content.style.overflow = "hidden";
 
-  modal.style.display="flex";
+  /* 핵심 */
+  content.style.overflowY = "auto";
+  content.style.overflowX = "hidden";
+
+  modal.style.display = "flex";
 }
 
 function closeImageModal(){
