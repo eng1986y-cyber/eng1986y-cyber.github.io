@@ -1742,24 +1742,40 @@ function filterCategory(cat, el){
   loadBoard();
 }
 
-function openImageModal(url){
+window.scrollTo(0, savedScrollY);
+
+function openImageModal(url, width = 777){
+
+  /* 현재 스크롤 위치 저장 */
+  savedScrollY = window.scrollY;
+
   const modal = document.getElementById("imageModal");
   const content = modal.querySelector(".modal-content");
 
   document.getElementById("modalAdImage").src = url;
 
-  // 화면 높이에 맞춰 높이 조정
-  const vh = window.innerHeight;
-  content.style.maxHeight = vh * 0.9 + "px"; // 화면 90%
-  content.style.overflow = "hidden";
+  content.style.maxWidth = width + "px";
 
-  modal.style.display="flex";
+  const vh = window.innerHeight;
+
+  content.style.maxHeight = vh * 0.9 + "px";
+
+  content.style.overflowY = "auto";
+  content.style.overflowX = "hidden";
+
+  modal.style.display = "flex";
 }
 
 function closeImageModal(){
 
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
+
+  /* 원래 위치로 복귀 */
+  window.scrollTo({
+    top: savedScrollY,
+    behavior: "instant"
+  });
 
 }
 
