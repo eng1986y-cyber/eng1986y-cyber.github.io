@@ -1754,6 +1754,9 @@ function openImageModal(url, width = 777){
   content.style.overflowY = "auto";
   content.style.overflowX = "hidden";
 
+  /* ===== 사이트 스크롤 잠금 ===== */
+  document.body.style.overflow = "hidden";
+
   modal.style.display = "flex";
 }
 
@@ -1761,6 +1764,9 @@ function closeImageModal(){
 
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
+
+  /* ===== 사이트 스크롤 복구 ===== */
+  document.body.style.overflow = "auto";
 
 }
 
