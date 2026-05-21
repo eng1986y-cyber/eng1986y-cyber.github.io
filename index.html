@@ -1578,13 +1578,9 @@ window.addEventListener("load", () => {
 
   if(savedY !== null){
 
-    window.scrollTo(
-      0,
-      parseInt(savedY)
-    );
-
-  }
-
+window.scrollTo({
+  top: parseInt(savedY),
+  behavior: "instant"
 });
 
 </script>
