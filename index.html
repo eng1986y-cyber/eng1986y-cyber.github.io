@@ -1755,12 +1755,18 @@ function openImageModal(url, width = 777){
 
   content.style.maxHeight = vh * 0.9 + "px";
 
-  /* 핵심 */
   content.style.overflowY = "auto";
   content.style.overflowX = "hidden";
 
-  /* ===== 사이트 스크롤 잠금 ===== */
+  /* ===== 스크롤바 너비 계산 ===== */
+  const scrollBarWidth =
+    window.innerWidth -
+    document.documentElement.clientWidth;
+
+  /* ===== 사이트 밀림 방지 ===== */
   document.body.style.overflow = "hidden";
+  document.body.style.paddingRight =
+    scrollBarWidth + "px";
 
   modal.style.display = "flex";
 }
@@ -1770,8 +1776,9 @@ function closeImageModal(){
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
 
-  /* ===== 사이트 스크롤 복구 ===== */
-  document.body.style.overflow = "auto";
+  /* ===== 복구 ===== */
+  document.body.style.overflow = "";
+  document.body.style.paddingRight = "";
 
 }
 
