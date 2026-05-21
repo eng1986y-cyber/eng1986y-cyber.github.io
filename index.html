@@ -1560,6 +1560,33 @@ body.modal-open{
  }
 }
 
+/* ===== 새로고침 후 스크롤 위치 유지 ===== */
+
+window.addEventListener("beforeunload", () => {
+
+  sessionStorage.setItem(
+    "scrollY",
+    window.scrollY
+  );
+
+});
+
+window.addEventListener("load", () => {
+
+  const savedY =
+    sessionStorage.getItem("scrollY");
+
+  if(savedY !== null){
+
+    window.scrollTo(
+      0,
+      parseInt(savedY)
+    );
+
+  }
+
+});
+
 </script>
 </head>
 
