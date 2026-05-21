@@ -1742,6 +1742,8 @@ function filterCategory(cat, el){
   loadBoard();
 }
 
+let scrollY = 0;
+
 function openImageModal(url, width = 777){
 
   const modal = document.getElementById("imageModal");
@@ -1758,15 +1760,15 @@ function openImageModal(url, width = 777){
   content.style.overflowY = "auto";
   content.style.overflowX = "hidden";
 
-  /* ===== 스크롤바 너비 계산 ===== */
-  const scrollBarWidth =
-    window.innerWidth -
-    document.documentElement.clientWidth;
+  /* ===== 현재 스크롤 위치 저장 ===== */
+  scrollY = window.scrollY;
 
-  /* ===== 사이트 밀림 방지 ===== */
-  document.body.style.overflow = "hidden";
-  document.body.style.paddingRight =
-    scrollBarWidth + "px";
+  /* ===== body 고정 ===== */
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
 
   modal.style.display = "flex";
 }
@@ -1776,9 +1778,15 @@ function closeImageModal(){
   document.getElementById("imageModal").style.display="none";
   document.getElementById("modalAdImage").src="";
 
-  /* ===== 복구 ===== */
-  document.body.style.overflow = "";
-  document.body.style.paddingRight = "";
+  /* ===== body 복구 ===== */
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+
+  /* ===== 원래 위치 복귀 ===== */
+  window.scrollTo(0, scrollY);
 
 }
 
