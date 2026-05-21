@@ -241,19 +241,47 @@ button,
 }
 
 .image-modal-box .modal-close{
-  position:absolute;
-  top:10px;
-  right:12px;
-  font-size:22px;
-  cursor:pointer;
-  background:var(--card-bg);
+
+  position:fixed;
+
+  top:14px;
+  right:14px;
+
+  z-index:99999;
+
+  width:42px;
+  height:42px;
+
   border-radius:50%;
-  width:32px;
-  height:32px;
+
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(6px);
+
+  color:#fff;
+
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+
+  font-size:20px;
+  cursor:pointer;
+
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* 모바일 */
+@media(max-width:768px){
+
+  .image-modal-box .modal-close{
+    top:10px;
+    right:10px;
+
+    width:38px;
+    height:38px;
+
+    font-size:18px;
+  }
+
 }
 
 /* 오른쪽 플로팅 메뉴 */
