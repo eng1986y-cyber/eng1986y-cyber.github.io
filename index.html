@@ -2608,26 +2608,6 @@ function search(){
     }
   });
 
-  /* ===== 게시판 검색 ===== */
-  const boards=document.querySelectorAll(".board-card");
-
-  boards.forEach(board=>{
-    board.classList.remove("highlight");
-
-    const text=board.innerText.toLowerCase();
-
-    if(text.includes(keyword)){
-      board.classList.add("highlight");
-      found=true;
-      board.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-  });
-
-  if(!found){
-    alert("검색 결과 없음");
-  }
-}
-
 function openModal(title,content,date,views){
   document.getElementById("modalTitle").innerText=title;
   document.getElementById("modalContent").innerText=content;
