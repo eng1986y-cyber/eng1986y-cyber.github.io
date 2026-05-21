@@ -378,23 +378,6 @@ button,
   cursor:pointer;
 }
 
-/* 모바일 2열 */
-@media(max-width:768px){
-  .board-section{
-    grid-template-columns:repeat(2,1fr);
-    column-gap:5px; /* 좌우 유지 */
-    row-gap:2px;    /* 상하 축소 */
-    max-height:420px;
-    overflow-y:auto;
-  }
-}
-
-.board-card.highlight{
-  background:var(--sub-color);
-  color:#fff;
-  border-color:var(--sub-border);
-}
-
 body{
   margin:0;
   padding:20px;
