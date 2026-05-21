@@ -202,11 +202,13 @@ button,
 
 #modalAdImage{
   width:100%;
-  height:auto;
+  min-height:100%;
 
   display:block;
 
   border-radius:0;
+
+  object-fit:cover;
 }
 
 .image-modal-box::-webkit-scrollbar{
@@ -223,12 +225,14 @@ button,
 }
 
 .image-modal-box{
+  padding:0 !important;
   position:relative;
   width:95%;
   max-width:900px;
 
   max-height:90vh;
   overflow-y:auto;
+  overflow-x:hidden;
 
   background:#fff;
   border-radius:12px;
