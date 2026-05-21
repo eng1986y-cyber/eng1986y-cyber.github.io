@@ -195,20 +195,37 @@ button,
   }
 }
 
+/* 상세이미지 팝업 */
 #imageModal .modal-content{
-  border-radius:0 !important;
   padding:0 !important;
+  margin:0 !important;
+  border-radius:0 !important;
+  overflow:hidden;
 }
 
+/* 이미지 */
 #modalAdImage{
   width:100%;
-  min-height:100%;
+  height:auto;
+  display:block;   /* 아래 공백 제거 핵심 */
+  margin:0;
+  padding:0;
+  border:0;
+}
 
-  display:block;
+/* 모바일 */
+@media(max-width:768px){
 
-  border-radius:0;
+  .image-modal-box{
+    width:100vw !important;
+    max-width:100vw !important;
+    max-height:100vh !important;
 
-  object-fit:cover;
+    border-radius:0 !important;
+
+    margin:0 !important;
+  }
+
 }
 
 .image-modal-box::-webkit-scrollbar{
