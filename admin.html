@@ -1221,19 +1221,11 @@ function searchBoardPosts(){
 
   }else{
 
-filteredBoardData = boardData.filter(post =>
-
-  (post.title || "")
-  .toLowerCase()
-  .includes(keyword)
-
-  ||
-
-  (post.content || "")
-  .toLowerCase()
-  .includes(keyword)
-
-);
+    filteredBoardData = boardData.filter(post=>
+      (post.title || "")
+      .toLowerCase()
+      .includes(keyword)
+    );
 
   }
 
