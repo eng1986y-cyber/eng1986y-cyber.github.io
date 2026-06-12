@@ -612,6 +612,13 @@ style="width:100%; height:330px; margin-bottom:10px; padding:10px;"></textarea>
 
 <div class="board-content">
 
+<input
+  id="boardSearch"
+  placeholder="제목 검색..."
+  oninput="searchBoardPosts()"
+  style="margin-bottom:10px;"
+>
+
 <div id="boardAdminList"></div>
 
 </div>
@@ -1068,6 +1075,7 @@ const boardPagination = document.getElementById("boardPagination");
 let boardData = [];
 let currentPage = 1;
 let editingPostId = null;
+let filteredBoardData = [];
 
 const rowsPerPage = 5;
 const maxPageButtons = 10;
@@ -1081,10 +1089,12 @@ async function loadBoardData(){
     .select("*")
     .order("id",{ascending:false});
 
-  boardData = data || [];
-  currentPage = 1;
+boardData = data || [];
+filteredBoardData = [...boardData];
 
-  renderBoard();
+currentPage = 1;
+
+renderBoard();
 }
 
 /* 게시판 출력 */
@@ -1107,7 +1117,7 @@ function renderBoard(){
   const start = (currentPage-1)*rowsPerPage;
   const end = start+rowsPerPage;
 
-  const pageItems = boardData.slice(start,end);
+  const pageItems = filteredBoardData.slice(start,end);
 
   pageItems.forEach(post=>{
 
@@ -1144,7 +1154,7 @@ function renderPagination(){
 
   boardPagination.innerHTML="";
 
-  const totalPages=Math.ceil(boardData.length/rowsPerPage);
+  const totalPages=Math.ceil(filteredBoardData.length/rowsPerPage);
 
   let startPage=Math.floor((currentPage-1)/maxPageButtons)*maxPageButtons+1;
   let endPage=Math.min(startPage+maxPageButtons-1,totalPages);
@@ -1194,6 +1204,33 @@ if(i===currentPage){
     boardPagination.appendChild(next);
 
   }
+
+}
+
+function searchBoardPosts(){
+
+  const keyword =
+    document.getElementById("boardSearch")
+    .value
+    .trim()
+    .toLowerCase();
+
+  if(!keyword){
+
+    filteredBoardData = [...boardData];
+
+  }else{
+
+    filteredBoardData = boardData.filter(post=>
+      (post.title || "")
+      .toLowerCase()
+      .includes(keyword)
+    );
+
+  }
+
+  currentPage = 1;
+  renderBoard();
 
 }
 
