@@ -2080,12 +2080,12 @@ let link = "";
 
 if(ad.video_url){
 
-  // QR 팝업 우선
+  // 영상 팝업
   link = `
     <img
       src="${ad.image_url}"
       alt="${ad.main_title||'延边广告'}"
-      onclick="openPayModal('${ad.video_url}')"
+      onclick="openVideoModal('${ad.video_url}')"
     >
   `;
 
