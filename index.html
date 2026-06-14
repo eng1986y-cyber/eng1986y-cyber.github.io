@@ -1918,8 +1918,12 @@ embed = "https://player.vimeo.com/video/"+id+"?autoplay=1";
 else if(url.endsWith(".mp4")){
 
 document.getElementById("modalVideo").outerHTML =
-`<video id="modalVideo" controls autoplay style="width:100%;height:100%">
-<source src="${url}" type="video/mp4">
+`<video id="modalVideo"
+        controls
+        autoplay
+        playsinline
+        style="width:100%;height:100%">
+  <source src="${url}" type="video/mp4">
 </video>`;
 
 document.getElementById("videoModal").style.display="flex";
@@ -1940,13 +1944,18 @@ document.getElementById("videoModal").style.display="flex";
 
 function closeVideoModal(){
 
-const iframe = document.getElementById("modalVideo");
+const video = document.getElementById("modalVideo");
 
-if(iframe.tagName==="IFRAME"){
-iframe.src="";
+if(video.tagName === "IFRAME"){
+  video.src = "";
 }
 
-document.getElementById("videoModal").style.display="none";
+if(video.tagName === "VIDEO"){
+  video.pause();
+  video.currentTime = 0;
+}
+
+document.getElementById("videoModal").style.display = "none";
 
 }
 
