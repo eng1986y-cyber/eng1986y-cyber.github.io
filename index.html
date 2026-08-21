@@ -38,20 +38,27 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 
 :root{
 
-  --main-color:#87CEEB;
-  --main-hover:#6CBFEA;
+  /* ===== 메인 컬러 : 고급 오렌지 ===== */
+  --main-color:#D98A3A;
+  --main-hover:#B96F27;
 
-  --main-light:rgba(135,206,235,.20);
-  --main-glow:rgba(135,206,235,.35);
+  /* 밝은 효과 */
+  --main-light:rgba(217,138,58,0.16);
+  --main-glow:rgba(217,138,58,0.30);
 
-  --sub-color:#BEEBFA;
-  --sub-border:#87CEEB;
+  /* 서브 컬러 */
+  --sub-color:#F3D3A8;
+  --sub-border:#D9A66F;
 
-  --bg-color:#EEF8FD;
+  /* 배경 */
+  --bg-color:#FAF7F2;
   --card-bg:#FFFFFF;
 
-  --white:#111;
-  --black:#111;
+  /* 텍스트 */
+  --white:#111111;
+  --black:#111111;
+  --gray:#D9D2C8;
+
 }
 
 body{
@@ -66,6 +73,12 @@ body{
   border:2px solid #87CEEB;
   box-shadow:0 0 0 3px rgba(135,206,235,0.25);
   outline:none;
+}
+
+.search-box input:focus{
+  border-color:var(--main-color);
+  outline:none;
+  box-shadow:0 0 0 3px var(--main-light);
 }
 
 button,
