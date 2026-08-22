@@ -917,6 +917,84 @@ body{
   line-height:1.7;
 }
 
+/* ===== 사이트 운영정책 링크 ===== */
+.site-policy-links{
+  margin-top:60px;
+  padding:18px 10px;
+  text-align:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+}
+
+.site-policy-links button{
+  border:0;
+  background:transparent;
+  color:#777;
+  padding:4px 2px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:400;
+  transition:color .2s ease;
+}
+
+.site-policy-links button:hover{
+  color:var(--main-color);
+}
+
+@media(max-width:768px){
+  .site-policy-links{
+    margin-top:40px;
+    padding:15px 5px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .site-policy-links button{
+    font-size:12px;
+  }
+}
+
+/* ===== 운영정책 상세 팝업 ===== */
+#policyModal .modal-content{
+  max-width:600px;
+  max-height:82vh;
+  overflow-y:auto;
+  text-align:left;
+}
+
+.policy-title{
+  margin:0 35px 18px 0;
+  font-size:20px;
+  color:#222;
+}
+
+.policy-body{
+  font-size:14px;
+  color:#555;
+  line-height:1.8;
+  white-space:pre-line;
+  word-break:keep-all;
+}
+
+@media(max-width:768px){
+  #policyModal .modal-content{
+    width:88%;
+    max-height:78vh;
+    padding:22px 18px;
+  }
+
+  .policy-title{
+    font-size:18px;
+  }
+
+  .policy-body{
+    font-size:13px;
+    line-height:1.75;
+  }
+}
+
 /* 기본은 숨김 (PC에서는 안보임) */
 .mobile-adsense{
   display:none;
@@ -1743,7 +1821,11 @@ body.modal-open{
 
 </div>
 
-<div class="site-description" id="siteDescription"></div>
+<div class="site-policy-links">
+  <button type="button" onclick="openPolicyModal('policy')">〈운영정책〉</button>
+  <button type="button" onclick="openPolicyModal('purpose')">〈운영목적〉</button>
+  <button type="button" onclick="openPolicyModal('privacy')">〈정보보호〉</button>
+</div>
 
 <h1 style="
 font-family:'Microsoft YaHei','微软雅黑',sans-serif;
@@ -2073,6 +2155,61 @@ function focusSearch(){
   document.getElementById("searchInput").focus();
 }
 
+function openPolicyModal(type){
+  const title = document.getElementById("policyModalTitle");
+  const content = document.getElementById("policyModalContent");
+
+  const policies = {
+    policy: {
+      title: "운영정책",
+      content: `본 사이트는 연변 지역의 생활정보와 업체정보를 편리하게 제공하기 위한 정보공유 플랫폼입니다.
+
+• 등록된 정보는 이용자가 직접 확인하고 판단해 주세요.
+• 광고 및 업체정보의 내용은 등록 시점의 정보일 수 있으며, 실제 내용과 차이가 있을 수 있습니다.
+• 허위정보, 불법정보, 타인의 권리를 침해하는 게시물은 사전 통보 없이 삭제될 수 있습니다.
+• 게시판 이용 시 다른 이용자를 존중해 주시고, 광고성·도배성 게시물은 제한될 수 있습니다.
+• 사이트 운영에 필요한 경우 운영정책은 변경될 수 있습니다.`
+    },
+
+    purpose: {
+      title: "운영목적",
+      content: `본 사이트는 연변 지역의 다양한 생활정보를 한곳에서 쉽게 검색하고 공유할 수 있도록 운영합니다.
+
+• 지역별 생활정보 제공
+• 구인·구직 및 업체정보 제공
+• 부동산·매매·중고거래 등 생활정보 제공
+• 지역 소식과 유용한 정보를 편리하게 검색할 수 있는 환경 제공
+
+사이트의 목적은 이용자에게 보다 편리하고 유용한 지역정보 검색 환경을 제공하는 것입니다.`
+    },
+
+    privacy: {
+      title: "정보보호",
+      content: `본 사이트는 이용자의 개인정보와 정보보호를 중요하게 생각합니다.
+
+• 서비스 운영에 필요한 범위에서만 정보를 이용합니다.
+• 이용자가 게시판 등에 직접 공개한 정보는 다른 이용자에게 노출될 수 있으므로 개인정보 입력에 주의해 주세요.
+• 타인의 개인정보를 허가 없이 게시하거나 공개해서는 안 됩니다.
+• 서비스 운영 및 보안에 필요한 경우 관련 기록이 저장될 수 있습니다.
+• 개인정보와 관련된 문의 또는 삭제 요청은 사이트 운영자에게 문의해 주세요.`
+    }
+  };
+
+  const item = policies[type];
+  if(!item) return;
+
+  title.innerText = item.title;
+  content.innerText = item.content;
+
+  document.getElementById("policyModal").style.display = "flex";
+  document.body.classList.add("modal-open");
+}
+
+function closePolicyModal(){
+  document.getElementById("policyModal").style.display = "none";
+  document.body.classList.remove("modal-open");
+}
+
 async function loadSite(){
 
   const boardSection=document.getElementById("boardSection");
@@ -2321,7 +2458,6 @@ if(s.banner_img){
 }
 
     document.getElementById("ownerName").innerText=s.owner_name||"";
-    document.getElementById("siteDescription").innerText=s.site_description||"";
 
     const snsBox=document.getElementById("ownerSNS");
     snsBox.innerHTML="";
@@ -2996,6 +3132,15 @@ function moveProductSlide(direction){
 }
 
 </script>
+
+<!-- 운영정책 팝업 -->
+<div class="modal" id="policyModal" onclick="closePolicyModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-close" onclick="closePolicyModal()">✕</div>
+    <h2 id="policyModalTitle" class="policy-title"></h2>
+    <div id="policyModalContent" class="policy-body"></div>
+  </div>
+</div>
 
 <div class="modal" id="boardModal" onclick="closeModal()">
   <div class="modal-content" onclick="closeModal()">
