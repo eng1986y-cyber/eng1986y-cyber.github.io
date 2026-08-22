@@ -1822,9 +1822,10 @@ body.modal-open{
 </div>
 
 <div class="site-policy-links">
-  <button type="button" onclick="openPolicyModal('policy')">〈운영정책〉</button>
-  <button type="button" onclick="openPolicyModal('purpose')">〈운영목적〉</button>
-  <button type="button" onclick="openPolicyModal('privacy')">〈정보보호〉</button>
+  <button type="button" onclick="openPolicyModal('policy')">ㆍ운영정책ㆍ</button>
+  <button type="button" onclick="openPolicyModal('purpose')">ㆍ운영목적ㆍ</button>
+  <button type="button" onclick="openPolicyModal('privacy')">ㆍ정보보호ㆍ</button>
+  <button type="button" onclick="openPolicyModal('customer')">ㆍ고객센터ㆍ</button>
 </div>
 
 <h1 style="
@@ -2192,7 +2193,20 @@ function openPolicyModal(type){
 • 타인의 개인정보를 허가 없이 게시하거나 공개해서는 안 됩니다.
 • 서비스 운영 및 보안에 필요한 경우 관련 기록이 저장될 수 있습니다.
 • 개인정보와 관련된 문의 또는 삭제 요청은 사이트 운영자에게 문의해 주세요.`
-    }
+    },
+
+  customer: {
+    title: "고객센터",
+    content: `사이트 이용 중 궁금한 사항이나
+정보 수정·삭제 요청이 있으시면 문의해 주세요.
+
+문의방법
+이메일 : 83206939@qq.com
+QQ : 83206939
+운영시간 : 평일 09:00 ~ 18:00
+
+※ 문의 내용에 따라 답변이 지연될 수 있습니다.`
+  }
   };
 
   const item = policies[type];
