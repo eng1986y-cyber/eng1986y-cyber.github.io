@@ -2202,12 +2202,10 @@ function openPolicyModal(type){
   content.innerText = item.content;
 
   document.getElementById("policyModal").style.display = "flex";
-  document.body.classList.add("modal-open");
 }
 
 function closePolicyModal(){
   document.getElementById("policyModal").style.display = "none";
-  document.body.classList.remove("modal-open");
 }
 
 async function loadSite(){
